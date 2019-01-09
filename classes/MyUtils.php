@@ -377,10 +377,12 @@ INSERT INTO t_webcache
  ,:b_content_compress_base64
 );
 __HEREDOC__;
-            $statement = $pdo->prepare($sql);
-            $rc = $statement->execute([':b_url_base64' => $url_base64,
-                                 ':b_content_compress_base64' => $content_compress_base64]);
-            error_log($log_prefix . 'INSERT $rc : ' . $rc);
+            if (strlen($res) > 0) {
+                $statement = $pdo->prepare($sql);
+                $rc = $statement->execute([':b_url_base64' => $url_base64,
+                                           ':b_content_compress_base64' => $content_compress_base64]);
+                error_log($log_prefix . 'INSERT $rc : ' . $rc);
+            }
         } else {
             if (is_null($options_) == false && array_key_exists(CURLOPT_POST, $options_) === true) {
                 error_log($log_prefix . '(CACHE HIT) url : ' . $url_ . '?' . $options_[CURLOPT_POSTFIELDS]);
