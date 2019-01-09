@@ -63,6 +63,7 @@
         "ext-gd": "*",
         "ext-apcu": "*",
         "ext-pcntl": "*",
+        "ext-xmlrpc": "*",
         "ext-imagick": "*"
     },
     "platform-dev": []
