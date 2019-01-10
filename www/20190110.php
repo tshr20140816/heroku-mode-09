@@ -6,6 +6,7 @@ $requesturi = $_SERVER['REQUEST_URI'];
 $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
+/*
 require_once 'XML/RPC2/Client.php';
   
 $options = array(
@@ -19,6 +20,9 @@ $client = XML_RPC2_Client::create(
 
 $result = $client->info('mt.supportedMethods');
 error_log(print_r($result, true));
+*/
+
+
 
 $time_finish = microtime(true);
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's');
