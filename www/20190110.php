@@ -41,10 +41,10 @@ $url = 'https://' . getenv('WORDPRESS_USERNAME') . '.wordpress.com/xmlrpc.php';
 error_log($url);
 $client = XML_RPC2_Client::create(
   $url,
-  ['prefix' => 'mt.']
+  ['prefix' => 'wp.']
 );
 
-$result = $client->supportedMethods('');
+$result = $client->getUsersBlogs('', getenv('WORDPRESS_USERNAME'), getenv('WORDPRESS_PASSWORD'));
 error_log(print_r($result, true));
 
 $time_finish = microtime(true);
