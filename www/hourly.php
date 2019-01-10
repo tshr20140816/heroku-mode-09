@@ -336,7 +336,7 @@ $mu->delete_tasks($list_delete_task);
 
 $time_finish = microtime(true);
 $mu->post_blog($requesturi . ' ' . substr(($time_finish - $time_start), 0, 6) . 's');
-error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's');
+error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
 exit();
 
