@@ -37,17 +37,14 @@ $res = $mu->get_contents_nocache('http://blog.fc2.com/xmlrpc.php', $options);
 error_log($res);
 */
 
-$url = 'https://blog.fc2.com/xmlrpc.php';
+$url = 'https://' . getenv('WORDPRESS_USERNAME') . '.wordpress.com/xmlrpc.php';
 error_log($url);
 $client = XML_RPC2_Client::create(
   $url,
-  ['prefix' => 'metaWeblog.']
+  ['prefix' => 'mt.']
 );
 
-// $options = ['title' => 'タイトルテストRPCタイトル', 'description' => '本文テストRPC本文'];
-$options = ['title' => 'TITLE TEST RPC TITLE', 'description' => 'DESCRIPTION TEST RPC DESCRIPTION'];
-
-$result = $client->newPost('', getenv('FC2_ID'), getenv('FC2_PASSWORD'), $options, 1);
+$result = $client->supportedMethods('');
 error_log(print_r($result, true));
 
 $time_finish = microtime(true);
