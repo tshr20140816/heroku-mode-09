@@ -18,5 +18,8 @@ $client = XML_RPC2_Client::create(
   $options
 );
 
+$result = $client->info('XML_RPC2');
+error_log(print_r($result, true));
+
 $time_finish = microtime(true);
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's');
