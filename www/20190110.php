@@ -9,11 +9,11 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 require_once 'XML/RPC2/Client.php';
   
 $options = array(
-  'prefix' => 'package.'
+  'methodName' => 'mt.supportedMethods.'
 );
 
 $client = XML_RPC2_Client::create(
-  'http://pear.php.net/xmlrpc.php',
+  'http://blog.fc2.com/xmlrpc.php',
   $options
 );
 
