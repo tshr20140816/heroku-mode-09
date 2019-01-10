@@ -9,14 +9,12 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
 require_once 'XML/RPC2/Client.php';
-  
-$options = array(
-  'prefix' => 'mt.'
-);
 
+$url = 'https://blog.fc2.com/xmlrpc.php';
+error_log($url);
 $client = XML_RPC2_Client::create(
-  'https://blog.fc2.com/xmlrpc.php',
-  $options
+  $url,
+  ['prefix' => 'mt.']
 );
 
 $result = $client->supportedMethods('', getenv('FC2_ID'), getenv('FC2_PASSWORD'));
