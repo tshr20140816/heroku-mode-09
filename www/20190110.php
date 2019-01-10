@@ -49,8 +49,8 @@ error_log(print_r($result, true));
 $blogid = $result[0]['blogid'];
 error_log($blogid);
 
-$post_data = ['post_title' => 'TEST TITLE XMLRPC TEST',
-              'post_content' => 'TEST CONTENT XMLRPC TEST',
+$post_data = ['post_title' => 'TEST TITLE XMLRPC 日本語 TEST',
+              'post_content' => 'TEST CONTENT XMLRPC 日本語 TEST',
               'post_status' => 'publish'];
 
 $result = $client->newPost($blogid, getenv('WORDPRESS_USERNAME'), getenv('WORDPRESS_PASSWORD'), $post_data);
