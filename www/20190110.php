@@ -15,7 +15,7 @@ $options = array(
 );
 
 $client = XML_RPC2_Client::create(
-  'http://blog.fc2.com/xmlrpc.php',
+  'https://blog.fc2.com/xmlrpc.php',
   $options
 );
 
