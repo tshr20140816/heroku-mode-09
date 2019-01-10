@@ -44,7 +44,8 @@ $client = XML_RPC2_Client::create(
   ['prefix' => 'metaWeblog.']
 );
 
-$options = ['title' => 'タイトルテストRPCタイトル', 'description' => '本文テストRPC本文'];
+// $options = ['title' => 'タイトルテストRPCタイトル', 'description' => '本文テストRPC本文'];
+$options = ['title' => 'TITLE TEST RPC TITLE', 'description' => 'DESCRIPTION TEST RPC DESCRIPTION'];
 
 $result = $client->newPost('', getenv('FC2_ID'), getenv('FC2_PASSWORD'), $options, 1);
 error_log(print_r($result, true));
