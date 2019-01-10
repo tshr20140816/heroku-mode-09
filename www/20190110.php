@@ -6,7 +6,6 @@ $requesturi = $_SERVER['REQUEST_URI'];
 $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
-//require_once 'XML_RPC2/Client.php';
 require_once 'XML/RPC2/Client.php';
   
 $options = array(
