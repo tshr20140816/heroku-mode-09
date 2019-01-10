@@ -24,6 +24,8 @@ $result = $client->info('mt.supportedMethods');
 error_log(print_r($result, true));
 */
 
+//curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+
 //<methodCall><methodName>mt.supportedMethods</methodName><params></params></methodCall>
 
 $post_data = '<?xml version="1.0" ?><methodCall><methodName>blogger.getUserInfo</methodName>'
@@ -33,6 +35,10 @@ $post_data = '<?xml version="1.0" ?><methodCall><methodName>blogger.getUserInfo<
 
 $options = [CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => $post_data,
+            ];
+$options = [CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $post_data,
+            CURLOPT_HTTPHEADER => ['Content-Type: application/xml'],
             ];
 
 $res = $mu->get_contents_nocache('http://blog.fc2.com/xmlrpc.php', $options);
