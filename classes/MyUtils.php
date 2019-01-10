@@ -1,5 +1,7 @@
 <?php
 
+require_once 'XML/RPC2/Client.php';
+
 class MyUtils
 {
     private $_access_token;
@@ -319,6 +321,21 @@ __HEREDOC__;
             $target_ = str_replace($i, mb_substr($subscript, $i, 1), $target_);
         }
         return $target_;
+    }
+    
+    function post_blog($description_)
+    {
+        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        
+        $url = 'https://blog.fc2.com/xmlrpc.php';
+        error_log($log_prefix . 'url : ' . $url);
+        $client = XML_RPC2_Client::create(
+            $url,
+            ['prefix' => 'metaWeblog.']);
+        
+        $options = ['title' => date('Y/m/d H:i:s', strtotime('+9 hours')), 'description' => $description_];
+        $result = $client->newPost('', getenv('FC2_ID'), getenv('FC2_PASSWORD'), $options, 1);
+        error_log($log_prefix . 'RESULT : ' . print_r($result, true));
     }
 
     function get_contents($url_, $options_ = null, $is_cache_search = false)
