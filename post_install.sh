@@ -19,7 +19,7 @@ whereis pear
 
 pear channel-update pear.php.net
 
-pear install XML_RPC
+pear install XML_RPC2
 
 chmod 755 ./start_web.sh
 
