@@ -60,8 +60,4 @@ echo "heroku-buildpack-php : current ${current_version} latest ${latest_version}
 
 echo $latest_version > /tmp/latest_version
 
-pear install XML_RPC2
-
-find -name / -name Client.php -print
-
 vendor/bin/heroku-php-apache2 -C apache.conf www
