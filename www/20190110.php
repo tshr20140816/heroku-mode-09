@@ -9,7 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 require_once 'XML/RPC2/Client.php';
   
 $options = array(
-  'methodName' => 'mt.supportedMethods.'
+  'methodName' => 'mt.supportedMethods'
 );
 
 $client = XML_RPC2_Client::create(
@@ -17,7 +17,7 @@ $client = XML_RPC2_Client::create(
   $options
 );
 
-$result = $client->info('XML_RPC2');
+$result = $client->info('mt.supportedMethods');
 error_log(print_r($result, true));
 
 $time_finish = microtime(true);
