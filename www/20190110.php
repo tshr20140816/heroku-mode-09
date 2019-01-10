@@ -26,7 +26,7 @@ error_log(print_r($result, true));
 
 //<methodCall><methodName>mt.supportedMethods</methodName><params></params></methodCall>
 
-$post_data = '<methodCall><methodName>blogger.getUserInfo</methodName>'
+$post_data = '<?xml version="1.0" ?><methodCall><methodName>blogger.getUserInfo</methodName>'
   . '<params><param><value><string></string></value></param><param><value>'
   . '<string>' . getenv('FC2_ID') . '</string></value></param><param><value>'
   . '<string>' . getenv('FC2_PASSWORD') . '</string></value></param></params></methodCall>';
