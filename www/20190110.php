@@ -33,7 +33,10 @@ $post_data = '<?xml version="1.0" ?><methodCall><methodName>blogger.getUserInfo<
   . '<string>' . getenv('FC2_ID') . '</string></value></param><param><value>'
   . '<string>' . getenv('FC2_PASSWORD') . '</string></value></param></params></methodCall>';
 
-$post_data = '<methodCall><methodName>mt.supportedMethods</methodName><params></params></methodCall>';
+$post_data = '<?xml version="1.0" ?><methodCall><methodName>mt.supportedMethods</methodName>'
+  . '<params><param><value><string></string></value></param><param><value>'
+  . '<string>' . getenv('FC2_ID') . '</string></value></param><param><value>'
+  . '<string>' . getenv('FC2_PASSWORD') . '</string></value></param></params></methodCall>';
 
 $options = [CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => $post_data,
