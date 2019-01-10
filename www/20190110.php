@@ -46,6 +46,7 @@ $client = XML_RPC2_Client::create(
 
 $result = $client->getUsersBlogs(getenv('WORDPRESS_USERNAME'), getenv('WORDPRESS_PASSWORD'));
 error_log(print_r($result, true));
+error_log($result[0]['blogid']);
 
 $time_finish = microtime(true);
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's');
