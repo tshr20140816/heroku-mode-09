@@ -33,14 +33,15 @@ $post_data = '<?xml version="1.0" ?><methodCall><methodName>blogger.getUserInfo<
   . '<string>' . getenv('FC2_ID') . '</string></value></param><param><value>'
   . '<string>' . getenv('FC2_PASSWORD') . '</string></value></param></params></methodCall>';
 
-$options = [CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => $post_data,
-            ];
 $options = [CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => $post_data,
             CURLOPT_HTTPHEADER => ['Content-Type: application/xml'],
             ];
 
+$options = [CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $post_data,
+            CURLOPT_HTTPHEADER => ['Content-Type: application/xml'],
+            ];
 $res = $mu->get_contents_nocache('http://blog.fc2.com/xmlrpc.php', $options);
 
 error_log($res);
