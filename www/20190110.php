@@ -26,8 +26,13 @@ error_log(print_r($result, true));
 
 //<methodCall><methodName>mt.supportedMethods</methodName><params></params></methodCall>
 
+$post_data = '<methodCall><methodName>blogger.getUserInfo</methodName>'
+  . '<params><param><value><string></string></value></param><param><value>'
+  . '<string>' . getenv('FC2_ID') . '</string></value></param><param><value>'
+  . '<string>' . getenv('FC2_PASSWORD') . '</string></value></param></params></methodCall>';
+
 $options = [CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => '<methodCall><methodName>mt.supportedMethods</methodName><params></params></methodCall>',
+            CURLOPT_POSTFIELDS => $post_data,
             ];
 
 $res = $mu->get_contents_nocache('http://blog.fc2.com/xmlrpc.php', $options);
