@@ -44,7 +44,7 @@ $client = XML_RPC2_Client::create(
   ['prefix' => 'wp.']
 );
 
-$result = $client->getUsersBlogs('', getenv('WORDPRESS_USERNAME'), getenv('WORDPRESS_PASSWORD'));
+$result = $client->getUsersBlogs(getenv('WORDPRESS_USERNAME'), getenv('WORDPRESS_PASSWORD'));
 error_log(print_r($result, true));
 
 $time_finish = microtime(true);
