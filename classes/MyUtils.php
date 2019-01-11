@@ -382,6 +382,7 @@ __HEREDOC__;
             error_log($log_prefix . 'RESULT : ' . print_r($result, true));
         } catch (Exception $e) {
             error_log($log_prefix . 'Exception : ' . $e->getMessage());
+            this->post_blog_wordpress($message_);
         }
     }
 
@@ -400,7 +401,7 @@ __HEREDOC__;
 
             $blogid = $result[0]['blogid'];
 
-            $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.', 'connectionTimeout' => 800]); // 800ms
+            $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.', 'connectionTimeout' => 600]); // 600ms
             error_log($log_prefix . 'xmlrpc : newPost');
             $post_data = ['post_title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${message_}",
                           'post_content' => '.',
