@@ -336,7 +336,7 @@ __HEREDOC__;
 
             error_log($log_prefix . 'xmlrpc : newPost');
             $options = ['title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${message_}", 'description' => '.'];
-            $result = $client->newPost('', getenv('FC2_ID'), getenv('FC2_PASSWORD'), $options, 1);
+            $result = $client->newPost('', getenv('FC2_ID'), getenv('FC2_PASSWORD'), $options, 1); // 1 : publish
             error_log($log_prefix . 'RESULT : ' . print_r($result, true));
         } catch (Exception $e) {
             error_log($log_prefix . 'Exception : ' . $e->getMessage());
