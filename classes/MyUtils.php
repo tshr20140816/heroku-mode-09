@@ -323,6 +323,7 @@ __HEREDOC__;
         return $target_;
     }
     
+    /*
     function post_blog($description_)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
@@ -362,6 +363,7 @@ __HEREDOC__;
             error_log($log_prefix . 'Exception : ' . $e->getMessage());
         }
     }
+    */
     
     function post_blog_fc2($message_)
     {
