@@ -334,7 +334,7 @@ __HEREDOC__;
             ['prefix' => 'metaWeblog.']);
         
         error_log($log_prefix . 'xmlrpc : newPost');
-        $options = ['title' => date('Y/m/d H:i:s', strtotime('+9 hours')), 'description' => $description_];
+        $options = ['title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . ' ' . $description_, 'description' => '.'];
         $result = $client->newPost('', getenv('FC2_ID'), getenv('FC2_PASSWORD'), $options, 1);
         error_log($log_prefix . 'RESULT : ' . print_r($result, true));
         
@@ -349,8 +349,8 @@ __HEREDOC__;
         $blogid = $result[0]['blogid'];
         
         error_log($log_prefix . 'xmlrpc : newPost');
-        $post_data = ['post_title' => date('Y/m/d H:i:s', strtotime('+9 hours')),
-                      'post_content' => $description_,
+        $post_data = ['post_title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . ' ' . $description_,
+                      'post_content' => '.',
                       'post_status' => 'publish'];        
         $result = $client->newPost($blogid, getenv('WORDPRESS_USERNAME'), getenv('WORDPRESS_PASSWORD'), $post_data);
         error_log($log_prefix . 'RESULT : ' . print_r($result, true));
