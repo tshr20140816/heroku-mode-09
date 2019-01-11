@@ -382,7 +382,7 @@ __HEREDOC__;
             error_log($log_prefix . 'RESULT : ' . print_r($result, true));
         } catch (Exception $e) {
             error_log($log_prefix . 'Exception : ' . $e->getMessage());
-            this->post_blog_wordpress($message_);
+            $this->post_blog_wordpress($message_);
         }
     }
 
