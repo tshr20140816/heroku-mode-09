@@ -400,7 +400,7 @@ __HEREDOC__;
 
             $blogid = $result[0]['blogid'];
 
-            $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.', 'connectionTimeout' => 1000]); // 1sec
+            $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.', 'connectionTimeout' => 800]); // 800ms
             error_log($log_prefix . 'xmlrpc : newPost');
             $post_data = ['post_title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${message_}",
                           'post_content' => '.',
