@@ -374,7 +374,7 @@ __HEREDOC__;
             error_log($log_prefix . 'url : ' . $url);
             $client = XML_RPC2_Client::create(
                 $url,
-                ['prefix' => 'metaWeblog.']);
+                ['prefix' => 'metaWeblog.', 'connectionTimeout' => 2000]);
 
             error_log($log_prefix . 'xmlrpc : newPost');
             $options = ['title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${message_}", 'description' => '.'];
