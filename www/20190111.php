@@ -14,7 +14,6 @@ try {
 
     $blogid = $result[0]['blogid'];
 
-    // $client = XML_RPC2_Backend_Php_Client::create($url, ['prefix' => 'wp.', 'connectionTimeout' => 1000]);
     $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.', 'connectionTimeout' => 1000]);
     
     error_log('xmlrpc : newPost');
