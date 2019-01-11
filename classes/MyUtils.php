@@ -322,19 +322,19 @@ __HEREDOC__;
         }
         return $target_;
     }
-    
+
     /*
     function post_blog($description_)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-        
+
         try {
             $url = 'https://blog.fc2.com/xmlrpc.php';
             error_log($log_prefix . 'url : ' . $url);
             $client = XML_RPC2_Client::create(
                 $url,
                 ['prefix' => 'metaWeblog.']);
-        
+
             error_log($log_prefix . 'xmlrpc : newPost');
             $options = ['title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . ' ' . $description_, 'description' => '.'];
             $result = $client->newPost('', getenv('FC2_ID'), getenv('FC2_PASSWORD'), $options, 1);
@@ -346,17 +346,17 @@ __HEREDOC__;
             $url = 'https://' . getenv('WORDPRESS_USERNAME') . '.wordpress.com/xmlrpc.php';
             error_log($log_prefix . 'url : ' . $url);
             $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
-        
+
             error_log($log_prefix . 'xmlrpc : getUsersBlogs');
             $result = $client->getUsersBlogs(getenv('WORDPRESS_USERNAME'), getenv('WORDPRESS_PASSWORD'));
             error_log($log_prefix . 'RESULT : ' . print_r($result, true));
-        
+
             $blogid = $result[0]['blogid'];
-        
+
             error_log($log_prefix . 'xmlrpc : newPost');
             $post_data = ['post_title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . ' ' . $description_,
                           'post_content' => '.',
-                          'post_status' => 'publish'];        
+                          'post_status' => 'publish'];
             $result = $client->newPost($blogid, getenv('WORDPRESS_USERNAME'), getenv('WORDPRESS_PASSWORD'), $post_data);
             error_log($log_prefix . 'RESULT : ' . print_r($result, true));
         } catch (Exception $e) {
@@ -364,18 +364,18 @@ __HEREDOC__;
         }
     }
     */
-    
+
     function post_blog_fc2($message_)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-        
+
         try {
             $url = 'https://blog.fc2.com/xmlrpc.php';
             error_log($log_prefix . 'url : ' . $url);
             $client = XML_RPC2_Client::create(
                 $url,
                 ['prefix' => 'metaWeblog.']);
-        
+
             error_log($log_prefix . 'xmlrpc : newPost');
             $options = ['title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${message_}", 'description' => '.'];
             $result = $client->newPost('', getenv('FC2_ID'), getenv('FC2_PASSWORD'), $options, 1);
@@ -384,26 +384,27 @@ __HEREDOC__;
             error_log($log_prefix . 'Exception : ' . $e->getMessage());
         }
     }
-    
+
     function post_blog_wordpress($message_)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-        
+
         try {
             $url = 'https://' . getenv('WORDPRESS_USERNAME') . '.wordpress.com/xmlrpc.php';
             error_log($log_prefix . 'url : ' . $url);
             $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
-        
+
             error_log($log_prefix . 'xmlrpc : getUsersBlogs');
             $result = $client->getUsersBlogs(getenv('WORDPRESS_USERNAME'), getenv('WORDPRESS_PASSWORD'));
             error_log($log_prefix . 'RESULT : ' . print_r($result, true));
-        
+
             $blogid = $result[0]['blogid'];
-        
+
+            $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.', 'connectionTimeout' => 1000]);
             error_log($log_prefix . 'xmlrpc : newPost');
             $post_data = ['post_title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${message_}",
                           'post_content' => '.',
-                          'post_status' => 'publish'];        
+                          'post_status' => 'publish'];
             $result = $client->newPost($blogid, getenv('WORDPRESS_USERNAME'), getenv('WORDPRESS_PASSWORD'), $post_data);
             error_log($log_prefix . 'RESULT : ' . print_r($result, true));
         } catch (Exception $e) {
@@ -543,7 +544,7 @@ __HEREDOC__;
         if (is_null($urls_is_cache_)) {
             $urls_is_cache_ = [];
         }
-        
+
         $sql_select = <<< __HEREDOC__
 SELECT T1.url_base64
       ,T1.content_compress_base64
