@@ -13,6 +13,8 @@ try {
 
     $blogid = $result[0]['blogid'];
 
+    $client = XML_RPC2_Backend_Php_Client::create($url, ['prefix' => 'wp.']);
+    
     error_log('xmlrpc : newPost');
     $post_data = ['post_title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " TEST RPCXML TEST",
                   'post_content' => '.',
