@@ -1,6 +1,7 @@
 <?php
 
 require_once 'XML/RPC2/Client.php';
+require_once 'XML/RPC2/Backend/Php/Client.php';
 
 try {
     $url = 'https://' . getenv('WORDPRESS_USERNAME') . '.wordpress.com/xmlrpc.php';
