@@ -14,10 +14,10 @@ try {
 
     $blogid = $result[0]['blogid'];
 
-    $client = XML_RPC2_Backend_Php_Client::create($url, ['prefix' => 'wp.']);
+    $client = XML_RPC2_Backend_Php_Client::create($url, ['prefix' => 'wp.', 'connectionTimeout' => 1000]);
     
     error_log('xmlrpc : newPost');
-    $post_data = ['post_title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " TEST RPCXML 日本語 TEST",
+    $post_data = ['post_title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " TEST RPCXML TEST",
                   'post_content' => '.',
                   'post_status' => 'publish'];        
     $result = $client->newPost($blogid, getenv('WORDPRESS_USERNAME'), getenv('WORDPRESS_PASSWORD'), $post_data);
