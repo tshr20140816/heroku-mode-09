@@ -445,7 +445,7 @@ __HEREDOC__;
         return $res;
     }
 
-    function get_contents_nocache($url_, $options_ = null)
+    function get_contents_nocache($url_, $options_ = [])
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
         error_log($log_prefix . 'URL : ' . $url_);
@@ -466,9 +466,17 @@ __HEREDOC__;
         for ($i = 0; $i < 3; $i++) {
             $time_start = microtime(true);
             $ch = curl_init();
+            /*
             curl_setopt_array($ch, $options);
             if (is_null($options_) == false) {
                 curl_setopt_array($ch, $options_);
+            }
+            */
+            foreach ($options as $key => $value) {
+                $rc = curl_setopt($ch, $key, $value);
+            }
+            foreach ($options_ as $key => $value) {
+                $rc = curl_setopt($ch, $key, $value);
             }
             $res = curl_exec($ch);
             $time_finish = microtime(true);
@@ -544,9 +552,19 @@ __HEREDOC__;
                         CURLOPT_MAXREDIRS => 3,
                         CURLOPT_SSL_FALSESTART => true,
             ];
+            /*
             curl_setopt_array($ch, $options);
             if (is_null($options_add) == false) {
                 curl_setopt_array($ch, $options_add);
+            }
+            */
+            foreach ($options as $key => $value) {
+                $rc = curl_setopt($ch, $key, $value);
+            }
+            if (is_null($options_add) == false) {
+                foreach ($options_add as $key => $value) {
+                    $rc = curl_setopt($ch, $key, $value);
+                }
             }
             curl_multi_add_handle($mh, $ch);
             $list_ch[$url] = $ch;
