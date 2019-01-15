@@ -458,7 +458,6 @@ __HEREDOC__;
         CURLOPT_ENCODING => '',
         CURLOPT_FOLLOWLOCATION => 1,
         CURLOPT_MAXREDIRS => 3,
-        CURLOPT_SSL_FALSESTART => true,
         ];
 
         $time_start = 0;
@@ -556,7 +555,6 @@ __HEREDOC__;
                         CURLOPT_ENCODING => '',
                         CURLOPT_FOLLOWLOCATION => 1,
                         CURLOPT_MAXREDIRS => 3,
-                        CURLOPT_SSL_FALSESTART => true,
             ];
             /*
             curl_setopt_array($ch, $options);
