@@ -411,9 +411,6 @@ function get_task_soccer($mu_)
         $list_add_task[] = $tmp1;
     }
     $count_task = count($list_add_task);
-    $list_add_task[] = '{"title":"' . date('Y/m/d H:i:s', strtotime('+ 9 hours')) . '  Soccer Task Add : ' . $count_task
-      . '","context":"' . $list_context_id[date('w', mktime(0, 0, 0, 1, 4, 2018))]
-      . '","duedate":"' . mktime(0, 0, 0, 1, 4, 2018) . '","folder":"' . $folder_id_private . '"}';
     $mu_->post_blog_fc2("Soccer Task Add : ${count_task}");
     error_log($log_prefix . 'TASKS SOCCER : ' . print_r($list_add_task, true));
 
@@ -472,9 +469,6 @@ function get_task_culturecenter($mu_)
         }
     }
     $count_task = count($list_add_task);
-    $list_add_task[] = '{"title":"' . date('Y/m/d H:i:s', strtotime('+ 9 hours')) . '  Culture Center Task Add : ' . $count_task
-      . '","context":"' . $list_context_id[date('w', mktime(0, 0, 0, 1, 4, 2018))]
-      . '","duedate":"' . mktime(0, 0, 0, 1, 4, 2018) . '","folder":"' . $folder_id_private . '"}';
     $mu_->post_blog_fc2("Culture Center Task Add : ${count_task}");
     error_log($log_prefix . 'TASKS CULTURECENTER : ' . print_r($list_add_task, true));
 
