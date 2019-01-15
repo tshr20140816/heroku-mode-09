@@ -474,9 +474,15 @@ __HEREDOC__;
             */
             foreach ($options as $key => $value) {
                 $rc = curl_setopt($ch, $key, $value);
+                if ($rc == false) {
+                    error_log($log_prefix . "curl_setopt : ${key} ${value}");
+                }
             }
             foreach ($options_ as $key => $value) {
                 $rc = curl_setopt($ch, $key, $value);
+                if ($rc == false) {
+                    error_log($log_prefix . "curl_setopt : ${key} ${value}");
+                }
             }
             $res = curl_exec($ch);
             $time_finish = microtime(true);
@@ -560,10 +566,16 @@ __HEREDOC__;
             */
             foreach ($options as $key => $value) {
                 $rc = curl_setopt($ch, $key, $value);
+                if ($rc == false) {
+                    error_log($log_prefix . "curl_setopt : ${key} ${value}");
+                }
             }
             if (is_null($options_add) == false) {
                 foreach ($options_add as $key => $value) {
                     $rc = curl_setopt($ch, $key, $value);
+                    if ($rc == false) {
+                        error_log($log_prefix . "curl_setopt : ${key} ${value}");
+                    }
                 }
             }
             curl_multi_add_handle($mh, $ch);
