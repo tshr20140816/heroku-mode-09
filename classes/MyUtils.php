@@ -465,12 +465,6 @@ __HEREDOC__;
         for ($i = 0; $i < 3; $i++) {
             $time_start = microtime(true);
             $ch = curl_init();
-            /*
-            curl_setopt_array($ch, $options);
-            if (is_null($options_) == false) {
-                curl_setopt_array($ch, $options_);
-            }
-            */
             foreach ($options as $key => $value) {
                 $rc = curl_setopt($ch, $key, $value);
                 if ($rc == false) {
@@ -556,12 +550,6 @@ __HEREDOC__;
                         CURLOPT_FOLLOWLOCATION => 1,
                         CURLOPT_MAXREDIRS => 3,
             ];
-            /*
-            curl_setopt_array($ch, $options);
-            if (is_null($options_add) == false) {
-                curl_setopt_array($ch, $options_add);
-            }
-            */
             foreach ($options as $key => $value) {
                 $rc = curl_setopt($ch, $key, $value);
                 if ($rc == false) {
