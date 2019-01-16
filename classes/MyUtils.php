@@ -445,7 +445,7 @@ __HEREDOC__;
         return $res;
     }
 
-    function get_contents_nocache($url_, $options_ = [])
+    function get_contents_nocache($url_, $options_ = null)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
         error_log($log_prefix . 'URL : ' . $url_);
@@ -471,10 +471,12 @@ __HEREDOC__;
                     error_log($log_prefix . "curl_setopt : ${key} ${value}");
                 }
             }
-            foreach ($options_ as $key => $value) {
-                $rc = curl_setopt($ch, $key, $value);
-                if ($rc == false) {
-                    error_log($log_prefix . "curl_setopt : ${key} ${value}");
+            if (is_null($options_) === false) {
+                foreach ($options_ as $key => $value) {
+                    $rc = curl_setopt($ch, $key, $value);
+                    if ($rc == false) {
+                        error_log($log_prefix . "curl_setopt : ${key} ${value}");
+                    }
                 }
             }
             $res = curl_exec($ch);
@@ -556,7 +558,7 @@ __HEREDOC__;
                     error_log($log_prefix . "curl_setopt : ${key} ${value}");
                 }
             }
-            if (is_null($options_add) == false) {
+            if (is_null($options_add) === false) {
                 foreach ($options_add as $key => $value) {
                     $rc = curl_setopt($ch, $key, $value);
                     if ($rc == false) {
