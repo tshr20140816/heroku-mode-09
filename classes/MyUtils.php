@@ -483,7 +483,8 @@ __HEREDOC__;
             $res = curl_exec($ch);
             $time_finish = microtime(true);
             $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            error_log($log_prefix . "HTTP STATUS CODE : ${http_code} [" . substr(($time_finish - $time_start), 0, 5) . 'sec]');
+            error_log($log_prefix .
+                      "HTTP STATUS CODE : ${http_code} [" . substr(($time_finish - $time_start), 0, 5) . 'sec]');
             curl_close($ch);
             if ($http_code == '200') {
                 break;
