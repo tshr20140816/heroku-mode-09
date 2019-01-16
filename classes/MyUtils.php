@@ -6,7 +6,7 @@ class MyUtils
 {
     private $_access_token;
 
-    function get_pdo()
+    public function get_pdo()
     {
         $connection_info = parse_url(getenv('DATABASE_URL'));
         return new PDO(
@@ -16,7 +16,7 @@ class MyUtils
         );
     }
 
-    function get_access_token()
+    public function get_access_token()
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -103,7 +103,7 @@ __HEREDOC__;
         return $access_token;
     }
 
-    function get_folder_id($folder_name_)
+    public function get_folder_id($folder_name_)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -128,7 +128,7 @@ __HEREDOC__;
         return $target_folder_id;
     }
 
-    function get_contexts()
+    public function get_contexts()
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -175,7 +175,7 @@ __HEREDOC__;
         return $list_context_id;
     }
 
-    function add_tasks($list_add_task_)
+    public function add_tasks($list_add_task_)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -203,7 +203,7 @@ __HEREDOC__;
         return $list_res;
     }
 
-    function edit_tasks($list_edit_task_)
+    public function edit_tasks($list_edit_task_)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -231,7 +231,7 @@ __HEREDOC__;
         return $list_res;
     }
 
-    function delete_tasks($list_delete_task_)
+    public function delete_tasks($list_delete_task_)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -254,7 +254,7 @@ __HEREDOC__;
         }
     }
 
-    function get_weather_guest_area()
+    public function get_weather_guest_area()
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -281,7 +281,7 @@ __HEREDOC__;
         return $list_weather_guest_area;
     }
 
-    function get_env($key_name_)
+    public function get_env($key_name_)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -314,7 +314,7 @@ __HEREDOC__;
         return $value;
     }
 
-    function to_small_size($target_)
+    public function to_small_size($target_)
     {
         $subscript = '₀₁₂₃₄₅₆₇₈₉';
         for ($i = 0; $i < 10; $i++) {
@@ -323,7 +323,7 @@ __HEREDOC__;
         return $target_;
     }
 
-    function post_blog_fc2($message_)
+    public function post_blog_fc2($message_)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -345,7 +345,7 @@ __HEREDOC__;
         }
     }
 
-    function post_blog_wordpress($message_)
+    public function post_blog_wordpress($message_)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -372,7 +372,7 @@ __HEREDOC__;
         }
     }
 
-    function get_contents($url_, $options_ = null, $is_cache_search = false)
+    public function get_contents($url_, $options_ = null, $is_cache_search = false)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -446,7 +446,7 @@ __HEREDOC__;
         return $res;
     }
 
-    function get_contents_nocache($url_, $options_ = null)
+    public function get_contents_nocache($url_, $options_ = null)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
         error_log($log_prefix . 'URL : ' . $url_);
@@ -503,7 +503,7 @@ __HEREDOC__;
         return $res;
     }
 
-    function get_contents_multi($urls_, $urls_is_cache_ = null)
+    public function get_contents_multi($urls_, $urls_is_cache_ = null)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
