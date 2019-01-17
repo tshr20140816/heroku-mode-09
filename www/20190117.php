@@ -22,7 +22,7 @@ error_log("COUNT : ${count}");
 if ($count !== 0) {
     $count--;
     error_log('SLEEP');
-    sleep(5);
+    sleep(25);
     $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $_SERVER['PHP_SELF'] . '?c=' . $count;
     $options = [CURLOPT_TIMEOUT => 3, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
     $res = $mu->get_contents($url, $options);
