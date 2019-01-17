@@ -280,7 +280,7 @@ error_log($pid . ' $list_delete_task : ' . print_r($list_delete_task, true));
 // 日付(duedate)設定漏れ警告
 
 if ($is_exists_no_duedate_task === true) {
-    $list_add_task[] = '{"title":"NO DUEDATE TASK EXISTS","duedate":"' . mktime(0, 0, 0, 1, 1, 2018)
+    $list_add_task[] = '{"title":"NO DUEDATE TASK EXISTS","duedate":"' . mktime(0, 0, 0, 12, 31, 2017)
         . '","context":"' . $list_context_id[date('w', mktime(0, 0, 0, 1, 1, 2018))]
         . '","tag":"HOURLY","folder":"' . $folder_id_label . '"}';
 }
