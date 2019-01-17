@@ -401,10 +401,13 @@ function get_task_heroku_buildpack_php($mu_)
         error_log($log_prefix . 'heroku-buildpack-php current : ' . $current_version);
         error_log($log_prefix . 'heroku-buildpack-php latest : ' . $latest_version);
         if ($current_version != $latest_version) {
+            /*
             $list_add_task[] = '{"title":"heroku-buildpack-php : update ' . $latest_version
               . '","duedate":"' . mktime(0, 0, 0, 1, 1, 2018)
               . '","tag":"HOURLY","folder":"' . $folder_id_label
               . '","context":' . $list_context_id[date('w', mktime(0, 0, 0, 1, 1, 2018))] . '}';
+            */
+            $mu_->post_blog_fc2('heroku-buildpack-php : update ' . $latest_version);
         }
     }
 
