@@ -26,6 +26,7 @@ $count = (int)$_GET['c'];
 
 error_log("${pid} COUNT : ${count}");
 
+$continue_flag = false;
 if ($count !== 0) {
     $count--;
     error_log("${pid} SLEEP");
@@ -54,12 +55,23 @@ if ($count !== 0) {
         }
     }    
     $list_add_task = get_task_rainfall($mu);
+    foreach ($list_add_task as $task) {
+        if (strpos($task, '☀') == false) {
+            $continue_flag = true;
+        }
+    }
     
     // Add Tasks
     $rc = $mu->add_tasks($list_add_task);
     
     // Delete Tasks
     $mu->delete_tasks($list_delete_task);
+    
+    if ($continue_flag === true) {
+        $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $_SERVER['PHP_SELF'] . '?c=11';
+        $options = [CURLOPT_TIMEOUT => 3, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
+        $res = $mu->get_contents($url, $options);        
+    }
 }
 
 $time_finish = microtime(true);
