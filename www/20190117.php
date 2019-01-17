@@ -29,13 +29,15 @@ if ($count !== 0) {
     $options = [CURLOPT_TIMEOUT => 3, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
     $res = $mu->get_contents($url, $options);
 } else {
-    error_log('OWARI');
     // Access Token
     $access_token = $mu->get_access_token();
     
     // Get Tasks
     $url = 'https://api.toodledo.com/3/tasks/get.php'
-        . '?comp=0&fields=tag,duedate&access_token=' . $access_token;
+        . '?comp=0&fields=tag,duedate&access_token=' . $access_token . '&after=' . strtotime('-30 minutes');
+    $res = $mu->get_contents($url);
+    $tasks = json_decode($res, true);
+    error_log(print_r($tasks, true));
 }
 
 $time_finish = microtime(true);
