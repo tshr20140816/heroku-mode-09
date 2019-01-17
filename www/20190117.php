@@ -23,6 +23,7 @@ if ($count !== 0) {
     $count--;
     error_log('SLEEP');
     sleep(25);
+    error_log('https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $requesturi . '?c=' . $count);
     // file_get_contents('https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $requesturi . '?c=' . $count);
 } else {
     error_log('OWARI');
