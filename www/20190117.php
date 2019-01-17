@@ -34,7 +34,7 @@ if ($count !== 0) {
     
     // Get Tasks
     $url = 'https://api.toodledo.com/3/tasks/get.php'
-        . '?comp=0&fields=tag,duedate&access_token=' . $access_token . '&after=' . strtotime('-30 minutes');
+        . "?comp=0&fields=tag,duedate&access_token=${access_token}&after=" . strtotime('-30 minutes');
     $res = $mu->get_contents($url);
     $tasks = json_decode($res, true);
     error_log(print_r($tasks, true));
