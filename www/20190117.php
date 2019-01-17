@@ -22,9 +22,10 @@ error_log("COUNT : ${count}");
 if ($count !== 0) {
     $count--;
     error_log('SLEEP');
-    // sleep(25);
-    error_log('https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $_SERVER['PHP_SELF'] . '?c=' . $count);
-    // file_get_contents('https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $requesturi . '?c=' . $count);
+    sleep(5);
+    $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $_SERVER['PHP_SELF'] . '?c=' . $count;
+    $options = [CURLOPT_TIMEOUT => 3, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
+    $res = $mu->get_contents($url, $options);
 } else {
     error_log('OWARI');
 }
