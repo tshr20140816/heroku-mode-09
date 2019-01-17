@@ -11,6 +11,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
 if (!isset($_GET['c']) || $_GET['c'] === '' || is_array($_GET['c'])) {
+    error_log("${pid} FINISH Invalid Param");
     exit();
 }
 
@@ -19,8 +20,10 @@ $count = (int)$_GET['c'];
 error_log("COUNT : ${count}");
 
 if ($count !== 0) {
+    $count--;
     error_log('SLEEP');
     sleep(25);
+    // file_get_contents('https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $requesturi . '?c=' . $count);
 } else {
     error_log('OWARI');
 }
