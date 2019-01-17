@@ -35,7 +35,7 @@ if ($count !== 0) {
     
     // Get Tasks
     $url = 'https://api.toodledo.com/3/tasks/get.php'
-        . '?comp=0&fields=tag,duedate,context,star,folder&access_token=' . $access_token;
+        . '?comp=0&fields=tag,duedate&access_token=' . $access_token;
 }
 
 $time_finish = microtime(true);
