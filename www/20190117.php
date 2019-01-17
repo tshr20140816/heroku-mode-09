@@ -19,11 +19,11 @@ if (!isset($_GET['c']) || $_GET['c'] === '' || is_array($_GET['c'])) {
 
 $count = (int)$_GET['c'];
 
-error_log("COUNT : ${count}");
+error_log("${pid} COUNT : ${count}");
 
 if ($count !== 0) {
     $count--;
-    error_log('SLEEP');
+    error_log("${pid} SLEEP");
     sleep(25);
     $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $_SERVER['PHP_SELF'] . '?c=' . $count;
     $options = [CURLOPT_TIMEOUT => 3, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
@@ -37,19 +37,24 @@ if ($count !== 0) {
         . "?comp=0&fields=tag,duedate&access_token=${access_token}&after=" . strtotime('-30 minutes');
     $res = $mu->get_contents($url);
     $tasks = json_decode($res, true);
-    error_log(print_r($tasks, true));
     
-    $task_rainfall = null;
+    $list_delete_task = [];
     foreach ($tasks as $task) {
         if (array_key_exists('duedate', $task) && array_key_exists('tag', $task)) {
             if ($task['duedate'] == 1514808000 && $task['tag'] == 'HOURLY') {
                 // 1514808000 = 2018/01/01
-                $task_rainfall = $task;
+                $list_delete_task[] = $task['id'];
                 break;
             }
         }
-    }
-    error_log(print_r($task_rainfall, true));    
+    }    
+    $list_add_task = get_task_rainfall($mu);
+    
+    // Add Tasks
+    $rc = $mu->add_tasks($list_add_task);
+    
+    // Delete Tasks
+    $mu->delete_tasks($list_delete_task);
 }
 
 $time_finish = microtime(true);
