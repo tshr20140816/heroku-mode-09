@@ -38,6 +38,18 @@ if ($count !== 0) {
     $res = $mu->get_contents($url);
     $tasks = json_decode($res, true);
     error_log(print_r($tasks, true));
+    
+    $task_rainfall = null;
+    foreach ($tasks as $task) {
+        if (array_key_exists('duedate', $task) && array_key_exists('tag', $task)) {
+            if ($task['duedate'] == 1514808000 && $task['tag'] == 'hourly') {
+                // 1514808000 = 2018/01/01
+                $task_rainfall = $task;
+                break;
+            }
+        }
+    }
+    error_log(print_r($task_rainfall, true));    
 }
 
 $time_finish = microtime(true);
