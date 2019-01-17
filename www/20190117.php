@@ -42,7 +42,7 @@ if ($count !== 0) {
     $task_rainfall = null;
     foreach ($tasks as $task) {
         if (array_key_exists('duedate', $task) && array_key_exists('tag', $task)) {
-            if ($task['duedate'] == 1514808000 && $task['tag'] == 'hourly') {
+            if ($task['duedate'] == 1514808000 && $task['tag'] == 'HOURLY') {
                 // 1514808000 = 2018/01/01
                 $task_rainfall = $task;
                 break;
