@@ -17,6 +17,11 @@ if (!isset($_GET['c']) || $_GET['c'] === '' || is_array($_GET['c'])) {
     exit();
 }
 
+if ((int)date('i') < 5) {
+    error_log("${pid} FINISH Stop Term");
+    exit();    
+}
+
 $count = (int)$_GET['c'];
 
 error_log("${pid} COUNT : ${count}");
