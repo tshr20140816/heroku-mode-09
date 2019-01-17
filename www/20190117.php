@@ -17,12 +17,13 @@ if (!isset($_GET['c']) || $_GET['c'] === '' || is_array($_GET['c'])) {
 
 $count = (int)$_GET['c'];
 
+error_log($_SERVER['PHP_SELF']);
 error_log("COUNT : ${count}");
 
 if ($count !== 0) {
     $count--;
     error_log('SLEEP');
-    sleep(25);
+    // sleep(25);
     error_log('https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $requesturi . '?c=' . $count);
     // file_get_contents('https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $requesturi . '?c=' . $count);
 } else {
