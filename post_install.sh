@@ -4,7 +4,7 @@ set -x
 
 date
 
-pear channel-update https://pear.php.net
+pear channel-update pear.php.net:443
 
 pear install XML_RPC2 &
 
