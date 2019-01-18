@@ -12,7 +12,12 @@ const LIST_YOBI = array('日', '月', '火', '水', '木', '金', '土');
 
 $mu = new MyUtils();
 
-if (!isset($_GET['c']) || $_GET['c'] === '' || is_array($_GET['c'])) {
+if (!isset($_GET['c'])
+    || $_GET['c'] === ''
+    || is_array($_GET['c'])
+    || !ctype_digit($_GET['c'])
+    || (int)$_GET['c'] > 12
+   ) {
     error_log("${pid} FINISH Invalid Param");
     exit();
 }
