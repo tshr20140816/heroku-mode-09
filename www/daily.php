@@ -645,4 +645,38 @@ function get_task_moon($mu_)
 
 function check_version_apache($mu_)
 {
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $url = 'https://github.com/apache/httpd/releases.atom';
+    $res = $mu_->get_contents($url);
+    
+    $doc = new DOMDocument();
+    $doc->loadXML($res);
+    
+    $xpath = new DOMXpath($doc);
+    $xpath->registerNamespace('ns', 'http://www.w3.org/2005/Atom');
+    
+    $elements = $xpath->query("//ns:entry/ns:title");
+    
+    $list_version = [];
+    foreach ($elements as $element) {
+        $tmp = $element->nodeValue;
+        $tmp = explode('.', $tmp);
+        $list_version[(int)$tmp[0] * 1000000 + (int)$tmp[1] * 1000 + (int)$tmp[2]] = $element->nodeValue;
+    }
+    krsort($list_version);
+    $version_latest = array_shift($list_version);
+    
+    $res = file_get_contents('/tmp/apache_current_version');
+    $version_current = trim(str_replace(["\r\n", "\r", "\n", '   ', '  '], ' ', $res));
+    
+    $url = 'https://devcenter.heroku.com/articles/php-support';
+    $res = $mu_->get_contents($url);
+
+    $rc = preg_match('/<strong><a href="http:\/\/httpd.apache.org">Apache<\/a>(.+?)<\/strong> \((.+?)\) and <strong>/s', $res, $match);
+    $version_support = $match[2];
+
+    error_log($log_prefix . '$version_latest : ' . $version_latest);
+    error_log($log_prefix . '$version_support : ' . $version_support);
+    error_log($log_prefix . '$version_current : ' . $version_current);
 }
