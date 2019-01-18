@@ -24,8 +24,6 @@ if ((int)date('i') < 5) {
 
 $count = (int)$_GET['c'];
 
-error_log("${pid} COUNT : ${count}");
-
 $continue_flag = false;
 if ($count !== 0) {
     $count--;
