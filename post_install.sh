@@ -4,8 +4,6 @@ set -x
 
 date
 
-apt-get update
-
 pear channel-update pear.php.net
 
 pear install XML_RPC2 &
