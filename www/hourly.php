@@ -13,7 +13,7 @@ $rc = apcu_clear_cache();
 
 $mu = new MyUtils();
 
-$hour_now = ((int)date('G') + 9) % 24; // JST
+$hour_now = (int)date('G', strtotime('+9 hours')); // JST
 
 $file_outlet_parking_information = '/tmp/outlet_parking_information.txt';
 @unlink($file_outlet_parking_information);
