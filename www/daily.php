@@ -651,7 +651,7 @@ function check_version_apache($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $url = 'https://github.com/apache/httpd/releases.atom';
-    $res = $mu_->get_contents($url);
+    $res = $mu_->get_contents($url, null, true);
 
     $doc = new DOMDocument();
     $doc->loadXML($res);
@@ -674,7 +674,7 @@ function check_version_apache($mu_)
     $version_current = trim(str_replace(["\r\n", "\r", "\n", '   ', '  '], ' ', $res));
 
     $url = 'https://devcenter.heroku.com/articles/php-support';
-    $res = $mu_->get_contents($url);
+    $res = $mu_->get_contents($url, null, true);
 
     $rc = preg_match('/<strong><a href="http:\/\/httpd.apache.org">Apache<\/a>(.+?)<\/strong> \((.+?)\) and <strong>/s', $res, $match);
     $version_support = $match[2];
