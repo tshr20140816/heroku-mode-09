@@ -5,6 +5,7 @@ set -x
 date
 
 apt --help
+apt -y install nodejs
 
 pear channel-update pear.php.net
 
