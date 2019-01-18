@@ -109,6 +109,16 @@ $res = $mu->get_contents('https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?out
 
 //
 
+$url = 'https://github.com/apache/httpd/releases.atom';
+$res = $mu_->get_contents($url, null, true);
+
+//
+
+$url = 'https://devcenter.heroku.com/articles/php-support';
+$res = $mu_->get_contents($url, null, true);
+
+//
+
 $sql_delete = <<< __HEREDOC__
 DELETE
   FROM t_webcache
