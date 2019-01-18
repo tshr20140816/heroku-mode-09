@@ -22,10 +22,15 @@ $xpath->registerNamespace('ns', 'http://www.w3.org/2005/Atom');
 
 $elements = $xpath->query("//ns:entry/ns:title");
 
+$list_version = [];
 foreach ($elements as $element) {
     error_log($element->nodeValue);
+    $tmp = $element->nodeValue;
+    $tmp = explode('.', $tmp);
+    $list_version[(int)$tmp[0] * 1000000 + (int)$tmp[0] * 1000 + (int)$tmp[2]] = $element->nodeValue;
 }
 
+error_log(print_r($list_version, true));
 
 $time_finish = microtime(true);
 // $mu->post_blog_wordpress($requesturi . ' ' . substr(($time_finish - $time_start), 0, 6) . 's');
