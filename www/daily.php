@@ -642,3 +642,7 @@ function get_task_moon($mu_)
     error_log($log_prefix . 'MOON : ' . print_r($list_add_task, true));
     return $list_add_task;
 }
+
+function check_version_apache($mu_)
+{
+}
