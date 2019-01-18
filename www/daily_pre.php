@@ -109,12 +109,12 @@ $res = $mu->get_contents('https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?out
 
 //
 
-$url = 'https://github.com/apache/httpd/releases.atom';
+$url = 'https://github.com/apache/httpd/releases.atom?' . date('Ymd');
 $res = $mu_->get_contents($url, null, true);
 
 //
 
-$url = 'https://devcenter.heroku.com/articles/php-support';
+$url = 'https://devcenter.heroku.com/articles/php-support?' . date('Ymd');
 $res = $mu_->get_contents($url, null, true);
 
 //
