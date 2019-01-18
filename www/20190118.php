@@ -23,7 +23,7 @@ $xpath->registerNamespace('ns', 'http://www.w3.org/2005/Atom');
 $elements = $xpath->query("//ns:entry/ns:title");
 
 foreach ($elements as $element) {
-    error_log($element->nodeName);
+    error_log($element->nodeValue);
 }
 
 
