@@ -67,7 +67,7 @@ if ($count !== 0) {
     
     if ($continue_flag === true) {
         $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $_SERVER['PHP_SELF'] . '?c=11';
-        $options = [CURLOPT_TIMEOUT => 3, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
+        $options = [CURLOPT_TIMEOUT => 2, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
         $res = $mu->get_contents($url, $options);        
     }
 }
