@@ -205,7 +205,14 @@ if ($hour_now % 2 === 1) {
 $list_add_task = array_merge($list_add_task, get_task_amedas($mu, $list_contents));
 
 // Rainfall
-$list_add_task = array_merge($list_add_task, get_task_rainfall($mu, $list_contents));
+// $list_add_task = array_merge($list_add_task, get_task_rainfall($mu, $list_contents));
+$rainfall_continue_flag = false;
+foreach (get_task_rainfall($mu, $list_contents) as $task) {
+    $list_add_task[] = $task;
+    if (strpos($task, '☀') == false) {
+        $rainfall_continue_flag = true;
+    }
+}
 
 // Quota
 $list_add_task = array_merge($list_add_task, get_task_quota($mu, $list_contents));
@@ -333,6 +340,12 @@ $rc = $mu->edit_tasks($list_edit_task);
 
 // Delete Tasks
 $mu->delete_tasks($list_delete_task);
+
+if ($rainfall_continue_flag === true) {
+    $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/rainfall.php?c=11';
+    $options = [CURLOPT_TIMEOUT => 2, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
+    $res = $mu->get_contents($url, $options);
+}
 
 $time_finish = microtime(true);
 $mu->post_blog_wordpress($requesturi . ' ' . substr(($time_finish - $time_start), 0, 6) . 's');
