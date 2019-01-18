@@ -18,7 +18,9 @@ $doc = new DOMDocument();
 $doc->loadXML($res);
 
 $xpath = new DOMXpath($doc);
-$elements = $xpath->query("*/entry/title");
+$xpath->registerNamespace('ns', 'http://www.w3.org/2005/Atom');
+
+$elements = $xpath->query("//ns:entry/ns:title");
 
 foreach ($elements as $element) {
     error_log($element->nodeName);
