@@ -38,7 +38,8 @@ $url = 'https://devcenter.heroku.com/articles/php-support';
 $res = $mu->get_contents($url);
 
 $rc = preg_match('/<strong><a href="http:\/\/httpd.apache.org">Apache<\/a>(.+?)<\/strong> \((.+?)\) and <strong>/s', $res, $match);
-error_log(print_r($match, true));
+// error_log(print_r($match, true));
+error_log($match[2]);
 
 $time_finish = microtime(true);
 // $mu->post_blog_wordpress($requesturi . ' ' . substr(($time_finish - $time_start), 0, 6) . 's');
