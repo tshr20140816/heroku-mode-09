@@ -44,7 +44,7 @@ $url = 'https://map.yahooapis.jp/weather/V1/place?interval=5&output=json&appid='
 $urls[$url] = null;
 
 if ($hour_now % 2 === 1) {
-    $urls['https://tenki.jp/week/' . $mu->get_env('LOCATION_NUMBER') . '/?4nocache' . date('YmdH', strtotime('+9 hours'));] = null;
+    $urls['https://tenki.jp/week/' . $mu->get_env('LOCATION_NUMBER') . '/?4nocache' . date('YmdH', strtotime('+9 hours'))] = null;
 }
 
 // cache search on url list
