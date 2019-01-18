@@ -31,6 +31,7 @@ $version_latest = array_shift($list_version);
 error_log($version_latest);
 
 $res = file_get_contents('/tmp/apache_current_version');
+$res = str_replace(["\r\n", "\r", "\n"], '', $res);
 error_log($res);
 
 $time_finish = microtime(true);
