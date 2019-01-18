@@ -27,7 +27,7 @@ foreach ($elements as $element) {
     error_log($element->nodeValue);
     $tmp = $element->nodeValue;
     $tmp = explode('.', $tmp);
-    $list_version[(int)$tmp[0] * 1000000 + (int)$tmp[0] * 1000 + (int)$tmp[2]] = $element->nodeValue;
+    $list_version[(int)$tmp[0] * 1000000 + (int)$tmp[1] * 1000 + (int)$tmp[2]] = $element->nodeValue;
 }
 
 error_log(print_r($list_version, true));
