@@ -323,7 +323,7 @@ __HEREDOC__;
         return $target_;
     }
 
-    public function post_blog_fc2($message_)
+    public function post_blog_fc2($title_, $description_ = null)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -336,16 +336,19 @@ __HEREDOC__;
             );
 
             error_log($log_prefix . 'xmlrpc : newPost');
-            $options = ['title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${message_}", 'description' => '.'];
+            if (is_null($description_)) {
+                $description_ = '.';
+            }
+            $options = ['title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${title_}", 'description' => $description_];
             $result = $client->newPost('', getenv('FC2_ID'), getenv('FC2_PASSWORD'), $options, 1); // 1 : publish
             error_log($log_prefix . 'RESULT : ' . print_r($result, true));
         } catch (Exception $e) {
             error_log($log_prefix . 'Exception : ' . $e->getMessage());
-            $this->post_blog_wordpress($message_);
+            $this->post_blog_wordpress($title_, $description_);
         }
     }
 
-    public function post_blog_wordpress($message_)
+    public function post_blog_wordpress($title_, $description_ = null)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -362,8 +365,11 @@ __HEREDOC__;
 
             $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.', 'connectionTimeout' => 1000]); // 1sec
             error_log($log_prefix . 'xmlrpc : newPost');
-            $post_data = ['post_title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${message_}",
-                          'post_content' => '.',
+            if (is_null($description_)) {
+                $description_ = '.';
+            }
+            $post_data = ['post_title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${title_}",
+                          'post_content' => $description_,
                           'post_status' => 'publish'];
             $result = $client->newPost($blogid, getenv('WORDPRESS_USERNAME'), getenv('WORDPRESS_PASSWORD'), $post_data);
             error_log($log_prefix . 'RESULT : ' . print_r($result, true));
