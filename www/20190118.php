@@ -33,6 +33,11 @@ function check_version_apache($mu_)
     $url = 'https://www.nao.ac.jp/astro/sky/2019/01.html';
     $res = $mu_->get_contents($url);
     
-    error_log($res);
+    // error_log($res);
+    
+    $rc = preg_match_all('/<tr>(.+?)<\/tr>/s', $res, $matches,  PREG_SET_ORDER);
+    
+    error_log(print_r($matches, true));
+    
 }
 
