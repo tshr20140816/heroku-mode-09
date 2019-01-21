@@ -49,7 +49,7 @@ function check_version_apache($mu_)
     
     foreach($matches as $match) {
         array_shift($match);
-        $match[1] = strip_tags($match[1]);
+        $match[1] = mb_convert_kana(strip_tags($match[1]), 'a');
         error_log(print_r($match, true));
     }
     
