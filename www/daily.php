@@ -181,17 +181,12 @@ $list_add_task = array_merge($list_add_task, get_task_sun($mu));
 // Moon Tasks 翌日分
 $list_add_task = array_merge($list_add_task, get_task_moon($mu));
 
-/*
-// High Way Tasks
-$list_add_task = array_merge($list_add_task, get_task_highway($mu));
-
-// Soccer Tasks
-$list_add_task = array_merge($list_add_task, get_task_soccer($mu));
-
-// Culture Center Tasks
-$list_add_task = array_merge($list_add_task, get_task_culturecenter($mu));
-*/
-foreach ([get_task_highway($mu), get_task_soccer($mu), get_task_culturecenter($mu)] as $list_add_task_tmp) {
+$list_get_task = [get_task_highway($mu),
+                  get_task_soccer($mu),
+                  get_task_culturecenter($mu),
+                  get_task_full_moon($mu),
+                 ];
+foreach ($list_get_task as $list_add_task_tmp) {
     $list_duplicate_task_keys = array_intersect(array_keys($list_add_task_tmp), array_keys($list_delete_task));
     foreach ($list_duplicate_task_keys as $key) {
         unset($list_add_task_tmp[$key]);
@@ -773,5 +768,5 @@ function check_version_apache($mu_)
     error_log($log_prefix . '$version_support : ' . $version_support);
     error_log($log_prefix . '$version_current : ' . $version_current);
 
-    $mu_->post_blog_fc2('Apache Version', "latest : ${version_latest}\r\nsupport : ${version_support}\r\ncurrent : ${version_current}");
+    $mu_->post_blog_wordpress('Apache Version', "latest : ${version_latest}\nsupport : ${version_support}\ncurrent : ${version_current}");
 }
