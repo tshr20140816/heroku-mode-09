@@ -102,6 +102,12 @@ function check_version_apache($mu_)
             $title = str_pad($m, 2, '0', STR_PAD_LEFT) . '/' . str_pad($match[1], 2, '0', STR_PAD_LEFT) . ' ' . mb_convert_kana(strip_tags($match[2]), 'a') . ' ★';
             $timestamp = mktime(0, 0, 0, $m, $match[1], $y);
             
+            $hash = date('Ymd', $timestamp) . hash('sha512', $title);
+            
+            $tmp = str_replace('__TITLE__', $title, $add_task_template);
+            $tmp = str_replace('__DUEDATE__', $timestamp, $tmp);
+            $tmp = str_replace('__CONTEXT__', $list_context_id[date('w', $timestamp)], $tmp);
+            $list_add_task[$hash] = $tmp;
         }
         $m = $m == 12 ? 1 : $m + 1;
         $y = $m == 1 ? $y + 1 : $y;
