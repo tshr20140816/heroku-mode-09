@@ -38,7 +38,7 @@ function check_version_apache($mu_)
         if ($match[5] == '') {
             $match[5] = '満月';
         }
-        $list[] = $match[1] . '/' . $match[2] . ' ' . $match[3] . ':' . $match[4] . ' ' .  $match[5];
+        $list[] = $match[1] . '/' . $match[2] . ' ' . $match[3] . ':' . $match[4] . ' ' .  $match[5] . ' ★';
     }
     error_log(print_r($list, true));
     
@@ -54,7 +54,7 @@ function check_version_apache($mu_)
     $y = 2019;
     $m = 1;
     foreach($matches as $match) {
-        $list[] = str_pad($m, 2, '0', STR_PAD_LEFT) . '/' . str_pad(trim($match[1], '日'), 2, '0', STR_PAD_LEFT) . ' ' . mb_convert_kana(strip_tags($match[2]), 'a');
+        $list[] = str_pad($m, 2, '0', STR_PAD_LEFT) . '/' . str_pad(trim($match[1], '日'), 2, '0', STR_PAD_LEFT) . ' ' . mb_convert_kana(strip_tags($match[2]), 'a') . ' ★';
         /*
         array_shift($match);
         $match[0] = trim($match[0], '日');
