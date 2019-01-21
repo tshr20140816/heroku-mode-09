@@ -22,6 +22,9 @@ popd
 mkdir lib
 pushd lib
 git clone --depth=1 -b 1.1.4 https://github.com/pear/XML_RPC2.git .
+git clone --depth=1 https://github.com/pear/pear_exception.git .
+git clone --depth=1 https://github.com/pear/http_request2.git .
+git clone --depth=1 https://github.com/pear/net_url2.git .
 popd
 
 wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.0/phpcs.phar
