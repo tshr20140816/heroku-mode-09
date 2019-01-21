@@ -23,6 +23,10 @@ function check_version_apache($mu_)
     $url = 'https://e-moon.net/calendar_list/calendar_moon_2019/';
     $res = $mu_->get_contents($url);
     
-    error_log($res);
+    // error_log($res);
+    
+    $rc = preg_match_all('/<td class="embed_link_to_star_mall_fullmoon">(.+?)</s', $res, $matches,  PREG_SET_ORDER);
+    
+    error_log(print_r($matches, true));
 }
 
