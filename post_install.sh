@@ -14,7 +14,7 @@ pushd www
 git clone --depth=1 -b REL_5-6-0  https://github.com/phppgadmin/phppgadmin.git phppgadmin
 cp ../config.inc.php phppgadmin/conf/
 # cp ../Connection.php phppgadmin/classes/database/
-ls -lang
+ls -lang phppgadmin
 popd
 
 # ***** XML_RPC2 *****
