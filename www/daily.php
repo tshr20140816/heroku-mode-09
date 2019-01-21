@@ -182,6 +182,8 @@ $list_add_task = array_merge($list_add_task, get_task_sun($mu));
 $list_add_task = array_merge($list_add_task, get_task_moon($mu));
 
 // High Way Tasks
+$list_add_task_tmp = get_task_highway($mu);
+
 $list_add_task = array_merge($list_add_task, get_task_highway($mu));
 
 // Soccer Tasks
@@ -479,12 +481,13 @@ function get_task_soccer($mu_)
         if ($rc == 1) {
             $tmp1 = substr($tmp1, 0, strlen($tmp1) - 3);
         }
-        $tmp1 = substr(trim($tmp[1], '"'), 5) . ' ' . $tmp1 . ' ' . trim($tmp[0], '"') . ' ' . trim($tmp[6], '"');
+        $title = substr(trim($tmp[1], '"'), 5) . ' ' . $tmp1 . ' ' . trim($tmp[0], '"') . ' ' . trim($tmp[6], '"');
 
-        $tmp1 = str_replace('__TITLE__', $tmp1, $add_task_template);
+        $tmp1 = str_replace('__TITLE__', $title, $add_task_template);
         $tmp1 = str_replace('__DUEDATE__', $timestamp, $tmp1);
         $tmp1 = str_replace('__CONTEXT__', $list_context_id[date('w', $timestamp)], $tmp1);
-        $list_add_task[] = $tmp1;
+        $hash = date('Ymd', $timestamp) . hash('sha512', $title);
+        $list_add_task[$hash] = $tmp1;
     }
     $count_task = count($list_add_task);
     $mu_->post_blog_fc2("Soccer Task Add : ${count_task}");
@@ -532,7 +535,9 @@ function get_task_culturecenter($mu_)
             if (strlen($tmp) == 0) {
                 continue;
             }
-            $list_add_task[] = '{"title":"' . date('m/d', $timestamp) . ' 文セ ★ ' . $tmp
+            $title = date('m/d', $timestamp) . ' 文セ ★ ' . $tmp;
+            $hash = date('Ymd', $timestamp) . hash('sha512', $title);
+            $list_add_task[$hash] = '{"title":"' . $title
               . '","duedate":"' . $timestamp
               . '","context":"' . $list_context_id[date('w', $timestamp)]
               . '","tag":"CULTURECENTER","folder":"' . $folder_id_private . '"}';
@@ -602,11 +607,12 @@ function get_task_highway($mu_)
         $timestamp = mktime(0, 0, 0, $tmp[0], $tmp[1], $yyyy);
 
         $tmp = $matches[$i];
-        $tmp = date('m/d', $timestamp) . ' ★ ' . $tmp[4] . ' ' . $tmp[2] . ' ' . $tmp[3] . ' ' . $tmp[5] . ' ' . $tmp[1];
-        $tmp = str_replace('__TITLE__', $tmp, $add_task_template);
+        $title = date('m/d', $timestamp) . ' ★ ' . $tmp[4] . ' ' . $tmp[2] . ' ' . $tmp[3] . ' ' . $tmp[5] . ' ' . $tmp[1];
+        $tmp = str_replace('__TITLE__', $title, $add_task_template);
         $tmp = str_replace('__DUEDATE__', $timestamp, $tmp);
         $tmp = str_replace('__CONTEXT__', $list_context_id[date('w', $timestamp)], $tmp);
-        $list_add_task[] = $tmp;
+        $hash = date('Ymd', $timestamp) . hash('sha512', $title);
+        $list_add_task[$hash] = $tmp;
     }
     $count_task = count($list_add_task);
     $mu_->post_blog_fc2("Highway Task Add : ${count_task}");
@@ -652,11 +658,12 @@ function get_task_sun($mu_)
             $tmp = str_replace('__CONTEXT__', $list_context_id[date('w', $timestamp)], $tmp);
             $list_add_task[] = $tmp;
 
-            $tmp = date('m/d', $timestamp) . ' ' . trim($matches[2]) . ' 日の入り';
-            $tmp = str_replace('__TITLE__', $tmp, $add_task_template);
+            $title = date('m/d', $timestamp) . ' ' . trim($matches[2]) . ' 日の入り';
+            $tmp = str_replace('__TITLE__', $title, $add_task_template);
             $tmp = str_replace('__DUEDATE__', $timestamp, $tmp);
             $tmp = str_replace('__CONTEXT__', $list_context_id[date('w', $timestamp)], $tmp);
-            $list_add_task[] = $tmp;
+            $hash = date('Ymd', $timestamp) . hash('sha512', $title);
+            $list_add_task[$hash] = $tmp;
             break;
         }
     }
@@ -698,18 +705,20 @@ function get_task_moon($mu_)
             $rc = preg_match('/.+?<\/td>.*?<td>(.+?)<\/td>.*?<td>.+?<\/td>.*?<td>.+?<\/td>.*?<td>.+?<\/td>.*?<td>(.+?)</', $tmp[$i], $matches);
 
             if (trim($matches[1]) != '--:--') {
-                $tmp = date('m/d', $timestamp) . ' ' . substr('0' . trim($matches[1]), -5) . ' 月の出';
-                $tmp = str_replace('__TITLE__', $tmp, $add_task_template);
+                $title = date('m/d', $timestamp) . ' ' . substr('0' . trim($matches[1]), -5) . ' 月の出';
+                $tmp = str_replace('__TITLE__', $title, $add_task_template);
                 $tmp = str_replace('__DUEDATE__', $timestamp, $tmp);
                 $tmp = str_replace('__CONTEXT__', $list_context_id[date('w', $timestamp)], $tmp);
+                $hash = date('Ymd', $timestamp) . hash('sha512', $title);
                 $list_add_task[] = $tmp;
             }
 
             if (trim($matches[2]) != '--:--') {
-                $tmp = date('m/d', $timestamp) . ' ' . substr('0' . trim($matches[2]), -5) . ' 月の入り';
-                $tmp = str_replace('__TITLE__', $tmp, $add_task_template);
+                $title = date('m/d', $timestamp) . ' ' . substr('0' . trim($matches[2]), -5) . ' 月の入り';
+                $tmp = str_replace('__TITLE__', $title, $add_task_template);
                 $tmp = str_replace('__DUEDATE__', $timestamp, $tmp);
                 $tmp = str_replace('__CONTEXT__', $list_context_id[date('w', $timestamp)], $tmp);
+                $hash = date('Ymd', $timestamp) . hash('sha512', $title);
                 $list_add_task[] = $tmp;
             }
             break;
