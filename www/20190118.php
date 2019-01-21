@@ -55,6 +55,7 @@ function check_version_apache($mu_)
     $m = 1;
     foreach($matches as $match) {
         array_shift($match);
+        $match[0] = trim($match[0], '日');
         $match[1] = mb_convert_kana(strip_tags($match[1]), 'a');
         error_log(print_r($match, true));
     }
