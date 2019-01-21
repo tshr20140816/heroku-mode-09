@@ -117,6 +117,6 @@ function check_version_apache($mu_)
         $y = $m == 1 ? $y + 1 : $y;
     }
     
-    error_log($log_prefix . 'FULL MOON : ' . print_r($list_add_task, true));
+    error_log($log_prefix . 'SKY : ' . print_r($list_add_task, true));
     return $list_add_task;
 }
