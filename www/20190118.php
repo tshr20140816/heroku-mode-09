@@ -31,6 +31,10 @@ function check_version_apache($mu_)
     
     foreach($matches as $match) {
         array_shift($match);
+        $match[4] = trim($match[4]);
+        if ($match[4] == '') {
+            $match[4] = '満月';
+        }
         error_log(print_r($match, true));
     }
     
@@ -45,6 +49,7 @@ function check_version_apache($mu_)
     
     foreach($matches as $match) {
         array_shift($match);
+        $match[1] = strip_tags($match[1]);
         error_log(print_r($match, true));
     }
     
