@@ -65,12 +65,12 @@ function check_version_apache($mu_)
     error_log(print_r($list, true));
     
     $url = 'https://www.nao.ac.jp/astro/sky/2020/01.html';
-    $res = $mu_->get_contents($url);
+    $res = $mu_->get_contents($url, [CURLOPT_CUSTOMREQUEST => 'HEAD']);
     
     error_log($res);
     
     $url = 'https://e-moon.net/calendar_list/calendar_moon_2021/';
-    $res = $mu_->get_contents($url);
+    $res = $mu_->get_contents($url, [CURLOPT_CUSTOMREQUEST => 'HEAD']);
     
     error_log($res);
 }
