@@ -64,4 +64,7 @@ function check_version_apache($mu_)
     }
     error_log(print_r($list, true));
     
+    $url = 'https://www.nao.ac.jp/astro/sky/2020/01.html';
+    $res = $mu_->get_contents($url);
+    
 }
