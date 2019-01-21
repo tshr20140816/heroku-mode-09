@@ -114,7 +114,7 @@ function get_task_sky($mu_, $list_holiday_name_)
             if (array_search($content, $list_holiday_name_) != false) {
                 continue;
             }
-            if (strlen($content) === 2 && $content != '上弦' && $content != '下弦') {
+            if (mb_strlen($content) === 2 && $content != '上弦' && $content != '下弦') {
                 continue;
             }
             
