@@ -122,5 +122,6 @@ function check_version_apache($mu_)
     }
     
     error_log($log_prefix . 'SKY : ' . print_r($list_add_task, true));
+    error_log(count($list_add_task));
     return $list_add_task;
 }
