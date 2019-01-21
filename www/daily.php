@@ -683,5 +683,5 @@ function check_version_apache($mu_)
     error_log($log_prefix . '$version_support : ' . $version_support);
     error_log($log_prefix . '$version_current : ' . $version_current);
 
-    $mu_->post_blog_fc2('Apache Version', "latest : ${version_latest}\nsupport : ${version_support}\ncurrent : ${version_current}");
+    $mu_->post_blog_fc2('Apache Version', "latest : ${version_latest}\r\nsupport : ${version_support}\r\ncurrent : ${version_current}");
 }
