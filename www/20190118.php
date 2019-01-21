@@ -11,15 +11,18 @@ $mu = new MyUtils();
 
 $access_token = $mu->get_access_token();
 
+/*
 $list_holiday_name = get_holiday_name($mu);
 get_task_sky($mu, $list_holiday_name);
+*/
+get_task_full_moon($mu);
 
 $time_finish = microtime(true);
 error_log("${pid} FINISH " . ($time_finish - $time_start) . 's ');
 
 exit();
 
-function check_version_apache2($mu_)
+function get_task_full_moon($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
