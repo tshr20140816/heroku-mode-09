@@ -9,6 +9,8 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
+$access_token = $mu->get_access_token();
+
 check_version_apache2($mu);
 
 $time_finish = microtime(true);
