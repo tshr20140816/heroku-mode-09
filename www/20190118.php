@@ -69,7 +69,7 @@ function check_version_apache($mu_)
     
     error_log($res);
     
-    $url = 'https://e-moon.net/calendar_list/calendar_moon_2020/';
+    $url = 'https://e-moon.net/calendar_list/calendar_moon_2021/';
     $res = $mu_->get_contents($url);
     
     error_log($res);
