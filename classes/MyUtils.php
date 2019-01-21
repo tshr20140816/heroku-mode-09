@@ -1,6 +1,7 @@
 <?php
 
-require_once 'XML/RPC2/Client.php';
+# require_once 'XML/RPC2/Client.php';
+require_once '/app/lib/XML/RPC2/Client.php';
 
 class MyUtils
 {
