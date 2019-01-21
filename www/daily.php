@@ -423,7 +423,7 @@ function get_task_full_moon($mu_)
                 continue;
             }
         }
-        $res = $mu_->get_contents($url);
+        $res = $mu_->get_contents($url, null, true);
 
         $pattern = '/<td class="embed_link_to_star_mall_fullmoon">(\d+).+?(\d+).+?(\d+).+?(\d+)(.*?)</s';
         $rc = preg_match_all($pattern, $res, $matches,  PREG_SET_ORDER);
