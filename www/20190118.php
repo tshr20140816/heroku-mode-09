@@ -67,4 +67,10 @@ function check_version_apache($mu_)
     $url = 'https://www.nao.ac.jp/astro/sky/2020/01.html';
     $res = $mu_->get_contents($url);
     
+    error_log($res);
+    
+    $url = 'https://e-moon.net/calendar_list/calendar_moon_2020/';
+    $res = $mu_->get_contents($url);
+    
+    error_log($res);
 }
