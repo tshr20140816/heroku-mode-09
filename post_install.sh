@@ -4,8 +4,8 @@ set -x
 
 date
 
-# pear channel-update pear.php.net
-# pear install XML_RPC2 &
+pear channel-update pear.php.net
+pear install XML_RPC2 &
 
 # ***** phppgadmin *****
 
@@ -29,6 +29,6 @@ wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.0/php
 
 chmod 755 ./start_web.sh
 
-# wait
+wait
 
 date
