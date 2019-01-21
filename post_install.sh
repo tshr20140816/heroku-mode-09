@@ -22,7 +22,7 @@ mkdir lib
 pushd lib
 git clone --depth=1 -b 1.1.4 https://github.com/pear/XML_RPC2.git .
 ls -lang
-ls -lang XML/
+ls -lang XML/RPC2/
 popd
 
 wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.0/phpcs.phar
