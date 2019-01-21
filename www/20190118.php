@@ -29,24 +29,16 @@ function check_version_apache($mu_)
     
     // error_log(print_r($matches, true));
     
-    $y = '2019';
+    $y = 2019;
     foreach($matches as $match) {
         for ($i = 1; $i < 5; $i++) {
-            $match[$i] = str_pad($match[$i], 2, '0');
+            $match[$i] = str_pad($match[$i], 2, '0', STR_PAD_LEFT);
         }
         $match[5] = trim($match[5]);
         if ($match[5] == '') {
             $match[5] = '満月';
         }
         $list[] = $match[1] . '/' . $match[2] . ' ' . $match[3] . ':' . $match[4] . ' ' .  $match[5];
-        /*
-        array_shift($match);
-        $match[4] = trim($match[4]);
-        if ($match[4] == '') {
-            $match[4] = '満月';
-        }
-        error_log(print_r($match, true));
-        */
     }
     error_log(print_r($list, true));
     
@@ -55,10 +47,12 @@ function check_version_apache($mu_)
     
     // error_log($res);
     
-    $rc = preg_match_all('/<tr>.+?<td.*?>(.+?)<\/td>.*?<td.*?>(.+?)<\/td>.*?<\/tr>/s', $res, $matches,  PREG_SET_ORDER);
+    $rc = preg_match_all('/<tr>.+?<td.*?>(\d+?).+?<\/td>.*?<td.*?>(.+?)<\/td>.*?<\/tr>/s', $res, $matches,  PREG_SET_ORDER);
     
     // error_log(print_r($matches, true));
     
+    $y = 2019;
+    $m = 1;
     foreach($matches as $match) {
         array_shift($match);
         $match[1] = mb_convert_kana(strip_tags($match[1]), 'a');
@@ -66,4 +60,3 @@ function check_version_apache($mu_)
     }
     
 }
-
