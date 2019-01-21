@@ -498,6 +498,7 @@ __HEREDOC__;
             }
 
             error_log($log_prefix . '$res : ' . $res);
+            $res = $http_code;
 
             if ($http_code != '503') {
                 break;
