@@ -28,5 +28,11 @@ function check_version_apache($mu_)
     $rc = preg_match_all('/<td class="embed_link_to_star_mall_fullmoon">(\d+).+?(\d+).+?(\d+).+?(\d+)(.*?)</s', $res, $matches,  PREG_SET_ORDER);
     
     error_log(print_r($matches, true));
+    
+    
+    $url = 'https://www.nao.ac.jp/astro/sky/2019/01.html';
+    $res = $mu_->get_contents($url);
+    
+    error_log($res);
 }
 
