@@ -88,12 +88,16 @@ function check_version_apache($mu_)
     $y = date('Y');
     $m = date('m');
     for ($i = 0; $i < 36; $i++) {
-        $url = "https://www.nao.ac.jp/astro/sky/${y}/" . str_pad($m, 2, '0', STR_PAD_LEFT) . '.html';
-        $res = $mu_->get_contents($url, [CURLOPT_NOBODY => true]);
-        if ($res != '') {
-            break;
+        if ($y == date('Y')) {
+            $res = $mu_->get_contents($url, null, true);
+        } else {
+            $url = "https://www.nao.ac.jp/astro/sky/${y}/" . str_pad($m, 2, '0', STR_PAD_LEFT) . '.html';
+            $res = $mu_->get_contents($url, [CURLOPT_NOBODY => true]);
+            if ($res != '') {
+                break;
+            }
+            $res = $mu_->get_contents($url);
         }
-        $res = $mu_->get_contents($url);
 
         $pattern = '/<tr>.+?<td.*?>(\d+).+?<\/td>.*?<td.*?>(.+?)<\/td>.*?<\/tr>/s';
         $rc = preg_match_all($pattern, $res, $matches,  PREG_SET_ORDER);
