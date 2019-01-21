@@ -14,6 +14,7 @@ pushd www
 git clone --depth=1 -b REL_5-6-0  https://github.com/phppgadmin/phppgadmin.git phppgadmin
 cp ../config.inc.php phppgadmin/conf/
 # cp ../Connection.php phppgadmin/classes/database/
+ls -lang
 popd
 
 # ***** XML_RPC2 *****
@@ -21,8 +22,6 @@ popd
 mkdir lib
 pushd lib
 git clone --depth=1 -b 1.1.4 https://github.com/pear/XML_RPC2.git .
-ls -lang
-ls -lang XML/RPC2/
 popd
 
 wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.0/phpcs.phar
