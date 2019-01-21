@@ -139,6 +139,7 @@ if (count($list_add_task) == 0) {
 }
 
 $list_delete_task = [];
+/*
 for ($i = 0; $i < count($tasks); $i++) {
     // error_log($pid . ' ' . $i . ' ' . print_r($tasks[$i], true));
     if (array_key_exists('id', $tasks[$i]) && array_key_exists('tag', $tasks[$i])) {
@@ -149,7 +150,25 @@ for ($i = 0; $i < count($tasks); $i++) {
             $list_delete_task[] = $tasks[$i]['id'];
         } elseif ($tasks[$i]['tag'] == 'HOLIDAY' || $tasks[$i]['tag'] == 'ADDITIONAL') {
             if (array_key_exists(date('Ymd', $tasks[$i]['duedate']), $list_add_task)) {
+                $hash = $hash = date('Ymd', $tasks[$i]['duedate']) . hash('sha512', $title);
                 $list_delete_task[] = $tasks[$i]['id'];
+            }
+        }
+    }
+}
+*/
+foreach ($tasks as $task) {
+    if (array_key_exists('id', $task) && array_key_exists('tag', $task)) {
+        if ($task['tag'] == 'WEATHER2'
+            || $task['tag'] == 'SOCCER'
+            || $task['tag'] == 'CULTURECENTER'
+            || $task['tag'] == 'HIGHWAY') {
+            $hash = date('Ymd', $task['duedate']) . hash('sha512', $task['title']);
+            $list_delete_task[$hash] = $task['id'];
+        } elseif ($task['tag'] == 'HOLIDAY' || $task['tag'] == 'ADDITIONAL') {
+            if (array_key_exists(date('Ymd', $task['duedate']), $list_add_task)) {
+                $hash = date('Ymd', $task['duedate']) . hash('sha512', $task['title']);
+                $list_delete_task[$hash] = $task['id'];
             }
         }
     }
