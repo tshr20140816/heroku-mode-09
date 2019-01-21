@@ -104,13 +104,17 @@ function get_task_sky($mu_, $list_holiday_name_)
         $rc = preg_match_all($pattern, $res, $matches,  PREG_SET_ORDER);
 
         foreach ($matches as $match) {
+            $content = mb_convert_kana(strip_tags($match[2]), 'a');
             $title = str_pad($m, 2, '0', STR_PAD_LEFT) . '/' . str_pad($match[1], 2, '0', STR_PAD_LEFT)
-                . ' ' . mb_convert_kana(strip_tags($match[2]), 'a') . ' ★';
+                . ' ' . $content . ' ★';
             $timestamp = mktime(0, 0, 0, $m, $match[1], $y);
             if ($timestamp < strtotime('+3 days')) {
                 continue;
             }
-            if (array_search($match[2], $list_holiday_name_) != false) {
+            if (array_search($content, $list_holiday_name_) != false) {
+                continue;
+            }
+            if (strlen($content) === 2 && $content != '上弦' && $content != '下弦') {
                 continue;
             }
             
