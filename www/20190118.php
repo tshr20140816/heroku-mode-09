@@ -30,6 +30,7 @@ function check_version_apache($mu_)
     // error_log(print_r($matches, true));
     
     foreach($matches as $match) {
+        array_shift($match);
         error_log(print_r($match, true));
     }
     
@@ -43,6 +44,7 @@ function check_version_apache($mu_)
     // error_log(print_r($matches, true));
     
     foreach($matches as $match) {
+        array_shift($match);
         error_log(print_r($match, true));
     }
     
