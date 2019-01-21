@@ -11,7 +11,8 @@ $mu = new MyUtils();
 
 $access_token = $mu->get_access_token();
 
-check_version_apache($mu);
+$list_holiday_name = get_holiday_name($mu);
+get_task_sky($mu, $list_holiday_name);
 
 $time_finish = microtime(true);
 error_log("${pid} FINISH " . ($time_finish - $time_start) . 's ');
@@ -72,7 +73,7 @@ function check_version_apache2($mu_)
     return $list_add_task;
 }
 
-function check_version_apache($mu_)
+function get_task_sky($mu_, $list_holiday_name_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
@@ -109,6 +110,9 @@ function check_version_apache($mu_)
             if ($timestamp < strtotime('+3 days')) {
                 continue;
             }
+            if (array_search($match[2], $list_holiday_name_) != false) {
+                continue;
+            }
             
             $hash = date('Ymd', $timestamp) . hash('sha512', $title);
             
@@ -124,4 +128,34 @@ function check_version_apache($mu_)
     error_log($log_prefix . 'SKY : ' . print_r($list_add_task, true));
     error_log(count($list_add_task));
     return $list_add_task;
+}
+
+function get_holiday_name($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $list_holiday_name = [];
+    for ($j = 0; $j < 4; $j++) {
+        $yyyy = date('Y', strtotime('+' . $j . ' years'));
+
+        $url = 'http://calendar-service.net/cal?start_year=' . $yyyy
+            . '&start_mon=1&end_year=' . $yyyy . '&end_mon=12'
+            . '&year_style=normal&month_style=numeric&wday_style=ja_full&format=csv&holiday_only=1&zero_padding=1';
+
+        $res = $mu_->get_contents($url, null, true);
+        $res = mb_convert_encoding($res, 'UTF-8', 'EUC-JP');
+
+        $tmp = explode("\n", $res);
+        array_shift($tmp); // ヘッダ行削除
+        array_pop($tmp); // フッタ行(空行)削除
+
+        for ($i = 0; $i < count($tmp); $i++) {
+            $tmp1 = explode(',', $tmp[$i]);
+            $list_holiday_name[] = explode(',', $tmp[$i])[7];
+        }
+    }
+    $list_holiday_name = array_unique($list_holiday_name);
+    error_log($log_prefix . '$list_holiday_name : ' . print_r($list_holiday_name, true));
+
+    return $list_holiday_name;
 }
