@@ -29,14 +29,26 @@ function check_version_apache($mu_)
     
     // error_log(print_r($matches, true));
     
+    $y = '2019';
     foreach($matches as $match) {
+        for ($i = 1; $i < 5; $i++) {
+            $match[$i] = str_pad($match[$i], 2, '0');
+        }
+        $match[5] = trim($match[5]);
+        if ($match[5] == '') {
+            $match[5] = '満月';
+        }
+        $list[] = $match[1] . '/' . $match[2] . ' ' . $match[3] . ':' . $match[4] . ' ' .  $match[5];
+        /*
         array_shift($match);
         $match[4] = trim($match[4]);
         if ($match[4] == '') {
             $match[4] = '満月';
         }
         error_log(print_r($match, true));
+        */
     }
+    error_log(print_r($list, true));
     
     $url = 'https://www.nao.ac.jp/astro/sky/2019/01.html';
     $res = $mu_->get_contents($url);
