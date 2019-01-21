@@ -183,13 +183,7 @@ $list_add_task = array_merge($list_add_task, get_task_moon($mu));
 
 /*
 // High Way Tasks
-$list_add_task_tmp = get_task_highway($mu);
-$list_duplicate_task_keys = array_intersect(array_keys($list_add_task_tmp), array_keys($list_delete_task));
-foreach ($list_duplicate_task_keys as $key) {
-    unset($list_add_task_tmp[$key]);
-    unset($list_delete_task[$key]);
-}
-$list_add_task = array_merge($list_add_task, $list_add_task_tmp);
+$list_add_task = array_merge($list_add_task, get_task_highway($mu));
 
 // Soccer Tasks
 $list_add_task = array_merge($list_add_task, get_task_soccer($mu));
@@ -226,8 +220,6 @@ foreach ($list_holiday2 as $key => $value) {
     }
 }
 
-error_log($pid . ' $list_add_task : ' . print_r($list_add_task, true));
-
 // 和風月名追加 (folder が LABEL で同じ title が無ければ追加)
 
 for ($y = date('Y'); $y < date('Y') + 4; $y++) {
@@ -250,6 +242,8 @@ for ($y = date('Y'); $y < date('Y') + 4; $y++) {
         }
     }
 }
+
+error_log($pid . ' $list_add_task : ' . print_r($list_add_task, true));
 
 // Add Tasks
 $rc = $mu->add_tasks($list_add_task);
