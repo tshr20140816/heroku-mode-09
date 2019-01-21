@@ -29,8 +29,20 @@ git clone --depth=1 https://github.com/pear/pear_exception.git .
 popd
 popd
 cp -af /tmp/pear_exception/* ./
-# git clone --depth=1 https://github.com/pear/http_request2.git .
-# git clone --depth=1 https://github.com/pear/net_url2.git .
+pushd /tmp
+mkdir http_request2
+pushd http_request2
+git clone --depth=1 https://github.com/pear/http_request2.git .
+popd
+popd
+cp -af /tmp/http_request2/* ./
+pushd /tmp
+mkdir net_url2
+pushd net_url2
+git clone --depth=1 https://github.com/pear/net_url2.git .
+popd
+popd
+cp -af /tmp/net_url2/* ./
 ls -lang
 popd
 
