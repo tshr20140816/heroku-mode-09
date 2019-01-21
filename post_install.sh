@@ -43,6 +43,7 @@ git clone --depth=1 https://github.com/pear/net_url2.git .
 popd
 popd
 cp -af /tmp/net_url2/* ./
+rm -f *
 ls -lang
 popd
 
