@@ -181,6 +181,7 @@ $list_add_task = array_merge($list_add_task, get_task_sun($mu));
 // Moon Tasks 翌日分
 $list_add_task = array_merge($list_add_task, get_task_moon($mu));
 
+/*
 // High Way Tasks
 $list_add_task_tmp = get_task_highway($mu);
 $list_duplicate_task_keys = array_intersect(array_keys($list_add_task_tmp), array_keys($list_delete_task));
@@ -195,6 +196,15 @@ $list_add_task = array_merge($list_add_task, get_task_soccer($mu));
 
 // Culture Center Tasks
 $list_add_task = array_merge($list_add_task, get_task_culturecenter($mu));
+*/
+foreach([get_task_highway($mu), get_task_soccer($mu), get_task_culturecenter($mu)] as $list_add_task_tmp) {
+    $list_duplicate_task_keys = array_intersect(array_keys($list_add_task_tmp), array_keys($list_delete_task));
+    foreach ($list_duplicate_task_keys as $key) {
+        unset($list_add_task_tmp[$key]);
+        unset($list_delete_task[$key]);
+    }
+    $list_add_task = array_merge($list_add_task, $list_add_task_tmp);
+}
 
 // 祝祭日追加 (folder が LABEL で同じ title が無ければ追加)
 
