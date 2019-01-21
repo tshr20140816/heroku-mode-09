@@ -191,7 +191,7 @@ $list_add_task = array_merge($list_add_task, get_task_soccer($mu));
 // Culture Center Tasks
 $list_add_task = array_merge($list_add_task, get_task_culturecenter($mu));
 */
-foreach([get_task_highway($mu), get_task_soccer($mu), get_task_culturecenter($mu)] as $list_add_task_tmp) {
+foreach ([get_task_highway($mu), get_task_soccer($mu), get_task_culturecenter($mu)] as $list_add_task_tmp) {
     $list_duplicate_task_keys = array_intersect(array_keys($list_add_task_tmp), array_keys($list_delete_task));
     foreach ($list_duplicate_task_keys as $key) {
         unset($list_add_task_tmp[$key]);
