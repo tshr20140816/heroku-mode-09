@@ -54,10 +54,14 @@ function check_version_apache($mu_)
     $y = 2019;
     $m = 1;
     foreach($matches as $match) {
+        $list[] = str_pad($m, 2, '0', STR_PAD_LEFT) . '/' . str_pad(trim($match[1], '日'), 2, '0', STR_PAD_LEFT) . ' ' . mb_convert_kana(strip_tags($match[2]), 'a');
+        /*
         array_shift($match);
         $match[0] = trim($match[0], '日');
         $match[1] = mb_convert_kana(strip_tags($match[1]), 'a');
         error_log(print_r($match, true));
+        */
     }
+    error_log(print_r($list, true));
     
 }
