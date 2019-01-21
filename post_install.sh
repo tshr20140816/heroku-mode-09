@@ -28,7 +28,7 @@ pushd pear_exception
 git clone --depth=1 https://github.com/pear/pear_exception.git .
 popd
 popd
-cp -af /tmp/pear_exception ./
+cp -af /tmp/pear_exception/* ./
 # git clone --depth=1 https://github.com/pear/http_request2.git .
 # git clone --depth=1 https://github.com/pear/net_url2.git .
 ls -lang
