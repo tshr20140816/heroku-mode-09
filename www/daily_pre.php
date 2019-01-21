@@ -13,6 +13,12 @@ $mu = new MyUtils();
 
 //
 
+$yyyy = date('Y');
+$url = "https://e-moon.net/calendar_list/calendar_moon_${yyyy}/";
+$res = $mu->get_contents($url, null, true);
+
+//
+
 $url = 'https://www.w-nexco.co.jp/traffic_info/construction/traffic.php?fdate='
     . date('Ymd', strtotime('+1 day'))
     . '&tdate='
