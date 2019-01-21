@@ -55,11 +55,12 @@ function check_version_apache2($mu_)
             }
             $title = $match[1] . '/' . $match[2] . ' ' . $match[3] . ':' . $match[4] . ' ' .  $match[5] . ' ★';
             $timestamp = mktime(0, 0, 0, $match[1], $match[2], $y + $i);
+            $hash = date('Ymd', $timestamp) . hash('sha512', $title);
             
             $tmp = str_replace('__TITLE__', $title, $add_task_template);
             $tmp = str_replace('__DUEDATE__', $timestamp, $tmp);
             $tmp = str_replace('__CONTEXT__', $list_context_id[date('w', $timestamp)], $tmp);
-            $list_add_task[] = $tmp;
+            $list_add_task[$hash] = $tmp;
         }
     }
     
