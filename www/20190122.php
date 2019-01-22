@@ -84,6 +84,7 @@ for ($j = getenv('TEST_START_NUMBER'); $j < 1500; $j++) {
                 ],
             CURLOPT_COOKIEJAR => $cookie,
             CURLOPT_COOKIEFILE => $cookie,
+            CURLOPT_TIMEOUT => 20,
         ];
 
         $res = $mu->get_contents($url, $options);
