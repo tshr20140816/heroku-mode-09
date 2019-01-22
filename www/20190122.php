@@ -83,7 +83,9 @@ for ($i = 0; $i < 10; $i++) {
 
     $res = $mu->get_contents($url, $options);
 
-    // error_log($res);
+    error_log($res);
+    
+    break;
 
     $res = explode('<div class="pager">', $res)[1];
     $items = explode('<div class="rentalable">', $res);
