@@ -60,6 +60,7 @@ $options = [
     CURLOPT_COOKIEFILE => $cookie,
     CURLOPT_POST => true,
     CURLOPT_POSTFIELDS => http_build_query($post_data),
+    CURLOPT_NOBODY => true,
 ];
 
 $res = $mu->get_contents($url, $options);
@@ -98,6 +99,7 @@ foreach ($items as $item) {
     }
     array_shift($match);
     error_log(print_r($match, true));
+    break;
 }
 
 //$rc = preg_match_all('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $res, $matches, PREG_SET_ORDER);
