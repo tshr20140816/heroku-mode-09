@@ -92,10 +92,11 @@ $items = explode('<div class="rentalable">', $res);
 // error_log(print_r($items, true));
 
 foreach ($items as $item) {
-    $rc = preg_match('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $res, $match);
+    $rc = preg_match('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $item, $match);
     if ($rc != 1) {
         continue;
     }
+    array_shift($match);
     error_log(print_r($match, true));
 }
 
