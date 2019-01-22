@@ -65,7 +65,7 @@ $res = $mu->get_contents($url, $options);
 
 $count = 0;
 for ($i = 0; $i < 10; $i++) {
-    $url = getenv('TEST_URL_020') . ($i + 9);
+    $url = getenv('TEST_URL_020') . ($i + 1);
     // $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'];
 
     $options = [
