@@ -82,7 +82,7 @@ for ($i = 0; $i < 10; $i++) {
 
     $res = $mu->get_contents($url, $options);
 
-    error_log($res);
+    // error_log($res);
 
     $res = explode('<div class="pager">', $res)[1];
     $items = explode('<div class="rentalable">', $res);
@@ -109,7 +109,7 @@ for ($i = 0; $i < 10; $i++) {
         }
         error_log("own : ${coin_own} / need : ${coin_need}");
         $res = $mu->get_contents($url, $options);
-        break;
+        // break;
     }
     break;
 }
