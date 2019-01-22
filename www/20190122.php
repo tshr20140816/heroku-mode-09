@@ -7,6 +7,17 @@ $requesturi = $_SERVER['REQUEST_URI'];
 $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
+if (!isset($_GET['n'])
+    || $_GET['n'] === ''
+    || is_array($_GET['n'])
+    || !ctype_digit($_GET['n'])
+   ) {
+    error_log("${pid} FINISH Invalid Param");
+    exit();
+}
+
+$n = (int)$_GET['n'];
+
 $mu = new MyUtils();
 
 $cookie = $tmpfname = tempnam("/tmp", time());
@@ -67,10 +78,10 @@ error_log($res);
 
 // exit();
 
-for ($j = getenv('TEST_START_NUMBER'); $j < 1500; $j++) {
+for ($j = $n; $j < 1500; $j++) {
     for ($i = 0; $i < 12; $i++) {
         $continue_flag = false;
-        $url = str_replace('__NUMBER__', ($j + 1), getenv('TEST_URL_020')) . ($i + 1);
+        $url = str_replace('__NUMBER__', $j, getenv('TEST_URL_020')) . ($i + 1);
 
         $options = [
             CURLOPT_ENCODING => 'gzip, deflate, br',
