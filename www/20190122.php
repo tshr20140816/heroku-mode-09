@@ -170,4 +170,4 @@ for ($j = $n; $j < 1500; $j++) {
 error_log(file_get_contents($cookie));
 
 $time_finish = microtime(true);
-error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ');
+error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's');
