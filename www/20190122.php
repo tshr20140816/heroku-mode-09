@@ -103,11 +103,7 @@ foreach ($items as $item) {
     $res = $mu->get_contents($url, $options);
     error_log($res);
     
-    $rc = preg_match('/<a id=".+?type_free.+?href="(.+?)".*?>(.+?)</s', $res, $match);
-    array_shift($match);
-    error_log(print_r($match, true));
-    
-    $rc = preg_match('/<p class="coinRight2_blue">(.+?)</p>/s', $res, $match);
+    $rc = preg_match('/<a id=".+?type_free.+?href="(.+?)".*?>(.+?)<.+?<p class="coinRight2_blue">(.+?)</s', $res, $match);
     array_shift($match);
     error_log(print_r($match, true));
     break;
