@@ -64,7 +64,7 @@ $res = $mu->get_contents($url, $options);
 // error_log($res);
 
 for ($i = 0; $i < 10; $i++) {
-    $url = getenv('TEST_URL_020');
+    $url = getenv('TEST_URL_020') . ($i + 1);
 
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
