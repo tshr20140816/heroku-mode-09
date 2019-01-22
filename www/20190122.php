@@ -101,7 +101,10 @@ foreach ($items as $item) {
     
     $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
     $res = $mu->get_contents($url, $options);
-    error_log($res);
+    // error_log($res);
+    $rc = preg_match('/<a id=".+?type_free.+?href="(.+?)".*?>(.+?)</s', $res, $match);
+    array_shift($match);
+    error_log(print_r($match, true));
     break;
 }
 
