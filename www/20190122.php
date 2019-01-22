@@ -64,7 +64,7 @@ $res = $mu->get_contents($url, $options);
 // error_log($res);
 
 $count = 0;
-for ($i = 0; $i < 10; $i++) {
+for ($i = 0; $i < 6; $i++) {
     $url = getenv('TEST_URL_020') . ($i + 1);
     // $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'];
 
@@ -84,9 +84,9 @@ for ($i = 0; $i < 10; $i++) {
 
     $res = $mu->get_contents($url, $options);
 
-    error_log($res);
+    // error_log($res);
     
-    break;
+    // break;
 
     $res = explode('<div class="pager">', $res)[1];
     $items = explode('<div class="rentalable">', $res);
