@@ -99,6 +99,9 @@ $options3 = [
 // error_log($res);
 
 for ($j = $n; $j < 1500; $j++) {
+    if ((int)date('i') < 8) {
+        break;
+    }
     $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/api/v1/me/coin';
     $res = $mu->get_contents($url, $options3);
     error_log($res);
