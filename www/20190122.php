@@ -132,7 +132,8 @@ for ($j = $n; $j < 1500; $j++) {
                 $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
                 error_log("own : ${coin_own} / need : ${coin_need}");
                 if ($coin_own < $coin_need) {
-                    continue;
+                    // continue;
+                    break 3;
                 }
                 $urls[$url] = $options;
             }
