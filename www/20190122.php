@@ -29,7 +29,13 @@ $options = [
 
 $res = $mu->get_contents($url, $options);
 
-error_log($res);
+// error_log($res);
+
+$rc = preg_match_all('/<input.+?name="(.+?)".+?value="(.*?)"/s', $res, $matches,  PREG_SET_ORDER);
+
+error_log(print_r($matches, true));
+
+
 error_log(file_get_contents($cookie));
 
 $time_finish = microtime(true);
