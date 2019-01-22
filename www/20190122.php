@@ -110,6 +110,7 @@ for ($i = 0; $i < 10; $i++) {
         error_log("own : ${coin_own} / need : ${coin_need}");
         $res = $mu->get_contents($url, $options);
         // break;
+        sleep(2);
     }
     break;
 }
