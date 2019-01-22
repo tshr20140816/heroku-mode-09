@@ -112,12 +112,14 @@ for ($i = 0; $i < 12; $i++) {
             continue;
         }
         error_log("own : ${coin_own} / need : ${coin_need}");
-        // $res = $mu->get_contents($url, $options);
-        $urls[$url] = $options;
+        $res = $mu->get_contents($url, $options);
+        // $urls[$url] = $options;
     }
+    /*
     if (count($urls) > 0) {
         $mu->get_contents_multi($urls, null);
     }
+    */
     // break;
 }
 
