@@ -63,9 +63,10 @@ $res = $mu->get_contents($url, $options);
 
 // error_log($res);
 
+for ($j = 0; $j < 1000; $j++) {
 for ($i = 0; $i < 12; $i++) {
-    $url = getenv('TEST_URL_020') . ($i + 1);
-    // $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/chapter';
+    $url = str_replace('__NUMBER__', $j, getenv('TEST_URL_020')) . ($i + 1);
+    //$url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/chapter';
 
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
@@ -119,6 +120,7 @@ for ($i = 0; $i < 12; $i++) {
         $mu->get_contents_multi($urls, null);
     }
     // break;
+}
 }
 
 //$rc = preg_match_all('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $res, $matches, PREG_SET_ORDER);
