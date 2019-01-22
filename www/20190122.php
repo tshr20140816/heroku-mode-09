@@ -66,7 +66,7 @@ $res = $mu->get_contents($url, $options);
 $count = 0;
 for ($i = 0; $i < 6; $i++) {
     $url = getenv('TEST_URL_020') . ($i + 1);
-    // $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'];
+    $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/chapter';
 
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
