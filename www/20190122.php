@@ -66,7 +66,8 @@ $res = $mu->get_contents($url, $options);
 
 // error_log($res);
 
-$url = 'https://' . parse_url($url)['host'];
+// $url = 'https://' . parse_url($url)['host'];
+$url = getenv('TEST_URL_020');
 
 $options = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
