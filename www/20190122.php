@@ -79,7 +79,7 @@ error_log($res);
 
 // exit();
 
-$url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/api/v1/me/coin';
+// $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/api/v1/me/coin';
 
 $options3 = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
@@ -95,11 +95,14 @@ $options3 = [
     CURLOPT_COOKIEFILE => $cookie,
 ];
 
-$res = $mu->get_contents($url, $options3);
-
-error_log($res);
+// $res = $mu->get_contents($url, $options3);
+// error_log($res);
 
 for ($j = $n; $j < 1500; $j++) {
+    $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/api/v1/me/coin';
+    $res = $mu->get_contents($url, $options3);
+    error_log($res);
+    
     for ($i = 0; $i < 12; $i++) {
         $continue_flag = false;
         $url = str_replace('__NUMBER__', $j, getenv('TEST_URL_020')) . ($i + 1);
