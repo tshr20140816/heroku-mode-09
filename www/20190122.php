@@ -111,7 +111,7 @@ for ($i = 0; $i < 10; $i++) {
         error_log("own : ${coin_own} / need : ${coin_need}");
         $res = $mu->get_contents($url, $options);
         // break;
-        sleep(1);
+        usleep(500000);
         $count++;
         if ($count > 30) {
             break 2;
