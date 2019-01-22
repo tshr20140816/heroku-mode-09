@@ -33,9 +33,38 @@ $res = $mu->get_contents($url, $options);
 
 $rc = preg_match('/<input.+?name="utf8".+?value="(.*?)"/s', $res, $match);
 error_log(print_r($match, true));
+$utf8 = $match[1];
 
 $rc = preg_match('/<input.+?name="authenticity_token".+?value="(.*?)"/s', $res, $match);
 error_log(print_r($match, true));
+$authenticity_token = $match[1];
+
+$post_data = [
+    'utf8' => $utf8,
+    'authenticity_token' => $authenticity_token,
+    'account[email]' => getenv('TEST_ID'),
+    'account[password]' => getenv('TEST_PASSWORD'),    
+];
+
+$options = [
+    CURLOPT_ENCODING => 'gzip, deflate, br',
+    CURLOPT_HTTPHEADER => [
+        'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+        'Cache-Control: no-cache',
+        'Connection: keep-alive',
+        'DNT: 1',
+        'Upgrade-Insecure-Requests: 1',
+        ],
+    CURLOPT_COOKIEJAR => $cookie,
+    CURLOPT_COOKIEFILE => $cookie,
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => http_build_query($post_data),
+];
+
+$res = $mu->get_contents($url, $options);
+
+error_log($res);
 
 
 error_log(file_get_contents($cookie));
