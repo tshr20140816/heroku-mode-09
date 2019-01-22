@@ -89,9 +89,15 @@ $res = $mu->get_contents($url, $options);
 
 $res = explode('<div class="pager">', $res)[1];
 $items = explode('<div class="rentalable">', $res);
-error_log(print_r($items, true));
+// error_log(print_r($items, true));
 
-//<div class="rentalable">
+foreach ($items as $item) {
+    $rc = preg_match('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $res, $match);
+    if ($rc != 1) {
+        continue;
+    }
+    error_log(print_r($match, true));
+}
 
 //$rc = preg_match_all('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $res, $matches, PREG_SET_ORDER);
 //error_log(print_r($matches, true));
