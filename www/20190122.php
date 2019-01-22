@@ -65,6 +65,7 @@ $res = $mu->get_contents($url, $options);
 
 for ($j = 35; $j < 1000; $j++) {
     for ($i = 0; $i < 12; $i++) {
+        $continue_flag = false;
         $url = str_replace('__NUMBER__', ($j + 1), getenv('TEST_URL_020')) . ($i + 1);
 
         $options = [
@@ -96,6 +97,7 @@ for ($j = 35; $j < 1000; $j++) {
 
             $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
             $urls[$url] = $options;
+            $continue_flag = true;
         }
         if (count($urls) > 0) {
             $results = $mu->get_contents_multi($urls, null);
@@ -116,6 +118,9 @@ for ($j = 35; $j < 1000; $j++) {
             if (count($urls) > 0) {
                 $mu->get_contents_multi($urls, null);
             }
+        }
+        if ($continue_flag === false) {
+            break;
         }
     }
 }
