@@ -87,7 +87,7 @@ $res = $mu->get_contents($url, $options);
 
 // error_log($res);
 
-$res = explode('<main>', $res)[1];
+$res = explode('<div class="pager">', $res)[1];
 
 $rc = preg_match_all('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $res, $matches, PREG_SET_ORDER );
 error_log(print_r($matches, true));
