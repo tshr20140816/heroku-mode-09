@@ -63,6 +63,7 @@ $res = $mu->get_contents($url, $options);
 
 // error_log($res);
 
+$count = 0;
 for ($i = 0; $i < 10; $i++) {
     $url = getenv('TEST_URL_020') . ($i + 1);
 
@@ -110,9 +111,13 @@ for ($i = 0; $i < 10; $i++) {
         error_log("own : ${coin_own} / need : ${coin_need}");
         $res = $mu->get_contents($url, $options);
         // break;
-        sleep(2);
+        sleep(1);
+        $count++;
+        if ($count > 30) {
+            break 2;
+        }
     }
-    break;
+    // break;
 }
 
 //$rc = preg_match_all('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $res, $matches, PREG_SET_ORDER);
