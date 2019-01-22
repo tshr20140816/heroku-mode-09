@@ -63,7 +63,7 @@ $res = $mu->get_contents($url, $options);
 
 // error_log($res);
 
-for ($j = 0; $j < 1000; $j++) {
+for ($j = 35; $j < 1000; $j++) {
     for ($i = 0; $i < 12; $i++) {
         $url = str_replace('__NUMBER__', ($j + 1), getenv('TEST_URL_020')) . ($i + 1);
 
