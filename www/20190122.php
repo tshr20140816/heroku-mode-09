@@ -64,63 +64,60 @@ $res = $mu->get_contents($url, $options);
 // error_log($res);
 
 for ($j = 0; $j < 1000; $j++) {
-for ($i = 0; $i < 12; $i++) {
-    $url = str_replace('__NUMBER__', $j, getenv('TEST_URL_020')) . ($i + 1);
-    //$url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/chapter';
+    for ($i = 0; $i < 12; $i++) {
+        $url = str_replace('__NUMBER__', ($j + 1), getenv('TEST_URL_020')) . ($i + 1);
 
-    $options = [
-        CURLOPT_ENCODING => 'gzip, deflate, br',
-        CURLOPT_HTTPHEADER => [
-            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
-            'Cache-Control: no-cache',
-            'Connection: keep-alive',
-            'DNT: 1',
-            'Upgrade-Insecure-Requests: 1',
-            ],
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
-    ];
+        $options = [
+            CURLOPT_ENCODING => 'gzip, deflate, br',
+            CURLOPT_HTTPHEADER => [
+                'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+                'Cache-Control: no-cache',
+                'Connection: keep-alive',
+                'DNT: 1',
+                'Upgrade-Insecure-Requests: 1',
+                ],
+            CURLOPT_COOKIEJAR => $cookie,
+            CURLOPT_COOKIEFILE => $cookie,
+        ];
 
-    $res = $mu->get_contents($url, $options);
-
-    // error_log($res);
-    
-    // break;
-
-    $res = explode('<div class="pager">', $res)[1];
-    $items = explode('<div class="rentalable">', $res);
-    // error_log(print_r($items, true));
-
-    $urls = [];
-    foreach ($items as $item) {
-        $rc = preg_match('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $item, $match);
-        if ($rc != 1) {
-            continue;
-        }
-        // array_shift($match);
-        // error_log(print_r($match, true));
-
-        $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
         $res = $mu->get_contents($url, $options);
-        // error_log($res);
 
-        $rc = preg_match('/<a id=".+?type_free.+?href="(.+?)".*?>(.+?)<.+?<p class="coinRight2_blue">(.+?)</s', $res, $match);
-        $coin_own = (int)$match[3];
-        $coin_need = (int)trim($match[2]);
-        $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
-        error_log("own : ${coin_own} / need : ${coin_need}");
-        if ($coin_own < $coin_need) {
-            continue;
+        $res = explode('<div class="pager">', $res)[1];
+        $items = explode('<div class="rentalable">', $res);
+
+        $urls = [];
+        $results = [];
+        foreach ($items as $item) {
+            $rc = preg_match('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $item, $match);
+            if ($rc != 1) {
+                continue;
+            }
+
+            $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
+            $urls[$url] = $options;
         }
-        // $res = $mu->get_contents($url, $options);
-        $urls[$url] = $options;
+        if (count($urls) > 0) {
+            $results = $mu->get_contents_multi($urls, null);
+        }
+        $urls = [];
+        if (count($results) > 0) {
+            foreach ($results as $result) {
+                $rc = preg_match('/<a id=".+?type_free.+?href="(.+?)".*?>(.+?)<.+?<p class="coinRight2_blue">(.+?)</s', $result, $match);
+                $coin_own = (int)$match[3];
+                $coin_need = (int)trim($match[2]);
+                $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
+                error_log("own : ${coin_own} / need : ${coin_need}");
+                if ($coin_own < $coin_need) {
+                    continue;
+                }
+                $urls[$url] = $options;
+            }
+            if (count($urls) > 0) {
+                $mu->get_contents_multi($urls, null);
+            }
+        }
     }
-    if (count($urls) > 0) {
-        $mu->get_contents_multi($urls, null);
-    }
-    // break;
-}
 }
 
 //$rc = preg_match_all('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $res, $matches, PREG_SET_ORDER);
