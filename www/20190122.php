@@ -108,10 +108,10 @@ for ($i = 0; $i < 12; $i++) {
         $coin_own = (int)$match[3];
         $coin_need = (int)trim($match[2]);
         $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
+        error_log("own : ${coin_own} / need : ${coin_need}");
         if ($coin_own < $coin_need) {
             continue;
         }
-        error_log("own : ${coin_own} / need : ${coin_need}");
         $res = $mu->get_contents($url, $options);
         // $urls[$url] = $options;
     }
