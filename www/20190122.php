@@ -61,9 +61,13 @@ $options = [
 
 $res = $mu->get_contents($url, $options);
 
-// error_log($res);
+error_log($res);
 
-for ($j = 54; $j < 1000; $j++) {
+error_log(file_get_contents($cookie));
+
+exit();
+
+for ($j = 373; $j < 1000; $j++) {
     for ($i = 0; $i < 12; $i++) {
         $continue_flag = false;
         $url = str_replace('__NUMBER__', ($j + 1), getenv('TEST_URL_020')) . ($i + 1);
