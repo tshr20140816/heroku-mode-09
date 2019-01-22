@@ -24,7 +24,7 @@ $cookie = $tmpfname = tempnam("/tmp", time());
 
 $url = getenv('TEST_URL_010');
 
-$options = [
+$options1 = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
     CURLOPT_HTTPHEADER => [
         'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -36,9 +36,10 @@ $options = [
         ],
     CURLOPT_COOKIEJAR => $cookie,
     CURLOPT_COOKIEFILE => $cookie,
+    CURLOPT_TIMEOUT => 20,
 ];
 
-$res = $mu->get_contents($url, $options);
+$res = $mu->get_contents($url, $options1);
 
 // error_log($res);
 
@@ -54,7 +55,7 @@ $post_data = [
     'account[password]' => getenv('TEST_PASSWORD'),    
 ];
 
-$options = [
+$options2 = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
     CURLOPT_HTTPHEADER => [
         'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -70,7 +71,7 @@ $options = [
     CURLOPT_POSTFIELDS => http_build_query($post_data),
 ];
 
-$res = $mu->get_contents($url, $options);
+$res = $mu->get_contents($url, $options2);
 
 error_log($res);
 
@@ -80,7 +81,7 @@ error_log($res);
 
 $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/api/v1/me/coin';
 
-$options = [
+$options3 = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
     CURLOPT_HTTPHEADER => [
         'Accept: application/json, text/javascript, */*; q=0.01',
@@ -94,7 +95,7 @@ $options = [
     CURLOPT_COOKIEFILE => $cookie,
 ];
 
-$res = $mu->get_contents($url, $options);
+$res = $mu->get_contents($url, $options3);
 
 error_log($res);
 
@@ -103,27 +104,7 @@ for ($j = $n; $j < 1500; $j++) {
         $continue_flag = false;
         $url = str_replace('__NUMBER__', $j, getenv('TEST_URL_020')) . ($i + 1);
 
-        $options = [
-            CURLOPT_ENCODING => 'gzip, deflate, br',
-            CURLOPT_HTTPHEADER => [
-                'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
-                'Cache-Control: no-cache',
-                'Connection: keep-alive',
-                'DNT: 1',
-                'Upgrade-Insecure-Requests: 1',
-                ],
-            CURLOPT_COOKIEJAR => $cookie,
-            CURLOPT_COOKIEFILE => $cookie,
-            CURLOPT_TIMEOUT => 20,
-        ];
-
-        $res = $mu->get_contents($url, $options);
-        /*
-        if ($res == '404') {
-            break 2;
-        }
-        */
+        $res = $mu->get_contents($url, $options1);
 
         $res = explode('<div class="pager">', $res)[1];
         $items = explode('<div class="rentalable">', $res);
@@ -137,7 +118,7 @@ for ($j = $n; $j < 1500; $j++) {
             }
 
             $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
-            $urls[$url] = $options;
+            $urls[$url] = $options1;
             $continue_flag = true;
         }
         if (count($urls) > 0) {
@@ -155,7 +136,7 @@ for ($j = $n; $j < 1500; $j++) {
                     // continue;
                     break 3;
                 }
-                $urls[$url] = $options;
+                $urls[$url] = $options1;
             }
             if (count($urls) > 0) {
                 $mu->get_contents_multi($urls, null);
