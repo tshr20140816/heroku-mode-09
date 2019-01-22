@@ -63,7 +63,6 @@ $res = $mu->get_contents($url, $options);
 
 // error_log($res);
 
-$count = 0;
 for ($i = 0; $i < 12; $i++) {
     $url = getenv('TEST_URL_020') . ($i + 1);
     // $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/chapter';
@@ -92,6 +91,7 @@ for ($i = 0; $i < 12; $i++) {
     $items = explode('<div class="rentalable">', $res);
     // error_log(print_r($items, true));
 
+    $urls = [];
     foreach ($items as $item) {
         $rc = preg_match('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $item, $match);
         if ($rc != 1) {
@@ -112,15 +112,11 @@ for ($i = 0; $i < 12; $i++) {
             continue;
         }
         error_log("own : ${coin_own} / need : ${coin_need}");
-        $res = $mu->get_contents($url, $options);
-        // break;
-        usleep(100000);
-        $count++;
-        /*
-        if ($count > 30) {
-            break 2;
-        }
-        */
+        // $res = $mu->get_contents($url, $options);
+        $urls[$url] = $options;
+    }
+    if (count($urls) > 0) {
+        $mu->get_contents_multi($urls, null);
     }
     // break;
 }
