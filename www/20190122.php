@@ -31,13 +31,10 @@ $res = $mu->get_contents($url, $options);
 
 // error_log($res);
 
-$rc = preg_match('/<input.+?name="utf8".+?value="(.*?)"/s', $res, $match);
+$rc = preg_match('/<input.+?name="utf8".+?value="(.*?)".+?<input.+?name="authenticity_token".+?value="(.*?)"/s', $res, $match);
 error_log(print_r($match, true));
 $utf8 = $match[1];
-
-$rc = preg_match('/<input.+?name="authenticity_token".+?value="(.*?)"/s', $res, $match);
-error_log(print_r($match, true));
-$authenticity_token = $match[1];
+$authenticity_token = $match[2];
 
 $post_data = [
     'utf8' => $utf8,
