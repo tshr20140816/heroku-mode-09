@@ -64,9 +64,9 @@ $res = $mu->get_contents($url, $options);
 // error_log($res);
 
 $count = 0;
-for ($i = 0; $i < 6; $i++) {
+for ($i = 0; $i < 9; $i++) {
     $url = getenv('TEST_URL_020') . ($i + 1);
-    $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/chapter';
+    // $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/chapter';
 
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
@@ -84,9 +84,9 @@ for ($i = 0; $i < 6; $i++) {
 
     $res = $mu->get_contents($url, $options);
 
-    error_log($res);
+    // error_log($res);
     
-    break;
+    // break;
 
     $res = explode('<div class="pager">', $res)[1];
     $items = explode('<div class="rentalable">', $res);
@@ -114,11 +114,13 @@ for ($i = 0; $i < 6; $i++) {
         error_log("own : ${coin_own} / need : ${coin_need}");
         $res = $mu->get_contents($url, $options);
         // break;
-        usleep(500000);
+        usleep(100000);
         $count++;
+        /*
         if ($count > 30) {
             break 2;
         }
+        */
     }
     // break;
 }
