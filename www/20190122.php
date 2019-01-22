@@ -82,7 +82,7 @@ $options = [
 
 $res = $mu->get_contents($url, $options);
 
-// error_log($res);
+error_log($res);
 
 $res = explode('<div class="pager">', $res)[1];
 $items = explode('<div class="rentalable">', $res);
