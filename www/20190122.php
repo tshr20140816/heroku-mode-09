@@ -27,6 +27,9 @@ $options = [
     CURLOPT_COOKIEFILE => $cookie,
 ];
 
+$res = $mu_->get_contents($url, $options);
+
+error_log($res);
 error_log(file_get_contents($cookie));
 
 $time_finish = microtime(true);
