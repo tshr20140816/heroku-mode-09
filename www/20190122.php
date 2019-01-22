@@ -63,9 +63,9 @@ $res = $mu->get_contents($url, $options);
 
 error_log($res);
 
-error_log(file_get_contents($cookie));
+// error_log(file_get_contents($cookie));
 
-exit();
+// exit();
 
 for ($j = 373; $j < 1000; $j++) {
     for ($i = 0; $i < 12; $i++) {
