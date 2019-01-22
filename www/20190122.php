@@ -96,8 +96,12 @@ foreach ($items as $item) {
     if ($rc != 1) {
         continue;
     }
-    array_shift($match);
-    error_log(print_r($match, true));
+    // array_shift($match);
+    // error_log(print_r($match, true));
+    
+    $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
+    $res = $mu->get_contents($url, $options);
+    error_log($res);
     break;
 }
 
