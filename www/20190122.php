@@ -83,7 +83,7 @@ $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/api/v1/me/coin
 $options = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
     CURLOPT_HTTPHEADER => [
-        'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept: application/json, text/javascript, */*; q=0.01',
         'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
         'Cache-Control: no-cache',
         'Connection: keep-alive',
