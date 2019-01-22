@@ -101,9 +101,13 @@ foreach ($items as $item) {
     error_log($res);
     
     $rc = preg_match('/<a id=".+?type_free.+?href="(.+?)".*?>(.+?)<.+?<p class="coinRight2_blue">(.+?)</s', $res, $match);
-    $match[2] = trim($match[2]);
-    array_shift($match);
-    error_log(print_r($match, true));
+    $coin_own = (int)$match[3];
+    $coin_need = (int)trim($match[2]);
+    $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
+    if ($coin_own < $coin_need) {
+        continue;
+    }
+    $res = $mu->get_contents($url, $options);
     break;
 }
 
