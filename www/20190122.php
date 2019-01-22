@@ -99,9 +99,11 @@ for ($j = $n; $j < 1500; $j++) {
         ];
 
         $res = $mu->get_contents($url, $options);
+        /*
         if ($res == '404') {
             break 2;
         }
+        */
 
         $res = explode('<div class="pager">', $res)[1];
         $items = explode('<div class="rentalable">', $res);
