@@ -101,6 +101,7 @@ foreach ($items as $item) {
     error_log($res);
     
     $rc = preg_match('/<a id=".+?type_free.+?href="(.+?)".*?>(.+?)<.+?<p class="coinRight2_blue">(.+?)</s', $res, $match);
+    $match[2] = trim($match[2]);
     array_shift($match);
     error_log(print_r($match, true));
     break;
