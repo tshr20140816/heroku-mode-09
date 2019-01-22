@@ -67,7 +67,7 @@ error_log($res);
 
 // exit();
 
-for ($j = 373; $j < 1000; $j++) {
+for ($j = 565; $j < 1000; $j++) {
     for ($i = 0; $i < 12; $i++) {
         $continue_flag = false;
         $url = str_replace('__NUMBER__', ($j + 1), getenv('TEST_URL_020')) . ($i + 1);
