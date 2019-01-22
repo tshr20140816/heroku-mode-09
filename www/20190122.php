@@ -167,9 +167,6 @@ for ($j = $n; $j < 1500; $j++) {
     }
 }
 
-//$rc = preg_match_all('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $res, $matches, PREG_SET_ORDER);
-//error_log(print_r($matches, true));
-
 error_log(file_get_contents($cookie));
 
 $time_finish = microtime(true);
