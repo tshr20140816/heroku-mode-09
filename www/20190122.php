@@ -31,9 +31,11 @@ $res = $mu->get_contents($url, $options);
 
 // error_log($res);
 
-$rc = preg_match_all('/<input.+?name="(.+?)".+?value="(.*?)"/s', $res, $matches,  PREG_SET_ORDER);
+$rc = preg_match('/<input.+?name="utf8".+?value="(.*?)"/s', $res, $match);
+error_log(print_r($match, true));
 
-error_log(print_r($matches, true));
+$rc = preg_match('/<input.+?name="authenticity_token".+?value="(.*?)"/s', $res, $match);
+error_log(print_r($match, true));
 
 
 error_log(file_get_contents($cookie));
