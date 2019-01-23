@@ -110,6 +110,21 @@ $options4 = [
         ],
 ];
 
+$options5 = [
+    CURLOPT_ENCODING => 'gzip, deflate, br',
+    CURLOPT_HTTPHEADER => [
+        'Accept: application/json, text/javascript, */*; q=0.01',
+        'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+        'Cache-Control: no-cache',
+        'Connection: keep-alive',
+        'DNT: 1',
+        'Upgrade-Insecure-Requests: 1',
+        ],
+    CURLOPT_COOKIEJAR => $cookie,
+    CURLOPT_COOKIEFILE => $cookie,
+    CURLOPT_NOBODY => true,
+];
+
 for ($j = $n; $j < 1500; $j++) {
     if ((int)date('i') < 8) {
         break;
