@@ -98,6 +98,18 @@ $options3 = [
 // $res = $mu->get_contents($url, $options3);
 // error_log($res);
 
+$options4 = [
+    CURLOPT_ENCODING => 'gzip, deflate, br',
+    CURLOPT_HTTPHEADER => [
+        'Accept: application/json, text/javascript, */*; q=0.01',
+        'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+        'Cache-Control: no-cache',
+        'Connection: keep-alive',
+        'DNT: 1',
+        'Upgrade-Insecure-Requests: 1',
+        ],
+];
+
 for ($j = $n; $j < 1500; $j++) {
     if ((int)date('i') < 8) {
         break;
@@ -109,6 +121,11 @@ for ($j = $n; $j < 1500; $j++) {
     for ($i = 0; $i < 12; $i++) {
         $continue_flag = false;
         $url = str_replace('__NUMBER__', $j, getenv('TEST_URL_020')) . ($i + 1);
+        
+        $res = $mu->get_contents($url, $options4);
+        if ($res == '404') {
+            break;
+        }
 
         $res = $mu->get_contents($url, $options1);
 
