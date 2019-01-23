@@ -156,7 +156,7 @@ for ($j = $n; $j < 1500; $j++) {
                 $coin_need = (int)trim($match[2]);
                 $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
                 error_log("own : ${coin_own} / need : ${coin_need}");
-                if ($coin_own < $coin_need) {
+                if ($coin_own == 0) {
                     // continue;
                     break 3;
                 }
