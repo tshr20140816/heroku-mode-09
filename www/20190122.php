@@ -150,7 +150,7 @@ for ($j = $n; $j < 1500; $j++) {
         $urls = [];
         if (count($results) > 0) {
             foreach ($results as $result) {
-                error_log($result);
+                // error_log($result);
                 $rc = preg_match('/<a id=".+?type_free.+?href="(.+?)".*?>(.+?)<.+?<p class="coinRight2_blue">(.+?)</s', $result, $match);
                 $coin_own = (int)$match[3];
                 $coin_need = (int)trim($match[2]);
