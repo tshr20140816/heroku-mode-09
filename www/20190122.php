@@ -156,18 +156,15 @@ for ($j = $n; $j < 1500; $j++) {
                 $coin_need = (int)trim($match[2]);
                 $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
                 error_log("own : ${coin_own} / need : ${coin_need}");
-                if ($coin_own < $coin_need || $coin_own == 0) {
+                if ($coin_own < $coin_need) {
                     // continue;
                     break 3;
                 }
-                // $urls[$url] = $options1;
-                $mu->get_contents($url, $options1);
+                $urls[$url] = $options1;
             }
-            /*
             if (count($urls) > 0) {
                 $mu->get_contents_multi($urls, null);
             }
-            */
         }
         if ($continue_flag === false) {
             break;
