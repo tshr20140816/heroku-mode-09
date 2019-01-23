@@ -141,12 +141,28 @@ for ($j = $n; $j < 1500; $j++) {
             }
 
             $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
-            $urls[$url] = $options1;
+            // $urls[$url] = $options1;
             $continue_flag = true;
+            $res = $mu->get_contents($url, $options1);
+            
+            $rc = preg_match('/<a id=".+?type_free.+?href="(.+?)".*?>(.+?)<.+?<p class="coinRight2_blue">(.+?)</s', $res, $match);
+            $coin_own = (int)$match[3];
+            $coin_need = (int)trim($match[2]);
+            $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
+            error_log("own : ${coin_own} / need : ${coin_need}");
+            if ($coin_own == 0) {
+                // continue;
+                break 3;
+            }
+            // $urls[$url] = $options1;
+            $res = $mu->get_contents($url, $options1);
         }
+        /*
         if (count($urls) > 0) {
             $results = $mu->get_contents_multi($urls, null);
         }
+        */
+        /*
         $urls = [];
         if (count($results) > 0) {
             foreach ($results as $result) {
@@ -163,12 +179,11 @@ for ($j = $n; $j < 1500; $j++) {
                 // $urls[$url] = $options1;
                 $res = $mu->get_contents($url, $options1);
             }
-            /*
             if (count($urls) > 0) {
                 $mu->get_contents_multi($urls, null);
             }
-            */
         }
+        */
         if ($continue_flag === false) {
             break;
         }
