@@ -22,42 +22,6 @@ $mu = new MyUtils();
 
 $cookie = $tmpfname = tempnam("/tmp", time());
 
-$url = getenv('TEST_URL_030');
-
-$options1 = [
-    CURLOPT_ENCODING => 'gzip, deflate, br',
-    CURLOPT_HTTPHEADER => [
-        'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
-        'Cache-Control: no-cache',
-        'Connection: keep-alive',
-        'DNT: 1',
-        'Upgrade-Insecure-Requests: 1',
-        ],
-    CURLOPT_COOKIEJAR => $cookie,
-    CURLOPT_COOKIEFILE => $cookie,
-    CURLOPT_TIMEOUT => 20,
-];
-
-$res = $mu->get_contents($url, $options1);
-
-$rc = preg_match_all('/<a href=".*?\/series\/(\d+)"/s', $res, $matches);
-
-$list_number = array_unique($matches[1]);
-sort($list_number, SORT_NUMERIC);
-
-$list_number[] = '881';
-$list_number[] = '1';
-
-for ($i = 0; $i < count($list_number); $i++) {
-    if ($list_number[$i] == $n) {
-        $list_number = array_slice($list_number, $i);
-        break;
-    }
-}
-
-error_log(print_r($list_number, true));
-
 $url = getenv('TEST_URL_010');
 
 $res = $mu->get_contents($url, $options1);
@@ -106,12 +70,12 @@ $options3 = [
     CURLOPT_COOKIEFILE => $cookie,
 ];
 
-foreach ($list_number as $number) {
+for ($j = $n; $j < 1500; $j++) {
     if ((int)date('i') < 8) {
         break;
     }
     
-    $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . '1';
+    $url = str_replace('__NUMBER__', $j, getenv('TEST_URL_020')) . '1';
     $res = $mu->get_contents($url, $options1);
     
     $rc = preg_match_all('/page=(\d+)"/s', $res, $matches);
