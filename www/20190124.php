@@ -18,6 +18,8 @@ if (!isset($_GET['n'])
 
 $n = (int)$_GET['n'];
 
+ini_set('max_execution_time', 3600);
+
 $mu = new MyUtils();
 
 $cookie = $tmpfname = tempnam("/tmp", time());
