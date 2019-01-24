@@ -48,7 +48,7 @@ sort($list_number, SORT_NUMERIC);
 
 if (file_exists('/tmp/list_number')) {
     $list_number_tmp = unserialize(file_get_contents($file_name));
-    array_merge($list_number, $list_number_tmp);
+    $list_number = array_merge($list_number, $list_number_tmp);
     array_unique($list_number);
 }
 
