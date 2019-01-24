@@ -48,7 +48,7 @@ for ($j = 1; $j < 1500; $j++) {
         continue;
     }
     
-    $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . '1';
+    $url = str_replace('__NUMBER__', $j, getenv('TEST_URL_020')) . '1';
     $res = $mu->get_contents($url, $options1);
 
     $rc = preg_match('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $res, $match);
