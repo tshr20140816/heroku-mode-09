@@ -91,7 +91,7 @@ for ($j = $n; $j < 1500; $j++) {
     
     for ($i = 0; $i < $loop_end; $i++) {
         $continue_flag = false;
-        $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . ($i + 1);
+        $url = str_replace('__NUMBER__', $j, getenv('TEST_URL_020')) . ($i + 1);
 
         if ($i > 0) {
             $res = $mu->get_contents($url, $options1);
@@ -125,7 +125,7 @@ for ($j = $n; $j < 1500; $j++) {
                 $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
                 error_log("own : ${coin_own} / need : ${coin_need}");
                 if ($coin_need > 49) {
-                    error_log("__OVER_50__ : ${coin_need} ${number}");
+                    error_log("__OVER_50__ : ${coin_need} ${j}");
                 }
                 $sum_point += $coin_need;
                 if ($coin_own == 0) {
@@ -135,7 +135,7 @@ for ($j = $n; $j < 1500; $j++) {
             }
         }
     }
-    error_log("__TOTAL_POINT__ : ${sum_point} ${number}");
+    error_log("__TOTAL_POINT__ : ${sum_point} ${j}");
 }
 
 $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/api/v1/me/coin';
