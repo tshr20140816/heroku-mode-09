@@ -589,12 +589,7 @@ __HEREDOC__;
             if (curl_multi_select($mh) == -1) {
                 usleep(1);
             }
-            try {
-                $rc = curl_multi_exec($mh, $active);
-            } catch (Exception $e) {
-                error_log($log_prefix . 'Exception : ' . $e->getMessage());
-                $rc = curl_multi_exec($mh, $active);
-            }
+            $rc = curl_multi_exec($mh, $active);
         }
         error_log($log_prefix . 'loop count : ' . $count);
 
