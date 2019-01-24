@@ -143,10 +143,15 @@ foreach ($list_number as $number) {
     $res = $mu->get_contents($url, $options1);
     
     $rc = preg_match_all('/page=(\d+)"/s', $res, $matches);
-    error_log(print_r($matches, true));
-    break;
     
-    for ($i = 0; $i < 12; $i++) {
+    $list_page = array_unique($matches[1]);
+    rsort($list_page, SORT_NUMERIC);
+    
+    error_log(print_r($list_page, true));
+    
+    $loop_end = $list_page[0] + 1;
+    
+    for ($i = 0; $i < $loop_end; $i++) {
         $continue_flag = false;
         $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . ($i + 1);
         
@@ -157,10 +162,9 @@ foreach ($list_number as $number) {
         }
         */
 
-        $res = $mu->get_contents($url, $options1);
-        
-        error_log($res);
-        break 2;
+        if ($i > 0) {
+            $res = $mu->get_contents($url, $options1);
+        }
 
         $res = explode('<div class="pager">', $res)[1];
         $items = explode('<div class="rentalable">', $res);
