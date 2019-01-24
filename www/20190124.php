@@ -139,6 +139,13 @@ foreach ($list_number as $number) {
         break;
     }
     
+    $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . '1';
+    $res = $mu->get_contents($url, $options1);
+    
+    $rc = preg_match_all('/?page=(\d+)"/s', $res, $matches);
+    error_log(print_r($matches, true));
+    break;
+    
     for ($i = 0; $i < 12; $i++) {
         $continue_flag = false;
         $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . ($i + 1);
