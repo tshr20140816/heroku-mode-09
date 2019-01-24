@@ -51,15 +51,14 @@ for ($j = 1; $j < 1500; $j++) {
     $url = str_replace('__NUMBER__', $j, getenv('TEST_URL_020')) . '1';
     $res = $mu->get_contents($url, $options1);
 
-    $rc = preg_match('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $res, $match);
-    
-    if ($rc != 1) {
+    $rc = preg_match('/ type_free "/s', $res, $match);
+    if (strpos($res, ' type_free ') === false) {
         continue;
     }
     $list_number[] = $j;
     
     file_put_contents($file_name, serialize($list_number));
-    error_log("HIT ${j}");
+    error_log('HIT ${j}');
 }
 
 $time_finish = microtime(true);
