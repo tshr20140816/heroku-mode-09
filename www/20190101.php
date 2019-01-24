@@ -158,14 +158,13 @@ foreach ($list_number as $number) {
                 $coin_need = (int)trim($match[2]);
                 $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
                 error_log("own : ${coin_own} / need : ${coin_need}");
+                if ($coin_own > 49) {
+                    error_log("__OVER_50__ : ${coin_own} $number");
+                }
                 if ($coin_own == 0) {
                     // continue;
                     break 3;
                 }
-                $urls[$url] = $options1;
-            }
-            if (count($urls) > 0) {
-                $mu->get_contents_multi($urls, null);
             }
         }
     }
