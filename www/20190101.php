@@ -51,7 +51,13 @@ for ($j = $n; $j < 1500; $j++) {
     
     error_log(print_r($list_page, true));
     
-    $loop_end = $list_page[0];
+    if (count($list_page) == 0) {
+        $loop_end = 1;
+    } else {
+        $loop_end = $list_page[0];
+    }
+    
+    error_log($res);
     
     for ($i = 0; $i < $loop_end; $i++) {
         $continue_flag = false;
@@ -65,7 +71,7 @@ for ($j = $n; $j < 1500; $j++) {
         $items = explode('<div class="rentalable">', $res);
 
         foreach ($items as $item) {
-            $rc = preg_match('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $item, $match);
+            $rc = preg_match('/<a class=".+?type_free.+? href="(.+?)"/s', $item, $match);
             if ($rc != 1) {
                 continue;
             }
