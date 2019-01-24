@@ -41,7 +41,9 @@ $options1 = [
 
 $res = $mu->get_contents($url, $options1);
 
-// error_log($res);
+error_log($res);
+
+exit();
 
 $rc = preg_match('/<input.+?name="utf8".+?value="(.*?)".+?<input.+?name="authenticity_token".+?value="(.*?)"/s', $res, $match);
 error_log(print_r($match, true));
