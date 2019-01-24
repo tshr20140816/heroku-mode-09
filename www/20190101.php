@@ -36,6 +36,9 @@ for ($j = $n; $j < 1500; $j++) {
     if ((int)date('i') < 8) {
         break;
     }
+    if ($j > 9 && $j < 534) {
+        $j = 534;
+    }
     
     $sum_point = 0;
     
