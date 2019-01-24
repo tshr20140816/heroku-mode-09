@@ -75,7 +75,7 @@ for ($j = $n; $j < 1500; $j++) {
             if ($rc != 1) {
                 continue;
             }
-            error_log(print_r($match));
+            error_log(print_r($match, true));
         }
     }
     break;
