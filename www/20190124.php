@@ -46,12 +46,8 @@ $rc = preg_match_all('/<a href=".*?\/series\/(\d+)"/s', $res, $matches);
 $list_number = array_unique($matches[1]);
 sort($list_number, SORT_NUMERIC);
 
-$file_name = '/tmp/list_number';
-if (file_exists($file_name)) {
-    $list_number_tmp = unserialize(file_get_contents($file_name));
-    $list_number = array_merge($list_number, $list_number_tmp);
-    array_unique($list_number);
-}
+$list_number[] = '881';
+$list_number[] = '1';
 
 for ($i = 0; $i < count($list_number); $i++) {
     if ($list_number[$i] == $n) {
