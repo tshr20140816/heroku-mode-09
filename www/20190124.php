@@ -46,7 +46,8 @@ $rc = preg_match_all('/<a href=".*?\/series\/(\d+)"/s', $res, $matches);
 $list_number = array_unique($matches[1]);
 sort($list_number, SORT_NUMERIC);
 
-$list_number = array_merge($list_number, [881 , 1, 2, 3, 4, 5, 6, 7, 8, 9])
+$res = file_get_contents('https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/data.txt');
+$list_number = array_merge($list_number, explode(',', $res));
 
 for ($i = 0; $i < count($list_number); $i++) {
     if ($list_number[$i] == $n) {
