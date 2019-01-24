@@ -24,6 +24,7 @@ $cookie = $tmpfname = tempnam("/tmp", time());
 
 //$url = getenv('TEST_URL_010');
 $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/series_categories?category_id=105&series_type=w';
+$url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/chapter';
 
 $options1 = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
