@@ -46,9 +46,14 @@ $res = $mu->get_contents($url, $options1);
 $rc = preg_match_all('/<a href=".*?\/series\/(\d+)"/s', $res, $matches);
 
 $list_number = array_unique($matches[1]);
-sort($list_number);
+sort($list_number, SORT_NUMERIC);
 
-$list_number = array_slice($list_number, $n);
+for ($i = 0; $i < count($list_number); $i++) {
+    if ($list_number[$i] == $n && $i > 0) {
+        $list_number = array_slice($list_number, $i - 1);
+        break;
+    }
+}
 
 error_log(print_r($list_number, true));
 
