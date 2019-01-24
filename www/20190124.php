@@ -22,9 +22,7 @@ $mu = new MyUtils();
 
 $cookie = $tmpfname = tempnam("/tmp", time());
 
-//$url = getenv('TEST_URL_010');
-$url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/series_categories?category_id=105&series_type=w';
-$url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/chapter';
+$url = getenv('TEST_URL_030');
 
 $options1 = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
@@ -45,7 +43,7 @@ $res = $mu->get_contents($url, $options1);
 
 // error_log($res);
 
-$rc = preg_match_all('/<a href="\/series\/(\d+)"/s', $res, $matches);
+$rc = preg_match_all('/<a href=".*?\/series\/(\d+)"/s', $res, $matches);
 
 $list_number = array_unique($matches[1]);
 sort($list_number);
@@ -53,6 +51,9 @@ sort($list_number);
 error_log(print_r($list_number, true));
 
 exit();
+
+$url = getenv('TEST_URL_010');
+
 
 $rc = preg_match('/<input.+?name="utf8".+?value="(.*?)".+?<input.+?name="authenticity_token".+?value="(.*?)"/s', $res, $match);
 error_log(print_r($match, true));
