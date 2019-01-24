@@ -41,12 +41,14 @@ $options1 = [
 
 $res = $mu->get_contents($url, $options1);
 
-// error_log($res);
-
 $rc = preg_match_all('/<a href=".*?\/series\/(\d+)"/s', $res, $matches);
 
 $list_number = array_unique($matches[1]);
 sort($list_number, SORT_NUMERIC);
+
+if (file_exists('/tmp/list_number')) {
+    $list_number_tmp = unserialize(file_get_contents($file_name));
+}
 
 for ($i = 0; $i < count($list_number); $i++) {
     if ($list_number[$i] == $n) {
@@ -56,8 +58,6 @@ for ($i = 0; $i < count($list_number); $i++) {
 }
 
 error_log(print_r($list_number, true));
-
-// exit();
 
 $url = getenv('TEST_URL_010');
 
@@ -93,10 +93,6 @@ $options2 = [
 
 $res = $mu->get_contents($url, $options2);
 
-// error_log($res);
-
-// exit();
-
 $options3 = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
     CURLOPT_HTTPHEADER => [
@@ -109,34 +105,6 @@ $options3 = [
         ],
     CURLOPT_COOKIEJAR => $cookie,
     CURLOPT_COOKIEFILE => $cookie,
-];
-
-$options4 = [
-    CURLOPT_ENCODING => 'gzip, deflate, br',
-    CURLOPT_HTTPHEADER => [
-        'Accept: application/json, text/javascript, */*; q=0.01',
-        'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
-        'Cache-Control: no-cache',
-        'Connection: keep-alive',
-        'DNT: 1',
-        'Upgrade-Insecure-Requests: 1',
-        ],
-    CURLOPT_NOBODY => true,
-];
-
-$options5 = [
-    CURLOPT_ENCODING => 'gzip, deflate, br',
-    CURLOPT_HTTPHEADER => [
-        'Accept: application/json, text/javascript, */*; q=0.01',
-        'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
-        'Cache-Control: no-cache',
-        'Connection: keep-alive',
-        'DNT: 1',
-        'Upgrade-Insecure-Requests: 1',
-        ],
-    CURLOPT_COOKIEJAR => $cookie,
-    CURLOPT_COOKIEFILE => $cookie,
-    CURLOPT_NOBODY => true,
 ];
 
 foreach ($list_number as $number) {
@@ -201,11 +169,6 @@ foreach ($list_number as $number) {
                 $mu->get_contents_multi($urls, null);
             }
         }
-        /*
-        if ($continue_flag === false) {
-            break;
-        }
-        */
     }
 }
 
