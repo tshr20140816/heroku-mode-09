@@ -33,11 +33,9 @@ $options1 = [
 ];
 
 for ($j = $n; $j < 1500; $j++) {
-    /*
     if ((int)date('i') < 8) {
         break;
     }
-    */
     
     $sum_point = 0;
     
@@ -57,7 +55,7 @@ for ($j = $n; $j < 1500; $j++) {
         $loop_end = $list_page[0];
     }
     
-    error_log($res);
+    // error_log($res);
     
     for ($i = 0; $i < $loop_end; $i++) {
         $continue_flag = false;
