@@ -38,7 +38,7 @@ $options1 = [
 
 for ($number = 2; $number < 3; $number++) {
     
-    $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . '1';
+    $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . '1&per=150';
     $res = $mu->get_contents($url, $options1);
     
     error_log($res);
