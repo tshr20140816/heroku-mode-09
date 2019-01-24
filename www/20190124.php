@@ -127,7 +127,11 @@ foreach ($list_number as $number) {
     
     error_log(print_r($list_page, true));
     
-    $loop_end = $list_page[0];
+    if (count($list_page) > 0) {
+        $loop_end = $list_page[0];
+    } else {
+        $loop_end = 1;
+    }
     
     for ($i = 0; $i < $loop_end; $i++) {
         $continue_flag = false;
