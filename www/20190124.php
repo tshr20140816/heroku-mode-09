@@ -46,8 +46,7 @@ $rc = preg_match_all('/<a href=".*?\/series\/(\d+)"/s', $res, $matches);
 $list_number = array_unique($matches[1]);
 sort($list_number, SORT_NUMERIC);
 
-$list_number[] = '881';
-$list_number[] = '1';
+$list_number = array_merge($list_number, [881 , 1, 2, 3, 4, 5, 6, 7, 8, 9])
 
 for ($i = 0; $i < count($list_number); $i++) {
     if ($list_number[$i] == $n) {
