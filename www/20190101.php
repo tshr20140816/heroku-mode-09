@@ -71,7 +71,7 @@ for ($j = $n; $j < 1500; $j++) {
         $items = explode('<div class="rentalable">', $res);
 
         foreach ($items as $item) {
-            $rc = preg_match('/<a class=".+?type_free.+? href="(.+?)"/s', $item, $match);
+            $rc = preg_match('/<a class=".+?type_free.+? href=".+?".*?>(.+?)<\/a>/s', $item, $match);
             if ($rc != 1) {
                 continue;
             }
