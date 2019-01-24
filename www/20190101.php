@@ -30,9 +30,6 @@ if (file_exists($file_name)) {
 }
 error_log(print_r($list_number, true));
 for ($j = 1; $j < 1500; $j++) {
-    if ((int)date('i') < 8) {
-        break;
-    }
     if (in_array($j, $list_number)) {
         continue;
     }
