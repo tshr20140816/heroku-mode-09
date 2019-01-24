@@ -44,7 +44,7 @@ $res = $mu->get_contents($url, $options1);
 
 // error_log($res);
 
-$rc = preg_match_all('/<a href="/series/(\d+)"/s', $res, $matches);
+$rc = preg_match_all('/<a href="\/series\/(\d+)"/s', $res, $matches);
 
 error_log(print_r($matches, true));
 
