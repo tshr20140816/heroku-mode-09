@@ -48,12 +48,15 @@ $rc = preg_match_all('/<a href=".*?\/series\/(\d+)"/s', $res, $matches);
 $list_number = array_unique($matches[1]);
 sort($list_number);
 
+$list_number = array_slice($list_number, $n);
+
 error_log(print_r($list_number, true));
 
-exit();
+// exit();
 
 $url = getenv('TEST_URL_010');
 
+$res = $mu->get_contents($url, $options1);
 
 $rc = preg_match('/<input.+?name="utf8".+?value="(.*?)".+?<input.+?name="authenticity_token".+?value="(.*?)"/s', $res, $match);
 error_log(print_r($match, true));
@@ -89,12 +92,6 @@ $res = $mu->get_contents($url, $options2);
 
 // exit();
 
-// error_log(file_get_contents($cookie));
-
-// exit();
-
-// $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/api/v1/me/coin';
-
 $options3 = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
     CURLOPT_HTTPHEADER => [
@@ -108,9 +105,6 @@ $options3 = [
     CURLOPT_COOKIEJAR => $cookie,
     CURLOPT_COOKIEFILE => $cookie,
 ];
-
-// $res = $mu->get_contents($url, $options3);
-// error_log($res);
 
 $options4 = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
@@ -140,24 +134,14 @@ $options5 = [
     CURLOPT_NOBODY => true,
 ];
 
-$url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/api/v1/me/coin';
-$res = $mu->get_contents($url, $options3);
-error_log($res);
-
-//for ($j = $n; $j < 1500; $j++) {
-for ($j = $n; $j < 1; $j++) {
+foreach ($list_number as $number) {
     if ((int)date('i') < 8) {
         break;
     }
-    /*
-    $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/api/v1/me/coin';
-    $res = $mu->get_contents($url, $options3);
-    error_log($res);
-    */
     
     for ($i = 0; $i < 12; $i++) {
         $continue_flag = false;
-        $url = str_replace('__NUMBER__', $j, getenv('TEST_URL_020')) . ($i + 1);
+        $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . ($i + 1);
         
         $res = $mu->get_contents($url, $options4);
         if ($res == '404') {
@@ -208,6 +192,10 @@ for ($j = $n; $j < 1; $j++) {
         }
     }
 }
+
+$url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/api/v1/me/coin';
+$res = $mu->get_contents($url, $options3);
+error_log($res);
 
 error_log(file_get_contents($cookie));
 
