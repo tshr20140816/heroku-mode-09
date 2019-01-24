@@ -78,7 +78,9 @@ for ($j = $n; $j < 1500; $j++) {
             $sum_point += $point;
         }
     }
-    error_log("__TOTAL_POINT__ : ${sum_point} ${j}");
+    if ($sum_point > 0) {
+        error_log("__TOTAL_POINT__ : ${sum_point} ${j}");
+    }
 }
 
 $time_finish = microtime(true);
