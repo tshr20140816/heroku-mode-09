@@ -143,12 +143,17 @@ foreach ($list_number as $number) {
         $continue_flag = false;
         $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . ($i + 1);
         
+        /*
         $res = $mu->get_contents($url, $options4);
         if ($res == '404') {
             break;
         }
+        */
 
         $res = $mu->get_contents($url, $options1);
+        
+        error_log($res);
+        break 2;
 
         $res = explode('<div class="pager">', $res)[1];
         $items = explode('<div class="rentalable">', $res);
