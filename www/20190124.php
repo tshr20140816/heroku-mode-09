@@ -49,8 +49,8 @@ $list_number = array_unique($matches[1]);
 sort($list_number, SORT_NUMERIC);
 
 for ($i = 0; $i < count($list_number); $i++) {
-    if ($list_number[$i] == $n && $i > 0) {
-        $list_number = array_slice($list_number, $i - 1);
+    if ($list_number[$i] == $n) {
+        $list_number = array_slice($list_number, $i);
         break;
     }
 }
