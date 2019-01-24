@@ -52,6 +52,7 @@ $res = file_get_contents('https://raw.githubusercontent.com/tshr20140816/heroku-
 $list_number = array_merge($list_number, explode(',', $res));
 
 $list_number = array_merge([2], $list_number);
+$list_number = array_merge([549], $list_number);
 $list_number = array_unique($list_number);
 
 for ($i = 0; $i < count($list_number); $i++) {
