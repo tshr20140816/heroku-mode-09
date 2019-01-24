@@ -39,7 +39,7 @@ $options1 = [
 // $res = $mu->get_contents($url, $options1);
 
 
-for ($number = 706; $number < 707; $number++) {
+for ($number = 663; $number < 707; $number++) {
     
     $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . '1&per=150';
     $res = $mu->get_contents($url, $options1);
