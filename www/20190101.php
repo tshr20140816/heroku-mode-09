@@ -59,6 +59,7 @@ for ($j = 1; $j < 1500; $j++) {
     $list_number[] = $j;
     
     file_put_contents($file_name, serialize($list_number));
+    error_log("HIT ${j}");
 }
 
 $time_finish = microtime(true);
