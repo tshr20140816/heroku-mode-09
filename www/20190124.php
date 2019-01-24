@@ -199,15 +199,15 @@ foreach ($list_number as $number) {
                 }
                 $urls[$url] = $options1;
             }
-            /*
             if (count($urls) > 0) {
                 $mu->get_contents_multi($urls, null);
             }
-            */
         }
+        /*
         if ($continue_flag === false) {
             break;
         }
+        */
     }
 }
 
