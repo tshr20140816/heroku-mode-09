@@ -75,11 +75,12 @@ for ($j = $n; $j < 1500; $j++) {
             if ($rc != 1) {
                 continue;
             }
-            error_log(print_r($match, true));
+            // error_log(print_r($match, true));
+            $point = (int)$match[1];
+            $sum_point += $point;
         }
     }
-    break;
-    // error_log("__TOTAL_POINT__ : ${sum_point} ${j}");
+    error_log("__TOTAL_POINT__ : ${sum_point} ${j}");
 }
 
 $time_finish = microtime(true);
