@@ -159,13 +159,6 @@ foreach ($list_number as $number) {
     for ($i = 0; $i < $loop_end; $i++) {
         $continue_flag = false;
         $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . ($i + 1);
-        
-        /*
-        $res = $mu->get_contents($url, $options4);
-        if ($res == '404') {
-            break;
-        }
-        */
 
         if ($i > 0) {
             $res = $mu->get_contents($url, $options1);
