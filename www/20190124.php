@@ -59,7 +59,7 @@ $url = getenv('TEST_URL_010');
 $res = $mu->get_contents($url, $options1);
 
 $rc = preg_match('/<input.+?name="utf8".+?value="(.*?)".+?<input.+?name="authenticity_token".+?value="(.*?)"/s', $res, $match);
-error_log(print_r($match, true));
+// error_log(print_r($match, true));
 $utf8 = $match[1];
 $authenticity_token = $match[2];
 
