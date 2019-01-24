@@ -111,6 +111,7 @@ $options3 = [
 
 foreach ($list_number as $number) {
     if ((int)date('i') < 8) {
+        error_log('STOP TIME')
         break;
     }
     
