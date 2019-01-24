@@ -7,17 +7,6 @@ $requesturi = $_SERVER['REQUEST_URI'];
 $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
-if (!isset($_GET['n'])
-    || $_GET['n'] === ''
-    || is_array($_GET['n'])
-    || !ctype_digit($_GET['n'])
-   ) {
-    error_log("${pid} FINISH Invalid Param");
-    exit();
-}
-
-$n = (int)$_GET['n'];
-
 $mu = new MyUtils();
 
 $options1 = [
