@@ -85,7 +85,7 @@ for ($j = $n; $j < 1500; $j++) {
     
     error_log(print_r($list_page, true));
     
-    $loop_end = $list_page[0] + 1;
+    $loop_end = $list_page[0];
     
     for ($i = 0; $i < $loop_end; $i++) {
         $continue_flag = false;
