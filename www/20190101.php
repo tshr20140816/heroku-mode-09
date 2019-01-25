@@ -99,10 +99,12 @@ error_log(print_r($list_number, true));
 $coin_own_current = 0;
 
 foreach ($list_number as $number) {
+    /*
     if ((int)date('i') < 8) {
         error_log('STOP TIME');
         break;
     }
+    */
     
     $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . '1';
     $res = $mu->get_contents($url, $options1);
