@@ -22,8 +22,6 @@ ini_set('max_execution_time', 3600);
 
 $mu = new MyUtils();
 
-$url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'];
-
 $options1 = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
     CURLOPT_HTTPHEADER => [
@@ -36,22 +34,17 @@ $options1 = [
         ],
 ];
 
-// $res = $mu->get_contents($url, $options1);
-
-
-for ($number = 663; $number < 707; $number++) {
+for ($number = $n; $number < 1500; $number++) {
     
     $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . '1&per=150';
     $res = $mu->get_contents($url, $options1);
     
-    error_log($res);
-    break;
-    $rc = preg_match_all('/page=(\d+)"/s', $res, $matches);
+    $rc = preg_match_all('/page=(\d+).*?"/s', $res, $matches);
     
     $list_page = array_unique($matches[1]);
     rsort($list_page, SORT_NUMERIC);
     
-    error_log(print_r($list_page, true));
+    // error_log(print_r($list_page, true));
     
     if (count($list_page) > 0) {
         $loop_end = $list_page[0];
@@ -59,8 +52,8 @@ for ($number = 663; $number < 707; $number++) {
         $loop_end = 1;
     }
     
+    $point_max = 0;   
     for ($i = 0; $i < $loop_end; $i++) {
-        $continue_flag = false;
         $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . ($i + 1);
 
         if ($i > 0) {
@@ -70,40 +63,19 @@ for ($number = 663; $number < 707; $number++) {
         $res = explode('<div class="pager">', $res)[1];
         $items = explode('<div class="rentalable">', $res);
 
-        $urls = [];
-        $results = [];
         foreach ($items as $item) {
-            $rc = preg_match('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $item, $match);
+            $rc = preg_match('/<a class=".+?type_free.+? href=".+?".*?>(.+?)</s', $item, $match);
             if ($rc != 1) {
                 continue;
             }
-
-            $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
-            $urls[$url] = $options1;
-            $continue_flag = true;
-        }
-        if (count($urls) > 0) {
-            $results = $mu->get_contents_multi($urls, null);
-        }
-        $urls = [];
-        if (count($results) > 0) {
-            foreach ($results as $result) {
-                // error_log($result);
-                $rc = preg_match('/<a id=".+?type_free.+?href="(.+?)".*?>(.+?)<.+?<p class="coinRight2_blue">(.+?)</s', $result, $match);
-                $coin_own = (int)$match[3];
-                $coin_need = (int)trim($match[2]);
-                $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
-                error_log("own : ${coin_own} / need : ${coin_need}");
-                if ($coin_own == 0) {
-                    // continue;
-                    break 3;
-                }
-                $urls[$url] = $options1;
-            }
-            if (count($urls) > 0) {
-                $mu->get_contents_multi($urls, null);
+            $point = $match[1];
+            if ($point_max < $point) {
+                $point_max = $point;
             }
         }
+    }
+    if ($point_max > 0) {
+        error_log("__MAX_POINT__ ${number} ${point_max}");
     }
 }
 
