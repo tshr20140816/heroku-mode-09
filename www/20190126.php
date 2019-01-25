@@ -29,10 +29,13 @@ function get_task_carp($mu_) {
     $list_add_task = [];
 
     foreach($matches as $item) {
+        $timestamp = strtotime('2019/' . mb_substr($item[1], 0, 2) . '/' . mb_substr($item[1], 3, 2));
+        if ($timestamp < time()) {
+            continue;
+        }
         if (mb_substr($item[2], 0, 1) == '(') {
             $item[2] = trim($item[2], '()') . ' 予備日';
         }
-        $timestamp = strtotime('2019/' . mb_substr($item[1], 0, 2) . '/' . mb_substr($item[1], 3, 2));
         $title = '⚾' . mb_substr($item[1], 0, 2) . '/' . mb_substr($item[1], 3, 2) . ' ' . $item[2] . ' ' . trim(strip_tags($item[3])) . ' ' . $item[4];
         $hash = date('Ymd', $timestamp) . hash('sha512', $title);
 
