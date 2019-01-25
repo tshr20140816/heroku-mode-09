@@ -130,6 +130,7 @@ for ($j = 0; $j < 1500; $j++) {
             break;
         }
         $number = array_shift($list_number);
+        error_log($number);
         $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . '1&per=150';
         $urls1[$url] = $options1;
     }
