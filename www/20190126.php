@@ -22,7 +22,7 @@ function get_task_carp($mu_) {
     // Get Contexts
     $list_context_id = $mu_->get_contexts();
     
-    $res = $mu->get_contents('http://www.carp.co.jp/_calendar/list.html', null, true);
+    $res = $mu_->get_contents('http://www.carp.co.jp/_calendar/list.html', null, true);
     $pattern = '/<tr.*?><td.*?>(.+?);(.+?)<.+?><.+?>.*?<.+?><.+?>(.+?)<\/td><.+?>(.+?)</s';
     $rc = preg_match_all($pattern, $res, $matches,  PREG_SET_ORDER);
 
