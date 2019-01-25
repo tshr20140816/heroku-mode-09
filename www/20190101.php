@@ -96,7 +96,7 @@ $options3 = [
 $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/api/v1/me/coin';
 $res = $mu->get_contents($url, $options3);
 $res = json_decode($res);
-error_log(print_r($res));
+error_log(print_r($res, true));
 
 exit();
 
