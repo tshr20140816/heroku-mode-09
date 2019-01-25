@@ -162,16 +162,6 @@ foreach ($list_number as $number) {
             
             $rc = get_point($mu, $cookie);
             error_log(print_r($rc, true));
-            
-            $res = $mu->get_contents($url, $options1);
-            
-            $rc = get_point($mu, $cookie);
-            error_log(print_r($rc, true));
-            
-            $res = $mu->get_contents($url, $options1);
-            
-            $rc = get_point($mu, $cookie);
-            error_log(print_r($rc, true));
             if ($rc[1] < 30) {
                 error_log('POINT LIMIT');
                 break 3;
