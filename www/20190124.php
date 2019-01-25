@@ -121,7 +121,7 @@ foreach ($list_number as $number) {
         break;
     }
     
-    $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . '1';
+    $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . '1&per=150';
     $res = $mu->get_contents($url, $options1);
     
     $rc = preg_match_all('/page=(\d+)"/s', $res, $matches);
@@ -139,7 +139,7 @@ foreach ($list_number as $number) {
     
     for ($i = 0; $i < $loop_end; $i++) {
         $continue_flag = false;
-        $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . ($i + 1);
+        $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . ($i + 1) . '&per=150';
 
         if ($i > 0) {
             $res = $mu->get_contents($url, $options1);
