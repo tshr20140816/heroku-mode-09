@@ -13,8 +13,6 @@ $url = 'http://www.carp.co.jp/_calendar/list.html';
 
 $res = $mu->get_contents($url);
 
-$rc = preg_match_all('/<tr.*?><td.*?>(.+?);(.+?)<.+?><.+?>.*?<.+?><.+?>(.+?)<\/td><.+?>(.+?)</s', $res, $maches);
-
-array_shift($maches);
+$rc = preg_match_all('/<tr.*?><td.*?>(.+?);(.+?)<.+?><.+?>.*?<.+?><.+?>(.+?)<\/td><.+?>(.+?)</s', $res, $maches,  PREG_SET_ORDER);
 
 error_log(print_r($maches, true));
