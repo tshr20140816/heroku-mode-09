@@ -187,6 +187,7 @@ $list_get_task = [get_task_highway($mu),
                   get_task_soccer($mu),
                   get_task_culturecenter($mu),
                   get_task_full_moon($mu),
+                  get_task_carp($mu),
                  ];
 foreach ($list_get_task as $list_add_task_tmp) {
     $list_duplicate_task_keys = array_intersect(array_keys($list_add_task_tmp), array_keys($list_delete_task));
