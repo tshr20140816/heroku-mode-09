@@ -149,6 +149,7 @@ foreach ($list_number as $number) {
             
             $coin_own = (int)$match[3];
             $coin_need = (int)trim($match[2]);
+            error_log("own : ${coin_own} / need : ${coin_need}");
             if ($coin_own_current === 0) {
                 $coin_own_current = $coin_own;
             }
@@ -156,15 +157,16 @@ foreach ($list_number as $number) {
                 error_log('UP LIMIT');
                 break 3;                
             }
-            error_log("own : ${coin_own} / need : ${coin_need}");
             $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
             $res = $mu->get_contents($url, $options1);
             
             $rc = get_point($mu, $cookie);
+            error_log(print_r($rc, true));
             
             $res = $mu->get_contents($url, $options1);
             
             $rc = get_point($mu, $cookie);
+            error_log(print_r($rc, true));
             
             $res = $mu->get_contents($url, $options1);
             
