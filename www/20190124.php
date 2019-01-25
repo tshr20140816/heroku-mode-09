@@ -52,8 +52,11 @@ $res = file_get_contents('https://raw.githubusercontent.com/tshr20140816/heroku-
 $list_number = array_merge($list_number, explode(',', $res));
 
 $list_number = array_unique($list_number);
-array_unshift($list_number, 2);
+array_unshift($list_number, 679);
+array_unshift($list_number, 562);
+array_unshift($list_number, 862);
 array_unshift($list_number, 549);
+array_unshift($list_number, 1180);
 
 for ($i = 0; $i < count($list_number); $i++) {
     if ($list_number[$i] == $n) {
