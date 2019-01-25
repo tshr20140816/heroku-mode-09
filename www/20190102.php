@@ -137,7 +137,7 @@ for ($j = 0; $j < 1500; $j++) {
     if (count($urls1) === 0) {
         break;
     }
-    $results2 = $mu->get_contents_multi($urls, null);
+    $results2 = $mu->get_contents_multi($urls1, null);
     
     foreach ($results2 as $url => $res) {
         $number = explode('=', explode('&', parse_url($url, PHP_URL_QUERY))[0])[1];
