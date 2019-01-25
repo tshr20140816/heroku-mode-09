@@ -20,6 +20,9 @@ foreach($matches as $item) {
         $item[2] = trim($item[2], '()') . ' 予備日';
     }
     $timestamp = strtotime('2019/' . mb_substr($item[1], 0, 2) . '/' . mb_substr($item[1], 3, 2));
+    if ((int)date('Ymd', $timestamp) < 20190329) {
+        continue;
+    }
     $title = '⚾' . mb_substr($item[1], 0, 2) . '/' . mb_substr($item[1], 3, 2) . ' ' . $item[2] . ' ' . trim(strip_tags($item[3])) . ' ' . $item[4];
 
     error_log($timestamp . ' '. $title);
