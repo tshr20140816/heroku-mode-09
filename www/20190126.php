@@ -13,4 +13,4 @@ $url = 'http://www.carp.co.jp/_calendar/list.html';
 
 $res = $mu->get_contents($url);
 
-error_log(res);
+error_log($res);
