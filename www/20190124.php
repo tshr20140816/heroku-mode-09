@@ -116,6 +116,7 @@ $options3 = [
 ];
 
 $urls2 = [];
+$point_sum = 0;
 foreach ($list_number as $number) {
     if ((int)date('i') < 8 && (int)date('i') > 4) {
         error_log('STOP TIME');
@@ -177,15 +178,19 @@ foreach ($list_number as $number) {
                     break 3;
                 }
                 $urls2[$url] = $options1;
+                $point_sum += $coin_need;
             }
         }
         if (count($urls2) > 100) {
+            error_log('count : ' . count($urls2) . " / point_sum : ${point_sum}");
             $mu->get_contents_multi($urls2, null);
             $urls2 = [];
+            $point_sum = 0;
         }
     }
 }
 if (count($urls2) > 0) {
+    error_log('count : ' . count($urls2) . " / point_sum : ${point_sum}");
     $mu->get_contents_multi($urls2, null);
 }
 
