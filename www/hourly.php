@@ -121,7 +121,7 @@ if ($hour_now % 2 === 1) {
         $ymd = date('Ymd', strtotime("${dt} +${i} day"));
         $list = explode("\n", str_replace(' ', '', trim(strip_tags($tmp[$i + 1]))));
         $tmp2 = $list[0];
-        $tmp2 = str_replace('晴', '☀', $tmp2);
+        $tmp2 = str_replace('晴', '☀️', $tmp2);
         $tmp2 = str_replace('曇', '☁', $tmp2);
         $tmp2 = str_replace('雨', '☂', $tmp2);
         $tmp2 = str_replace('雪', '☃', $tmp2);
