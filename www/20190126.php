@@ -19,7 +19,7 @@ error_log(print_r($matches, true));
 
 foreach($matches as $item) {
     $item[1] = explode('(', $item[1])[0];
-    $item[3] = strip_tags($item[3]);
+    $item[3] = trim(strip_tags($item[3]));
     array_shift($item);
     error_log(print_r($item, true));
 }
