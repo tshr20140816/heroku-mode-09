@@ -117,75 +117,84 @@ $options3 = [
 
 $urls2 = [];
 $point_sum = 0;
-foreach ($list_number as $number) {
+for ($j = 0; $j < 1500; $j++) {
     if ((int)date('i') < 8 && (int)date('i') > 4) {
         error_log('STOP TIME');
         break;
     }
 
-    $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . '1&per=150';
-    $res = $mu->get_contents($url, $options1);
-
-    $rc = preg_match_all('/page=(\d+).*?"/s', $res, $matches);
-
-    $list_page = array_unique($matches[1]);
-    rsort($list_page, SORT_NUMERIC);
-
-    error_log(print_r($list_page, true));
-
-    if (count($list_page) > 0) {
-        $loop_end = $list_page[0];
-    } else {
-        $loop_end = 1;
-    }
-
+    $urls1 = [];
+    $loop_end = $j > 10 ? 5 : 1;
     for ($i = 0; $i < $loop_end; $i++) {
-        $continue_flag = false;
-        $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . ($i + 1) . '&per=150';
-
-        if ($i > 0) {
-            $res = $mu->get_contents($url, $options1);
+        if (count($list_number) === 0) {
+            break;
         }
+        $number = array_shift($list_number);
+        $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . '1&per=150';
+        $urls1[$url] = $options1;
+    }
+    if (count($urls1) === 0) {
+        break;
+    }
+    $results2 = $mu->get_contents_multi($urls, null);
+    
+    foreach ($results2 as $url => $res) {
+        $number = explode('=', explode('&', parse_url($url, PHP_URL_QUERY))[0])[1];
+        
+        $rc = preg_match_all('/page=(\d+).*?"/s', $res, $matches);
+        $list_page = array_unique($matches[1]);
+        rsort($list_page, SORT_NUMERIC);
+        if (count($list_page) > 0) {
+            $loop_end = $list_page[0];
+        } else {
+            $loop_end = 1;
+        }
+    
+        for ($i = 0; $i < $loop_end; $i++) {
+            $continue_flag = false;
+            $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . ($i + 1) . '&per=150';
 
-        $res = explode('<div class="pager">', $res)[1];
-        $items = explode('<div class="rentalable">', $res);
-
-        $urls = [];
-        $results = [];
-        foreach ($items as $item) {
-            $rc = preg_match('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $item, $match);
-            if ($rc != 1) {
-                continue;
+            if ($i > 0) {
+                $res = $mu->get_contents($url, $options1);
             }
 
-            $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
-            $urls[$url] = $options1;
-            $continue_flag = true;
-        }
-        if (count($urls) > 0) {
-            $results = $mu->get_contents_multi($urls, null);
-        }
-        if (count($results) > 0) {
-            foreach ($results as $result) {
-                // error_log($result);
-                $rc = preg_match('/<a id=".+?type_free.+?href="(.+?)".*?>(.+?)<.+?<p class="coinRight2_blue">(.+?)</s', $result, $match);
-                $coin_own = (int)$match[3];
-                $coin_need = (int)trim($match[2]);
-                $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
-                error_log("own : ${coin_own} / need : ${coin_need}");
-                if ($coin_own == 0) {
-                    // continue;
-                    break 3;
+            $res = explode('<div class="pager">', $res)[1];
+            $items = explode('<div class="rentalable">', $res);
+
+            $urls = [];
+            $results = [];
+            foreach ($items as $item) {
+                $rc = preg_match('/<a class=".+?type_free.+?data-remote="true" href="(.+?)"/s', $item, $match);
+                if ($rc != 1) {
+                    continue;
                 }
-                $urls2[$url] = $options1;
-                $point_sum += $coin_need;
+
+                $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
+                $urls[$url] = $options1;
             }
-        }
-        if (count($urls2) > 100) {
-            error_log("own : ${coin_own}" . ' / count : ' . count($urls2) . " / point_sum : ${point_sum} / number : ${number}");
-            $mu->get_contents_multi($urls2, null);
-            $urls2 = [];
-            $point_sum = 0;
+            if (count($urls) > 0) {
+                $results = $mu->get_contents_multi($urls, null);
+            }
+            if (count($results) > 0) {
+                foreach ($results as $result) {
+                    $rc = preg_match('/<a id=".+?type_free.+?href="(.+?)".*?>(.+?)<.+?<p class="coinRight2_blue">(.+?)</s', $result, $match);
+                    $coin_own = (int)$match[3];
+                    $coin_need = (int)trim($match[2]);
+                    $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
+                    error_log("own : ${coin_own} / need : ${coin_need}");
+                    if ($coin_own == 0) {
+                        break 4;
+                    }
+                    $urls2[$url] = $options1;
+                    $point_sum += $coin_need;
+                }
+            }
+            if (count($urls2) > 100) {
+                error_log("own : ${coin_own}" . ' / count : ' . count($urls2) . " / point_sum : ${point_sum} / number : ${number}");
+                $mu->get_contents_multi($urls2, null);
+                $urls2 = [];
+                $point_sum = 0;
+            }
         }
     }
 }
