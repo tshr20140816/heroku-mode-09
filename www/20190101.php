@@ -96,6 +96,8 @@ for ($i = 0; $i < count($list_number); $i++) {
 
 error_log(print_r($list_number, true));
 
+$coin_own_current = 0;
+
 foreach ($list_number as $number) {
     if ((int)date('i') < 8) {
         error_log('STOP TIME');
@@ -145,20 +147,29 @@ foreach ($list_number as $number) {
             
             $coin_own = (int)$match[3];
             $coin_need = (int)trim($match[2]);
-            
+            if ($coin_own_current === 0) {
+                $coin_own_current = $coin_own;
+            }
+            if ($coin_own_current != $coin_own) {
+                error_log('UP LIMIT');
+                break 3;                
+            }
             error_log("own : ${coin_own} / need : ${coin_need}");
             $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . $match[1];
             $res = $mu->get_contents($url, $options1);
             
             $rc = get_point($mu, $cookie);
             error_log(print_r($rc, true));
-            if ($rc[0] > 97.0 || $rc[1] < 30) {
-                error_log('LIMIT');
+            if ($rc[1] < 30) {
+                error_log('POINT LIMIT');
                 break 3;
             }            
         }
     }
 }
+
+$rc = get_point($mu, $cookie);
+error_log(print_r($rc, true));
 
 error_log(file_get_contents($cookie));
 
