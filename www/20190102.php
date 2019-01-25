@@ -124,7 +124,7 @@ for ($j = 0; $j < 1500; $j++) {
     }
 
     $urls1 = [];
-    $loop_end = $j > 10 ? 5 : 1;
+    $loop_end = $j > 10 ? 10 : 1;
     for ($i = 0; $i < $loop_end; $i++) {
         if (count($list_number) === 0) {
             break;
