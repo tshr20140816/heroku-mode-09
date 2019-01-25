@@ -117,7 +117,7 @@ $options3 = [
 
 $urls2 = [];
 foreach ($list_number as $number) {
-    if ((int)date('i') < 8) {
+    if ((int)date('i') < 8 && (int)date('i') > 4) {
         error_log('STOP TIME');
         break;
     }
