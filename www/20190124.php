@@ -80,7 +80,7 @@ $post_data = [
     'utf8' => $utf8,
     'authenticity_token' => $authenticity_token,
     'account[email]' => getenv('TEST_ID'),
-    'account[password]' => getenv('TEST_PASSWORD'),    
+    'account[password]' => getenv('TEST_PASSWORD'),
 ];
 
 $options2 = [
@@ -120,23 +120,23 @@ foreach ($list_number as $number) {
         error_log('STOP TIME');
         break;
     }
-    
+
     $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . '1&per=150';
     $res = $mu->get_contents($url, $options1);
-    
+
     $rc = preg_match_all('/page=(\d+)"/s', $res, $matches);
-    
+
     $list_page = array_unique($matches[1]);
     rsort($list_page, SORT_NUMERIC);
-    
+
     error_log(print_r($list_page, true));
-    
+
     if (count($list_page) > 0) {
         $loop_end = $list_page[0];
     } else {
         $loop_end = 1;
     }
-    
+
     for ($i = 0; $i < $loop_end; $i++) {
         $continue_flag = false;
         $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . ($i + 1) . '&per=150';
