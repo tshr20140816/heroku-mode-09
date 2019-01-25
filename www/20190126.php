@@ -9,21 +9,39 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$url = 'http://www.carp.co.jp/_calendar/list.html';
+$access_token = $mu->get_access_token();
 
-$res = $mu->get_contents($url, null, true);
+get_task_carp($mu);
 
-$rc = preg_match_all('/<tr.*?><td.*?>(.+?);(.+?)<.+?><.+?>.*?<.+?><.+?>(.+?)<\/td><.+?>(.+?)</s', $res, $matches,  PREG_SET_ORDER);
+function get_task_carp($mu_) {
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    // Get Folders
+    $folder_id_private = $mu_->get_folder_id('PRIVATE');
+    
+    // Get Contexts
+    $list_context_id = $mu_->get_contexts();
+    
+    $res = $mu->get_contents('http://www.carp.co.jp/_calendar/list.html', null, true);
+    $pattern = '/<tr.*?><td.*?>(.+?);(.+?)<.+?><.+?>.*?<.+?><.+?>(.+?)<\/td><.+?>(.+?)</s';
+    $rc = preg_match_all($pattern, $res, $matches,  PREG_SET_ORDER);
 
-foreach($matches as $item) {
-    if (mb_substr($item[2], 0, 1) == '(') {
-        $item[2] = trim($item[2], '()') . ' 予備日';
+    $list_add_task = [];
+
+    foreach($matches as $item) {
+        if (mb_substr($item[2], 0, 1) == '(') {
+            $item[2] = trim($item[2], '()') . ' 予備日';
+        }
+        $timestamp = strtotime('2019/' . mb_substr($item[1], 0, 2) . '/' . mb_substr($item[1], 3, 2));
+        $title = '⚾' . mb_substr($item[1], 0, 2) . '/' . mb_substr($item[1], 3, 2) . ' ' . $item[2] . ' ' . trim(strip_tags($item[3])) . ' ' . $item[4];
+        $hash = date('Ymd', $timestamp) . hash('sha512', $title);
+
+        error_log($timestamp . ' '. $title);
+
+        $list_add_task[$hash] = '{"title":"' . $title
+          . '","duedate":"' . $timestamp
+          . '","context":"' . $list_context_id[date('w', $timestamp)]
+          . '","tag":"CARP","folder":"' . $folder_id_private . '"}';
     }
-    $timestamp = strtotime('2019/' . mb_substr($item[1], 0, 2) . '/' . mb_substr($item[1], 3, 2));
-    if ((int)date('Ymd', $timestamp) < 20190329) {
-        continue;
-    }
-    $title = '⚾' . mb_substr($item[1], 0, 2) . '/' . mb_substr($item[1], 3, 2) . ' ' . $item[2] . ' ' . trim(strip_tags($item[3])) . ' ' . $item[4];
-
-    error_log($timestamp . ' '. $title);
+    error_log($log_prefix . 'TASKS CARP : ' . print_r($list_add_task, true));
 }
