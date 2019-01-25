@@ -11,6 +11,7 @@ WEATHER2 : 長期予報、日の出、日の入り、月の出、月の入り
 SOCCER
 CULTURECENTER
 HIGHWAY
+CARP
 
 */
 include(dirname(__FILE__) . '/../classes/MyUtils.php');
@@ -162,6 +163,7 @@ foreach ($tasks as $task) {
         if ($task['tag'] == 'WEATHER2'
             || $task['tag'] == 'SOCCER'
             || $task['tag'] == 'CULTURECENTER'
+            || $task['tag'] == 'CARP'
             || $task['tag'] == 'HIGHWAY') {
             $hash = date('Ymd', $task['duedate']) . hash('sha512', $task['title']);
             $list_delete_task[$hash] = $task['id'];
@@ -398,6 +400,40 @@ function get_sun($mu_)
 
     error_log($log_prefix . '$list_sunrise_sunset : ' . print_r($list_sunrise_sunset, true));
     return $list_sunrise_sunset;
+}
+
+function get_task_carp($mu_) {
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    // Get Folders
+    $folder_id_private = $mu_->get_folder_id('PRIVATE');
+    
+    // Get Contexts
+    $list_context_id = $mu_->get_contexts();
+    
+    $res = $mu_->get_contents('http://www.carp.co.jp/_calendar/list.html', null, true);
+    $pattern = '/<tr.*?><td.*?>(.+?);(.+?)<.+?><.+?>.*?<.+?><.+?>(.+?)<\/td><.+?>(.+?)</s';
+    $rc = preg_match_all($pattern, $res, $matches,  PREG_SET_ORDER);
+
+    $list_add_task = [];
+
+    foreach($matches as $item) {
+        $timestamp = strtotime('2019/' . mb_substr($item[1], 0, 2) . '/' . mb_substr($item[1], 3, 2));
+        if ($timestamp < time()) {
+            continue;
+        }
+        if (mb_substr($item[2], 0, 1) == '(') {
+            $item[2] = trim($item[2], '()') . ' 予備日';
+        }
+        $title = '### ⚾' . ' ' . $item[2] . ' ' . trim(strip_tags($item[3])) . ' ' . $item[4] . ' ###';
+        $hash = date('Ymd', $timestamp) . hash('sha512', $title);
+
+        $list_add_task[$hash] = '{"title":"' . $title
+          . '","duedate":"' . $timestamp
+          . '","context":"' . $list_context_id[date('w', $timestamp)]
+          . '","tag":"CARP","folder":"' . $folder_id_private . '"}';
+    }
+    error_log($log_prefix . 'TASKS CARP : ' . print_r($list_add_task, true));
 }
 
 function get_task_full_moon($mu_)
