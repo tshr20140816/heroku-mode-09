@@ -201,8 +201,8 @@ function get_point($mu_, $cookie_) {
     $res = $mu_->get_contents($url, $options3);
     $res = json_decode($res);
     error_log(print_r($res, true));
-    $percentage_complete_level_up = $res['percentage_complete_level_up'];
-    $total_coin = $res['total_coin'];
+    $percentage_complete_level_up = $res['data']['percentage_complete_level_up'];
+    $total_coin = $res['data']['total_coin'];
     
     return [$percentage_complete_level_up, $total_coin];
 }
