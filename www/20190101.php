@@ -45,25 +45,6 @@ $res = $mu->get_contents($url, $options1);
 
 $rc = preg_match_all('/<a href=".*?\/series\/(\d+)"/s', $res, $matches);
 
-$list_number = array_unique($matches[1]);
-sort($list_number, SORT_NUMERIC);
-
-$res = file_get_contents('https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/data.txt');
-$list_number = array_merge($list_number, explode(',', $res));
-
-$list_number = array_unique($list_number);
-array_unshift($list_number, 2);
-array_unshift($list_number, 549);
-
-for ($i = 0; $i < count($list_number); $i++) {
-    if ($list_number[$i] == $n) {
-        $list_number = array_slice($list_number, $i);
-        break;
-    }
-}
-
-error_log(print_r($list_number, true));
-
 $url = getenv('TEST_URL_010');
 
 $res = $mu->get_contents($url, $options1);
@@ -111,6 +92,30 @@ $options3 = [
     CURLOPT_COOKIEJAR => $cookie,
     CURLOPT_COOKIEFILE => $cookie,
 ];
+
+$url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/api/v1/me/coin';
+$res = $mu->get_contents($url, $options3);
+$res = json_decode($res);
+error_log(print_r($res));
+
+exit();
+
+$list_number = array_unique($matches[1]);
+sort($list_number, SORT_NUMERIC);
+
+$res = file_get_contents('https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/data.txt');
+$list_number = array_merge($list_number, explode(',', $res));
+
+$list_number = array_unique($list_number);
+
+for ($i = 0; $i < count($list_number); $i++) {
+    if ($list_number[$i] == $n) {
+        $list_number = array_slice($list_number, $i);
+        break;
+    }
+}
+
+error_log(print_r($list_number, true));
 
 foreach ($list_number as $number) {
     if ((int)date('i') < 8) {
