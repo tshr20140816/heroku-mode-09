@@ -49,7 +49,7 @@ $list_number = array_unique($matches[1]);
 sort($list_number, SORT_NUMERIC);
 
 $res = file_get_contents('https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/data.txt');
-$list_number = array_merge($list_number, explode(',', $res));
+$list_number = array_merge($list_number, explode(',', trim($res)));
 
 $list_number = array_unique($list_number);
 array_unshift($list_number, 679);
