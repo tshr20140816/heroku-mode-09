@@ -13,6 +13,11 @@ $mu = new MyUtils();
 
 //
 
+$url = 'http://www.carp.co.jp/_calendar/list.html';
+$res = $mu->get_contents($url, null, true);
+
+//
+
 $yyyy = date('Y');
 $url = "https://e-moon.net/calendar_list/calendar_moon_${yyyy}/";
 $res = $mu->get_contents($url, null, true);
