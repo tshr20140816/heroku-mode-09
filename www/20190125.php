@@ -34,7 +34,11 @@ $options1 = [
         ],
 ];
 
-for ($number = $n; $number < 1500; $number++) {
+$res = file_get_contents('https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/data.txt');
+$list_number = explode(',', $res);
+sort($list_number);
+
+foreach ($list_number as $number) {
     
     $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . '1&per=150';
     $res = $mu->get_contents($url, $options1);
@@ -52,7 +56,8 @@ for ($number = $n; $number < 1500; $number++) {
         $loop_end = 1;
     }
     
-    $point_max = 0;   
+    $point_max = 0;
+    $count = 0;
     for ($i = 0; $i < $loop_end; $i++) {
         $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . ($i + 1);
 
@@ -68,6 +73,7 @@ for ($number = $n; $number < 1500; $number++) {
             if ($rc != 1) {
                 continue;
             }
+            $count++;
             $point = $match[1];
             if ($point_max < $point) {
                 $point_max = $point;
@@ -75,7 +81,7 @@ for ($number = $n; $number < 1500; $number++) {
         }
     }
     if ($point_max > 0) {
-        error_log("__MAX_POINT__ ${number} ${point_max}");
+        error_log("__MAX_POINT__ ${number} ${count} ${point_max}");
     }
 }
 
