@@ -130,7 +130,6 @@ for ($j = 0; $j < 1500; $j++) {
             break;
         }
         $number = array_shift($list_number);
-        error_log($number);
         $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . '1&per=150';
         $urls1[$url] = $options1;
     }
@@ -141,6 +140,10 @@ for ($j = 0; $j < 1500; $j++) {
     
     foreach ($results2 as $url => $res) {
         $number = explode('=', explode('&', parse_url($url, PHP_URL_QUERY))[0])[1];
+        
+        error_log($number);
+        
+        exit();
         
         $rc = preg_match_all('/page=(\d+).*?"/s', $res, $matches);
         $list_page = array_unique($matches[1]);
