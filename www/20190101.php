@@ -169,10 +169,6 @@ foreach ($list_number as $number) {
         }
     }
 }
-
-$rc = get_point($mu, $cookie);
-error_log(print_r($rc, true));
-
 error_log(file_get_contents($cookie));
 
 $time_finish = microtime(true);
