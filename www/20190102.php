@@ -141,6 +141,8 @@ for ($j = 0; $j < 1500; $j++) {
     foreach ($results2 as $url => $res) {
         $number = explode('=', explode('&', parse_url($url, PHP_URL_QUERY))[0])[1];
         
+        error_log(parse_url($url, PHP_URL_QUERY));
+        error_log(explode('&', parse_url($url, PHP_URL_QUERY))[0]);
         error_log($number);
         
         exit();
