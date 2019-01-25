@@ -124,7 +124,7 @@ foreach ($list_number as $number) {
     $url = str_replace('__NUMBER__', $number, getenv('TEST_URL_020')) . '1&per=150';
     $res = $mu->get_contents($url, $options1);
 
-    $rc = preg_match_all('/page=(\d+)"/s', $res, $matches);
+    $rc = preg_match_all('/page=(\d+).*?"/s', $res, $matches);
 
     $list_page = array_unique($matches[1]);
     rsort($list_page, SORT_NUMERIC);
