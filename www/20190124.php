@@ -115,6 +115,7 @@ $options3 = [
     CURLOPT_COOKIEFILE => $cookie,
 ];
 
+$urls2 = [];
 foreach ($list_number as $number) {
     if ((int)date('i') < 8) {
         error_log('STOP TIME');
@@ -163,7 +164,6 @@ foreach ($list_number as $number) {
         if (count($urls) > 0) {
             $results = $mu->get_contents_multi($urls, null);
         }
-        $urls = [];
         if (count($results) > 0) {
             foreach ($results as $result) {
                 // error_log($result);
@@ -176,13 +176,17 @@ foreach ($list_number as $number) {
                     // continue;
                     break 3;
                 }
-                $urls[$url] = $options1;
-            }
-            if (count($urls) > 0) {
-                $mu->get_contents_multi($urls, null);
+                $urls2[$url] = $options1;
             }
         }
+        if (count($urls2) > 100) {
+            $mu->get_contents_multi($urls2, null);
+            $urls2 = [];
+        }
     }
+}
+if (count($urls2) > 0) {
+    $mu->get_contents_multi($urls2, null);
 }
 
 error_log(file_get_contents($cookie));
