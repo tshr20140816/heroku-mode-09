@@ -139,11 +139,7 @@ for ($j = 0; $j < 1500; $j++) {
     $results2 = $mu->get_contents_multi($urls1, null);
     
     foreach ($results2 as $url => $res) {
-        $number = explode('=', explode('&', parse_url($url, PHP_URL_QUERY))[0])[1];
-        
-        error_log(parse_url($url, PHP_URL_PATH));
-        
-        exit();
+        $number = explode('/', parse_url($url, PHP_URL_PATH))[2];
         
         $rc = preg_match_all('/page=(\d+).*?"/s', $res, $matches);
         $list_page = array_unique($matches[1]);
