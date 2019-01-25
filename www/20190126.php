@@ -18,7 +18,8 @@ $rc = preg_match_all('/<tr.*?><td.*?>(.+?);(.+?)<.+?><.+?>.*?<.+?><.+?>(.+?)<\/t
 error_log(print_r($matches, true));
 
 foreach($matches as $item) {
-    $item[1] = explode('(', $item[1])[0];
+    // $item[1] = explode('(', $item[1])[0];
+    $item[1] = '2019/' . mb_substr($item[1], 0, 2) . '/' . mb_substr($item[1], 3, 2);
     $item[3] = trim(strip_tags($item[3]));
     array_shift($item);
     error_log(print_r($item, true));
