@@ -182,7 +182,7 @@ foreach ($list_number as $number) {
             }
         }
         if (count($urls2) > 100) {
-            error_log('count : ' . count($urls2) . " / point_sum : ${point_sum}");
+            error_log("own ${coin_own}" . ' / count : ' . count($urls2) . " / point_sum : ${point_sum}");
             $mu->get_contents_multi($urls2, null);
             $urls2 = [];
             $point_sum = 0;
@@ -190,7 +190,7 @@ foreach ($list_number as $number) {
     }
 }
 if (count($urls2) > 0) {
-    error_log('count : ' . count($urls2) . " / point_sum : ${point_sum}");
+    error_log("own ${coin_own}" . ' / count : ' . count($urls2) . " / point_sum : ${point_sum}");
     $mu->get_contents_multi($urls2, null);
 }
 
