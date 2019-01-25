@@ -18,7 +18,8 @@ $rc = preg_match_all('/<tr.*?><td.*?>(.+?);(.+?)<.+?><.+?>.*?<.+?><.+?>(.+?)<\/t
 error_log(print_r($matches, true));
 
 foreach($matches as $item) {
+    $item[1] = explode('(', $item[1])[0];
+    $item[3] = strip_tags($item[3]);
     array_shift($item);
-    $item[2] = strip_tags($item[2]);
     error_log(print_r($item, true));
 }
