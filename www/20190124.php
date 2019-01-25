@@ -185,12 +185,6 @@ foreach ($list_number as $number) {
     }
 }
 
-/*
-$url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/api/v1/me/coin';
-$res = $mu->get_contents($url, $options3);
-error_log($res);
-*/
-
 error_log(file_get_contents($cookie));
 
 $time_finish = microtime(true);
