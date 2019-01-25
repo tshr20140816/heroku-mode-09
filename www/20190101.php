@@ -79,7 +79,7 @@ $options2 = [
 
 $res = $mu->get_contents($url, $options2);
 
-$rc = get_point($cookie);
+$rc = get_point($mu, $cookie);
 
 error_log(print_r($rc, true));
 exit();
@@ -180,7 +180,9 @@ error_log(file_get_contents($cookie));
 $time_finish = microtime(true);
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's');
 
-function get_point($cookie) {
+exit();
+
+function get_point($mu_, $cookie_) {
     $options3 = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
         CURLOPT_HTTPHEADER => [
@@ -191,12 +193,12 @@ function get_point($cookie) {
             'DNT: 1',
             'Upgrade-Insecure-Requests: 1',
             ],
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_COOKIEJAR => $cookie_,
+        CURLOPT_COOKIEFILE => $cookie_,
     ];
 
     $url = 'https://' . parse_url(getenv('TEST_URL_010'))['host'] . '/api/v1/me/coin';
-    $res = $mu->get_contents($url, $options3);
+    $res = $mu_->get_contents($url, $options3);
     $res = json_decode($res);
     error_log(print_r($res, true));
     $percentage_complete_level_up = $res['percentage_complete_level_up'];
