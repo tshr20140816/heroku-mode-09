@@ -202,5 +202,5 @@ function get_point($cookie) {
     $percentage_complete_level_up = $res['percentage_complete_level_up'];
     $total_coin = $res['total_coin'];
     
-    return [$percentage_complete_level_up, $total_coin]
+    return [$percentage_complete_level_up, $total_coin];
 }
