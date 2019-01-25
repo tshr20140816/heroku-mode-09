@@ -19,5 +19,6 @@ error_log(print_r($matches, true));
 
 foreach($matches as $item) {
     array_shift($item);
+    $item[2] = strip_tags($item[2]);
     error_log(print_r($item, true));
 }
