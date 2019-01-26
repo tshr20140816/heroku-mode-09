@@ -435,6 +435,7 @@ function get_task_carp($mu_) {
           . '","tag":"CARP","folder":"' . $folder_id_private . '"}';
     }
     error_log($log_prefix . 'TASKS CARP : ' . print_r($list_add_task, true));
+    return $list_add_task;
 }
 
 function get_task_full_moon($mu_)
