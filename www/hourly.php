@@ -665,7 +665,7 @@ function get_task_rainfall($mu_, $list_contents_)
         }
     }
     if (count($list_rainfall) > 0) {
-        $tmp = '☂ ' . implode(' ', $list_rainfall);
+        $tmp = '☔ ' . implode(' ', $list_rainfall);
     } else {
         $tmp = '☀';
     }
