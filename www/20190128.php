@@ -40,6 +40,7 @@ function check_uq($mu_) {
     $post_data = [
         'myPortalId' => getenv('UQ_ID'),
         'password' => getenv('UQ_PASSWORD'),
+        'ifType' => '',
         ];
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
