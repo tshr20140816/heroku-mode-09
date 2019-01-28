@@ -7,7 +7,9 @@ $requesturi = $_SERVER['REQUEST_URI'];
 $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
-$mu = new MyUtils();
+$mu = new MyUtils($pid . ' '. print_r(getallheaders(), true));
+
+error_log();
 
 $html = <<< __HEREDOC__
 <html><body>
