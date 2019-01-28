@@ -17,7 +17,7 @@ function check_uq($mu_) {
     
     $cookie = $tmpfname = tempnam("/tmp", time());
     
-    $url = 'https://my.uqmobile.jp/leo-bs-ptl-web/view/PSYSATH001_90/init?screenId=PSYSATH001_90&menuType=01';
+    $url = 'https://my.uqmobile.jp/leo-bs-ptl-web/view/PSYSATH001_90/init/';
     
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
