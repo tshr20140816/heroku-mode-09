@@ -21,7 +21,7 @@ __HEREDOC__;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $url = $_POST['url'];
     error_log($url);
-    echo $mu_->get_contents($url);
+    echo $mu->get_contents($url);
 } else {
     echo $html;
 }
