@@ -434,6 +434,9 @@ function get_task_carp($mu_) {
           . '","context":"' . $list_context_id[date('w', $timestamp)]
           . '","tag":"CARP","folder":"' . $folder_id_private . '"}';
     }
+    $count_task = count($list_add_task);
+    $mu_->post_blog_fc2("CARP Task Add : ${count_task}");
+    
     error_log($log_prefix . 'TASKS CARP : ' . print_r($list_add_task, true));
     return $list_add_task;
 }
@@ -487,6 +490,8 @@ function get_task_full_moon($mu_)
             $list_add_task[$hash] = $tmp;
         }
     }
+    $count_task = count($list_add_task);
+    $mu_->post_blog_fc2("FULL MOON Task Add : ${count_task}");
 
     error_log($log_prefix . 'FULL MOON : ' . print_r($list_add_task, true));
     return $list_add_task;
@@ -522,7 +527,7 @@ function get_task_soccer($mu_)
         if ($rc == 1) {
             $tmp1 = substr($tmp1, 0, strlen($tmp1) - 3);
         }
-        $title = substr(trim($tmp[1], '"'), 5) . ' ' . $tmp1 . ' ' . trim($tmp[0], '"') . ' ' . trim($tmp[6], '"');
+        $title = substr(trim($tmp[1], '"'), 5) . ' ' . $tmp1 . ' ' . trim($tmp[0], '"') . ' ' . trim($tmp[6], '"') . ' ⚽';
 
         $tmp1 = str_replace('__TITLE__', $title, $add_task_template);
         $tmp1 = str_replace('__DUEDATE__', $timestamp, $tmp1);
