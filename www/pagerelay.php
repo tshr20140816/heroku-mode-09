@@ -18,7 +18,13 @@ $html = <<< __HEREDOC__
 </body></html>
 __HEREDOC__;
 
-if ($_SERVER["REQUEST_METHOD"] != "POST") {
-    echo $html;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $url = $_POST['url'];
+    error_log($url);
+    echo $mu_->get_contents($url);
 } else {
+    echo $html;
 }
+
+$time_finish = microtime(true);
+error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's');
