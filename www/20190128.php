@@ -31,7 +31,30 @@ function check_uq($mu_) {
             ],
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
-        CURLOPT_TIMEOUT => 20,
+    ];
+    
+    $res = $mu_->get_contents($url, $options);
+    
+    $url = 'https://my.uqmobile.jp/leo-bs-ptl-web/resource/PSYSATH001_90/login';
+    
+    $post_data = [
+        'myPortalId' => getenv('UQ_ID'),
+        'password' => getenv('UQ_PASSWORD'),
+        ];
+    $options = [
+        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_HTTPHEADER => [
+            'Accept: application/json, text/javascript, */*; q=0.01',
+            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            'DNT: 1',
+            'Upgrade-Insecure-Requests: 1',
+            ],
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
     ];
     
     $res = $mu_->get_contents($url, $options);
