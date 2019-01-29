@@ -333,12 +333,15 @@ foreach ($tasks as $task) {
 error_log($pid . ' $list_edit_task : ' . print_r($list_edit_task, true));
 
 // Add Tasks
+$count_add_task = count($list_add_task);
 $rc = $mu->add_tasks($list_add_task);
 
 // Edit Tasks
+$count_edit_task = count($list_edit_task);
 $rc = $mu->edit_tasks($list_edit_task);
 
 // Delete Tasks
+$count_delete_task = count($list_delete_task);
 $mu->delete_tasks($list_delete_task);
 
 if ($rainfall_continue_flag === true) {
@@ -348,7 +351,8 @@ if ($rainfall_continue_flag === true) {
 }
 
 $time_finish = microtime(true);
-$mu->post_blog_wordpress($requesturi . ' ' . substr(($time_finish - $time_start), 0, 6) . 's');
+$mu->post_blog_wordpress("${requesturi} add : ${count_add_task} / edit : ${count_edit_task} / delete : ${count_delete_task} "
+                         . substr(($time_finish - $time_start), 0, 6) . 's');
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
 exit();
