@@ -18,13 +18,33 @@ function check_lib($mu_) {
 
     $cookie = $tmpfname = tempnam("/tmp", time());
 
-    $options = [
+    $options1 = [
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
     ];
     
     $url = getenv('LIB_URL');
-    $res = $mu_->get_contents($url, $options);
+    $res = $mu_->get_contents($url, $options1);
     
     error_log($res);
+    
+    //<form name="LoginForm" method="post" action="
+    
+    $rc = preg_match('/<form name="LoginForm" method="post" action=".+?"/', $res, $match);
+    
+    error_log(print_r($match, true));
+    
+    $post_data = [
+        'txt_usercd' => getenv('LIB_ID'),
+        'txt_password' => getenv('LIB_PASSWORD'),
+        ];
+    
+    $options2 = [
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
+    ];
+    
+    unlink($cookie);
 }
