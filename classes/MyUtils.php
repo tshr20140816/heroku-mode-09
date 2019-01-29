@@ -516,6 +516,8 @@ __HEREDOC__;
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+        $time_start = microtime(true);
+        
         if (is_null($urls_)) {
             $urls_ = [];
         }
@@ -647,7 +649,10 @@ __HEREDOC__;
 
         $results = array_merge($results, $results_cache);
 
+        $time_finish = microtime(true);
+
         error_log($log_prefix . 'urls : ' . print_r(array_keys($results), true));
+        error_log("${log_prefix} Total Time : [" . substr(($time_finish - $time_start), 0, 5) . 'sec]');
 
         return $results;
     }
