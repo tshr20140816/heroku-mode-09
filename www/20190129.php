@@ -53,5 +53,12 @@ function check_lib($mu_) {
     
     error_log($res);
     
+    // /winj/opac/reserve-list.do
+    
+    $url = 'https://' . parse_url(getenv('LIB_URL'))['host'] . '/winj/opac/reserve-list.do';
+    $res = $mu_->get_contents($url, $options1);
+    
+    error_log($res);
+    
     unlink($cookie);
 }
