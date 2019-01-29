@@ -10,9 +10,9 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
 function check_lib($mu_) {
-  
+
     $cookie = $tmpfname = tempnam("/tmp", time());
-  
+
     $url = getenv('LIB_URL');
     $res = $mu_->get_contents($url);
 }
