@@ -9,7 +9,13 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-
+function check_lib($mu_) {
+  
+    $cookie = $tmpfname = tempnam("/tmp", time());
+  
+    $url = getenv('LIB_URL');
+    $res = $mu_->get_contents($url);
+}
 
 $time_finish = microtime(true);
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's');
