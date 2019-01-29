@@ -1,7 +1,6 @@
 <?php
 
 require_once 'XML/RPC2/Client.php';
-# require_once '/app/lib/XML/RPC2/Client.php';
 
 class MyUtils
 {
@@ -355,14 +354,21 @@ __HEREDOC__;
 
         try {
             $url = 'https://' . getenv('WORDPRESS_USERNAME') . '.wordpress.com/xmlrpc.php';
-            error_log($log_prefix . 'url : ' . $url);
-            $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
+            
+            $file_name = '/tmp/blog_id_wordpress';
+            if (file_exists($file_name)) {
+                $blogid = file_get_contents($file_name);
+            } else {
+                error_log($log_prefix . 'url : ' . $url);
+                $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
 
-            error_log($log_prefix . 'xmlrpc : getUsersBlogs');
-            $result = $client->getUsersBlogs(getenv('WORDPRESS_USERNAME'), getenv('WORDPRESS_PASSWORD'));
-            error_log($log_prefix . 'RESULT : ' . print_r($result, true));
+                error_log($log_prefix . 'xmlrpc : getUsersBlogs');
+                $result = $client->getUsersBlogs(getenv('WORDPRESS_USERNAME'), getenv('WORDPRESS_PASSWORD'));
+                error_log($log_prefix . 'RESULT : ' . print_r($result, true));
 
-            $blogid = $result[0]['blogid'];
+                $blogid = $result[0]['blogid'];
+                file_put_contents($file_name, $blogid);
+            }
 
             $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.', 'connectionTimeout' => 1000]); // 1sec
             error_log($log_prefix . 'xmlrpc : newPost');
