@@ -467,6 +467,7 @@ __HEREDOC__;
             CURLOPT_FOLLOWLOCATION => 1,
             CURLOPT_MAXREDIRS => 3,
             CURLOPT_PATH_AS_IS => true,
+            CURLOPT_TCP_FASTOPEN => true,
         ];
 
         $time_start = 0;
@@ -565,6 +566,7 @@ __HEREDOC__;
                         CURLOPT_FOLLOWLOCATION => 1,
                         CURLOPT_MAXREDIRS => 3,
                         CURLOPT_PATH_AS_IS => true,
+                        CURLOPT_TCP_FASTOPEN => true,
             ];
             foreach ($options as $key => $value) {
                 $rc = curl_setopt($ch, $key, $value);
