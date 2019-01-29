@@ -649,10 +649,10 @@ __HEREDOC__;
 
         $results = array_merge($results, $results_cache);
 
-        $time_finish = microtime(true);
+        $total_time = substr((microtime(true) - $time_start), 0, 5) . 'sec';
 
         error_log($log_prefix . 'urls : ' . print_r(array_keys($results), true));
-        error_log("${log_prefix} Total Time : [" . substr(($time_finish - $time_start), 0, 5) . 'sec]');
+        error_log("${log_prefix}Total Time : [${total_time}]");
 
         return $results;
     }
