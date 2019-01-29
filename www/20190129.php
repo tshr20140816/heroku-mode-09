@@ -13,8 +13,15 @@ function check_lib($mu_) {
 
     $cookie = $tmpfname = tempnam("/tmp", time());
 
+    $options = [
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+    ];
+    
     $url = getenv('LIB_URL');
-    $res = $mu_->get_contents($url);
+    $res = $mu_->get_contents($url, $options);
+    
+    error_log($res);
 }
 
 $time_finish = microtime(true);
