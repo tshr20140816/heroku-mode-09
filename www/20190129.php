@@ -39,6 +39,7 @@ function check_lib($mu_) {
     $post_data = [
         'txt_usercd' => getenv('LIB_ID'),
         'txt_password' => getenv('LIB_PASSWORD'),
+        'submit_btn_login' => 'ログイン',
         ];
     
     $options2 = [
