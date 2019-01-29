@@ -34,6 +34,8 @@ function check_lib($mu_) {
     
     error_log(print_r($match, true));
     
+    $url = 'https://' . parse_url(getenv('LIB_URL'))['host'] . $match[1];
+    
     $post_data = [
         'txt_usercd' => getenv('LIB_ID'),
         'txt_password' => getenv('LIB_PASSWORD'),
@@ -45,6 +47,10 @@ function check_lib($mu_) {
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => http_build_query($post_data),
     ];
+    
+    $res = $mu_->get_contents($url, $options2);
+    
+    error_log($res);
     
     unlink($cookie);
 }
