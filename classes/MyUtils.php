@@ -460,12 +460,13 @@ __HEREDOC__;
         error_log($log_prefix . 'options : ' . print_r($options_, true));
 
         $options = [
-        CURLOPT_URL => $url_,
-        CURLOPT_USERAGENT => getenv('USER_AGENT'),
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_FOLLOWLOCATION => 1,
-        CURLOPT_MAXREDIRS => 3,
+            CURLOPT_URL => $url_,
+            CURLOPT_USERAGENT => getenv('USER_AGENT'),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_FOLLOWLOCATION => 1,
+            CURLOPT_MAXREDIRS => 3,
+            CURLOPT_PATH_AS_IS => true,
         ];
 
         $time_start = 0;
@@ -563,6 +564,7 @@ __HEREDOC__;
                         CURLOPT_ENCODING => '',
                         CURLOPT_FOLLOWLOCATION => 1,
                         CURLOPT_MAXREDIRS => 3,
+                        CURLOPT_PATH_AS_IS => true,
             ];
             foreach ($options as $key => $value) {
                 $rc = curl_setopt($ch, $key, $value);
