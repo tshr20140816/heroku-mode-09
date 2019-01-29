@@ -30,7 +30,7 @@ function check_lib($mu_) {
     
     //<form name="LoginForm" method="post" action="
     
-    $rc = preg_match('/<form name="LoginForm" method="post" action=".+?"/', $res, $match);
+    $rc = preg_match('/<form name="LoginForm" method="post" action="(.+?)"/', $res, $match);
     
     error_log(print_r($match, true));
     
