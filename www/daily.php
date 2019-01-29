@@ -511,7 +511,7 @@ function get_task_soccer($mu_)
         if ($rc == 1) {
             $tmp1 = substr($tmp1, 0, strlen($tmp1) - 3);
         }
-        $title = substr(trim($tmp[1], '"'), 5) . ' ' . $tmp1 . ' ' . trim($tmp[0], '"') . ' ' . trim($tmp[6], '"') . ' ⚽';
+        $title = substr(trim($tmp[1], '"'), 5) . ' ' . $tmp1 . ' ⚽ ' . trim($tmp[0], '"') . ' ' . trim($tmp[6], '"');
 
         $tmp1 = str_replace('__TITLE__', $title, $add_task_template);
         $tmp1 = str_replace('__DUEDATE__', $timestamp, $tmp1);
