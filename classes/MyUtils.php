@@ -4,13 +4,9 @@ require_once 'XML/RPC2/Client.php';
 
 class MyUtils
 {
-    private $_access_token;
-    public $_count_web_access;
+    private $_access_token = null;
+    public $_count_web_access = 0;
 
-    public function __construct() {
-        $this->$_count_web_access = 0;
-    }
-    
     public function get_pdo()
     {
         $connection_info = parse_url(getenv('DATABASE_URL'));
