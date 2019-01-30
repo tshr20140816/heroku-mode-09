@@ -136,7 +136,7 @@ __HEREDOC__;
     
     error_log($log_prefix . 'LIB : ' . print_r($list_add_task, true));
     
-    $rc = $mu_->add_tasks($list_add_task);
+    // $rc = $mu_->add_tasks($list_add_task);
     
     // next
     
