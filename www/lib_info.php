@@ -108,6 +108,10 @@ __HEREDOC__;
     
     // add task
     
+    $access_token = $mu->get_access_token();
+    
+    
+    
     //
     if (count($list_lib_id) <= $order_ + 1) {
         return;
