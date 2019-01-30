@@ -354,7 +354,7 @@ __HEREDOC__;
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
         try {
-            $url = 'https://' . getenv('WORDPRESS_USERNAME') . '.wordpress.com/xmlrpc.php';
+            $url = 'https://' . base64_decode(getenv('WORDPRESS_USERNAME')) . '.wordpress.com/xmlrpc.php';
 
             $file_name = '/tmp/blog_id_wordpress';
             if (file_exists($file_name)) {
@@ -364,7 +364,7 @@ __HEREDOC__;
                 $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
                 error_log($log_prefix . 'xmlrpc : getUsersBlogs');
                 $this->_count_web_access++;
-                $result = $client->getUsersBlogs(getenv('WORDPRESS_USERNAME'), getenv('WORDPRESS_PASSWORD'));
+                $result = $client->getUsersBlogs(base64_decode(getenv('WORDPRESS_USERNAME')), base64_decode(getenv('WORDPRESS_PASSWORD')));
                 error_log($log_prefix . 'RESULT : ' . print_r($result, true));
 
                 $blogid = $result[0]['blogid'];
@@ -380,7 +380,7 @@ __HEREDOC__;
             $post_data = ['post_title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${title_}",
                           'post_content' => $description_,
                           'post_status' => 'publish'];
-            $result = $client->newPost($blogid, getenv('WORDPRESS_USERNAME'), getenv('WORDPRESS_PASSWORD'), $post_data);
+            $result = $client->newPost($blogid, base64_decode(getenv('WORDPRESS_USERNAME')), base64_decode(getenv('WORDPRESS_PASSWORD')), $post_data);
             error_log($log_prefix . 'RESULT : ' . print_r($result, true));
         } catch (Exception $e) {
             error_log($log_prefix . 'Exception : ' . $e->getMessage());
