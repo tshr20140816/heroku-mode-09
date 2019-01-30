@@ -14,8 +14,33 @@ check_lib($mu);
 $time_finish = microtime(true);
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's');
 
-function check_lib($mu_) {
+function check_lib($mu_, $symbol_ = null) {
 
+    $sql = <<< __HEREDOC__
+SELECT M1.lib_id
+      ,M1.lib_password
+      ,M1.symbol
+  FROM m_lib_account M1;
+ ORDER BY M1.symbol
+__HEREDOC__;
+    
+    $pdo = $mu_->get_pdo();
+    $list_lib_id = [];
+    foreach ($pdo->query($sql) as $row) {
+        $list_lib_id[] = base64_decode($row['lib_id']) . ',' . base64_decode($row['lib_password']) . ',' . base64_decode($row['symbol']);
+    }
+    $pdo = null;
+
+    if (count($list_lib_id) === 0) {
+        return;
+    }
+    if (is_null($symbol_)) {
+        $tmp = explode(',', $list_lib_id[0]);
+        $lib_id = $tmp[0];
+        $lib_password = $tmp[0];
+        $symbol = $tmp[0];
+    }
+    
     $cookie = $tmpfname = tempnam("/tmp", time());
 
     $options1 = [
@@ -35,7 +60,7 @@ function check_lib($mu_) {
     $url = 'https://' . parse_url(getenv('LIB_URL'))['host'] . $match[1];
     
     $post_data = [
-        'txt_usercd' => getenv('LIB_ID'),
+        'txt_usercd' => $lib_id,
         'txt_password' => getenv('LIB_PASSWORD'),
         'submit_btn_login' => 'ログイン',
         ];
