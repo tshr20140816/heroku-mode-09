@@ -8,7 +8,7 @@ class MyUtils
     public $_count_web_access;
 
     public function __construct() {
-        $_count_web_access = 0;
+        $this->$_count_web_access = 0;
     }
     
     public function get_pdo()
@@ -501,7 +501,7 @@ __HEREDOC__;
                 }
             }
             $res = curl_exec($ch);
-            $_count_web_access++;
+            $this->$_count_web_access++;
             $time_finish = microtime(true);
             $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             error_log($log_prefix .
@@ -596,7 +596,7 @@ __HEREDOC__;
             }
             curl_multi_add_handle($mh, $ch);
             $list_ch[$url] = $ch;
-            $_count_web_access++;
+            $this->$_count_web_access++;
         }
 
         $active = null;
