@@ -27,11 +27,10 @@ __HEREDOC__;
     
     $pdo = $mu_->get_pdo();
     $list_lib_id = [];
-    $tmp = $pdo->query($sql);
-    error_log(print_r($tmp, true));
-    // foreach ($pdo->query($sql) as $row) {
-    foreach ($tmp as $row) {
-        $list_lib_id[] = base64_decode($row['lib_id']) . ',' . base64_decode($row['lib_password']) . ',' . base64_decode($row['symbol']);
+    foreach ($pdo->query($sql) as $row) {
+        $list_lib_id[] = base64_decode($row['lib_id'])
+            . ',' . base64_decode($row['lib_password'])
+            . ',' . base64_decode($row['symbol']);
     }
     $pdo = null;
 
@@ -93,13 +92,6 @@ __HEREDOC__;
     $rc = preg_match('/<dd>予約かごに入れた資料を確認できます。<.*?<p class="number"><span>(\d+?)</s', $res, $match);
     error_log($rc);
     error_log(print_r($match, true));
-    
-    /*
-    $url = 'https://' . parse_url(getenv('LIB_URL'))['host'] . '/winj/opac/reserve-list.do';
-    $res = $mu_->get_contents($url, $options1);
-    
-    error_log($res);
-    */
     
     unlink($cookie);
 }
