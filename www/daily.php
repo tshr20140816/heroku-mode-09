@@ -228,16 +228,19 @@ for ($y = date('Y'); $y < date('Y') + 4; $y++) {
 error_log($pid . ' $list_add_task : ' . print_r($list_add_task, true));
 
 // Add Tasks
+$count_add_task = count($list_add_task);
 $rc = $mu->add_tasks($list_add_task);
 
 // Delete Tasks
+$count_delete_task = count($list_delete_task);
 $mu->delete_tasks($list_delete_task);
 
 // apache version check
 check_version_apache($mu);
 
 $time_finish = microtime(true);
-$mu->post_blog_wordpress($requesturi . ' ' . substr(($time_finish - $time_start), 0, 6) . 's');
+$mu->post_blog_wordpress("${requesturi} add : ${count_add_task} / delete : ${count_delete_task} "
+                         . substr(($time_finish - $time_start), 0, 6) . 's');
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
 exit();
