@@ -25,8 +25,8 @@ $latitude = $mu->get_env('LATITUDE');
 
 // outlet parking information ここでは呼び捨て 後で回収
 $urls['https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/outlet_parking_information.php'] = [
-  CURLOPT_TIMEOUT => 3,
-  CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
+    CURLOPT_TIMEOUT => 3,
+    CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
 ];
 
 $urls[getenv('LIB_URL')] = null;
@@ -654,7 +654,8 @@ function get_task_rainfall($mu_, $list_contents_)
         $res = $mu_->get_contents($url, null, true);
     }
     $data = json_decode($res, true);
-    error_log($log_prefix . '$data : ' . print_r($data, true));
+    // error_log($log_prefix . '$data : ' . print_r($data, true));
+    error_log($log_prefix . $data['Feature'][0]['Property']['Building'][0]['Name']);
 
     $url = 'https://map.yahooapis.jp/weather/V1/place?interval=5&output=json&appid=' . getenv('YAHOO_API_KEY')
         . '&coordinates=' . $longitude . ',' . $latitude;
