@@ -335,8 +335,8 @@ __HEREDOC__;
                 $url,
                 ['prefix' => 'metaWeblog.', 'connectionTimeout' => 2000]
             );
-
             error_log($log_prefix . 'xmlrpc : newPost');
+            $this->_count_web_access++;
             if (is_null($description_)) {
                 $description_ = '.';
             }
@@ -355,15 +355,15 @@ __HEREDOC__;
 
         try {
             $url = 'https://' . getenv('WORDPRESS_USERNAME') . '.wordpress.com/xmlrpc.php';
-            
+
             $file_name = '/tmp/blog_id_wordpress';
             if (file_exists($file_name)) {
                 $blogid = file_get_contents($file_name);
             } else {
                 error_log($log_prefix . 'url : ' . $url);
                 $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
-
                 error_log($log_prefix . 'xmlrpc : getUsersBlogs');
+                $this->_count_web_access++;
                 $result = $client->getUsersBlogs(getenv('WORDPRESS_USERNAME'), getenv('WORDPRESS_PASSWORD'));
                 error_log($log_prefix . 'RESULT : ' . print_r($result, true));
 
@@ -373,6 +373,7 @@ __HEREDOC__;
 
             $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.', 'connectionTimeout' => 1000]); // 1sec
             error_log($log_prefix . 'xmlrpc : newPost');
+            $this->_count_web_access++;
             if (is_null($description_)) {
                 $description_ = '.';
             }
@@ -527,7 +528,7 @@ __HEREDOC__;
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
         $time_start = microtime(true);
-        
+
         if (is_null($urls_)) {
             $urls_ = [];
         }
@@ -567,6 +568,7 @@ __HEREDOC__;
         foreach ($urls_ as $url => $options_add) {
             error_log($log_prefix . 'CURL MULTI Add $url : ' . $url);
             $ch = curl_init();
+            $this->_count_web_access++;
             $options = [CURLOPT_URL => $url,
                         CURLOPT_USERAGENT => getenv('USER_AGENT'),
                         CURLOPT_RETURNTRANSFER => true,
