@@ -46,7 +46,7 @@ __HEREDOC__;
     $pdo = null;
 
     if (count($list_lib_id) === 0 || count($list_lib_id) <= $order_) {
-        error_go($log_prefix . 'DATA NOT FOUND');
+        error_log($log_prefix . 'DATA NOT FOUND');
         return;
     }
     
