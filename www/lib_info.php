@@ -40,7 +40,7 @@ __HEREDOC__;
     foreach ($pdo->query($sql) as $row) {
         $list_lib_id[] = base64_decode($row['lib_id'])
             . ',' . base64_decode($row['lib_password'])
-            . ',' . base64_decode($row['symbol']);
+            . ',' . $row['symbol'];
     }
     $pdo = null;
 
@@ -87,36 +87,26 @@ __HEREDOC__;
     
     $res = $mu_->get_contents($url, $options2);
     
-    // error_log($res);
-    
     $ok = 0;
     $rc = preg_match('/<LI style="float:none;">利用可能な資料があります。（(\d+)冊）<\/LI>/s', $res, $match);
-    // error_log($rc);
-    // error_log(print_r($match, true));
     if ($rc === 1) {
         $ok = $match[1];
     }
     
     $rental = 0;
     $rc = preg_match('/<dd>現在、借受中の資料です。<.*?<p class="number"><span>(\d+?)</s', $res, $match);
-    // error_log($rc);
-    // error_log(print_r($match, true));
     if ($rc === 1) {
         $rental = $match[1];
     }
     
     $reserve = 0;
     $rc = preg_match('/<dd>予約状況を確認できます。<.*?<p class="number"><span>(\d+?)</s', $res, $match);
-    // error_log($rc);
-    // error_log(print_r($match, true));
     if ($rc === 1) {
         $reserve = $match[1];
     }
     
     $basket = 0;
     $rc = preg_match('/<dd>予約かごに入れた資料を確認できます。<.*?<p class="number"><span>(\d+?)</s', $res, $match);
-    // error_log($rc);
-    // error_log(print_r($match, true));
     if ($rc === 1) {
         $basket = $match[1];
     }
