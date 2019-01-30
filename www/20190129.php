@@ -74,11 +74,28 @@ __HEREDOC__;
     $res = $mu_->get_contents($url, $options2);
     
     error_log($res);
+        $rc = preg_match('/<LI style="float:none;">利用可能な資料があります。（(\d+)冊）<\/LI>/s', $res, $match);
+    error_log($rc);
+    error_log(print_r($match, true));
     
+    $rc = preg_match('/<dd>現在、借受中の資料です。<.*?<p class="number"><span>(\d+?)</s', $res, $match);
+    error_log($rc);
+    error_log(print_r($match, true));
+    
+    $rc = preg_match('/<dd>予約状況を確認できます。<.*?<p class="number"><span>(\d+?)</s', $res, $match);
+    error_log($rc);
+    error_log(print_r($match, true));
+    
+    $rc = preg_match('/<dd>予約かごに入れた資料を確認できます。<.*?<p class="number"><span>(\d+?)</s', $res, $match);
+    error_log($rc);
+    error_log(print_r($match, true));
+    
+    /*
     $url = 'https://' . parse_url(getenv('LIB_URL'))['host'] . '/winj/opac/reserve-list.do';
     $res = $mu_->get_contents($url, $options1);
     
     error_log($res);
+    */
     
     unlink($cookie);
 }
