@@ -27,9 +27,7 @@ function check_lib($mu_) {
     $res = $mu_->get_contents($url, $options1);
     
     error_log($res);
-    
-    //<form name="LoginForm" method="post" action="
-    
+
     $rc = preg_match('/<form name="LoginForm" method="post" action="(.+?)"/', $res, $match);
     
     error_log(print_r($match, true));
