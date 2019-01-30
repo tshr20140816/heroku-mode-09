@@ -14,7 +14,7 @@ check_lib($mu);
 $time_finish = microtime(true);
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's');
 
-function check_lib($mu_, $symbol_ = null) {
+function check_lib($mu_, $order_ = 0) {
 
     $sql = <<< __HEREDOC__
 SELECT M1.lib_id
@@ -31,15 +31,14 @@ __HEREDOC__;
     }
     $pdo = null;
 
-    if (count($list_lib_id) === 0) {
+    if (count($list_lib_id) === 0 || count($list_lib_id) <= $order_) {
         return;
     }
-    if (is_null($symbol_)) {
-        $tmp = explode(',', $list_lib_id[0]);
-        $lib_id = $tmp[0];
-        $lib_password = $tmp[0];
-        $symbol = $tmp[0];
-    }
+    
+    $tmp = explode(',', $list_lib_id[$order_]);
+    $lib_id = $tmp[0];
+    $lib_password = $tmp[1];
+    $symbol = $tmp[2];
     
     $cookie = $tmpfname = tempnam("/tmp", time());
 
@@ -61,7 +60,7 @@ __HEREDOC__;
     
     $post_data = [
         'txt_usercd' => $lib_id,
-        'txt_password' => getenv('LIB_PASSWORD'),
+        'txt_password' => $lib_password,
         'submit_btn_login' => 'ログイン',
         ];
     
