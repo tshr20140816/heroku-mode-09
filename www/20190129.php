@@ -20,7 +20,7 @@ function check_lib($mu_, $order_ = 0) {
 SELECT M1.lib_id
       ,M1.lib_password
       ,M1.symbol
-  FROM m_lib_account M1;
+  FROM m_lib_account M1
  ORDER BY M1.symbol
 ;
 __HEREDOC__;
