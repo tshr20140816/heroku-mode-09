@@ -133,7 +133,7 @@ __HEREDOC__;
     
     $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/lib_info.php?n=' . ($order_ + 1);
     $options3 = [
-        CURLOPT_TIMEOUT => 3,
+        CURLOPT_TIMEOUT => 2,
         CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
     ];
     
