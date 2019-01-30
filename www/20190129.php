@@ -22,6 +22,7 @@ SELECT M1.lib_id
       ,M1.symbol
   FROM m_lib_account M1;
  ORDER BY M1.symbol
+;
 __HEREDOC__;
     
     $pdo = $mu_->get_pdo();
