@@ -341,7 +341,7 @@ __HEREDOC__;
                 $description_ = '.';
             }
             $options = ['title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${title_}", 'description' => $description_];
-            $result = $client->newPost('', getenv('FC2_ID'), getenv('FC2_PASSWORD'), $options, 1); // 1 : publish
+            $result = $client->newPost('', base64_decode(getenv('FC2_ID')), base64_decode(getenv('FC2_PASSWORD')), $options, 1); // 1 : publish
             error_log($log_prefix . 'RESULT : ' . print_r($result, true));
         } catch (Exception $e) {
             error_log($log_prefix . 'Exception : ' . $e->getMessage());
