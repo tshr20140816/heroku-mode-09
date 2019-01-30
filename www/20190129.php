@@ -26,7 +26,10 @@ __HEREDOC__;
     
     $pdo = $mu_->get_pdo();
     $list_lib_id = [];
-    foreach ($pdo->query($sql) as $row) {
+    $tmp = $pdo->query($sql);
+    error_log(print_r($tmp, true));
+    // foreach ($pdo->query($sql) as $row) {
+    foreach ($tmp as $row) {
         $list_lib_id[] = base64_decode($row['lib_id']) . ',' . base64_decode($row['lib_password']) . ',' . base64_decode($row['symbol']);
     }
     $pdo = null;
