@@ -7,8 +7,6 @@ $requesturi = $_SERVER['REQUEST_URI'];
 $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
-const LIST_YOBI = array('日', '月', '火', '水', '木', '金', '土');
-
 $mu = new MyUtils();
 
 if (!isset($_GET['n'])
@@ -89,32 +87,59 @@ __HEREDOC__;
     
     $res = $mu_->get_contents($url, $options2);
     
-    error_log($res);
-        $rc = preg_match('/<LI style="float:none;">利用可能な資料があります。（(\d+)冊）<\/LI>/s', $res, $match);
-    error_log($rc);
-    error_log(print_r($match, true));
+    // error_log($res);
     
+    $ok = 0;
+    $rc = preg_match('/<LI style="float:none;">利用可能な資料があります。（(\d+)冊）<\/LI>/s', $res, $match);
+    // error_log($rc);
+    // error_log(print_r($match, true));
+    if ($rc === 1) {
+        $ok = $match[1];
+    }
+    
+    $rental = 0;
     $rc = preg_match('/<dd>現在、借受中の資料です。<.*?<p class="number"><span>(\d+?)</s', $res, $match);
-    error_log($rc);
-    error_log(print_r($match, true));
+    // error_log($rc);
+    // error_log(print_r($match, true));
+    if ($rc === 1) {
+        $rental = $match[1];
+    }
     
+    $reserve = 0;
     $rc = preg_match('/<dd>予約状況を確認できます。<.*?<p class="number"><span>(\d+?)</s', $res, $match);
-    error_log($rc);
-    error_log(print_r($match, true));
+    // error_log($rc);
+    // error_log(print_r($match, true));
+    if ($rc === 1) {
+        $reserve = $match[1];
+    }
     
+    $basket = 0;
     $rc = preg_match('/<dd>予約かごに入れた資料を確認できます。<.*?<p class="number"><span>(\d+?)</s', $res, $match);
-    error_log($rc);
-    error_log(print_r($match, true));
+    // error_log($rc);
+    // error_log(print_r($match, true));
+    if ($rc === 1) {
+        $basket = $match[1];
+    }
     
     unlink($cookie);
     
     // add task
     
-    $access_token = $mu->get_access_token();
+    $access_token = $mu_->get_access_token();
+    $folder_id_label = $mu_->get_folder_id('LABEL');
+    $list_context_id = $mu_->get_contexts();
     
+    $list_add_task[] = '{"title":"' . "${symbol} / ${ok} / ${rental} / ${reserve} / ${basket}"
+      . '","duedate":"' . mktime(0, 0, 0, 1, 6, 2018)
+      . '","context":"' . $list_context_id[date('w', mktime(0, 0, 0, 1, 6, 2018))]
+      . '","tag":"HOURLY","folder":"' . $folder_id_label . '"}';
     
+    error_log($log_prefix . 'LIB : ' . print_r($list_add_task, true));
     
-    //
+    $rc = $mu_->add_tasks($list_add_task);
+    
+    // next
+    
     if (count($list_lib_id) <= $order_ + 1) {
         return;
     }
