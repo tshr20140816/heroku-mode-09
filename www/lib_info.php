@@ -116,7 +116,9 @@ __HEREDOC__;
     $folder_id_label = $mu_->get_folder_id('LABEL');
     $list_context_id = $mu_->get_contexts();
     
-    $list_add_task[] = '{"title":"' . "${symbol} / ${ok} / ${rental} / ${reserve} / ${basket}"
+    $title = "${symbol} / ${ok} / ${rental} / ${reserve} / ${basket}"
+        . $mu_->to_small_size(' _' . date('Ymd Hi', strtotime('+9 hours')) . '_');
+    $list_add_task[] = '{"title":"' . $title
       . '","duedate":"' . mktime(0, 0, 0, 1, 6, 2018)
       . '","context":"' . $list_context_id[date('w', mktime(0, 0, 0, 1, 6, 2018))]
       . '","tag":"HOURLY","folder":"' . $folder_id_label . '"}';
