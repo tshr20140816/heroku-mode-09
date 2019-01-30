@@ -5,6 +5,7 @@ require_once 'XML/RPC2/Client.php';
 class MyUtils
 {
     private $_access_token = null;
+    public $_count_web_access = 0;
 
     public function get_pdo()
     {
@@ -481,6 +482,7 @@ __HEREDOC__;
         for ($i = 0; $i < 3; $i++) {
             $time_start = microtime(true);
             $ch = curl_init();
+            $this->_count_web_access++;
             foreach ($options as $key => $value) {
                 $rc = curl_setopt($ch, $key, $value);
                 if ($rc == false) {
