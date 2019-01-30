@@ -97,7 +97,7 @@ __HEREDOC__;
 
         error_log($log_prefix . '$access_token : ' . $access_token);
 
-        $this->$_access_token = $access_token;
+        $this->_access_token = $access_token;
         file_put_contents($file_name, $access_token); // For Cache
 
         return $access_token;
