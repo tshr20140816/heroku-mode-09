@@ -28,7 +28,7 @@ class MyUtils
             if ($timestamp > strtotime('-15 minutes')) {
                 $access_token = file_get_contents($file_name);
                 error_log($log_prefix . '(CACHE HIT) $access_token : ' . $access_token);
-                $this->$_access_token = $access_token;
+                $this->_access_token = $access_token;
                 return $access_token;
             }
         }
