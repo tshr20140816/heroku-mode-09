@@ -28,7 +28,7 @@ class MyUtils
             if ($timestamp > strtotime('-15 minutes')) {
                 $access_token = file_get_contents($file_name);
                 error_log($log_prefix . '(CACHE HIT) $access_token : ' . $access_token);
-                // $this->_access_token = $access_token;
+                $this->_access_token = $access_token;
                 return $access_token;
             }
         }
@@ -98,7 +98,7 @@ __HEREDOC__;
 
         error_log($log_prefix . '$access_token : ' . $access_token);
 
-        // $this->_access_token = $access_token;
+        $this->_access_token = $access_token;
         file_put_contents($file_name, $access_token); // For Cache
 
         return $access_token;
@@ -113,7 +113,7 @@ __HEREDOC__;
             $folders = unserialize(file_get_contents($file_name));
             error_log($log_prefix . '(CACHE HIT) FOLDERS');
         } else {
-            $res = $this->get_contents('https://api.toodledo.com/3/folders/get.php?access_token=' . $this->$access_token, null, true);
+            $res = $this->get_contents('https://api.toodledo.com/3/folders/get.php?access_token=' . $this->_access_token, null, true);
             $folders = json_decode($res, true);
             file_put_contents($file_name, serialize($folders));
         }
@@ -141,7 +141,7 @@ __HEREDOC__;
             return $list_context_id;
         }
 
-        $res = $this->get_contents('https://api.toodledo.com/3/contexts/get.php?access_token=' . $this->$access_token, null, true);
+        $res = $this->get_contents('https://api.toodledo.com/3/contexts/get.php?access_token=' . $this->_access_token, null, true);
         $contexts = json_decode($res, true);
         $list_context_id = [];
         for ($i = 0; $i < count($contexts); $i++) {
@@ -190,7 +190,7 @@ __HEREDOC__;
 
         $tmp = array_chunk($list_add_task_, 50);
         for ($i = 0; $i < count($tmp); $i++) {
-            $post_data = ['access_token' => $this->$access_token, 'tasks' => '[' . implode(',', $tmp[$i]) . ']'];
+            $post_data = ['access_token' => $this->_access_token, 'tasks' => '[' . implode(',', $tmp[$i]) . ']'];
             $res = $this->get_contents(
                 'https://api.toodledo.com/3/tasks/add.php',
                 [CURLOPT_POST => true,
@@ -218,7 +218,7 @@ __HEREDOC__;
 
         $tmp = array_chunk($list_edit_task_, 50);
         for ($i = 0; $i < count($tmp); $i++) {
-            $post_data = ['access_token' => $this->$access_token, 'tasks' => '[' . implode(',', $tmp[$i]) . ']'];
+            $post_data = ['access_token' => $this->_access_token, 'tasks' => '[' . implode(',', $tmp[$i]) . ']'];
             $res = $this->get_contents(
                 'https://api.toodledo.com/3/tasks/edit.php',
                 [CURLOPT_POST => true,
@@ -244,7 +244,7 @@ __HEREDOC__;
 
         $tmp = array_chunk($list_delete_task_, 50);
         for ($i = 0; $i < count($tmp); $i++) {
-            $post_data = ['access_token' => $this->$access_token, 'tasks' => '[' . implode(',', $tmp[$i]) . ']'];
+            $post_data = ['access_token' => $this->_access_token, 'tasks' => '[' . implode(',', $tmp[$i]) . ']'];
             $res = $this->get_contents(
                 'https://api.toodledo.com/3/tasks/delete.php',
                 [CURLOPT_POST => true,
