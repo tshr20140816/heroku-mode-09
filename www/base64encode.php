@@ -21,7 +21,7 @@ $html = <<< __HEREDOC__
 __HEREDOC__;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $url = $_POST['target_text'];
+    $target_text = $_POST['target_text'];
     error_log("${pid} ${target_text}");
     header('Content-Type: text/plain');
     echo base64_encode($target_text);
