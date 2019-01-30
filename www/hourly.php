@@ -64,8 +64,6 @@ $list_contents = $mu->get_contents_multi($urls, $urls_is_cache);
 // Access Token
 $access_token = $mu->get_access_token();
 
-exit();
-
 // Get Folders
 $folder_id_work = $mu->get_folder_id('WORK');
 $folder_id_label = $mu->get_folder_id('LABEL');
