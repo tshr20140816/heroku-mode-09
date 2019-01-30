@@ -71,4 +71,15 @@ __HEREDOC__;
 $count = $pdo->exec($sql);
 error_log('create table result : ' . $count);
 
+$sql = <<< __HEREDOC__
+CREATE TABLE m_lib_account (
+    lib_id character varying(64) PRIMARY KEY,
+    lib_password character varying(64) NOT NULL,
+    symbol character varying(3) NOT NULL,
+    update_time timestamp without time zone DEFAULT LOCALTIMESTAMP NOT NULL
+);
+__HEREDOC__;
+$count = $pdo->exec($sql);
+error_log('create table result : ' . $count);
+
 $pdo = null;
