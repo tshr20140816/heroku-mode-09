@@ -350,7 +350,7 @@ if ($rainfall_continue_flag === true) {
     $res = $mu->get_contents($url, $options);
 }
 
-// error_log($pid . ' Web Access Count : ' . $mu->$_count_web_access);
+error_log($pid . ' Web Access Count : ' . $mu->_count_web_access);
 
 $time_finish = microtime(true);
 $mu->post_blog_wordpress("${requesturi} add : ${count_add_task} / edit : ${count_edit_task} / delete : ${count_delete_task} "
