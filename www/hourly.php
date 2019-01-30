@@ -351,6 +351,10 @@ if ($rainfall_continue_flag === true) {
     $res = $mu->get_contents($url, $options);
 }
 
+$url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/lib_info.php?n=0';
+$options = [CURLOPT_TIMEOUT => 2, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
+$res = $mu->get_contents($url, $options);
+
 $time_finish = microtime(true);
 $mu->post_blog_wordpress("${requesturi} add : ${count_add_task} / edit : ${count_edit_task} / delete : ${count_delete_task} ["
                          . substr(($time_finish - $time_start), 0, 6) . 's]');
