@@ -9,12 +9,22 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-check_lib($mu);
+if (!isset($_GET['n'])
+    || $_GET['n'] === ''
+    || is_array($_GET['n'])
+    || !ctype_digit($_GET['n'])
+   ) {
+    error_log("${pid} FINISH Invalid Param");
+    exit();
+}
+
+check_lib($mu, (int)$_GET['n']);
 
 $time_finish = microtime(true);
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's');
 
-function check_lib($mu_, $order_ = 0) {
+function check_lib($mu_, $order_) {
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $sql = <<< __HEREDOC__
 SELECT M1.lib_id
@@ -35,6 +45,7 @@ __HEREDOC__;
     $pdo = null;
 
     if (count($list_lib_id) === 0 || count($list_lib_id) <= $order_) {
+        error_go($log_prefix . 'DATA NOT FOUND');
         return;
     }
     
@@ -94,4 +105,19 @@ __HEREDOC__;
     error_log(print_r($match, true));
     
     unlink($cookie);
+    
+    // add task
+    
+    //
+    if (count($list_lib_id) <= $order_ + 1) {
+        return;
+    }
+    
+    $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/lib_info.php?n=' . ($order_ + 1);
+    $options3 = [
+        CURLOPT_TIMEOUT => 3,
+        CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
+    ];
+    
+    $res = $mu_->get_contents($url, $options3);
 }
