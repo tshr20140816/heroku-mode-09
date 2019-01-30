@@ -64,12 +64,8 @@ __HEREDOC__;
     
     $url = getenv('LIB_URL');
     $res = $mu_->get_contents($url, $options1);
-    
-    error_log($res);
 
     $rc = preg_match('/<form name="LoginForm" method="post" action="(.+?)"/', $res, $match);
-    
-    error_log(print_r($match, true));
     
     $url = 'https://' . parse_url(getenv('LIB_URL'))['host'] . $match[1];
     
