@@ -29,7 +29,7 @@ function check_bus($mu_) {
     
     // error_log(print_r($matches, true));
     
-    $pattern = '/<meta itemprop="name" content="(.+?)".+?itemprop="departureTime">(.+?)<.+?itemprop="name">(.+?)</s'
+    $pattern = '/<meta itemprop="name" content="(.+?)".+?itemprop="departureTime">(.+?)<.+?itemprop="name">(.+?)</s';
     foreach ($matches as $item) {
         $rc = preg_match($pattern, $item[1], $match);
         if ($rc != 1) {
