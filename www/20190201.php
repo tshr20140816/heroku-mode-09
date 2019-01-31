@@ -25,7 +25,10 @@ function check_bus($mu_) {
     
     //error_log($res);
     
-    $rc = preg_match_all('/<li.*?>(.+?)<\/li>/s', $res, $matches);
+    $rc = preg_match_all('/<li.*?>(.+?)<\/li>/s', $res, $matches,  PREG_SET_ORDER);
     
     error_log(print_r($matches, true));
+    
+    foreach ($matches as $item) {
+    }
 }
