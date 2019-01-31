@@ -78,7 +78,7 @@ if ($count !== 0) {
 }
 
 $time_finish = microtime(true);
-if ($count === 0) {
+if ((int)$_GET['c'] === 0) {
     $mu->post_blog_wordpress($requesturi . ' [' . substr(($time_finish - $time_start), 0, 6) . 's]');
 }
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
