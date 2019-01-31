@@ -35,6 +35,7 @@ function check_bus($mu_) {
         if ($rc != 1) {
             continue;
         }
+        $match[2] = trim($match[2]);
         array_shift($match);
         error_log(print_r($match, true));
     }
