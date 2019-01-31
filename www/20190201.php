@@ -22,6 +22,10 @@ function check_bus($mu_) {
     
     $urls[] = getenv('TEST_URL_100');
     $urls[] = getenv('TEST_URL_101');
+    $urls[] = getenv('TEST_URL_102');
+    $urls[] = getenv('TEST_URL_103');
+    $urls[] = getenv('TEST_URL_104');
+    $urls[] = getenv('TEST_URL_105');
     foreach ($urls as $url) {
         $res = $mu_->get_contents($url);
 
