@@ -102,10 +102,6 @@ if ($hour_now % 2 === 1) {
 
     $rc = preg_match('/announce_datetime:(\d+-\d+-\d+) (\d+)/', $res, $matches);
 
-    // error_log($pid . ' $matches[0] : ' . $matches[0]);
-    // error_log($pid . ' $matches[1] : ' . $matches[1]);
-    // error_log($pid . ' $matches[2] : ' . $matches[2]);
-
     $dt = $matches[1]; // yyyy-mm-dd
 
     $update_marker = $mu->to_small_size(' _' . substr($matches[1], 8) . $matches[2] . '_'); // __DDHH__
