@@ -478,6 +478,7 @@ __HEREDOC__;
             CURLOPT_MAXREDIRS => 3,
             CURLOPT_PATH_AS_IS => true,
             CURLOPT_TCP_FASTOPEN => true,
+            CURLOPT_SSL_VERIFYPEER => false,
         ];
 
         $time_start = 0;
