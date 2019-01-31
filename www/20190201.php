@@ -21,16 +21,20 @@ function check_bus($mu_) {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
     $urls[] = getenv('TEST_URL_100');
-    $urls[] = getenv('TEST_URL_101');
+    // $urls[] = getenv('TEST_URL_101');
     foreach ($urls as $url) {
         $res = $mu_->get_contents($url);
 
         //error_log($res);
 
-        $rc = preg_match_all('/<li.*?>(.+?)<\/li>/s', $res, $matches,  PREG_SET_ORDER);
+        $rc = preg_match('/<div id="area">(.+?)<div itemprop="geo"/s', $res, $match);
+        error_log(print_r($match, true));
+        
+        // $rc = preg_match_all('/<li.*?>(.+?)<\/li>/s', $res, $matches,  PREG_SET_ORDER);
 
         // error_log(print_r($matches, true));
 
+        /*
         $pattern = '/<meta itemprop="name" content="(.+?)".+?itemprop="departureTime">(.+?)<.+?itemprop="name">(.+?)</s';
         foreach ($matches as $item) {
             $rc = preg_match($pattern, $item[1], $match);
@@ -41,5 +45,6 @@ function check_bus($mu_) {
             array_shift($match);
             error_log(print_r($match, true));
         }
+        */
     }
 }
