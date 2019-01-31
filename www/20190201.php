@@ -20,6 +20,7 @@ exit();
 function check_bus($mu_) {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    $url = getenv('TEST_URL_100');
     $res = $mu_->get_contents($url);
     
     error_log($res);
