@@ -31,8 +31,8 @@ function check_bus($mu_) {
 
         //error_log($res);
 
-        $rc = preg_match('/<div id="area">.*?<p class="mark">(.*?)<.*?<span class="bstop_name" itemprop="name">(.+?)<.*?itemprop="alternateName">(.*?)</s', $res, $match);
-        // array_shift($match);
+        $rc = preg_match('/<title>(.+?)</s', $res, $match);
+        array_shift($match);
         error_log(print_r($match, true));
     }
 }
