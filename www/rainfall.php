@@ -31,10 +31,9 @@ $count = (int)$_GET['c'];
 
 $continue_flag = false;
 if ($count !== 0) {
-    $count--;
     error_log("${pid} SLEEP");
     sleep(25);
-    $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $_SERVER['PHP_SELF'] . '?c=' . $count;
+    $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $_SERVER['PHP_SELF'] . '?c=' . ($count - 1);
     $options = [CURLOPT_TIMEOUT => 3, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
     $res = $mu->get_contents($url, $options);
 } else {
@@ -78,7 +77,7 @@ if ($count !== 0) {
 }
 
 $time_finish = microtime(true);
-if ((int)$_GET['c'] === 0) {
+if ($count === 0) {
     $mu->post_blog_wordpress($requesturi . ' [' . substr(($time_finish - $time_start), 0, 6) . 's]');
 }
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
