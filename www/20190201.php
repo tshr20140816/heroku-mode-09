@@ -50,6 +50,16 @@ function check_bus($mu_) {
         $rc = preg_match('/<title>(.+?) \|/s', $res, $match);
         //array_shift($match);
         error_log(print_r($match, true));
+        
+        $bus_stop = '';
+        $tmp = explode(' ', $match[1]);
+        for ($i = 0; $i < count($tmp) - 1; $i++) {
+            if ($i === 1) {
+                continue;
+            }
+            $bus_stop .= $tmp[$i] . ' ';
+        }
+        error_log(trim($bus_stop));
     }
     
     unlink($cookie);
