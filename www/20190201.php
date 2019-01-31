@@ -23,5 +23,9 @@ function check_bus($mu_) {
     $url = getenv('TEST_URL_100');
     $res = $mu_->get_contents($url);
     
-    error_log($res);
+    //error_log($res);
+    
+    $rc = preg_match_all('/<li.*?>(.+?)<\/li>/s', $res, $matches);
+    
+    error_log(print_r($matches, true));
 }
