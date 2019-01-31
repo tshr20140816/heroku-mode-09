@@ -21,13 +21,14 @@ function check_bus($mu_) {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
     $urls[] = getenv('TEST_URL_100');
-    // $urls[] = getenv('TEST_URL_101');
+    $urls[] = getenv('TEST_URL_101');
     foreach ($urls as $url) {
         $res = $mu_->get_contents($url);
 
         //error_log($res);
 
-        $rc = preg_match('/<div id="area">(.+?)<div itemprop="geo"/s', $res, $match);
+        $rc = preg_match('/<div id="area">.*?<p class="mark">(.*?)<.*?<span class="bstop_name" itemprop="name">(.+?)<.*?itemprop="alternateName">(.*?)<div itemprop="geo"/s', $res, $match);
+        array_shift($match);
         error_log(print_r($match, true));
     }
 }
