@@ -29,23 +29,5 @@ function check_bus($mu_) {
 
         $rc = preg_match('/<div id="area">(.+?)<div itemprop="geo"/s', $res, $match);
         error_log(print_r($match, true));
-        
-        // $rc = preg_match_all('/<li.*?>(.+?)<\/li>/s', $res, $matches,  PREG_SET_ORDER);
-
-        // error_log(print_r($matches, true));
-
-        // $pattern = '/<meta itemprop="name" content="(.+?)".+?itemprop="departureTime">(.+?)<.+?itemprop="name">(.+?)</s';
-            
-        /*
-        foreach ($matches as $item) {
-            $rc = preg_match($pattern, $item[1], $match);
-            if ($rc != 1) {
-                continue;
-            }
-            $match[2] = trim($match[2]);
-            array_shift($match);
-            error_log(print_r($match, true));
-        }
-        */
     }
 }
