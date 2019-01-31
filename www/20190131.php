@@ -9,6 +9,25 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-function delete_blog_wordpress() {
-    //
+delete_blog_wordpress($mu);
+
+function delete_blog_wordpress($mu) {
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $username = base64_decode(getenv('WORDPRESS_USERNAME'));
+    $password = base64_decode(getenv('WORDPRESS_PASSWORD'));
+    
+    $url = 'https://' . $username . '.wordpress.com/xmlrpc.php';
+    
+    error_log($log_prefix . 'url : ' . $url);
+    $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
+    error_log($log_prefix . 'xmlrpc : getUsersBlogs');
+    $result = $client->getUsersBlogs($username, $password);
+    error_log($log_prefix . 'RESULT : ' . print_r($result, true));
+    $blogid = $result[0]['blogid'];
+    
+    $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
+    $result = $client->getPageList($blogid, $username, $password);
+    
+    error_log(print_r($result, true));
 }
