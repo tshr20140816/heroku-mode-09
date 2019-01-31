@@ -32,8 +32,6 @@ function check_bus($mu_) {
             'DNT: 1',
             'Upgrade-Insecure-Requests: 1',
             ],
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
     ];
     
     $urls[] = getenv('TEST_URL_100');
@@ -42,24 +40,16 @@ function check_bus($mu_) {
     $urls[] = getenv('TEST_URL_103');
     $urls[] = getenv('TEST_URL_104');
     $urls[] = getenv('TEST_URL_105');
+    
+    $pattern = '/<div id="area">.*?<p class="mark">(.*?)<.+?<span class="bstop_name" itemprop="name">(.*?)<.+? itemprop="alternateName">(.*?)</s';
     foreach ($urls as $url) {
         $res = $mu_->get_contents($url, $options);
 
         //error_log($res);
 
-        $rc = preg_match('/<title>(.+?) \|/s', $res, $match);
-        //array_shift($match);
+        $rc = preg_match($pattern, $res, $match);
+        array_shift($match);
         error_log(print_r($match, true));
-        
-        $bus_stop = '';
-        $tmp = explode(' ', $match[1]);
-        for ($i = 0; $i < count($tmp) - 1; $i++) {
-            if ($i === 1) {
-                continue;
-            }
-            $bus_stop .= $tmp[$i] . ' ';
-        }
-        error_log(trim($bus_stop));
     }
     
     unlink($cookie);
