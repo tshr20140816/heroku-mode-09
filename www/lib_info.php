@@ -62,12 +62,12 @@ __HEREDOC__;
         CURLOPT_COOKIEFILE => $cookie,
     ];
     
-    $url = getenv('LIB_URL');
+    $url = $mu_->get_env('URL_LIB');
     $res = $mu_->get_contents($url, $options1);
 
     $rc = preg_match('/<form name="LoginForm" method="post" action="(.+?)"/', $res, $match);
     
-    $url = 'https://' . parse_url(getenv('LIB_URL'))['host'] . $match[1];
+    $url = 'https://' . parse_url($url)['host'] . $match[1];
     
     $post_data = [
         'txt_usercd' => $lib_id,
