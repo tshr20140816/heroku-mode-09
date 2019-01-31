@@ -29,7 +29,6 @@ $urls['https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/outlet_parking_in
     CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
 ];
 
-$urls[$mu->get_env('URL_LIB')] = null;
 $urls[$mu->get_env('URL_AMEDAS')] = null;
 $urls[$mu->get_env('URL_WEATHER_WARN')] = null;
 $urls[$mu->get_env('URL_TAIKAN_SHISU')] = null;
