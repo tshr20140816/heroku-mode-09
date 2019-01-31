@@ -35,24 +35,30 @@ function check_bus($mu_) {
     ];
     
     $urls[] = getenv('TEST_URL_100');
+    /*
     $urls[] = getenv('TEST_URL_101');
     $urls[] = getenv('TEST_URL_102');
     $urls[] = getenv('TEST_URL_103');
     $urls[] = getenv('TEST_URL_104');
     $urls[] = getenv('TEST_URL_105');
+    */
     
-    $pattern = '/<div id="area">.*?<p class="mark">(.*?)<.+?<span class="bstop_name" itemprop="name">(.*?)<.+? itemprop="alternateName">(.*?)</s';
+    $pattern1 = '/<div id="area">.*?<p class="mark">(.*?)<.+?<span class="bstop_name" itemprop="name">(.*?)<.+? itemprop="alternateName">(.*?)</s';
+    $pattern2 = '/<li.*?>(.+?)<\/li>/s'
     foreach ($urls as $url) {
         $res = $mu_->get_contents($url, $options);
 
         //error_log($res);
 
-        $rc = preg_match($pattern, $res, $match);
+        $rc = preg_match($pattern1, $res, $match);
         // array_shift($match);
         // error_log(print_r($match, true));
         $bus_stop_from = $match[2] . ' ' . $match[3] . ' ' .$match[1];
         $bus_stop_from = str_replace('  ', ' ', $bus_stop_from);
         error_log($bus_stop_from);
+        
+        $rc = preg_match_all($pattern2, $res, $matches);
+        error_log(print_r($matches, true));
     }
     
     unlink($cookie);
