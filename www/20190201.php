@@ -48,8 +48,11 @@ function check_bus($mu_) {
         //error_log($res);
 
         $rc = preg_match($pattern, $res, $match);
-        array_shift($match);
-        error_log(print_r($match, true));
+        // array_shift($match);
+        // error_log(print_r($match, true));
+        $bus_stop_from = $match[2] . ' ' . $match[3] . ' ' .$match[1];
+        $bus_stop_from = str_replace('  ', ' ', $bus_stop_from);
+        error_log($bus_stop_from);
     }
     
     unlink($cookie);
