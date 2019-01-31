@@ -47,7 +47,7 @@ function check_bus($mu_) {
 
         //error_log($res);
 
-        $rc = preg_match('/<title>(.+?) |/s', $res, $match);
+        $rc = preg_match('/<title>(.+?) \|/s', $res, $match);
         //array_shift($match);
         error_log(print_r($match, true));
     }
