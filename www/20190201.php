@@ -10,13 +10,17 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-
+check_bus($mu);
 
 $time_finish = microtime(true);
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
 
-function check_bus($mu) {
+function check_bus($mu_) {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $res = $mu_->get_contents($url);
+    
+    error_log($res);
 }
