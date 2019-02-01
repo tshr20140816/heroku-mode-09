@@ -13,21 +13,6 @@ $mu = new MyUtils();
 
 //
 
-$url = $mu_->get_env('URL_BUS_01') . '&4nocache' . date('Ymd', strtotime('+9 hours'));
-$urls_is_cache[$url] = null;
-$url = $mu_->get_env('URL_BUS_02') . '&4nocache' . date('Ymd', strtotime('+9 hours'));
-$urls_is_cache[$url] = null;
-$url = $mu_->get_env('URL_BUS_03') . '&4nocache' . date('Ymd', strtotime('+9 hours'));
-$urls_is_cache[$url] = null;
-$url = $mu_->get_env('URL_BUS_04') . '&4nocache' . date('Ymd', strtotime('+9 hours'));
-$urls_is_cache[$url] = null;
-$url = $mu_->get_env('URL_BUS_05') . '&4nocache' . date('Ymd', strtotime('+9 hours'));
-$urls_is_cache[$url] = null;
-$url = $mu_->get_env('URL_BUS_06') . '&4nocache' . date('Ymd', strtotime('+9 hours'));
-$urls_is_cache[$url] = null;
-
-//
-
 $url = 'http://www.carp.co.jp/_calendar/list.html';
 $urls_is_cache[$url] = null;
 
@@ -95,6 +80,25 @@ $urls_is_cache[$url] = null;
 
 // multi
 $list_contents = $mu->get_contents_multi(null, $urls_is_cache);
+
+//
+
+$options = [
+    CURLOPT_ENCODING => 'gzip, deflate, br',
+    CURLOPT_HTTPHEADER => [
+        'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+        'Cache-Control: no-cache',
+        'Connection: keep-alive',
+        'DNT: 1',
+        'Upgrade-Insecure-Requests: 1',
+        ],
+];
+
+for ($i = 0; $i < 6; $i++) {
+    $url = $mu->get_env('URL_BUS_0' . ($i + 1)) . '&4nocache' . date('Ymd', strtotime('+9 hours'));
+    $res = $mu->get_contents($url, null, true);
+}
 
 //
 
