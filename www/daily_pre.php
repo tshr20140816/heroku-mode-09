@@ -65,6 +65,29 @@ $url = 'https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?output=json&appid='
 // $res = $mu->get_contents($url, null, true);
 $urls_is_cache[$url] = null;
 
+//
+
+$start_yyyy = date('Y');
+$start_m = date('n');
+$finish_yyyy = date('Y', strtotime('+3 month'));
+$finish_m = date('n', strtotime('+3 month'));
+
+$url = 'http://calendar-service.net/cal?start_year=' . $start_yyyy
+    . '&start_mon=' . $start_m . '&end_year=' . $finish_yyyy . '&end_mon=' . $finish_m
+    . '&year_style=normal&month_style=numeric&wday_style=ja_full&format=csv&holiday_only=1&zero_padding=1';
+// $res = $mu->get_contents($url, null, true);
+$urls_is_cache[$url] = null;
+
+//
+
+$timestamp = strtotime('+1 day');
+$yyyy = date('Y', $timestamp);
+$mm = date('m', $timestamp);
+$url = "https://eco.mtk.nao.ac.jp/koyomi/dni/${yyyy}/m" . $mu->get_env('AREA_ID') . "${mm}.html";
+// $res = $mu->get_contents($url, null, true);
+$urls_is_cache[$url] = null;
+
+// multi
 $list_contents = $mu->get_contents_multi(null, $urls_is_cache);
 
 //
@@ -78,19 +101,6 @@ for ($j = 0; $j < 4; $j++) {
 
     $res = $mu->get_contents($url, null, true);
 }
-
-//
-
-$start_yyyy = date('Y');
-$start_m = date('n');
-$finish_yyyy = date('Y', strtotime('+3 month'));
-$finish_m = date('n', strtotime('+3 month'));
-
-$url = 'http://calendar-service.net/cal?start_year=' . $start_yyyy
-    . '&start_mon=' . $start_m . '&end_year=' . $finish_yyyy . '&end_mon=' . $finish_m
-    . '&year_style=normal&month_style=numeric&wday_style=ja_full&format=csv&holiday_only=1&zero_padding=1';
-
-$res = $mu->get_contents($url, null, true);
 
 //
 
@@ -116,10 +126,6 @@ for ($j = 0; $j < 4; $j++) {
     $timestamp = strtotime(date('Y-m-01') . " +${j} month");
     $yyyy = date('Y', $timestamp);
     $mm = date('m', $timestamp);
-    /*
-    $res = $mu->get_contents('https://eco.mtk.nao.ac.jp/koyomi/dni/'
-                             . $yyyy . '/s' . $area_id . $mm . '.html', null, true);
-    */
     $res = $mu->get_contents("https://eco.mtk.nao.ac.jp/koyomi/dni/${yyyy}/s${area_id}${mm}.html", null, true);
 }
 
@@ -130,14 +136,6 @@ $yyyy = date('Y', $timestamp);
 $mm = date('m', $timestamp);
 
 $res = $mu->get_contents('https://eco.mtk.nao.ac.jp/koyomi/dni/' . $yyyy . '/s' . $mu->get_env('AREA_ID') . $mm . '.html', null, true);
-
-//
-
-$timestamp = strtotime('+1 day');
-$yyyy = date('Y', $timestamp);
-$mm = date('m', $timestamp);
-
-$res = $mu->get_contents('https://eco.mtk.nao.ac.jp/koyomi/dni/' . $yyyy . '/m' . $mu->get_env('AREA_ID') . $mm . '.html', null, true);
 
 //
 
