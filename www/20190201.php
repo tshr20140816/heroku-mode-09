@@ -57,7 +57,7 @@ function check_bus($mu_) {
         $bus_stop_from = str_replace('  ', ' ', $bus_stop_from);
         error_log($bus_stop_from);
         
-        $rc = preg_match_all($pattern2, $res, $matches);
+        $rc = preg_match_all($pattern2, $res, $matches,  PREG_SET_ORDER);
         error_log(print_r($matches, true));
     }
     
