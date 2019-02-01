@@ -10,17 +10,20 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-check_bus($mu);
+get_task_bus($mu);
 
 $time_finish = microtime(true);
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
 
-function check_bus($mu_) {
+function get_task_bus($mu_) {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $cookie = $tmpfname = tempnam("/tmp", time());
+    $folder_id_bus = $mu_->get_folder_id('BUS');
+    $list_context_id = $mu_->get_contexts();
+    $list_add_task = [];
+    $timestamp = mktime(0, 0, 0, 1, 1, 2019);
     
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
@@ -46,23 +49,24 @@ function check_bus($mu_) {
     foreach ($urls as $url) {
         $res = $mu_->get_contents($url, $options);
 
-        //error_log($res);
-
         $rc = preg_match($pattern1, $res, $match);
-        // array_shift($match);
-        // error_log(print_r($match, true));
+        
         $bus_stop_from = $match[2] . ' ' . $match[3] . ' ' .$match[1];
         $bus_stop_from = str_replace('  ', ' ', $bus_stop_from);
-        error_log($bus_stop_from);
+        error_log($log_prefix . $bus_stop_from);
         
         $rc = preg_match_all($pattern2, $res, $matches,  PREG_SET_ORDER);
-        // error_log(print_r($matches, true));
         foreach ($matches as $match) {
-            $title[] = str_replace('()', '', $match[1] . ' ' . $bus_stop_from . ' → ' . $match[3] . '(' . $match[2] . ')');
+            $title = str_replace('()', '', $bus_stop_from . ' ' . $match[1] . ' ' . $match[3] . '(' . $match[2] . ')');
+            $list_add_task[$hash] = '{"title":"' . $title
+                . '","duedate":"' . $timestamp
+                . '","context":"' . $list_context_id[date('w', $timestamp)]
+                . '","tag":"BUS","folder":"' . $folder_id_bus . '"}';
         }
     }
-    sort($title);
-    error_log(print_r($title, true));
-    
-    unlink($cookie);
+    $count_task = count($list_add_task);
+    // $mu_->post_blog_fc2("BUS Task Add : ${count_task}");
+
+    error_log($log_prefix . 'BUS CARP : ' . print_r($list_add_task, true));
+    return $list_add_task;
 }
