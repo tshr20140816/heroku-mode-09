@@ -61,6 +61,7 @@ function check_bus($mu_) {
             $title[] = str_replace('()', '', $match[1] . ' ' . $bus_stop_from . ' → ' . $match[3] . '(' . $match[2] . ')');
         }
     }
+    sort($title);
     error_log(print_r($title, true));
     
     unlink($cookie);
