@@ -10,6 +10,8 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
+$access_token = $mu->get_access_token();
+
 get_task_bus($mu);
 
 $time_finish = microtime(true);
