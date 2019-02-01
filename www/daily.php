@@ -146,7 +146,8 @@ foreach ($tasks as $task) {
             || $task['tag'] == 'SOCCER'
             || $task['tag'] == 'CULTURECENTER'
             || $task['tag'] == 'CARP'
-            || $task['tag'] == 'HIGHWAY') {
+            || $task['tag'] == 'HIGHWAY'
+            || $task['tag'] == 'BUS') {
             $hash = date('Ymd', $task['duedate']) . hash('sha512', $task['title']);
             $list_delete_task[$hash] = $task['id'];
         } elseif ($task['tag'] == 'HOLIDAY' || $task['tag'] == 'ADDITIONAL') {
