@@ -14,14 +14,12 @@ $mu = new MyUtils();
 //
 
 $url = 'http://www.carp.co.jp/_calendar/list.html';
-// $res = $mu->get_contents($url, null, true);
 $urls_is_cache[$url] = null;
 
 //
 
 $yyyy = date('Y');
 $url = "https://e-moon.net/calendar_list/calendar_moon_${yyyy}/";
-// $res = $mu->get_contents($url, null, true);
 $urls_is_cache[$url] = null;
 
 //
@@ -33,19 +31,16 @@ $url = 'https://www.w-nexco.co.jp/traffic_info/construction/traffic.php?fdate='
     . '&ak=1&ac=1&kisei%5B%5D=901&dirc%5B%5D=1&dirc%5B%5D=2&order=2&ronarrow=0'
     . '&road%5B%5D=1011&road%5B%5D=1912&road%5B%5D=1020&road%5B%5D=225A&road%5B%5D=1201'
     . '&road%5B%5D=1222&road%5B%5D=1231&road%5B%5D=234D&road%5B%5D=1232&road%5B%5D=1260';
-// $res = $mu->get_contents($url, null, true);
 $urls_is_cache[$url] = null;
 
 //
 
 $url = 'https://github.com/apache/httpd/releases.atom?4nocache' . date('Ymd', strtotime('+9 hours'));
-// $res = $mu->get_contents($url, null, true);
 $urls_is_cache[$url] = null;
 
 //
 
 $url = 'https://devcenter.heroku.com/articles/php-support?4nocache' . date('Ymd', strtotime('+9 hours'));
-// $res = $mu->get_contents($url, null, true);
 $urls_is_cache[$url] = null;
 
 //
@@ -54,7 +49,6 @@ $options = [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version
                                    'Authorization: Bearer ' . getenv('HEROKU_API_KEY'),
                                    ]];
 $url = 'https://api.heroku.com/account';
-// $res = $mu->get_contents($url, $options, true);
 $urls_is_cache[$url] = $options;
 
 //
@@ -62,7 +56,6 @@ $urls_is_cache[$url] = $options;
 $url = 'https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?output=json&appid='
     . getenv('YAHOO_API_KEY')
     . '&lon=' . $mu->get_env('LONGITUDE') . '&lat=' . $mu->get_env('LATITUDE');
-// $res = $mu->get_contents($url, null, true);
 $urls_is_cache[$url] = null;
 
 //
@@ -75,7 +68,6 @@ $finish_m = date('n', strtotime('+3 month'));
 $url = 'http://calendar-service.net/cal?start_year=' . $start_yyyy
     . '&start_mon=' . $start_m . '&end_year=' . $finish_yyyy . '&end_mon=' . $finish_m
     . '&year_style=normal&month_style=numeric&wday_style=ja_full&format=csv&holiday_only=1&zero_padding=1';
-// $res = $mu->get_contents($url, null, true);
 $urls_is_cache[$url] = null;
 
 //
@@ -84,7 +76,6 @@ $timestamp = strtotime('+1 day');
 $yyyy = date('Y', $timestamp);
 $mm = date('m', $timestamp);
 $url = "https://eco.mtk.nao.ac.jp/koyomi/dni/${yyyy}/m" . $mu->get_env('AREA_ID') . "${mm}.html";
-// $res = $mu->get_contents($url, null, true);
 $urls_is_cache[$url] = null;
 
 // multi
