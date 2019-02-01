@@ -430,7 +430,7 @@ function get_task_bus($mu_) {
         
         $rc = preg_match_all($pattern2, $res, $matches, PREG_SET_ORDER);
         foreach ($matches as $match) {
-            $title = str_replace('()', '', $bus_stop_from . ' ' . $match[1] . ' ' . $match[3] . '(' . $match[2] . ')');
+            $title = str_replace('()', '', '[' . $bus_stop_from . '] ' . $match[1] . ' ' . $match[3] . '(' . $match[2] . ')');
             $hash = date('Ymd', $timestamp) . hash('sha512', $title);
             $list_add_task[$hash] = '{"title":"' . $title
                 . '","duedate":"' . $timestamp
