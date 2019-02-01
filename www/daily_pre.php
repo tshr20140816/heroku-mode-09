@@ -141,14 +141,6 @@ for ($j = 0; $j < 4; $j++) {
 
 //
 
-$timestamp = strtotime('+1 day');
-$yyyy = date('Y', $timestamp);
-$mm = date('m', $timestamp);
-
-$res = $mu->get_contents('https://eco.mtk.nao.ac.jp/koyomi/dni/' . $yyyy . '/s' . $mu->get_env('AREA_ID') . $mm . '.html', null, true);
-
-//
-
 $sql_delete = <<< __HEREDOC__
 DELETE
   FROM t_webcache
