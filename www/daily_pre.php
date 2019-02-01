@@ -61,7 +61,7 @@ $urls_is_cache[$url] = $options;
 
 $url = 'https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?output=json&appid='
     . getenv('YAHOO_API_KEY')
-    . '&lon=' . $mu->get_env('LONGITUDE') . '&lat=' . $mu->get_env('LATITUDE')
+    . '&lon=' . $mu->get_env('LONGITUDE') . '&lat=' . $mu->get_env('LATITUDE');
 // $res = $mu->get_contents($url, null, true);
 $urls_is_cache[$url] = null;
 
