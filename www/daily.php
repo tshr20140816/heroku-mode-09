@@ -173,6 +173,7 @@ $list_get_task = [get_task_highway($mu),
                   get_task_culturecenter($mu),
                   get_task_full_moon($mu),
                   get_task_carp($mu),
+                  get_task_bus($mu),
                  ];
 foreach ($list_get_task as $list_add_task_tmp) {
     $list_duplicate_task_keys = array_intersect(array_keys($list_add_task_tmp), array_keys($list_delete_task));
@@ -390,6 +391,58 @@ function get_sun($mu_)
 
     error_log($log_prefix . '$list_sunrise_sunset : ' . print_r($list_sunrise_sunset, true));
     return $list_sunrise_sunset;
+}
+
+function get_task_bus($mu_) {
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $folder_id_bus = $mu_->get_folder_id('BUS');
+    $list_context_id = $mu_->get_contexts();
+    $list_add_task = [];
+    $timestamp = mktime(0, 0, 0, 1, 1, 2019);
+    
+    $options = [
+        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_HTTPHEADER => [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            'DNT: 1',
+            'Upgrade-Insecure-Requests: 1',
+            ],
+    ];
+    
+    for ($i = 0; $i < 6; $i++) {
+        $urls[] = $mu_->get_env('URL_BUS_0' . ($i + 1)) . '&4nocache' . date('Ymd', strtotime('+9 hours'));
+    }
+    
+    $pattern1 = '/<div id="area">.*?<p class="mark">(.*?)<.+?<span class="bstop_name" itemprop="name">(.*?)<.+? itemprop="alternateName">(.*?)</s';
+    $pattern2 = '/<p class="time" itemprop="departureTime">\s+(.+?)\s.+?<span class="route">(.*?)<.+?itemprop="name">(.*?)<.+?<\/li>/s';
+    foreach ($urls as $url) {
+        $res = $mu_->get_contents($url, $options, true);
+
+        $rc = preg_match($pattern1, $res, $match);
+        
+        $bus_stop_from = $match[2] . ' ' . $match[3] . ' ' . $match[1];
+        $bus_stop_from = str_replace('  ', ' ', $bus_stop_from);
+        error_log($log_prefix . $bus_stop_from);
+        
+        $rc = preg_match_all($pattern2, $res, $matches, PREG_SET_ORDER);
+        foreach ($matches as $match) {
+            $title = str_replace('()', '', $bus_stop_from . ' ' . $match[1] . ' ' . $match[3] . '(' . $match[2] . ')');
+            $hash = date('Ymd', $timestamp) . hash('sha512', $title);
+            $list_add_task[$hash] = '{"title":"' . $title
+                . '","duedate":"' . $timestamp
+                . '","context":"' . $list_context_id[date('w', $timestamp)]
+                . '","tag":"BUS","folder":"' . $folder_id_bus . '"}';
+        }
+    }
+    $count_task = count($list_add_task);
+    $mu_->post_blog_fc2("BUS Task Add : ${count_task}");
+
+    error_log($log_prefix . 'TASK BUS : ' . print_r($list_add_task, true));
+    return $list_add_task;
 }
 
 function get_task_carp($mu_) {
