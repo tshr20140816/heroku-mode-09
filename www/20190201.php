@@ -60,7 +60,7 @@ function check_bus($mu_) {
         $rc = preg_match_all($pattern2, $res, $matches,  PREG_SET_ORDER);
         // error_log(print_r($matches, true));
         foreach ($matches as $match) {
-            $title[] = str_replace('()', '', $match[1] . ' ' . $match[3] . '(' . $match[2] . ')');
+            $title[] = str_replace('()', '', $match[1] . ' ' . $bus_stop_from . '→' . $match[3] . '(' . $match[2] . ')');
         }
         error_log(print_r($title, true));
     }
