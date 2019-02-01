@@ -58,7 +58,11 @@ function check_bus($mu_) {
         error_log($bus_stop_from);
         
         $rc = preg_match_all($pattern2, $res, $matches,  PREG_SET_ORDER);
-        error_log(print_r($matches, true));
+        // error_log(print_r($matches, true));
+        foreach ($matches as $match) {
+            $title[] = str_replace('()', '', $match[1] . ' ' . $match[3] . '(' . $match[2] . ')');
+        }
+        error_log(print_r($title, true));
     }
     
     unlink($cookie);
