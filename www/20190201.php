@@ -50,11 +50,11 @@ function get_task_bus($mu_) {
 
         $rc = preg_match($pattern1, $res, $match);
         
-        $bus_stop_from = $match[2] . ' ' . $match[3] . ' ' .$match[1];
+        $bus_stop_from = $match[2] . ' ' . $match[3] . ' ' . $match[1];
         $bus_stop_from = str_replace('  ', ' ', $bus_stop_from);
         error_log($log_prefix . $bus_stop_from);
         
-        $rc = preg_match_all($pattern2, $res, $matches,  PREG_SET_ORDER);
+        $rc = preg_match_all($pattern2, $res, $matches, PREG_SET_ORDER);
         foreach ($matches as $match) {
             $title = str_replace('()', '', $bus_stop_from . ' ' . $match[1] . ' ' . $match[3] . '(' . $match[2] . ')');
             $hash = date('Ymd', $timestamp) . hash('sha512', $title);
