@@ -37,12 +37,12 @@ function get_task_bus($mu_) {
             ],
     ];
     
-    $urls[] = getenv('TEST_URL_100');
-    // $urls[] = getenv('TEST_URL_101');
-    $urls[] = getenv('TEST_URL_102');
-    $urls[] = getenv('TEST_URL_103');
-    $urls[] = getenv('TEST_URL_104');
-    $urls[] = getenv('TEST_URL_105');
+    $urls[] = $mu_->get_env('URL_BUS_01');
+    $urls[] = $mu_->get_env('URL_BUS_02');
+    $urls[] = $mu_->get_env('URL_BUS_03');
+    $urls[] = $mu_->get_env('URL_BUS_04');
+    $urls[] = $mu_->get_env('URL_BUS_05');
+    $urls[] = $mu_->get_env('URL_BUS_06');
     
     $pattern1 = '/<div id="area">.*?<p class="mark">(.*?)<.+?<span class="bstop_name" itemprop="name">(.*?)<.+? itemprop="alternateName">(.*?)</s';
     $pattern2 = '/<p class="time" itemprop="departureTime">\s+(.+?)\s.+?<span class="route">(.*?)<.+?itemprop="name">(.*?)<.+?<\/li>/s';
