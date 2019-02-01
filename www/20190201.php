@@ -44,7 +44,7 @@ function check_bus($mu_) {
     */
     
     $pattern1 = '/<div id="area">.*?<p class="mark">(.*?)<.+?<span class="bstop_name" itemprop="name">(.*?)<.+? itemprop="alternateName">(.*?)</s';
-    $pattern2 = '/<li.*?>(.+?)<\/li>/s';
+    $pattern2 = '/<li .*?>(.+?)<\/li>/s';
     foreach ($urls as $url) {
         $res = $mu_->get_contents($url, $options);
 
