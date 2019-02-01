@@ -58,6 +58,7 @@ function get_task_bus($mu_) {
         $rc = preg_match_all($pattern2, $res, $matches,  PREG_SET_ORDER);
         foreach ($matches as $match) {
             $title = str_replace('()', '', $bus_stop_from . ' ' . $match[1] . ' ' . $match[3] . '(' . $match[2] . ')');
+            $hash = date('Ymd', $timestamp) . hash('sha512', $title);
             $list_add_task[$hash] = '{"title":"' . $title
                 . '","duedate":"' . $timestamp
                 . '","context":"' . $list_context_id[date('w', $timestamp)]
@@ -67,6 +68,6 @@ function get_task_bus($mu_) {
     $count_task = count($list_add_task);
     // $mu_->post_blog_fc2("BUS Task Add : ${count_task}");
 
-    error_log($log_prefix . 'BUS CARP : ' . print_r($list_add_task, true));
+    error_log($log_prefix . 'TASK BUS : ' . print_r($list_add_task, true));
     return $list_add_task;
 }
