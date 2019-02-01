@@ -13,6 +13,21 @@ $mu = new MyUtils();
 
 //
 
+$url = $mu_->get_env('URL_BUS_01') . '&4nocache' . date('Ymd', strtotime('+9 hours'));
+$urls_is_cache[$url] = null;
+$url = $mu_->get_env('URL_BUS_02') . '&4nocache' . date('Ymd', strtotime('+9 hours'));
+$urls_is_cache[$url] = null;
+$url = $mu_->get_env('URL_BUS_03') . '&4nocache' . date('Ymd', strtotime('+9 hours'));
+$urls_is_cache[$url] = null;
+$url = $mu_->get_env('URL_BUS_04') . '&4nocache' . date('Ymd', strtotime('+9 hours'));
+$urls_is_cache[$url] = null;
+$url = $mu_->get_env('URL_BUS_05') . '&4nocache' . date('Ymd', strtotime('+9 hours'));
+$urls_is_cache[$url] = null;
+$url = $mu_->get_env('URL_BUS_06') . '&4nocache' . date('Ymd', strtotime('+9 hours'));
+$urls_is_cache[$url] = null;
+
+//
+
 $url = 'http://www.carp.co.jp/_calendar/list.html';
 $urls_is_cache[$url] = null;
 
