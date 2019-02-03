@@ -46,7 +46,7 @@ $urls_is_cache[$url] = null;
 //
 
 $options = [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version=3',
-                                   'Authorization: Bearer ' . getenv('HEROKU_API_KEY'),
+                                   'Authorization: Bearer ' . base64_decode(getenv('HEROKU_API_KEY')),
                                    ]];
 $url = 'https://api.heroku.com/account';
 $urls_is_cache[$url] = $options;
