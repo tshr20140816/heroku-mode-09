@@ -17,8 +17,28 @@ $mu = new MyUtils();
 $url = 'https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/composer.lock';
 $res = $mu->get_contents($url);
 
-error_log($res);
+// error_log($res);
 
-$res = json_decode($res, true);
+$res = json_decode($res, true)['packages-dev'];
 
-error_log(print_r($res, true));
+foreach ($res as $item) {
+    if ($item['name'] == 'heroku/heroku-buildpack-php') {
+        $current_version = $item['version'];
+        break;
+    }
+}
+
+error_log($current_version);
+
+$res = file_get_contents('/app/composer.lock');
+
+$res = json_decode($res, true)['packages-dev'];
+
+foreach ($res as $item) {
+    if ($item['name'] == 'heroku/heroku-buildpack-php') {
+        $current_version = $item['version'];
+        break;
+    }
+}
+
+error_log($latest_version);
