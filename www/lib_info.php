@@ -29,7 +29,7 @@ if ($res === 'continue') {
     if ($n === 0) {
         unlink($file_name);
     }
-    $log = "${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . "s]\n";
+    $log = date('Y/m/d H:i:s') . " ${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . "s]\n";
     file_put_contents($file_name, $log, FILE_APPEND);
 } else {
     $log = '';
@@ -37,7 +37,7 @@ if ($res === 'continue') {
         $log = file_get_contents($file_name);
         unlink($file_name);
     }
-    $log .= "${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . "s]";
+    $log .= date('Y/m/d H:i:s') . " ${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . "s]";
     $mu->post_blog_wordpress('/lib_info.php', $log);
 }
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
