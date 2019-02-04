@@ -1,7 +1,5 @@
 <?php
 
-require_once 'HTTP/WebDAV/Client.php';
-
 // include(dirname(__FILE__) . '/../classes/MyUtils.php');
 
 $pid = getmypid();
@@ -12,4 +10,5 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 // $mu = new MyUtils();
 
 $client = new HTTP_WebDAV_Client_Stream();
-// https://stackoverflow.com/questions/3369675/php-idisk-webdav-client
+// https://webcache.googleusercontent.com/search?q=cache:4GQ-z2i8mrgJ:https://sebastiaandejonge.com/blog/2013/january/22/php-upload-to-webdav-using-curl.html+&cd=1&hl=ja&ct=clnk&gl=jp
+
