@@ -40,7 +40,7 @@ $post_data = [
     'csrf2' => $csrf2,
     'redirect' => '/tools/backup.php',
     'email' => getenv('TOODLEDO_EMAIL'),
-    'password' => getenv('TOODLEDO_PASSWORD'),
+    'pass' => getenv('TOODLEDO_PASSWORD'),
 ];
 
 $options2 = [
@@ -64,6 +64,6 @@ $url = 'https://www.toodledo.com/signin.php';
 
 $res = $mu->get_contents($url, $options2);
 
-error_log($res);
+error_log(strlen($res));
 
 unlink($cookie);
