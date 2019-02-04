@@ -13,7 +13,7 @@ $mu = new MyUtils();
 
 $file_name = '/tmp/pg_dump.dat';
 
-$cmd = 'pg_dump --dbname=' . getenv('DATABASE_URL') . ' >' . $file_name;
+$cmd = 'pg_dump --format=plain --dbname=' . getenv('DATABASE_URL') . ' >' . $file_name;
 exec($cmd);
 
 error_log('original : ' . filesize($file_name));
