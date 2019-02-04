@@ -21,4 +21,4 @@ error_log($res);
 
 $res = json_decode($res, true);
 
-error_log($res);
+error_log(print_r($res, true));
