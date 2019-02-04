@@ -16,10 +16,18 @@ $file_name = '/tmp/pg_dump.dat';
 $cmd = 'pg_dump --dbname=' . getenv('DATABASE_URL') . ' >' . $file_name;
 exec($cmd);
 
-error_log(filesize($file_name));
+error_log('original : ' . filesize($file_name));
 
 $res = openssl_encrypt(file_get_contents($file_name), 'AES256', 'password_dummy', OPENSSL_RAW_DATA, '0123456789012345');
 
-error_log(strlen($res));
+error_log('openssl_encrypt : ' . strlen(base64_encode($res)));
+
+$res = bzcompress(file_get_contents($file_name));
+
+error_log('bzcompress : ' . strlen(base64_encode($res)));
+
+$res = openssl_encrypt(base64_encode($res), 'AES256', 'password_dummy', OPENSSL_RAW_DATA, '0123456789012345');
+
+error_log('bzcompress + openssl_encrypt : ' . strlen(base64_encode($res)));
 
 @unlink('/tmp/pg_dump.dat');
