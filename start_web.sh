@@ -26,10 +26,10 @@ curl --version
 echo "$(httpd -v)" > /tmp/apache_current_version
 
 # heroku-buildpack-php
-current_version=$(cat composer.lock | grep version | awk '{print $2}' | tr -d ,)
+# current_version=$(cat composer.lock | grep version | awk '{print $2}' | tr -d ,)
 composer update > /dev/null 2>&1 &
 
-echo $current_version > /tmp/current_version
+# echo $current_version > /tmp/current_version
 
 export USER_AGENT=$(curl https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/useragent.txt)
 # echo $USER_AGENT
