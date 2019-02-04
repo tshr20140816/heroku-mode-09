@@ -409,6 +409,7 @@ function get_task_heroku_buildpack_php($mu_)
     $list_context_id = $mu_->get_contexts();
 
     $list_add_task = [];
+    return $list_add_task;
 
     $file_name_current = '/tmp/current_version';
     $file_name_latest = '/tmp/latest_version';
