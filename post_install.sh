@@ -45,29 +45,9 @@ popd
 popd
 cp -af /tmp/net_url2/* ./
 
-# ***** HTTP_WebDAV_Client *****
-
-pushd /tmp
-mkdir HTTP_WebDAV_Client
-pushd HTTP_WebDAV_Client
-git clone --depth=1 https://github.com/pear/HTTP_WebDAV_Client.git .
-popd
-popd
-cp -af /tmp/HTTP_WebDAV_Client/* ./
-
-pushd /tmp
-mkdir http_request
-pushd http_request
-git clone --depth=1 https://github.com/pear/http_request.git .
-popd
-popd
-cp -af /tmp/http_request/* ./
-
 rm -f *
 ls -lang
 popd
-
-# https://stackoverflow.com/questions/3369675/php-idisk-webdav-client
 
 wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.0/phpcs.phar
 wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.0/phpcbf.phar
