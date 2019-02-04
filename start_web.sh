@@ -56,10 +56,8 @@ set -x
 wait
 
 # heroku-buildpack-php
-latest_version=$(cat composer.lock | grep version | awk '{print $2}' | tr -d ,)
-
-echo "heroku-buildpack-php : current ${current_version} latest ${latest_version}"
-
-echo $latest_version > /tmp/latest_version
+# latest_version=$(cat composer.lock | grep version | awk '{print $2}' | tr -d ,)
+# echo "heroku-buildpack-php : current ${current_version} latest ${latest_version}"
+# echo $latest_version > /tmp/latest_version
 
 vendor/bin/heroku-php-apache2 -C apache.conf www
