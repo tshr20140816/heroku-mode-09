@@ -18,3 +18,4 @@ if (file_exists('/tmp/pg_dump.dat')) {
     error_log(filesize('/tmp/pg_dump.dat'));
 }
   
+@unlink('/tmp/pg_dump.dat');
