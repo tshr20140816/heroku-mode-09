@@ -36,7 +36,7 @@ $res = json_decode($res, true)['packages-dev'];
 
 foreach ($res as $item) {
     if ($item['name'] == 'heroku/heroku-buildpack-php') {
-        $current_version = $item['version'];
+        $latest_version = $item['version'];
         break;
     }
 }
