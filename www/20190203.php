@@ -39,8 +39,8 @@ $post_data = [
     'csrf1' => $csrf1,
     'csrf2' => $csrf2,
     'redirect' => '/tools/backup.php',
-    'email' => getenv('TOODLEDO_EMAIL'),
-    'pass' => getenv('TOODLEDO_PASSWORD'),
+    'email' => base64_decode(getenv('TOODLEDO_EMAIL')),
+    'pass' => base64_decode(getenv('TOODLEDO_PASSWORD')),
 ];
 
 $options2 = [
