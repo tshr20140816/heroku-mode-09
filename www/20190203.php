@@ -38,7 +38,7 @@ $csrf2 = $matches[1];
 $post_data = [
     'csrf1' => $csrf1,
     'csrf2' => $csrf2,
-    'redirect' => /tools/backup.php,
+    'redirect' => '/tools/backup.php',
     'email' => getenv('TOODLEDO_EMAIL'),
     'password' => getenv('TOODLEDO_PASSWORD'),
 ];
