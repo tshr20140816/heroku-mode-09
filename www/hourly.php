@@ -216,9 +216,6 @@ $list_add_task = array_merge($list_add_task, get_task_quota($mu, $list_contents)
 // parking information
 $list_add_task = array_merge($list_add_task, get_task_parking_information($mu, $list_contents, $file_outlet_parking_information));
 
-// heroku buildpack php
-$list_add_task = array_merge($list_add_task, get_task_heroku_buildpack_php($mu));
-
 // river
 $list_add_task = array_merge($list_add_task, get_task_river($mu, $list_contents));
 
@@ -229,6 +226,9 @@ $res = $mu->get_contents($url);
 $tasks = json_decode($res, true);
 
 error_log($pid . ' TASKS COUNT : ' . count($tasks));
+
+// heroku buildpack php
+check_heroku_buildpack_php($mu);
 
 // iCalendar データ作成
 make_ical($mu, $tasks);
@@ -398,40 +398,36 @@ function get_task_river($mu_, $list_contents_)
     return $list_add_task;
 }
 
-function get_task_heroku_buildpack_php($mu_)
+function check_heroku_buildpack_php($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    // Get Folders
-    $folder_id_label = $mu_->get_folder_id('LABEL');
-
-    // Get Contexts
-    $list_context_id = $mu_->get_contexts();
-
-    $list_add_task = [];
-    return $list_add_task;
-
-    $file_name_current = '/tmp/current_version';
-    $file_name_latest = '/tmp/latest_version';
-
-    if (file_exists($file_name_current) && file_exists($file_name_latest)) {
-        $current_version = trim(trim(file_get_contents($file_name_current)), '"');
-        $latest_version = trim(trim(file_get_contents($file_name_latest)), '"');
-        error_log($log_prefix . 'heroku-buildpack-php current : ' . $current_version);
-        error_log($log_prefix . 'heroku-buildpack-php latest : ' . $latest_version);
-        if ($current_version != $latest_version) {
-            /*
-            $list_add_task[] = '{"title":"heroku-buildpack-php : update ' . $latest_version
-              . '","duedate":"' . mktime(0, 0, 0, 1, 1, 2018)
-              . '","tag":"HOURLY","folder":"' . $folder_id_label
-              . '","context":' . $list_context_id[date('w', mktime(0, 0, 0, 1, 1, 2018))] . '}';
-            */
-            $mu_->post_blog_fc2('heroku-buildpack-php : update ' . $latest_version);
+    $url = 'https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/composer.lock';
+    $res = $mu_->get_contents($url);
+    $res = json_decode($res, true)['packages-dev'];
+    
+    foreach ($res as $item) {
+        if ($item['name'] == 'heroku/heroku-buildpack-php') {
+            $current_version = $item['version'];
+            break;
         }
     }
-
-    error_log($log_prefix . 'HEROKU BUILDPACK PHP : ' . print_r($list_add_task, true));
-    return $list_add_task;
+    
+    $res = file_get_contents('/app/composer.lock');
+    $res = json_decode($res, true)['packages-dev'];
+    
+    foreach ($res as $item) {
+        if ($item['name'] == 'heroku/heroku-buildpack-php') {
+            $latest_version = $item['version'];
+            break;
+        }
+    }
+    
+    error_log($log_prefix . 'heroku-buildpack-php current : ' . $current_version);
+    error_log($log_prefix . 'heroku-buildpack-php latest : ' . $latest_version);
+    if ($current_version != $latest_version) {
+            $mu_->post_blog_fc2('heroku-buildpack-php : update ' . $latest_version);
+    }
 }
 
 function get_task_parking_information($mu_, $list_contents_, $file_outlet_parking_information_)
