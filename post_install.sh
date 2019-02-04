@@ -44,13 +44,22 @@ popd
 popd
 cp -af /tmp/net_url2/* ./
 
+# ***** HTTP_WebDAV_Client *****
+
+pushd /tmp
+mkdir HTTP_WebDAV_Client
+pushd HTTP_WebDAV_Client
+git clone --depth=1 https://github.com/pear/HTTP_WebDAV_Client.git .
+popd
+popd
+cp -af /tmp/HTTP_WebDAV_Client/* ./
+
 pushd /tmp
 mkdir http_request
 pushd http_request
 git clone --depth=1 https://github.com/pear/http_request.git .
 popd
 popd
-ls -lang
 cp -af /tmp/http_request/* ./
 
 rm -f *
