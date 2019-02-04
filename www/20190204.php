@@ -28,6 +28,6 @@ error_log('bzcompress : ' . strlen(base64_encode($res)));
 
 $res = openssl_encrypt(base64_encode($res), 'AES256', 'password_dummy', OPENSSL_RAW_DATA, '0123456789012345');
 
-error_log('bzcompress + openssl_encrypt : ' . strlen(base64_encode($res)));
+error_log('bzcompress + openssl_encrypt : ' . strlen($res));
 
 @unlink('/tmp/pg_dump.dat');
