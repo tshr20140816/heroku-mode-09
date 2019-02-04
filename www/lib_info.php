@@ -27,7 +27,7 @@ $file_name = '/tmp/lib_info.log';
 $time_finish = microtime(true);
 if ($res === 'continue') {
     if ($n === 0) {
-        unlink($file_name);
+        @unlink($file_name);
     }
     $log = date('Y/m/d H:i:s') . " ${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . "s]\n";
     file_put_contents($file_name, $log, FILE_APPEND);
