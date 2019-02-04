@@ -13,4 +13,4 @@ $mu = new MyUtils();
 
 $client = new HTTP_WebDAV_Client_Stream();
 
-$dir = "webdav://".$user.":".$pass."@idisk.me.com/".$user."/";
+// https://stackoverflow.com/questions/3369675/php-idisk-webdav-client
