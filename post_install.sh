@@ -4,8 +4,9 @@ set -x
 
 date
 
-pear channel-update pear.php.net
-pear install XML_RPC2 &
+# pear channel-update pear.php.net
+# pear install XML_RPC2 &
+# pear install HTTP_WebDAV_Client &
 
 # ***** phppgadmin *****
 
