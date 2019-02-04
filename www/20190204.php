@@ -22,7 +22,7 @@ $res = openssl_encrypt(file_get_contents($file_name), 'AES256', 'password_dummy'
 
 error_log('openssl_encrypt : ' . strlen(base64_encode($res)));
 
-$res = bzcompress(file_get_contents($file_name));
+$res = bzcompress(file_get_contents($file_name), 9);
 
 error_log('bzcompress : ' . strlen(base64_encode($res)));
 
