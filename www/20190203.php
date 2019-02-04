@@ -64,4 +64,6 @@ $url = 'https://www.toodledo.com/signin.php';
 
 $res = $mu->get_contents($url, $options2);
 
-error_log(strlen($res));
+error_log($res);
+
+unlink($cookie);
