@@ -12,6 +12,7 @@ SOCCER
 CULTURECENTER
 HIGHWAY
 CARP
+BUS
 
 */
 include(dirname(__FILE__) . '/../classes/MyUtils.php');
