@@ -18,10 +18,28 @@ if (!isset($_GET['n'])
     exit();
 }
 
-check_lib($mu, (int)$_GET['n']);
+$n = (int)$_GET['n'];
+
+$res = check_lib($mu, $n);
+
+$file_name = '/tmp/lib_info.log';
 
 $time_finish = microtime(true);
-$mu->post_blog_wordpress($requesturi . ' [' . substr(($time_finish - $time_start), 0, 6) . 's]');
+if ($res === 'continue') {
+    if ($n === 0) {
+        unlink($file_name);
+    }
+    $log = "${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . "s]\n";
+    file_put_contents($file_name, $log, FILE_APPEND);
+} else {
+    $log = '';
+    if (file_exists($file_name)) {
+        $log = file_get_contents($file_name);
+        unlink($file_name);
+    }
+    $log .= "${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . "s]";
+    $mu->post_blog_wordpress('/lib_info.php', $log);
+}
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
 function check_lib($mu_, $order_) {
@@ -130,7 +148,7 @@ __HEREDOC__;
     // next
     
     if (count($list_lib_id) <= $order_ + 1) {
-        return;
+        return 'last';
     }
     
     $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/lib_info.php?n=' . ($order_ + 1);
@@ -140,4 +158,6 @@ __HEREDOC__;
     ];
     
     $res = $mu_->get_contents($url, $options3);
+
+    return 'continue';
 }
