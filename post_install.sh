@@ -6,7 +6,6 @@ date
 
 # pear channel-update pear.php.net
 # pear install XML_RPC2 &
-# pear install HTTP_WebDAV_Client &
 
 # ***** phppgadmin *****
 
@@ -14,7 +13,6 @@ pushd www
 # git clone --depth 1 https://github.com/phppgadmin/phppgadmin.git phppgadmin
 git clone --depth=1 -b REL_5-6-0  https://github.com/phppgadmin/phppgadmin.git phppgadmin
 cp ../config.inc.php phppgadmin/conf/
-# cp ../Connection.php phppgadmin/classes/database/
 ls -lang phppgadmin
 popd
 
