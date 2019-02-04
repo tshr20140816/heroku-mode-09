@@ -1,6 +1,6 @@
 <?php
 
-require_once 'HTTP/WebDAV/Client.php';
+// require_once 'HTTP/WebDAV/Client.php';
 
 include(dirname(__FILE__) . '/../classes/MyUtils.php');
 
