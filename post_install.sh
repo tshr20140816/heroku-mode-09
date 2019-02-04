@@ -50,6 +50,7 @@ pushd http_request
 git clone --depth=1 https://github.com/pear/http_request.git .
 popd
 popd
+pwd
 cp -af /tmp/http_request/* ./
 
 rm -f *
