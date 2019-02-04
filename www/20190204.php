@@ -18,16 +18,11 @@ exec($cmd);
 
 error_log('original : ' . filesize($file_name));
 
-$res = openssl_encrypt(file_get_contents($file_name), 'AES256', 'password_dummy', OPENSSL_RAW_DATA, '0123456789012345');
+$res = openssl_encrypt($res, 'AES256', 'password_dummy', OPENSSL_RAW_DATA, '0123456789012345');
 
-error_log('openssl_encrypt : ' . strlen(base64_encode($res)));
-
-$res = bzcompress(file_get_contents($file_name), 9);
-
-error_log('bzcompress : ' . strlen(base64_encode($res)));
-
-$res = openssl_encrypt(base64_encode($res), 'AES256', 'password_dummy', OPENSSL_RAW_DATA, '0123456789012345');
+$res = bzcompress($res, 9);
 
 error_log('bzcompress + openssl_encrypt : ' . strlen($res));
+error_log('bzcompress + openssl_encrypt base64 : ' . strlen(base64_encode($res)));
 
 @unlink('/tmp/pg_dump.dat');
