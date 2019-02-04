@@ -12,3 +12,5 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
 $client = new HTTP_WebDAV_Client_Stream();
+
+$dir = "webdav://".$user.":".$pass."@idisk.me.com/".$user."/";
