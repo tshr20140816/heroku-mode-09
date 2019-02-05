@@ -20,7 +20,7 @@ error_log('original : ' . filesize($file_name));
 
 $res = openssl_encrypt(file_get_contents($file_name), 'AES256', 'password_dummy', OPENSSL_RAW_DATA, '0123456789012345');
 
-error_log('bzcompress : ' . strlen($res));
+error_log('openssl_encrypt : ' . strlen($res));
 
 $res = bzcompress($res, 9);
 
