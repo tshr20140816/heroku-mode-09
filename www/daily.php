@@ -101,6 +101,9 @@ $rc = sort($list_schedule_exists_day);
 error_log($pid . ' $list_schedule_exists_day : ' . print_r($list_schedule_exists_day, true));
 
 $list_add_task = [];
+$file_name_blog = '/tmp/blog.txt';
+@unlink($file_name_blog);
+
 // To Small Size
 $update_marker = $mu->to_small_size(' _' . date('ymd') . '_');
 for ($i = 0; $i < 70; $i++) {
@@ -133,7 +136,9 @@ for ($i = 0; $i < 70; $i++) {
         . '","tag":"WEATHER2","context":' . $list_context_id[date('w', $timestamp)]
         .   ',"folder":' . $folder_id_label . '}';
 }
-error_log($pid . ' $list_add_task : ' . print_r($list_add_task, true));
+$count_task = count($list_add_task);
+file_put_contents($file_name_blog, "Weather Task Add : ${count_task}\n", FILE_APPEND);
+error_log($pid . ' Tasks Weather : ' . print_r($list_add_task, true));
 
 if (count($list_add_task) == 0) {
     error_log($pid . ' WEATHER DATA NONE');
@@ -162,19 +167,19 @@ foreach ($tasks as $task) {
 error_log($pid . ' $list_delete_task : ' . print_r($list_delete_task, true));
 
 // Sun Tasks 翌日分
-$list_add_task = array_merge($list_add_task, get_task_sun($mu));
+$list_add_task = array_merge($list_add_task, get_task_sun($mu, $file_name_blog));
 
 // Moon Tasks 翌日分
-$list_add_task = array_merge($list_add_task, get_task_moon($mu));
+$list_add_task = array_merge($list_add_task, get_task_moon($mu, $file_name_blog));
 
 // 追加、削除双方にある重複分は両方から削除
 
-$list_get_task = [get_task_highway($mu),
-                  get_task_soccer($mu),
-                  get_task_culturecenter($mu),
-                  get_task_full_moon($mu),
-                  get_task_carp($mu),
-                  get_task_bus($mu),
+$list_get_task = [get_task_highway($mu, $file_name_blog),
+                  get_task_soccer($mu, $file_name_blog),
+                  get_task_culturecenter($mu, $file_name_blog),
+                  get_task_full_moon($mu, $file_name_blog),
+                  get_task_carp($mu, $file_name_blog),
+                  get_task_bus($mu, $file_name_blog),
                  ];
 foreach ($list_get_task as $list_add_task_tmp) {
     $list_duplicate_task_keys = array_intersect(array_keys($list_add_task_tmp), array_keys($list_delete_task));
@@ -243,7 +248,9 @@ check_version_apache($mu);
 
 $time_finish = microtime(true);
 $mu->post_blog_wordpress("${requesturi} add : ${count_add_task} / delete : ${count_delete_task} ["
-                         . substr(($time_finish - $time_start), 0, 6) . 's]');
+                         . substr(($time_finish - $time_start), 0, 6) . 's]',
+                        file_get_contents($file_name_blog));
+@unlink($file_name_blog);
 error_log($pid . ' Web Access Count : ' . $mu->_count_web_access);
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
@@ -394,7 +401,7 @@ function get_sun($mu_)
     return $list_sunrise_sunset;
 }
 
-function get_task_bus($mu_) {
+function get_task_bus($mu_, $file_name_blog_) {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
     $folder_id_bus = $mu_->get_folder_id('BUS');
@@ -440,13 +447,13 @@ function get_task_bus($mu_) {
         }
     }
     $count_task = count($list_add_task);
-    $mu_->post_blog_fc2("BUS Task Add : ${count_task}");
-
-    error_log($log_prefix . 'TASK BUS : ' . print_r($list_add_task, true));
+    // $mu_->post_blog_fc2("Bus Task Add : ${count_task}");
+    file_put_contents($file_name_blog_, "Bus Task Add : ${count_task}\n", FILE_APPEND);
+    error_log($log_prefix . 'Tasks Bus : ' . print_r($list_add_task, true));
     return $list_add_task;
 }
 
-function get_task_carp($mu_) {
+function get_task_carp($mu_, $file_name_blog_) {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
     // Get Folders
@@ -478,13 +485,13 @@ function get_task_carp($mu_) {
           . '","tag":"CARP","folder":"' . $folder_id_private . '"}';
     }
     $count_task = count($list_add_task);
-    $mu_->post_blog_fc2("CARP Task Add : ${count_task}");
-    
-    error_log($log_prefix . 'TASKS CARP : ' . print_r($list_add_task, true));
+    // $mu_->post_blog_fc2("Carp Task Add : ${count_task}");
+    file_put_contents($file_name_blog_, "Carp Task Add : ${count_task}\n", FILE_APPEND);
+    error_log($log_prefix . 'Tasks Carp : ' . print_r($list_add_task, true));
     return $list_add_task;
 }
 
-function get_task_full_moon($mu_)
+function get_task_full_moon($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -534,13 +541,13 @@ function get_task_full_moon($mu_)
         }
     }
     $count_task = count($list_add_task);
-    $mu_->post_blog_fc2("FULL MOON Task Add : ${count_task}");
-
-    error_log($log_prefix . 'FULL MOON : ' . print_r($list_add_task, true));
+    // $mu_->post_blog_fc2("FULL MOON Task Add : ${count_task}");
+    file_put_contents($file_name_blog_, "Full Moon Task Add : ${count_task}\n", FILE_APPEND);
+    error_log($log_prefix . 'Tasks Full Moon : ' . print_r($list_add_task, true));
     return $list_add_task;
 }
 
-function get_task_soccer($mu_)
+function get_task_soccer($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -579,13 +586,14 @@ function get_task_soccer($mu_)
         $list_add_task[$hash] = $tmp1;
     }
     $count_task = count($list_add_task);
-    $mu_->post_blog_fc2("Soccer Task Add : ${count_task}");
+    // $mu_->post_blog_fc2("Soccer Task Add : ${count_task}");
+    file_put_contents($file_name_blog_, "Soccer Task Add : ${count_task}\n", FILE_APPEND);
     error_log($log_prefix . 'TASKS SOCCER : ' . print_r($list_add_task, true));
 
     return $list_add_task;
 }
 
-function get_task_culturecenter($mu_)
+function get_task_culturecenter($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -639,13 +647,14 @@ function get_task_culturecenter($mu_)
         }
     }
     $count_task = count($list_add_task);
-    $mu_->post_blog_fc2("Culture Center Task Add : ${count_task}");
+    // $mu_->post_blog_fc2("Culture Center Task Add : ${count_task}");
+    file_put_contents($file_name_blog_, "Culture Center Task Add : ${count_task}\n", FILE_APPEND);
     error_log($log_prefix . 'TASKS CULTURECENTER : ' . print_r($list_add_task, true));
 
     return $list_add_task;
 }
 
-function get_task_highway($mu_)
+function get_task_highway($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -704,12 +713,13 @@ function get_task_highway($mu_)
         $list_add_task[$hash] = $tmp;
     }
     $count_task = count($list_add_task);
-    $mu_->post_blog_fc2("Highway Task Add : ${count_task}");
-    error_log($log_prefix . 'TASKS HIGHWAY : ' . print_r($list_add_task, true));
+    // $mu_->post_blog_fc2("Highway Task Add : ${count_task}");
+    file_put_contents($file_name_blog_, "Highway Task Add : ${count_task}\n", FILE_APPEND);
+    error_log($log_prefix . 'Tasks Highway : ' . print_r($list_add_task, true));
     return $list_add_task;
 }
 
-function get_task_sun($mu_)
+function get_task_sun($mu_, $file_name_blog_)
 {
     // 翌日の日の出、日の入りタスク
 
@@ -756,11 +766,13 @@ function get_task_sun($mu_)
             break;
         }
     }
-    error_log($log_prefix . 'SUN : ' . print_r($list_add_task, true));
+    $count_task = count($list_add_task);
+    file_put_contents($file_name_blog_, "Sun Task Add : ${count_task}\n", FILE_APPEND);
+    error_log($log_prefix . 'Tasks Sun : ' . print_r($list_add_task, true));
     return $list_add_task;
 }
 
-function get_task_moon($mu_)
+function get_task_moon($mu_, $file_name_blog_)
 {
     // 翌日の月の出、月の入りタスク
 
@@ -813,7 +825,9 @@ function get_task_moon($mu_)
             break;
         }
     }
-    error_log($log_prefix . 'MOON : ' . print_r($list_add_task, true));
+    $count_task = count($list_add_task);
+    file_put_contents($file_name_blog_, "Moon Task Add : ${count_task}\n", FILE_APPEND);
+    error_log($log_prefix . 'Tasks Moon : ' . print_r($list_add_task, true));
     return $list_add_task;
 }
 
