@@ -18,7 +18,7 @@ exec($cmd);
 
 error_log('original : ' . filesize($file_name));
 
-$res = openssl_encrypt(file_get_contents($file_name), 'AES256', 'password_dummy', OPENSSL_RAW_DATA, '0123456789012345');
+$res = openssl_encrypt(file_get_contents($file_name), 'AES-256-CBC', 'password_dummy', OPENSSL_RAW_DATA, '0123456789012345');
 
 error_log('1 openssl_encrypt : ' . strlen($res));
 $res = bzcompress($res, 9);
@@ -29,7 +29,7 @@ $res = bzcompress(file_get_contents($file_name), 9);
 
 error_log('2 bzcompress : ' . strlen($res));
 
-$res = openssl_encrypt($res, 'AES256', 'password_dummy', OPENSSL_RAW_DATA, '0123456789012345');
+$res = openssl_encrypt($res, 'AES-256-CBC', 'password_dummy', OPENSSL_RAW_DATA, '0123456789012345');
 
 error_log('2 bzcompress + openssl_encrypt : ' . strlen($res));
 
