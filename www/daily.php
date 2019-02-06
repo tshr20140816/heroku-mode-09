@@ -39,6 +39,9 @@ $list_context_id = $mu->get_contexts();
 // Get Folders
 $folder_id_label = $mu->get_folder_id('LABEL');
 
+// Database Backup
+backup_db($mu);
+
 // holiday 3年後の12月まで
 $list_holiday2 = get_holiday2($mu);
 
