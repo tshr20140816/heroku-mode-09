@@ -10,7 +10,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
 $filename = 'useragent.txt';
-$filepath = '/../' . $filename;
+$filepath = '/app/' . $filename;
 
 $filesize = filesize($filepath);
 $fh = fopen($filepath, 'r');
