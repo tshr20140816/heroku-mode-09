@@ -24,8 +24,16 @@ $res = base64_encode($res);
 
 error_log(strlen($res));
 
-file_put_contents($file_name);
+file_put_contents($file_name, $res);
 
+
+$url = 'https://webdav.hidrive.strato.com/users/' . getenv('HIDRIVE_USER'). '/test4.txt';
+$options = [
+    CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+    CURLOPT_USERPWD => getenv('HIDRIVE_USER') . ':' . getenv('HIDRIVE_PASSWORD'),
+    CURLOPT_CUSTOMREQUEST => 'DELETE',
+];
+$res = $mu->get_contents($url, $options);
 
 $filename = 'useragent.txt';
 $filepath = '/app/' . $filename;
@@ -33,19 +41,6 @@ $filepath = '/app/' . $filename;
 $filesize = filesize($filepath);
 error_log($filesize);
 $fh = fopen($filepath, 'r');
-
-/*
-$ch = curl_init('https://webdav.hidrive.strato.com/users/' . getenv('HIDRIVE_USER'). '/test4.txt');
-
-curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-curl_setopt($ch, CURLOPT_USERPWD, getenv('HIDRIVE_USER') . ':' . getenv('HIDRIVE_PASSWORD'));
-// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-curl_setopt($ch, CURLOPT_PUT, true);
-curl_setopt($ch, CURLOPT_INFILE, $fh);
-curl_setopt($ch, CURLOPT_INFILESIZE, $filesize);
-
-$res = curl_exec($ch);
-*/
 
 $url = 'https://webdav.hidrive.strato.com/users/' . getenv('HIDRIVE_USER'). '/test4.txt';
 $options = [
