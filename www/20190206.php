@@ -9,6 +9,18 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
+error_log(openssl_cipher_iv_length('AES-256-CBC'));
+
+exit;
+
+$file_name = '/tmp/pg_dump.dat';
+$cmd = 'pg_dump --format=plain --dbname=' . getenv('DATABASE_URL') . ' >' . $file_name;
+exec($cmd);
+
+$res = bzcompress(file_get_contents($file_name), 9);
+$res = openssl_encrypt($res, 'AES-256-CBC', getenv('BACKUP_PASSWORD'), OPENSSL_RAW_DATA, '0123456789012345');
+
+
 $filename = 'useragent.txt';
 $filepath = '/app/' . $filename;
 
