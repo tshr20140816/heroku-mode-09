@@ -97,7 +97,7 @@ $options = [
 
 for ($i = 0; $i < 6; $i++) {
     $url = $mu->get_env('URL_BUS_0' . ($i + 1)) . '&4nocache' . date('Ymd', strtotime('+9 hours'));
-    $res = $mu->get_contents($url, null, true);
+    $res = $mu->get_contents($url, $options, true);
 }
 
 //
