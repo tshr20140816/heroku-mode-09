@@ -9,10 +9,8 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$filename = 'test.txt';
-$filepath = '/tmp/'.$filename;
-
-file_put_contents($filepath, 'DUMMY');
+$filename = 'useragent.txt';
+$filepath = '/../' . $filename;
 
 $filesize = filesize($filepath);
 $fh = fopen($filepath, 'r');
