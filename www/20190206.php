@@ -17,7 +17,7 @@ file_put_contents($filepath, 'DUMMY');
 $filesize = filesize($filepath);
 $fh = fopen($filepath, 'r');
 
-$ch = curl_init('https://webdav.hidrive.strato.com/' . $filename);
+$ch = curl_init('https://webdav.hidrive.strato.com/users/' . getenv('HIDRIVE_USER'). '/' . $filename);
 
 curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 curl_setopt($ch, CURLOPT_USERPWD, getenv('HIDRIVE_USER') . ':' . getenv('HIDRIVE_PASSWORD'));
