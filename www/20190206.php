@@ -23,7 +23,7 @@ function backup_db($mu_)
     $res = bzcompress(file_get_contents($file_name), 9);
 
     $method = 'AES-256-CBC';
-    $password = base64_decode(getenv('HEROKU_APP_ID'));
+    $password = base64_encode(getenv('HIDRIVE_USER')) . base64_encode(getenv('HIDRIVE_PASSWORD'));
     $IV = substr(sha1($file_name), 0, openssl_cipher_iv_length($method));
     $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
 
