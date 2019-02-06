@@ -9,6 +9,8 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
+backup_task($mu);
+
 function backup_task($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
