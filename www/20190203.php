@@ -72,8 +72,6 @@ function backup_task($mu_)
 
     $res = $mu_->get_contents($url, $options2);
 
-    error_log(strlen($res));
-
     unlink($cookie);
     
     $file_name = '/tmp/' . getenv('HEROKU_APP_NAME')  . '_' .  date('d', strtotime('+9 hours')) . '_tasks.txt';
