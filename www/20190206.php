@@ -29,7 +29,7 @@ function backup_db($mu_)
 
     $res = base64_encode($res);
 
-    error_log($log_prefix . 'file size' . strlen($res));
+    error_log($log_prefix . 'file size : ' . strlen($res));
 
     file_put_contents($file_name, $res);
 
