@@ -17,3 +17,17 @@ file_put_contents($filepath, 'DUMMY');
 $filesize = filesize($filepath);
 $fh = fopen($filepath, 'r');
 
+$ch = curl_init('https://webdav.hidrive.strato.com/' . $filename);
+
+curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+curl_setopt($ch, CURLOPT_USERPWD, getenv('HIDRIVE_USER') . ':' . getenv('HIDRIVE_PASSWORD'));
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+curl_setopt($ch, CURLOPT_INFILE, $fh);
+curl_setopt($ch, CURLOPT_INFILESIZE, $filesize);
+
+$res = curl_exec($ch);
+
+fclose($fh);
+
+error_log($res);
+
