@@ -13,13 +13,15 @@ $filename = 'useragent.txt';
 $filepath = '/app/' . $filename;
 
 $filesize = filesize($filepath);
+error_log($filesize);
 $fh = fopen($filepath, 'r');
 
-$ch = curl_init('https://webdav.hidrive.strato.com/users/' . getenv('HIDRIVE_USER'). '/test2.txt');
+$ch = curl_init('https://webdav.hidrive.strato.com/users/' . getenv('HIDRIVE_USER'). '/test3.txt');
 
 curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 curl_setopt($ch, CURLOPT_USERPWD, getenv('HIDRIVE_USER') . ':' . getenv('HIDRIVE_PASSWORD'));
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+curl_setopt($ch, CURLOPT_PUT, true);
 curl_setopt($ch, CURLOPT_INFILE, $fh);
 curl_setopt($ch, CURLOPT_INFILESIZE, $filesize);
 
