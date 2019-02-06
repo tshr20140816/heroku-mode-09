@@ -21,7 +21,7 @@ function backup_task($mu_)
 
     $url = 'https://www.toodledo.com/signin.php?redirect=/tools/backup.php';
 
-    $options1 = [
+    $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
         CURLOPT_HTTPHEADER => [
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -36,7 +36,7 @@ function backup_task($mu_)
         CURLOPT_TIMEOUT => 20,
     ];
 
-    $res = $mu_->get_contents($url, $options1);
+    $res = $mu_->get_contents($url, $options);
 
     $rc = preg_match('/<input .+? name="csrf1" value="(.*?)"/s', $res, $matches);
     $csrf1 = $matches[1];
@@ -51,7 +51,7 @@ function backup_task($mu_)
         'pass' => base64_decode(getenv('TOODLEDO_PASSWORD')),
     ];
 
-    $options2 = [
+    $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
         CURLOPT_HTTPHEADER => [
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -70,7 +70,7 @@ function backup_task($mu_)
 
     $url = 'https://www.toodledo.com/signin.php';
 
-    $res = $mu_->get_contents($url, $options2);
+    $res = $mu_->get_contents($url, $options);
 
     unlink($cookie);
     
