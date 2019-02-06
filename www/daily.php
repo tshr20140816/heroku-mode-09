@@ -248,7 +248,7 @@ $count_delete_task = count($list_delete_task);
 $mu->delete_tasks($list_delete_task);
 
 // apache version check
-check_version_apache($mu);
+check_version_apache($mu, $file_name_blog);
 
 $time_finish = microtime(true);
 $mu->post_blog_wordpress("${requesturi} add : ${count_add_task} / delete : ${count_delete_task} ["
@@ -835,7 +835,7 @@ function get_task_moon($mu_, $file_name_blog_)
     return $list_add_task;
 }
 
-function check_version_apache($mu_)
+function check_version_apache($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -872,10 +872,12 @@ function check_version_apache($mu_)
     error_log($log_prefix . '$version_support : ' . $version_support);
     error_log($log_prefix . '$version_current : ' . $version_current);
 
-    $mu_->post_blog_wordpress('Apache Version', "latest : ${version_latest}\nsupport : ${version_support}\ncurrent : ${version_current}");
+    // $mu_->post_blog_wordpress('Apache Version', "latest : ${version_latest}\nsupport : ${version_support}\ncurrent : ${version_current}");
+    $content = "\nApache Version\nlatest : ${version_latest}\nsupport : ${version_support}\ncurrent : ${version_current}\n";
+    file_put_contents($file_name_blog_, $content, FILE_APPEND);
 }
 
-function backup_db($mu_, $file_name_blog)
+function backup_db($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
