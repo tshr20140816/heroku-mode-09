@@ -29,5 +29,5 @@ $res = curl_exec($ch);
 
 fclose($fh);
 
-error_log($res);
+error_log(print_r($res, true));
 
