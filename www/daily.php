@@ -39,8 +39,11 @@ $list_context_id = $mu->get_contexts();
 // Get Folders
 $folder_id_label = $mu->get_folder_id('LABEL');
 
+$file_name_blog = '/tmp/blog.txt';
+@unlink($file_name_blog);
+
 // Database Backup
-backup_db($mu);
+backup_db($mu, $file_name_blog);
 
 // holiday 3年後の12月まで
 $list_holiday2 = get_holiday2($mu);
@@ -104,8 +107,6 @@ $rc = sort($list_schedule_exists_day);
 error_log($pid . ' $list_schedule_exists_day : ' . print_r($list_schedule_exists_day, true));
 
 $list_add_task = [];
-$file_name_blog = '/tmp/blog.txt';
-@unlink($file_name_blog);
 
 // To Small Size
 $update_marker = $mu->to_small_size(' _' . date('ymd') . '_');
@@ -874,7 +875,7 @@ function check_version_apache($mu_)
     $mu_->post_blog_wordpress('Apache Version', "latest : ${version_latest}\nsupport : ${version_support}\ncurrent : ${version_current}");
 }
 
-function backup_db($mu_)
+function backup_db($mu_, $file_name_blog)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -925,5 +926,6 @@ function backup_db($mu_)
 
     unlink($file_name);
     
-    $mu_->post_blog_wordpress('Database backup : ' . $file_size);
+    // $mu_->post_blog_wordpress('Database backup : ' . $file_size);
+    file_put_contents($file_name_blog_, "Database backup size : ${file_size}\n", FILE_APPEND);
 }
