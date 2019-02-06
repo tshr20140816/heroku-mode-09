@@ -870,3 +870,57 @@ function check_version_apache($mu_)
 
     $mu_->post_blog_wordpress('Apache Version', "latest : ${version_latest}\nsupport : ${version_support}\ncurrent : ${version_current}");
 }
+
+function backup_db($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $file_name = '/tmp/' . getenv('HEROKU_APP_NAME')  . '_' .  date('d', strtotime('+9 hours')) . '_pg_dump.txt';
+    error_log($log_prefix . $file_name);
+    $cmd = 'pg_dump --format=plain --dbname=' . getenv('DATABASE_URL') . ' >' . $file_name;
+    exec($cmd);
+
+    $res = bzcompress(file_get_contents($file_name), 9);
+
+    $method = 'AES-256-CBC';
+    $password = base64_encode(getenv('HIDRIVE_USER')) . base64_encode(getenv('HIDRIVE_PASSWORD'));
+    $IV = substr(sha1($file_name), 0, openssl_cipher_iv_length($method));
+    $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
+
+    $res = base64_encode($res);
+
+    error_log($log_prefix . 'file size : ' . strlen($res));
+
+    file_put_contents($file_name, $res);
+
+    $user = base64_decode(getenv('HIDRIVE_USER'));
+    $password = base64_decode(getenv('HIDRIVE_PASSWORD'));
+    
+    $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name)['basename'];
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+        CURLOPT_USERPWD => "${user}:${password}",
+        CURLOPT_CUSTOMREQUEST => 'DELETE',
+    ];
+    $res = $mu_->get_contents($url, $options);
+
+    $file_size = filesize($file_name);
+    $fh = fopen($file_name, 'r');
+
+    // $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name)['basename'];
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+        CURLOPT_USERPWD => "${user}:${password}",
+        CURLOPT_PUT => true,
+        CURLOPT_INFILE => $fh,
+        CURLOPT_INFILESIZE => $file_size,
+    ];
+
+    $res = $mu_->get_contents($url, $options);
+
+    fclose($fh);
+
+    unlink($file_name);
+    
+    $mu_->post_blog_wordpress('Database backup : ' . $file_size);
+}
