@@ -9,7 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-// imap.mail.yahoo.co.jp 993
+// imap.mail.yahoo.co.jp 993 w36_5
 
 backup_task($mu);
 
