@@ -51,4 +51,4 @@ $res = $mu->get_contents($url, $options);
     
 fclose($fh);
 
-@unlink($file_name);
+unlink($file_name);
