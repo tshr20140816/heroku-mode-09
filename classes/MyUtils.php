@@ -507,7 +507,7 @@ __HEREDOC__;
             error_log($log_prefix .
                       "HTTP STATUS CODE : ${http_code} [" . substr(($time_finish - $time_start), 0, 5) . 'sec]');
             curl_close($ch);
-            if ($http_code == '200') {
+            if ($http_code == '200' || $http_code == '201') {
                 break;
             }
 
