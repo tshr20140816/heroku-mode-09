@@ -9,46 +9,55 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$file_name = '/tmp/' . getenv('HEROKU_APP_NAME')  . '_' .  date('d', strtotime('+9 hours')) . '_pg_dump.txt';
-error_log($file_name);
-$cmd = 'pg_dump --format=plain --dbname=' . getenv('DATABASE_URL') . ' >' . $file_name;
-exec($cmd);
+backup_db($mu);
 
-$res = bzcompress(file_get_contents($file_name), 9);
+function backup_db($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-$method = 'AES-256-CBC';
-$password = getenv('BACKUP_PASSWORD');
-$IV = substr(sha1($file_name), 0, openssl_cipher_iv_length($method));
-$res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
+    $file_name = '/tmp/' . getenv('HEROKU_APP_NAME')  . '_' .  date('d', strtotime('+9 hours')) . '_pg_dump.txt';
+    error_log($log_prefix . $file_name);
+    $cmd = 'pg_dump --format=plain --dbname=' . getenv('DATABASE_URL') . ' >' . $file_name;
+    exec($cmd);
 
-$res = base64_encode($res);
+    $res = bzcompress(file_get_contents($file_name), 9);
 
-error_log(strlen($res));
+    $method = 'AES-256-CBC';
+    $password = base64_decode(getenv('BACKUP_PASSWORD'));
+    $IV = substr(sha1($file_name), 0, openssl_cipher_iv_length($method));
+    $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
 
-file_put_contents($file_name, $res);
+    $res = base64_encode($res);
 
-$url = 'https://webdav.hidrive.strato.com/users/' . getenv('HIDRIVE_USER') . '/' . pathinfo($file_name)['basename'];
-error_log($url);
-$options = [
-    CURLOPT_HTTPAUTH => CURLAUTH_ANY,
-    CURLOPT_USERPWD => getenv('HIDRIVE_USER') . ':' . getenv('HIDRIVE_PASSWORD'),
-    CURLOPT_CUSTOMREQUEST => 'DELETE',
-];
-$res = $mu->get_contents($url, $options);
+    error_log($log_prefix . 'file size' . strlen($res));
 
-$fh = fopen($file_name, 'r');
+    file_put_contents($file_name, $res);
 
-$url = 'https://webdav.hidrive.strato.com/users/' . getenv('HIDRIVE_USER') . '/' . pathinfo($file_name)['basename'];
-$options = [
-    CURLOPT_HTTPAUTH => CURLAUTH_ANY,
-    CURLOPT_USERPWD => getenv('HIDRIVE_USER') . ':' . getenv('HIDRIVE_PASSWORD'),
-    CURLOPT_PUT => true,
-    CURLOPT_INFILE => $fh,
-    CURLOPT_INFILESIZE => filesize($file_name),
-];
-
-$res = $mu->get_contents($url, $options);
+    $user = base64_decode(getenv('HIDRIVE_USER'));
+    $password = base64_decode(getenv('HIDRIVE_PASSWORD'));
     
-fclose($fh);
+    $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name)['basename'];
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+        CURLOPT_USERPWD => "${user}:${password}",
+        CURLOPT_CUSTOMREQUEST => 'DELETE',
+    ];
+    $res = $mu_->get_contents($url, $options);
 
-unlink($file_name);
+    $fh = fopen($file_name, 'r');
+
+    // $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name)['basename'];
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+        CURLOPT_USERPWD => "${user}:${password}",
+        CURLOPT_PUT => true,
+        CURLOPT_INFILE => $fh,
+        CURLOPT_INFILESIZE => filesize($file_name),
+    ];
+
+    $res = $mu_->get_contents($url, $options);
+
+    fclose($fh);
+
+    unlink($file_name);
+}
