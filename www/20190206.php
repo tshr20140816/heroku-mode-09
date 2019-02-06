@@ -22,6 +22,8 @@ $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
 
 $res = base64_encode($res);
 
+error_log(strlen($res));
+
 file_put_contents($file_name);
 
 
@@ -32,6 +34,7 @@ $filesize = filesize($filepath);
 error_log($filesize);
 $fh = fopen($filepath, 'r');
 
+/*
 $ch = curl_init('https://webdav.hidrive.strato.com/users/' . getenv('HIDRIVE_USER'). '/test4.txt');
 
 curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
@@ -42,11 +45,20 @@ curl_setopt($ch, CURLOPT_INFILE, $fh);
 curl_setopt($ch, CURLOPT_INFILESIZE, $filesize);
 
 $res = curl_exec($ch);
+*/
 
+$url = 'https://webdav.hidrive.strato.com/users/' . getenv('HIDRIVE_USER'). '/test4.txt';
 $options = [
-    CURLOPT_HTTPAUTH => CURLAUTH_ANY
+    CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+    CURLOPT_USERPWD => getenv('HIDRIVE_USER') . ':' . getenv('HIDRIVE_PASSWORD'),
+    CURLOPT_PUT => true,
+    CURLOPT_INFILE => $fh,
+    CURLOPT_INFILESIZE => $filesize,
 ];
 
+$res = $mu->get_contents($url, $options);
+
+    
 fclose($fh);
 
 error_log(print_r($res, true));
