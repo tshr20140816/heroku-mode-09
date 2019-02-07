@@ -24,9 +24,9 @@ error_log('COUNT : ' . count($res));
 // $header = imap_header($imap, $res[0]);
 // error_log(print_r($header, true));
 
-for ($i = 0; $i < 10; $i++) {
+for ($i = 0; $i < 100; $i++) {
     $rc = imap_delete($imap, $res[$i]);
-    error_log($rc);
+    error_log($i . ' ' . $rc);
 }
 
 $rc = imap_expunge($imap);
