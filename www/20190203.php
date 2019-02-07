@@ -11,7 +11,7 @@ $mu = new MyUtils();
 
 // imap.mail.yahoo.co.jp 993 w36_5
 
-$mbox = imap_open('{imap.mail.yahoo.co.jp:993}INBOX', getenv('TEST2_ID'), getenv('TEST2_PASSWORD'));
+$mbox = imap_open('{imap.mail.yahoo.co.jp:993}', getenv('TEST2_ID'), getenv('TEST2_PASSWORD'));
 
 error_log($mbox);
 error_log(print_r($mbox, true));
