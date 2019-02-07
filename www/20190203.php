@@ -30,13 +30,15 @@ $res = imap_search($imap, 'ALL');
 // error_log(print_r($res, true));
 error_log('COUNT : ' . count($res));
 
-$header = imap_header($imap, $res[0]);
+$msg_no = $res[0];
+
+$header = imap_header($imap, $msg_no);
 error_log(print_r($header, true));
 
 $res = imap_mime_header_decode($header->Subject);
 error_log(print_r($res, true));
 
-$res = imap_body($imap, $res[0]);
+$res = imap_body($imap, $msg_no);
 error_log($res);
 
 /*
