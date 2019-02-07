@@ -21,13 +21,13 @@ $res = imap_search($imap, 'ALL');
 // error_log(print_r($res, true));
 error_log('COUNT : ' . count($res));
 
-$header = imap_header($imap, $res[0]);
+// $header = imap_header($imap, $res[0]);
+// error_log(print_r($header, true));
 
-error_log(print_r($header, true));
-
-$rc = imap_delete($imap, $res[0]);
-
-error_log($rc);
+for ($i = 0; $i < 10; $i++) {
+    $rc = imap_delete($imap, $res[$i]);
+    error_log($rc);
+}
 
 $rc = imap_expunge($imap);
 
