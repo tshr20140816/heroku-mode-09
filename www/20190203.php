@@ -16,4 +16,8 @@ $mbox = imap_open('{imap.mail.yahoo.co.jp:993/ssl}', getenv('TEST2_ID'), getenv(
 // error_log($mbox);
 error_log(print_r($mbox, true));
 
+$res = imap_search($mbox, ALL);
+
+error_log(print_r($res, true));
+
 imap_close($mbox);
