@@ -11,13 +11,17 @@ $mu = new MyUtils();
 
 // imap.mail.yahoo.co.jp 993 w36_5
 
-$mbox = imap_open('{imap.mail.yahoo.co.jp:993/ssl}w36_5', getenv('TEST2_ID'), getenv('TEST2_PASSWORD'));
+$imap = imap_open('{imap.mail.yahoo.co.jp:993/ssl}w36_5', getenv('TEST2_ID'), getenv('TEST2_PASSWORD'));
 
 // error_log($mbox);
-error_log(print_r($mbox, true));
+error_log(print_r($imap, true));
 
-$res = imap_search($mbox, 'ALL');
+$res = imap_search($imap, 'ALL');
 
-error_log(print_r($res, true));
+// error_log(print_r($res, true));
 
-imap_close($mbox);
+$header = imap_header($imap, $res[0]);
+
+error_log(print_r($header, true));
+
+imap_close($imap);
