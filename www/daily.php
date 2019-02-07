@@ -48,6 +48,9 @@ backup_db($mu, $file_name_blog);
 // Task Backup
 backup_task($mu, $file_name_blog);
 
+// quota
+get_quota($mu, $file_name_blog);
+
 // holiday 3年後の12月まで
 $list_holiday2 = get_holiday2($mu);
 
