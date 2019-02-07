@@ -19,9 +19,18 @@ error_log(print_r($imap, true));
 $res = imap_search($imap, 'ALL');
 
 // error_log(print_r($res, true));
+error_log('COUNT : ' . count($res));
 
 $header = imap_header($imap, $res[0]);
 
 error_log(print_r($header, true));
+
+$rc = imap_delete($imap, $res[0]);
+
+error_log($rc);
+
+$rc = imap_expunge($imap);
+
+error_log($rc);
 
 imap_close($imap);
