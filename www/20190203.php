@@ -16,6 +16,10 @@ $imap = imap_open('{imap.mail.yahoo.co.jp:993/ssl}w36_5', getenv('TEST2_ID'), ge
 // error_log($mbox);
 error_log(print_r($imap, true));
 
+$res = imap_check($imap);
+
+error_log(print_r($res, true));
+
 $res = imap_search($imap, 'ALL');
 
 // error_log(print_r($res, true));
