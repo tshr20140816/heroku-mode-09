@@ -9,6 +9,8 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
+// w47_5 w49_5 w60_5 w46_6
+
 $imap = imap_open('{imap.mail.yahoo.co.jp:993/ssl}', getenv('TEST2_ID'), getenv('TEST2_PASSWORD'));
 
 // error_log($mbox);
