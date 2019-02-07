@@ -22,8 +22,10 @@ error_log('imap_ping : ' . print_r($res, true));
 $res = imap_check($imap);
 error_log('imap_check : ' . print_r($res, true));
 
+/*
 $res = imap_get_quotaroot($imap, 'INBOX');
 error_log('imap_get_quotaroot : ' . print_r($res, true));
+*/
 
 $res = imap_search($imap, 'ALL');
 
