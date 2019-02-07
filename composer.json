@@ -7,7 +7,8 @@
     "ext-apcu": "*",
     "ext-pcntl": "*",
     "ext-xmlrpc": "*",
-    "ext-imagick": "*"
+    "ext-imagick": "*",
+    "ext-imap": "*"
   }
   ,
   "require-dev":
