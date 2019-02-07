@@ -24,13 +24,16 @@ error_log('COUNT : ' . count($res));
 // $header = imap_header($imap, $res[0]);
 // error_log(print_r($header, true));
 
-for ($i = 0; $i < 100; $i++) {
+for ($i = 0; $i < 1000; $i++) {
     $rc = imap_delete($imap, $res[$i]);
     error_log($i . ' ' . $rc);
+    if ($i % 100 == 0) {
+        $rc = imap_expunge($imap);
+        error_log($rc);
+    }
 }
 
 $rc = imap_expunge($imap);
-
 error_log($rc);
 
 imap_close($imap);
