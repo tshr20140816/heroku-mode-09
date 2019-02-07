@@ -30,8 +30,8 @@ $res = imap_search($imap, 'ALL');
 // error_log(print_r($res, true));
 error_log('COUNT : ' . count($res));
 
-// $header = imap_header($imap, $res[0]);
-// error_log(print_r($header, true));
+$header = imap_header($imap, $res[0]);
+error_log(print_r($header, true));
 
 /*
 for ($i = 0; $i < 300; $i++) {
