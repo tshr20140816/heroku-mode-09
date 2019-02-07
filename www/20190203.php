@@ -36,6 +36,9 @@ error_log(print_r($header, true));
 $res = imap_mime_header_decode($header->Subject);
 error_log(print_r($res, true));
 
+$res = imap_body($imap, $res[0]);
+error_log($res);
+
 /*
 for ($i = 0; $i < 300; $i++) {
     $rc = imap_delete($imap, $res[$i]);
