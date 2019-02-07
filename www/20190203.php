@@ -16,9 +16,14 @@ $imap = imap_open('{imap.mail.yahoo.co.jp:993/ssl}w36_5', getenv('TEST2_ID'), ge
 // error_log($mbox);
 error_log(print_r($imap, true));
 
-$res = imap_check($imap);
+$res = imap_ping($imap);
+error_log('imap_ping : ' . print_r($res, true));
 
-error_log(print_r($res, true));
+$res = imap_check($imap);
+error_log('imap_check : ' . print_r($res, true));
+
+$res = imap_get_quotaroot($imap, 'INBOX');
+error_log('imap_get_quotaroot : ' . print_r($res, true));
 
 $res = imap_search($imap, 'ALL');
 
