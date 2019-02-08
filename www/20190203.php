@@ -11,7 +11,7 @@ $mu = new MyUtils();
 
 // w47_5 w49_5 w60_5 w46_6
 
-$imap = imap_open('{imap.mail.yahoo.co.jp:993/ssl}', getenv('TEST2_ID'), getenv('TEST2_PASSWORD'));
+$imap = imap_open('{imap.mail.yahoo.co.jp:993/ssl}w47_5', getenv('TEST2_ID'), getenv('TEST2_PASSWORD'));
 
 // error_log($mbox);
 error_log(print_r($imap, true));
@@ -32,6 +32,7 @@ $res = imap_search($imap, 'ALL');
 // error_log(print_r($res, true));
 error_log('COUNT : ' . count($res));
 
+/*
 $msg_no = $res[0];
 
 $header = imap_header($imap, $msg_no);
@@ -42,9 +43,9 @@ error_log(print_r($res, true));
 
 $res = imap_body($imap, $msg_no);
 error_log($res);
+*/
 
-/*
-for ($i = 0; $i < 300; $i++) {
+for ($i = 0; $i < 1000; $i++) {
     $rc = imap_delete($imap, $res[$i]);
     // error_log($i . ' ' . $rc);
     if ($i % 100 == 0) {
@@ -55,6 +56,5 @@ for ($i = 0; $i < 300; $i++) {
 
 $rc = imap_expunge($imap);
 error_log($rc);
-*/
 
 imap_close($imap);
