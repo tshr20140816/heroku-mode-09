@@ -48,7 +48,7 @@ $res = imap_body($imap, $msg_no);
 error_log($res);
 */
 
-for ($i = 0; $i < 1000; $i++) {
+for ($i = 0; $i < 3000; $i++) {
     $rc = imap_delete($imap, $res[$i]);
     // error_log($i . ' ' . $rc);
     if ($i % 100 == 0) {
