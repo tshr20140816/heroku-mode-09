@@ -1084,5 +1084,5 @@ function get_quota($mu_, $file_name_blog_)
     $quota = $dyno_quota - $dyno_used;
     $quota = floor($quota / 86400) . 'd ' . ($quota / 3600 % 24) . 'h ' . ($quota / 60 % 60) . 'm';
 
-    file_put_contents($file_name_blog_, "Quota : ${quota}\n", FILE_APPEND);
+    file_put_contents($file_name_blog_, "\nQuota : ${quota}\n\n", FILE_APPEND);
 }
