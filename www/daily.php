@@ -1082,7 +1082,7 @@ function get_quota($mu_, $file_name_blog_)
     error_log($log_prefix . '$dyno_quota : ' . $dyno_quota);
 
     $quota = $dyno_quota - $dyno_used;
-    $quota = floor($tmp / 86400) . 'd ' . ($tmp / 3600 % 24) . 'h ' . ($tmp / 60 % 60) . 'm';
+    $quota = floor($quota / 86400) . 'd ' . ($quota / 3600 % 24) . 'h ' . ($quota / 60 % 60) . 'm';
 
     file_put_contents($file_name_blog_, "Quota : ${quota}\n", FILE_APPEND);
 }
