@@ -32,6 +32,9 @@ $res = imap_search($imap, 'ALL');
 // error_log(print_r($res, true));
 error_log('COUNT : ' . count($res));
 
+if (count($res) == 0) {
+    exit();
+}
 /*
 $msg_no = $res[0];
 
