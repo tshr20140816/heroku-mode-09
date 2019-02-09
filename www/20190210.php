@@ -39,6 +39,7 @@ error_log(print_r($header, true));
 $res = imap_mime_header_decode($header->Subject);
 error_log(print_r($res, true));
 
-
 imap_expunge($imap);
 imap_close($imap);
+$res = imap_errors();
+error_log(print_r($res, true));
