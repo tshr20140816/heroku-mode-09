@@ -31,7 +31,7 @@ if (count($res) == 0) {
     exit();
 }
 
-for ($i = 0; $i < 0; $i++) {
+for ($i = 0; $i < count($res); $i++) {
     $msg_no = $res[$i];
 
     $header = imap_header($imap, $msg_no);
