@@ -44,7 +44,7 @@ for ($i = 0; $i < count($res); $i++) {
         // error_log(print_r($res1, true));
         error_log($i . ' ' . $date);
         imap_mail_move($imap, $msg_no, '2018');
-        break;
+        imap_expunge($imap);
     }
 }
 
