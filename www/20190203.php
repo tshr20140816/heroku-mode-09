@@ -11,7 +11,7 @@ $mu = new MyUtils();
 
 // GAE
 
-$imap = imap_open('{imap.mail.yahoo.co.jp:993/ssl}torishimari', getenv('TEST2_ID'), getenv('TEST2_PASSWORD'));
+$imap = imap_open('{imap.mail.yahoo.co.jp:993/ssl}GAE', getenv('TEST2_ID'), getenv('TEST2_PASSWORD'));
 
 // error_log($mbox);
 error_log(print_r($imap, true));
