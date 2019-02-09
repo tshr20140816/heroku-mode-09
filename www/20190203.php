@@ -35,6 +35,7 @@ error_log('COUNT : ' . count($res));
 if (count($res) == 0) {
     exit();
 }
+
 /*
 $msg_no = $res[0];
 
@@ -48,7 +49,9 @@ $res = imap_body($imap, $msg_no);
 error_log($res);
 */
 
-for ($i = 0; $i < 3000; $i++) {
+$loop_end = count($res);
+
+for ($i = 0; $i < $loop_end; $i++) {
     $rc = imap_delete($imap, $res[$i]);
     // error_log($i . ' ' . $rc);
     if ($i % 100 == 0) {
