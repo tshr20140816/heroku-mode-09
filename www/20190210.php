@@ -51,4 +51,4 @@ for ($i = 0; $i < count($res); $i++) {
 imap_expunge($imap);
 imap_close($imap);
 $res = imap_errors();
-error_log(print_r($res, true));
+// error_log(print_r($res, true));
