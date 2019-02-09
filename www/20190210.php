@@ -43,6 +43,7 @@ for ($i = 0; $i < count($res); $i++) {
         // $res1 = imap_mime_header_decode($header->Subject);
         // error_log(print_r($res1, true));
         error_log($i . ' ' . $date);
+        imap_mail_move($imap, $msg_no, '2018');
     }
 }
 
