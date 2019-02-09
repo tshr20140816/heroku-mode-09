@@ -22,7 +22,7 @@ error_log('imap_ping : ' . print_r($res, true));
 $res = imap_check($imap);
 error_log('imap_check : ' . print_r($res, true));
 
-$res = imap_search($imap, 'ALL',  SE_UID);
+$res = imap_search($imap, 'ALL');
 
 // error_log(print_r($res, true));
 error_log('COUNT : ' . count($res));
