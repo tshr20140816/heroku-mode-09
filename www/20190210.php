@@ -40,8 +40,9 @@ for ($i = 0; $i < count($res); $i++) {
     $date = $header->Date;
 
     if (strpos($date, ' 2018 ') > 0) {
-        $res1 = imap_mime_header_decode($header->Subject);
-        error_log(print_r($res1, true));
+        // $res1 = imap_mime_header_decode($header->Subject);
+        // error_log(print_r($res1, true));
+        error_log($i . ' ' . $date);
     }
 }
 
