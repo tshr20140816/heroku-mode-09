@@ -42,8 +42,8 @@ for ($i = 0; $i < count($res); $i++) {
     if (strpos($date, ' 2018 ') > 0) {
         // $res1 = imap_mime_header_decode($header->Subject);
         // error_log(print_r($res1, true));
-        error_log($i . ' ' . $date);
-        imap_mail_move($imap, $msg_no, '2018');
+        $rc = imap_mail_move($imap, $msg_no, '2018');
+        error_log($i . ' ' . $rc . ' ' . $date);
         imap_expunge($imap);
     }
 }
