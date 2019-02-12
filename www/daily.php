@@ -1045,7 +1045,8 @@ function backup_task($mu_, $file_name_blog_)
     file_put_contents($file_name_blog_, "Task backup size : ${file_size}\n", FILE_APPEND);
 }
 
-function backup_opml($mu_, $file_name_blog_) {
+function backup_opml($mu_, $file_name_blog_)
+{
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $cookie = tempnam("/tmp", time());
