@@ -14,7 +14,7 @@ backup_opml($mu);
 function backup_opml($mu_) {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-	$cookie = tempnam("/tmp", time());
+    $cookie = tempnam("/tmp", time());
 
     $url = 'https://www.inoreader.com/';
 
@@ -27,7 +27,7 @@ function backup_opml($mu_) {
         'remember_me' => 'on',
     ];
 
-	$options = [
+    $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
         CURLOPT_HTTPHEADER => [
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -46,9 +46,9 @@ function backup_opml($mu_) {
 
     $res = $mu_->get_contents($url, $options);
 
-	$url = 'https://www.inoreader.com/reader/subscriptions/export?download=1';
+    $url = 'https://www.inoreader.com/reader/subscriptions/export?download=1';
 
-	$options = [
+    $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
         CURLOPT_HTTPHEADER => [
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -65,7 +65,7 @@ function backup_opml($mu_) {
 
     $res = $mu_->get_contents($url, $options);
 
-	// error_log($res);
-	
-	unlink($cookie);
+    // error_log($res);
+    
+    unlink($cookie);
 }
