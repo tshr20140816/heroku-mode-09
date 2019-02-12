@@ -27,8 +27,11 @@ function check_php_version($mu_) {
     foreach ($matches[1] as $item) {
         error_log($item);
         $tmp = explode('.', $item);
-        $list_version[$item] = $tmp[0] * 10000 + $tmp[1] * 100 + $tmp[2];
+        $list_version[$tmp[0] * 10000 + $tmp[1] * 100 + $tmp[2]] = $item;
     }
-    arsort($list_version);
+    krsort($list_version);
     error_log(print_r($list_version, true));
+    
+    $version = array_shift($list_version);
+    error_log($version);
 }
