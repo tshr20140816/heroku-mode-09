@@ -12,5 +12,6 @@ $mu = new MyUtils();
 check_php_version($mu);
 
 function check_php_version($mu_) {
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
 }
