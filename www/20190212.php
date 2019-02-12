@@ -59,4 +59,5 @@ function check_php_version($mu_) {
     krsort($list_version);
     error_log(print_r($list_version, true));
     $version_latest = array_shift($list_version);
+    error_log($version_latest);
 }
