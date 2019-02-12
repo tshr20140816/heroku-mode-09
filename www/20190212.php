@@ -14,7 +14,7 @@ backup_opml($mu);
 function backup_opml($mu_) {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-	$cookie = $tmpfname = tempnam("/tmp", time());
+	$cookie = tempnam("/tmp", time());
 
     $url = 'https://www.inoreader.com/';
 
@@ -65,5 +65,7 @@ function backup_opml($mu_) {
 
     $res = $mu_->get_contents($url, $options);
 
-	error_log($res);
+	// error_log($res);
+	
+	unlink($cookie);
 }
