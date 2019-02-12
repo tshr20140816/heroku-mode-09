@@ -52,6 +52,7 @@ function check_php_version($mu_) {
         if (strpos($tmp, 'RC') > 0) {
             continue;
         }
+        $tmp = str_replace('php-', '', $tmp);
         $tmp = explode('.', $tmp);
         $list_version[(int)$tmp[0] * 10000 + (int)$tmp[1] * 100 + (int)$tmp[2]] = $element->nodeValue;
     }
