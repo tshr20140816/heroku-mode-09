@@ -9,9 +9,10 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-check_php_version($mu);
+check_php_version($mu, '/tmp/dummy');
 
-function check_php_version($mu_) {
+function check_php_version($mu_, $file_name_blog_)
+{
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
     $url = 'https://github.com/php/php-src/releases.atom?4nocache' . date('Ymd', strtotime('+9 hours'));
@@ -67,4 +68,7 @@ function check_php_version($mu_) {
     error_log($log_prefix . '$version_latest : ' . $version_latest);
     error_log($log_prefix . '$version_support : ' . $version_support);
     error_log($log_prefix . '$version_current : ' . $version_current);
+    
+    $content = "\nApache Version\nlatest : ${version_latest}\nsupport : ${version_support}\ncurrent : ${version_current}\n";
+    file_put_contents($file_name_blog_, $content, FILE_APPEND);
 }
