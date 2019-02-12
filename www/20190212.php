@@ -11,7 +11,7 @@ $mu = new MyUtils();
 
 backup_opml($mu);
 
-function backup_opml($mu) {
+function backup_opml($mu_) {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
 	$cookie = $tmpfname = tempnam("/tmp", time());
