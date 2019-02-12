@@ -18,12 +18,17 @@ function check_php_version($mu_) {
     $res = $mu_->get_contents($url, null, true);
     
     $rc = preg_match('/<h4 id="supported-versions-php">PHP<\/h4>.*?<ul>(.+?)<\/ul>/s', $res, $match);
-    error_log(print_r($match, true));
+    // error_log(print_r($match, true));
     
     $rc = preg_match_all('/<li>(.+?)<\/li>/s', $match[1], $matches);
-    error_log(print_r($matches, true));
+    // error_log(print_r($matches, true));
     
+    $list_version = [];
     foreach ($matches[1] as $item) {
         error_log($item);
+        $tmp = explode('.', $item);
+        $list_version[$item] = $tmp[0] * 10000 + $tmp[1] * 100 + $tmp[2];
     }
+    arsort($list_version);
+    error_log(print_r($list_version, true));
 }
