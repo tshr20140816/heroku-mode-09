@@ -9,9 +9,9 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-backup_opml($mu);
+backup_opml($mu, '/tmp/dummy');
 
-function backup_opml($mu_) {
+function backup_opml($mu_, $file_name_blog_) {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $cookie = tempnam("/tmp", time());
@@ -64,8 +64,49 @@ function backup_opml($mu_) {
     ];
 
     $res = $mu_->get_contents($url, $options);
-
-    // error_log($res);
     
     unlink($cookie);
+    
+    $file_name = '/tmp/' . getenv('HEROKU_APP_NAME')  . '_' .  date('d', strtotime('+9 hours')) . '_OPML.txt';
+    
+    $res = bzcompress($res, 9);
+    
+    $method = 'AES-256-CBC';
+    $password = base64_encode(getenv('HIDRIVE_USER')) . base64_encode(getenv('HIDRIVE_PASSWORD'));
+    $IV = substr(sha1($file_name), 0, openssl_cipher_iv_length($method));
+    $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
+    
+    $res = base64_encode($res);
+    error_log($log_prefix . 'file size : ' . strlen($res));
+    file_put_contents($file_name, $res);
+    
+    $user = base64_decode(getenv('HIDRIVE_USER'));
+    $password = base64_decode(getenv('HIDRIVE_PASSWORD'));
+    
+    $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name)['basename'];
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+        CURLOPT_USERPWD => "${user}:${password}",
+        CURLOPT_CUSTOMREQUEST => 'DELETE',
+    ];
+    $res = $mu_->get_contents($url, $options);
+    
+    $file_size = filesize($file_name);
+    $fh = fopen($file_name, 'r');
+    
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+        CURLOPT_USERPWD => "${user}:${password}",
+        CURLOPT_PUT => true,
+        CURLOPT_INFILE => $fh,
+        CURLOPT_INFILESIZE => $file_size,
+    ];
+    
+    $res = $mu_->get_contents($url, $options);
+    
+    fclose($fh);
+    
+    unlink($file_name);
+    
+    file_put_contents($file_name_blog_, "OPML backup size : ${file_size}\n", FILE_APPEND);
 }
