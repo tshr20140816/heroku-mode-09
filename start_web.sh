@@ -24,6 +24,8 @@ cat /proc/cpuinfo | grep 'model name' | head -n 1
 curl --version
 
 echo "$(httpd -v)" > /tmp/apache_current_version
+echo "$(php -v | head -n 1)" > /tmp/php_current_version
+echo "$(curl -V | head -n 1)" > /tmp/curl_current_version
 
 # heroku-buildpack-php
 composer update > /dev/null 2>&1 &
