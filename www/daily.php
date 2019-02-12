@@ -907,7 +907,7 @@ function backup_db($mu_, $file_name_blog_)
 
     $user = base64_decode(getenv('HIDRIVE_USER'));
     $password = base64_decode(getenv('HIDRIVE_PASSWORD'));
-    
+
     $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name)['basename'];
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_ANY,
@@ -933,7 +933,7 @@ function backup_db($mu_, $file_name_blog_)
     fclose($fh);
 
     unlink($file_name);
-    
+
     // $mu_->post_blog_wordpress('Database backup : ' . $file_size);
     file_put_contents($file_name_blog_, "Database backup size : ${file_size}\n", FILE_APPEND);
 }
@@ -942,7 +942,7 @@ function backup_task($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $cookie = $tmpfname = tempnam("/tmp", time());
+    $cookie = tempnam("/tmp", time());
 
     $url = 'https://www.toodledo.com/signin.php?redirect=/tools/backup.php';
 
@@ -998,23 +998,23 @@ function backup_task($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url, $options);
 
     unlink($cookie);
-    
+
     $file_name = '/tmp/' . getenv('HEROKU_APP_NAME')  . '_' .  date('d', strtotime('+9 hours')) . '_tasks.txt';
-    
+
     $res = bzcompress($res, 9);
-    
+
     $method = 'AES-256-CBC';
     $password = base64_encode(getenv('HIDRIVE_USER')) . base64_encode(getenv('HIDRIVE_PASSWORD'));
     $IV = substr(sha1($file_name), 0, openssl_cipher_iv_length($method));
     $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
-    
+
     $res = base64_encode($res);
     error_log($log_prefix . 'file size : ' . strlen($res));
     file_put_contents($file_name, $res);
-    
+
     $user = base64_decode(getenv('HIDRIVE_USER'));
     $password = base64_decode(getenv('HIDRIVE_PASSWORD'));
-    
+
     $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name)['basename'];
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_ANY,
@@ -1022,10 +1022,10 @@ function backup_task($mu_, $file_name_blog_)
         CURLOPT_CUSTOMREQUEST => 'DELETE',
     ];
     $res = $mu_->get_contents($url, $options);
-    
+
     $file_size = filesize($file_name);
     $fh = fopen($file_name, 'r');
-    
+
     // $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name)['basename'];
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_ANY,
@@ -1034,13 +1034,13 @@ function backup_task($mu_, $file_name_blog_)
         CURLOPT_INFILE => $fh,
         CURLOPT_INFILESIZE => $file_size,
     ];
-    
+
     $res = $mu_->get_contents($url, $options);
-    
+
     fclose($fh);
-    
+
     unlink($file_name);
-    
+
     // $mu_->post_blog_wordpress('Task backup : ' . $file_size);
     file_put_contents($file_name_blog_, "Task backup size : ${file_size}\n", FILE_APPEND);
 }
