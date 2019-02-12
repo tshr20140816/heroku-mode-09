@@ -20,6 +20,6 @@ function check_php_version($mu_) {
     $rc = preg_match('/<h4 id="supported-versions-php">PHP<\/h4>.*?<ul>(.+?)<\/ul>/s', $res, $match);
     error_log(print_r($match, true));
     
-    $rc = preg_match_all('/<li>.+?<\/li>/s', $match[1], $matches);
+    $rc = preg_match_all('/<li>(.+?)<\/li>/s', $match[1], $matches);
     error_log(print_r($matches, true));
 }
