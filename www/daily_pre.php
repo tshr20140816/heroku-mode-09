@@ -40,6 +40,11 @@ $urls_is_cache[$url] = null;
 
 //
 
+$url = 'https://github.com/php/php-src/releases.atom?4nocache' . date('Ymd', strtotime('+9 hours'));
+$urls_is_cache[$url] = null;
+
+//
+
 $url = 'https://devcenter.heroku.com/articles/php-support?4nocache' . date('Ymd', strtotime('+9 hours'));
 $urls_is_cache[$url] = null;
 
