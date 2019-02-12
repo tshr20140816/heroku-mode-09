@@ -22,4 +22,8 @@ function check_php_version($mu_) {
     
     $rc = preg_match_all('/<li>(.+?)<\/li>/s', $match[1], $matches);
     error_log(print_r($matches, true));
+    
+    foreach ($matches[1] as $item) {
+        error_log($item);
+    }
 }
