@@ -73,7 +73,7 @@ __HEREDOC__;
     $lib_password = $tmp[1];
     $symbol = $tmp[2];
     
-    $cookie = $tmpfname = tempnam("/tmp", time());
+    $cookie = tempnam("/tmp", time());
 
     $options1 = [
         CURLOPT_COOKIEJAR => $cookie,
