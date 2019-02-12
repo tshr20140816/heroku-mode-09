@@ -256,6 +256,9 @@ $mu->delete_tasks($list_delete_task);
 // apache version check
 check_version_apache($mu, $file_name_blog);
 
+// php version check
+check_version_php($mu, $file_name_blog);
+
 $time_finish = microtime(true);
 $mu->post_blog_wordpress("${requesturi} add : ${count_add_task} / delete : ${count_delete_task} ["
                          . substr(($time_finish - $time_start), 0, 6) . 's]',
@@ -880,6 +883,62 @@ function check_version_apache($mu_, $file_name_blog_)
 
     // $mu_->post_blog_wordpress('Apache Version', "latest : ${version_latest}\nsupport : ${version_support}\ncurrent : ${version_current}");
     $content = "\nApache Version\nlatest : ${version_latest}\nsupport : ${version_support}\ncurrent : ${version_current}\n";
+    file_put_contents($file_name_blog_, $content, FILE_APPEND);
+}
+
+function check_version_php($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $url = 'https://github.com/php/php-src/releases.atom?4nocache' . date('Ymd', strtotime('+9 hours'));
+    $res = $mu_->get_contents($url, null, true);
+    
+    $doc = new DOMDocument();
+    $doc->loadXML($res);
+    
+    $xpath = new DOMXpath($doc);
+    $xpath->registerNamespace('ns', 'http://www.w3.org/2005/Atom');
+    
+    $elements = $xpath->query("//ns:entry/ns:title");
+    
+    $list_version = [];
+    foreach ($elements as $element) {
+        $tmp = $element->nodeValue;
+        if (strpos($tmp, 'RC') > 0) {
+            continue;
+        }
+        $tmp = str_replace('php-', '', $tmp);
+        $tmp = explode('.', $tmp);
+        $list_version[(int)$tmp[0] * 10000 + (int)$tmp[1] * 100 + (int)$tmp[2]] = $element->nodeValue;
+    }
+    krsort($list_version);
+    error_log(print_r($list_version, true));
+    $version_latest = array_shift($list_version);
+    
+    $res = file_get_contents('/tmp/php_current_version');
+    $version_current = trim(str_replace(["\r\n", "\r", "\n", '   ', '  '], ' ', $res));
+
+    $url = 'https://devcenter.heroku.com/articles/php-support?4nocache' . date('Ymd', strtotime('+9 hours'));
+    $res = $mu_->get_contents($url, null, true);
+    
+    $rc = preg_match('/<h4 id="supported-versions-php">PHP<\/h4>.*?<ul>(.+?)<\/ul>/s', $res, $match);
+    
+    $rc = preg_match_all('/<li>(.+?)<\/li>/s', $match[1], $matches);
+    
+    $list_version = [];
+    foreach ($matches[1] as $item) {
+        $tmp = explode('.', $item);
+        $list_version[$tmp[0] * 10000 + $tmp[1] * 100 + $tmp[2]] = $item;
+    }
+    krsort($list_version);
+    
+    $version_support = array_shift($list_version);
+    
+    error_log($log_prefix . '$version_latest : ' . $version_latest);
+    error_log($log_prefix . '$version_support : ' . $version_support);
+    error_log($log_prefix . '$version_current : ' . $version_current);
+    
+    $content = "\nPHP Version\nlatest : ${version_latest}\nsupport : ${version_support}\ncurrent : ${version_current}\n";
     file_put_contents($file_name_blog_, $content, FILE_APPEND);
 }
 
