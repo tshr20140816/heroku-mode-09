@@ -9,9 +9,9 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-check_php_version($mu, '/tmp/dummy');
+check_version_php($mu, '/tmp/dummy');
 
-function check_php_version($mu_, $file_name_blog_)
+function check_version_php($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
@@ -39,7 +39,6 @@ function check_php_version($mu_, $file_name_blog_)
     krsort($list_version);
     error_log(print_r($list_version, true));
     $version_latest = array_shift($list_version);
-    // error_log($version_latest);
     
     $res = file_get_contents('/tmp/php_current_version');
     $version_current = trim(str_replace(["\r\n", "\r", "\n", '   ', '  '], ' ', $res));
@@ -48,22 +47,17 @@ function check_php_version($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url, null, true);
     
     $rc = preg_match('/<h4 id="supported-versions-php">PHP<\/h4>.*?<ul>(.+?)<\/ul>/s', $res, $match);
-    // error_log(print_r($match, true));
     
     $rc = preg_match_all('/<li>(.+?)<\/li>/s', $match[1], $matches);
-    // error_log(print_r($matches, true));
     
     $list_version = [];
     foreach ($matches[1] as $item) {
-        // error_log($item);
         $tmp = explode('.', $item);
         $list_version[$tmp[0] * 10000 + $tmp[1] * 100 + $tmp[2]] = $item;
     }
     krsort($list_version);
-    // error_log(print_r($list_version, true));
     
     $version_support = array_shift($list_version);
-    // error_log($version_support);
     
     error_log($log_prefix . '$version_latest : ' . $version_latest);
     error_log($log_prefix . '$version_support : ' . $version_support);
