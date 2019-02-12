@@ -69,6 +69,6 @@ function check_php_version($mu_, $file_name_blog_)
     error_log($log_prefix . '$version_support : ' . $version_support);
     error_log($log_prefix . '$version_current : ' . $version_current);
     
-    $content = "\nApache Version\nlatest : ${version_latest}\nsupport : ${version_support}\ncurrent : ${version_current}\n";
+    $content = "\nPHP Version\nlatest : ${version_latest}\nsupport : ${version_support}\ncurrent : ${version_current}\n";
     file_put_contents($file_name_blog_, $content, FILE_APPEND);
 }
