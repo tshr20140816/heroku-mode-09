@@ -259,6 +259,9 @@ check_version_apache($mu, $file_name_blog);
 // php version check
 check_version_php($mu, $file_name_blog);
 
+// curl version check
+check_version_curl($mu, $file_name_blog);
+
 $time_finish = microtime(true);
 $mu->post_blog_wordpress("${requesturi} add : ${count_add_task} / delete : ${count_delete_task} ["
                          . substr(($time_finish - $time_start), 0, 6) . 's]',
@@ -939,6 +942,33 @@ function check_version_php($mu_, $file_name_blog_)
     error_log($log_prefix . '$version_current : ' . $version_current);
     
     $content = "\nPHP Version\nlatest : ${version_latest}\nsupport : ${version_support}\ncurrent : ${version_current}\n";
+    file_put_contents($file_name_blog_, $content, FILE_APPEND);
+}
+
+function check_version_curl($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $url = 'https://github.com/curl/curl/releases.atom?4nocache' . date('Ymd', strtotime('+9 hours'));
+    $res = $mu_->get_contents($url, null, true);
+    
+    $doc = new DOMDocument();
+    $doc->loadXML($res);
+    
+    $xpath = new DOMXpath($doc);
+    $xpath->registerNamespace('ns', 'http://www.w3.org/2005/Atom');
+    
+    $elements = $xpath->query("//ns:entry/ns:title");
+    
+    $version_latest = $elements[0]->nodeValue;
+    
+    $res = file_get_contents('/tmp/curl_current_version');
+    $version_current = trim(str_replace(["\r\n", "\r", "\n", '   ', '  '], ' ', $res));
+    
+    error_log($log_prefix . '$version_latest : ' . $version_latest);
+    error_log($log_prefix . '$version_current : ' . $version_current);
+    
+    $content = "\ncurl Version\nlatest : ${version_latest}\ncurrent : ${version_current}\n";
     file_put_contents($file_name_blog_, $content, FILE_APPEND);
 }
 
