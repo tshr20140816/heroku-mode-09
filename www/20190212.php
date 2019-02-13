@@ -9,6 +9,9 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
+
+// https://inoreader.superfeedr.com/
+
 check_version_curl($mu, '/tmp/dummy');
 
 function check_version_curl($mu_, $file_name_blog_)
