@@ -48,6 +48,9 @@ backup_db($mu, $file_name_blog);
 // Task Backup
 backup_task($mu, $file_name_blog);
 
+// OPML Backup
+backup_opml($mu, $file_name_blog);
+
 // quota
 get_quota($mu, $file_name_blog);
 
