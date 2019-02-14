@@ -719,5 +719,7 @@ __HEREDOC__;
         fclose($fh);
 
         unlink($file_name_);
+
+        return $file_size;
     }
 }
