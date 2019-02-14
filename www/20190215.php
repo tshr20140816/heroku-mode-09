@@ -21,7 +21,15 @@ $html = <<< __HEREDOC__
 __HEREDOC__;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+    $user = base64_decode(getenv('HIDRIVE_USER'));
+    $password = base64_decode(getenv('HIDRIVE_PASSWORD'));
+    $url = "https://webdav.hidrive.strato.com/users/${user}/" . $_POST['file_name'];
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+        CURLOPT_USERPWD => "${user}:${password}",
+        CURLOPT_CUSTOMREQUEST => 'GET',
+    ];
+    $res = $mu->get_contents($url, $options);
 } else {
     echo $html;
 }
