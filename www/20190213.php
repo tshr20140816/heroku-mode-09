@@ -13,7 +13,7 @@ $url = 'https://inoreader.superfeedr.com/';
 
 $post_data = [
     'hub.mode' => 'subscribe',
-    'hub.callback' => 'https://' . $username . '.wordpress.com/',
+    'hub.callback' => 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/20190214.php',
     'hub.topic' => 'https://' . $username . '.wordpress.com/feed/',
 ];
 
