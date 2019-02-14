@@ -676,4 +676,46 @@ __HEREDOC__;
 
         return $results;
     }
+
+    public function backup_data($data_, $file_name_)
+    {
+        $res = bzcompress($data_, 9);
+
+        $method = 'AES-256-CBC';
+        $password = base64_encode(getenv('HIDRIVE_USER')) . base64_encode(getenv('HIDRIVE_PASSWORD'));
+        $IV = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
+        $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
+
+        $res = base64_encode($res);
+        error_log($log_prefix . 'file size : ' . strlen($res));
+        file_put_contents($file_name_, $res);
+
+        $user = base64_decode(getenv('HIDRIVE_USER'));
+        $password = base64_decode(getenv('HIDRIVE_PASSWORD'));
+
+        $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name_)['basename'];
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+            CURLOPT_USERPWD => "${user}:${password}",
+            CURLOPT_CUSTOMREQUEST => 'DELETE',
+        ];
+        $res = $this->get_contents($url, $options);
+
+        $file_size = filesize($file_name_);
+        $fh = fopen($file_name_, 'r');
+
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+            CURLOPT_USERPWD => "${user}:${password}",
+            CURLOPT_PUT => true,
+            CURLOPT_INFILE => $fh,
+            CURLOPT_INFILESIZE => $file_size,
+        ];
+
+        $res = $this->get_contents($url, $options);
+
+        fclose($fh);
+
+        unlink($file_name_);
+    }
 }
