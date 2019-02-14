@@ -984,6 +984,7 @@ function backup_db($mu_, $file_name_blog_)
     $cmd = 'pg_dump --format=plain --dbname=' . getenv('DATABASE_URL') . ' >' . $file_name;
     exec($cmd);
 
+    /*
     $res = bzcompress(file_get_contents($file_name), 9);
 
     $method = 'AES-256-CBC';
@@ -1011,7 +1012,6 @@ function backup_db($mu_, $file_name_blog_)
     $file_size = filesize($file_name);
     $fh = fopen($file_name, 'r');
 
-    // $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name)['basename'];
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_ANY,
         CURLOPT_USERPWD => "${user}:${password}",
@@ -1025,8 +1025,10 @@ function backup_db($mu_, $file_name_blog_)
     fclose($fh);
 
     unlink($file_name);
+    */
 
-    // $mu_->post_blog_wordpress('Database backup : ' . $file_size);
+    $mu_->backup_data(file_get_contents($file_name), $file_name);
+    
     file_put_contents($file_name_blog_, "Database backup size : ${file_size}\n", FILE_APPEND);
 }
 
@@ -1093,6 +1095,7 @@ function backup_task($mu_, $file_name_blog_)
 
     $file_name = '/tmp/' . getenv('HEROKU_APP_NAME')  . '_' .  date('d', strtotime('+9 hours')) . '_tasks.txt';
 
+    /*
     $res = bzcompress($res, 9);
 
     $method = 'AES-256-CBC';
@@ -1118,7 +1121,6 @@ function backup_task($mu_, $file_name_blog_)
     $file_size = filesize($file_name);
     $fh = fopen($file_name, 'r');
 
-    // $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name)['basename'];
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_ANY,
         CURLOPT_USERPWD => "${user}:${password}",
@@ -1132,8 +1134,10 @@ function backup_task($mu_, $file_name_blog_)
     fclose($fh);
 
     unlink($file_name);
-
-    // $mu_->post_blog_wordpress('Task backup : ' . $file_size);
+    */
+    
+    $mu_->backup_data($res, $file_name);
+    
     file_put_contents($file_name_blog_, "Task backup size : ${file_size}\n", FILE_APPEND);
 }
 
@@ -1196,6 +1200,7 @@ function backup_opml($mu_, $file_name_blog_)
     
     $file_name = '/tmp/' . getenv('HEROKU_APP_NAME')  . '_' .  date('d', strtotime('+9 hours')) . '_OPML.txt';
     
+    /*
     $res = bzcompress($res, 9);
     
     $method = 'AES-256-CBC';
@@ -1234,6 +1239,8 @@ function backup_opml($mu_, $file_name_blog_)
     fclose($fh);
     
     unlink($file_name);
+    */
+    $mu_->backup_data($res, $file_name);
     
     file_put_contents($file_name_blog_, "OPML backup size : ${file_size}\n", FILE_APPEND);
 }
