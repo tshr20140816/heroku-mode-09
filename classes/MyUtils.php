@@ -679,6 +679,8 @@ __HEREDOC__;
 
     public function backup_data($data_, $file_name_)
     {
+        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
         $res = bzcompress($data_, 9);
 
         $method = 'AES-256-CBC';
@@ -687,7 +689,7 @@ __HEREDOC__;
         $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
 
         $res = base64_encode($res);
-        error_log($log_prefix . 'file size : ' . strlen($res));
+        error_log($log_prefix . pathinfo($file_name_)['basename'] . ' size : ' . strlen($res));
         file_put_contents($file_name_, $res);
 
         $user = base64_decode(getenv('HIDRIVE_USER'));
