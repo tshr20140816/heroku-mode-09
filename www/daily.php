@@ -984,7 +984,7 @@ function backup_db($mu_, $file_name_blog_)
     $cmd = 'pg_dump --format=plain --dbname=' . getenv('DATABASE_URL') . ' >' . $file_name;
     exec($cmd);
 
-    $mu_->backup_data(file_get_contents($file_name), $file_name);
+    $file_size = $mu_->backup_data(file_get_contents($file_name), $file_name);
     
     file_put_contents($file_name_blog_, "Database backup size : ${file_size}\n", FILE_APPEND);
 }
@@ -1052,7 +1052,7 @@ function backup_task($mu_, $file_name_blog_)
 
     $file_name = '/tmp/' . getenv('HEROKU_APP_NAME')  . '_' .  date('d', strtotime('+9 hours')) . '_tasks.txt';
 
-    $mu_->backup_data($res, $file_name);
+    $file_size = $mu_->backup_data($res, $file_name);
     
     file_put_contents($file_name_blog_, "Task backup size : ${file_size}\n", FILE_APPEND);
 }
@@ -1116,7 +1116,7 @@ function backup_opml($mu_, $file_name_blog_)
     
     $file_name = '/tmp/' . getenv('HEROKU_APP_NAME')  . '_' .  date('d', strtotime('+9 hours')) . '_OPML.txt';
 
-    $mu_->backup_data($res, $file_name);
+    $file_size = $mu_->backup_data($res, $file_name);
     
     file_put_contents($file_name_blog_, "OPML backup size : ${file_size}\n", FILE_APPEND);
 }
