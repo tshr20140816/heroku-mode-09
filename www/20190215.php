@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $IV = substr(sha1($file_name), 0, openssl_cipher_iv_length($method));
     $res = openssl_decrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
     
-    error_log(strlen('openssl_decrypt : ' . $res));
+    error_log('openssl_decrypt : ' . strlen($res));
     
     $res = bzdecompress($res);
     
