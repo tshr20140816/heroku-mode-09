@@ -55,7 +55,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = base64_decode(getenv('ZIP_PASSWORD'));
     exec("zip -j -P ${password} ${zip_file} ${file_name}");
     
-    header('Content-Type: application/zip');
+    // header('Content-Type: application/zip');
+    header('Content-Transfer-Encoding: binary');
+    header('Content-type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="' . pathinfo($zip_file)['basename'] . '"');
     echo file_get_contents($zip_file);
     
     unlink($zip_file);
