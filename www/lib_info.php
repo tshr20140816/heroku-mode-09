@@ -39,6 +39,7 @@ if ($res === 'continue') {
     }
     $log .= date('Y/m/d H:i:s') . " ${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . "s]";
     $mu->post_blog_wordpress('/lib_info.php', $log);
+    error_log("${pid} opcache_get_status : " . print_r(opcache_get_status(), true));
 }
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
