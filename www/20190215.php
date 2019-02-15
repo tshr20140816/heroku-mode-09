@@ -6,7 +6,7 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $res = [];
-exec('ls', $res);
+exec('ls *.php', $res);
 
 error_log(print_r($res, true));
 
