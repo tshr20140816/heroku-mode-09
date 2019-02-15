@@ -50,7 +50,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // error_log($res);
     file_put_contents("/tmp/${file_name}", $res);
     
-    system("zip -P symfoware test.zip data/001.jpg data/002.jpg data/003.jpg");
+    $zip_file = '/tmp/' . pathinfo($file_name)['filename'] . '.zip';
+    $password = base64_encode(getenv('ZIP_PASSWORD'));
+    system("zip -j -P ${password} ${zip_file} /tmp/${file_name}");
+    
+    header('Content-Type: application/zip');
+    echo file_get_contents($zip_file);
+    
+    unlink('/tmp/' . pathinfo($file_name)['filename']);
+    unlink("/tmp/${file_name}");
 } else {
     echo $html;
 }
