@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $zip_file = '/tmp/' . pathinfo($file_name)['filename'] . '.zip';
     $password = base64_encode(getenv('ZIP_PASSWORD'));
-    system("zip -j -P ${password} ${zip_file} /tmp/${file_name}");
+    exec("zip -j -P ${password} ${zip_file} /tmp/${file_name}");
     
     header('Content-Type: application/zip');
     echo file_get_contents($zip_file);
