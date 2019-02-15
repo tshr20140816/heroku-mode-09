@@ -61,7 +61,7 @@ $list_holiday2 = get_holiday2($mu);
 $list_holiday = get_holiday($mu);
 
 // 24sekki 今年と来年分
-$list_24sekki = get_24sekki($mu);
+$list_24sekki = get_24sekki2($mu);
 
 // Sun 今月含み4ヶ月分
 $list_sunrise_sunset = get_sun($mu);
@@ -343,7 +343,7 @@ function get_holiday($mu_)
     return $list_holiday;
 }
 
-function get_24sekki($mu_)
+function get_24sekki2($mu_)
 {
     // 24sekki 今年と来年分
 
