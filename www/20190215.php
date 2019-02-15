@@ -40,6 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $res = openssl_decrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
     
     $res = bzdecompress($res);
+    
+    error_log($res);
 } else {
     echo $html;
 }
