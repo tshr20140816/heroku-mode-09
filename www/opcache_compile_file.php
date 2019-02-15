@@ -14,6 +14,9 @@ $rc = opcache_compile_file('../classes/MyUtils.php');
 error_log("${pid} MyUtils.php : ${rc}");
 
 foreach ($res as $file_name) {
+    if (preg_match('/^\d+\.php$/', $file_name) === 1) {
+        continue;
+    }
     $rc = opcache_compile_file("./${file_name}");
     error_log("${pid} ${file_name} : ${rc}");
 }
