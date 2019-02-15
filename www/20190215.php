@@ -34,12 +34,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $res = base64_decode($res);
     
+    error_log('base64_decode : ' . strlen($res));
+    
     $method = 'AES-256-CBC';
     $password = base64_encode(getenv('HIDRIVE_USER')) . base64_encode(getenv('HIDRIVE_PASSWORD'));
     $IV = substr(sha1($file_name), 0, openssl_cipher_iv_length($method));
     $res = openssl_decrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
     
+    error_log(strlen('openssl_decrypt : ' . $res));
+    
     $res = bzdecompress($res);
+    
+    error_log('bzdecompress : ' . strlen($res));
     
     error_log($res);
 } else {
