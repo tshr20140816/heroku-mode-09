@@ -47,7 +47,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     error_log($pid . ' bzdecompress : ' . strlen($res));
     
-    error_log($res);
+    // error_log($res);
+    file_put_contents("/tmp/${file_name}", $res);
+    
+    system("zip -P symfoware test.zip data/001.jpg data/002.jpg data/003.jpg");
 } else {
     echo $html;
 }
