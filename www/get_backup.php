@@ -32,9 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         CURLOPT_CUSTOMREQUEST => 'GET',
     ];
     $res = $mu->get_contents($url, $options);
-    
+
     $res = base64_decode($res);
-    
+
     error_log($pid . ' base64_decode : ' . strlen($res));
 
     $file_name = "/tmp/${file_name}";
@@ -42,25 +42,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = base64_encode(getenv('HIDRIVE_USER')) . base64_encode(getenv('HIDRIVE_PASSWORD'));
     $IV = substr(sha1($file_name), 0, openssl_cipher_iv_length($method));
     $res = openssl_decrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
-    
+
     error_log($pid . ' openssl_decrypt : ' . strlen($res));
-    
+
     $res = bzdecompress($res);
-    
+
     error_log($pid . ' bzdecompress : ' . strlen($res));
-    
+
     file_put_contents($file_name, $res);
-    
+
     $zip_file = '/tmp/' . pathinfo($file_name)['filename'] . '.zip';
     $password = base64_decode(getenv('ZIP_PASSWORD'));
     exec("zip -j -P ${password} ${zip_file} ${file_name}");
-    
-    // header('Content-Type: application/zip');
+
     header('Content-Transfer-Encoding: binary');
     header('Content-type: application/octet-stream');
     header('Content-Disposition: attachment; filename="' . pathinfo($zip_file)['basename'] . '"');
     echo file_get_contents($zip_file);
-    
+
     unlink($zip_file);
     unlink($file_name);
 } else {
