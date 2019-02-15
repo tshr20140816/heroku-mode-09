@@ -8,6 +8,8 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $res = [];
 exec('ls', $res);
 
+error_log(print_r($res, true));
+
 $rc = opcache_compile_file('/../classes/MyUtils.php');
 error_log("${pid} MyUtils.php : ${rc}");
 
