@@ -36,10 +36,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $res = base64_decode($res);
     
     error_log($pid . ' base64_decode : ' . strlen($res));
-    
+
+    $file_name = "/tmp/${file_name}";
     $method = 'AES-256-CBC';
     $password = base64_encode(getenv('HIDRIVE_USER')) . base64_encode(getenv('HIDRIVE_PASSWORD'));
-    $IV = substr(sha1("/tmp/${file_name}"), 0, openssl_cipher_iv_length($method));
+    $IV = substr(sha1($file_name), 0, openssl_cipher_iv_length($method));
     $res = openssl_decrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
     
     error_log($pid . ' openssl_decrypt : ' . strlen($res));
@@ -48,17 +49,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     error_log($pid . ' bzdecompress : ' . strlen($res));
     
-    file_put_contents("/tmp/${file_name}", $res);
+    file_put_contents($file_name, $res);
     
     $zip_file = '/tmp/' . pathinfo($file_name)['filename'] . '.zip';
     $password = base64_encode(getenv('ZIP_PASSWORD'));
-    exec("zip -j -P ${password} ${zip_file} /tmp/${file_name}");
+    exec("zip -j -P ${password} ${zip_file} ${file_name}");
     
     header('Content-Type: application/zip');
     echo file_get_contents($zip_file);
     
-    unlink('/tmp/' . pathinfo($file_name)['filename']);
-    unlink("/tmp/${file_name}");
+    unlink($zip_file);
+    unlink($file_name);
 } else {
     echo $html;
 }
