@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $method = 'AES-256-CBC';
     $password = base64_encode(getenv('HIDRIVE_USER')) . base64_encode(getenv('HIDRIVE_PASSWORD'));
-    $IV = substr(sha1('/tmp/' . $file_name), 0, openssl_cipher_iv_length($method));
+    $IV = substr(sha1("/tmp/${file_name}"), 0, openssl_cipher_iv_length($method));
     $res = openssl_decrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
     
     error_log('openssl_decrypt : ' . strlen($res));
