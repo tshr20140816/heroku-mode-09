@@ -13,7 +13,7 @@ error_log($pid . ' '. print_r(getallheaders(), true));
 
 $html = <<< __HEREDOC__
 <html><body>
-<form method="POST" action="./20190215.php">
+<form method="POST" action="./get_backup.php">
 <input type="text" name="file_name" />
 <input type="submit" /> 
 </form>
