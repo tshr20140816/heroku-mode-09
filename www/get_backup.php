@@ -21,7 +21,8 @@ $html = <<< __HEREDOC__
 __HEREDOC__;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $file_name = $_POST['file_name'];
+    $file_name = pathinfo($_POST['file_name'])['basename'];
+    error_log("${pid} file name : ${file_name}");
     $user = base64_decode(getenv('HIDRIVE_USER'));
     $password = base64_decode(getenv('HIDRIVE_PASSWORD'));
     $url = "https://webdav.hidrive.strato.com/users/${user}/${file_name}";
@@ -47,7 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     error_log($pid . ' bzdecompress : ' . strlen($res));
     
-    // error_log($res);
     file_put_contents("/tmp/${file_name}", $res);
     
     $zip_file = '/tmp/' . pathinfo($file_name)['filename'] . '.zip';
