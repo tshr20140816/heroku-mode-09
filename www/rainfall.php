@@ -56,7 +56,7 @@ if ($count !== 0) {
             }
         }
     }    
-    $list_add_task = get_task_rainfall($mu);
+    $list_add_task = get_task_rainfall2($mu);
     foreach ($list_add_task as $task) {
         if (strpos($task, '☀') == false) {
             $continue_flag = true;
@@ -84,7 +84,7 @@ error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' .
 
 exit();
 
-function get_task_rainfall($mu_)
+function get_task_rainfall2($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
