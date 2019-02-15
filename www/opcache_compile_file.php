@@ -18,5 +18,9 @@ foreach ($res as $file_name) {
     error_log("${pid} ${file_name} : ${rc}");
 }
 
+error_log("${pid} opcache_get_configuration : " . print_r(opcache_get_configuration(), true));
+
+error_log("${pid} opcache_get_status : " . print_r(opcache_get_status(), true));
+
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
