@@ -58,7 +58,7 @@ get_quota($mu, $file_name_blog);
 $list_holiday2 = get_holiday2($mu);
 
 // holiday 今月含み4ヶ月分
-$list_holiday = get_holiday($mu);
+$list_holiday = get_holiday3($mu);
 
 // 24sekki 今年と来年分
 $list_24sekki = get_24sekki2($mu);
@@ -310,7 +310,7 @@ function get_holiday2($mu_)
     return $list_holiday2;
 }
 
-function get_holiday($mu_)
+function get_holiday3($mu_)
 {
     // holiday 今月含み4ヶ月分
 
