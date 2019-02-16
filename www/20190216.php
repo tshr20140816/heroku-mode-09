@@ -16,6 +16,9 @@ exit();
 function get_record_count($mu_, $file_name_blog_)
 {
     $sql = <<< __HEREDOC__
+VACUUM t_webcache
+__HEREDOC__;
+    $sql = <<< __HEREDOC__
 SELECT SUM(T1.reltuples) cnt
   FROM pg_class T1
  WHERE EXISTS ( SELECT 'X'
