@@ -15,4 +15,14 @@ exit();
 
 function get_record_count($mu_, $file_name_blog_)
 {
+    $sql = <<< __HEREDOC__
+SELECT SUM(T1.reltuples) CNT
+  FROM pg_class T1
+ WHERE EXISTS ( SELECT 'X'
+                  FROM pg_stat_user_tables T2
+                 WHERE T2.relname = T1.relname
+                   AND T2.schemaname='public'
+              )
+__HEREDOC__;
+    $pdo = $mu_->get_pdo();
 }
