@@ -16,7 +16,7 @@ exit();
 function get_record_count($mu_, $file_name_blog_)
 {
     $sql = <<< __HEREDOC__
-SELECT SUM(T1.reltuples) CNT
+SELECT SUM(T1.reltuples) cnt
   FROM pg_class T1
  WHERE EXISTS ( SELECT 'X'
                   FROM pg_stat_user_tables T2
@@ -28,7 +28,8 @@ __HEREDOC__;
     $pdo = $mu_->get_pdo();
     $count = 0;
     foreach ($pdo->query($sql) as $row) {
-        $count = $row['CNT'];
+        error_log(print_r($row, true));
+        $count = $row['cnt'];
     }
     
     error_log($count);
