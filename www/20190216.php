@@ -15,9 +15,15 @@ exit();
 
 function get_record_count($mu_, $file_name_blog_)
 {
+    
+    $pdo = $mu_->get_pdo();
+    
     $sql = <<< __HEREDOC__
 VACUUM t_webcache
 __HEREDOC__;
+    
+    $pdo->exec($sql);
+    
     $sql = <<< __HEREDOC__
 SELECT SUM(T1.reltuples) cnt
   FROM pg_class T1
@@ -28,7 +34,6 @@ SELECT SUM(T1.reltuples) cnt
               )
 __HEREDOC__;
     
-    $pdo = $mu_->get_pdo();
     $count = 0;
     foreach ($pdo->query($sql) as $row) {
         error_log(print_r($row, true));
@@ -36,4 +41,6 @@ __HEREDOC__;
     }
     
     error_log($count);
+    
+    $pdo = null;
 }
