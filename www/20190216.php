@@ -24,5 +24,12 @@ SELECT SUM(T1.reltuples) CNT
                    AND T2.schemaname='public'
               )
 __HEREDOC__;
+    
     $pdo = $mu_->get_pdo();
+    $count = 0;
+    foreach ($pdo->query($sql) as $row) {
+        $count = $row['CNT'];
+    }
+    
+    error_log($count);
 }
