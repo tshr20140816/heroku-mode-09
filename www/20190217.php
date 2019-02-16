@@ -23,3 +23,8 @@ $options = [
     CURLOPT_COOKIEJAR => $cookie,
     CURLOPT_COOKIEFILE => $cookie,
 ];
+
+$url = getenv('TEST_URL_010');
+$res = $mu->get_contents($url, $options);
+
+error_log($res);
