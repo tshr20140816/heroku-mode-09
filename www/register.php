@@ -10,8 +10,8 @@ if (!isset($_GET['code']) || !isset($_GET['state'])) {
     $url = 'https://api.toodledo.com/3/account/authorize.php?'
         . 'response_type=code&client_id=' . base64_decode(getenv('TOODLEDO_CLIENTID'))
         . '&state=' . uniqid() . '&scope=basic%20tasks%20notes%20write';
-    header('Location: ' . $url, true, 301);
-    error_log("${pid} FINISH HTTP STATUS 301");
+    header('Location: ' . $url, true, 302);
+    error_log("${pid} FINISH HTTP STATUS 302");
     exit();
 }
 
