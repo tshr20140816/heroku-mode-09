@@ -13,6 +13,11 @@ $mu = new MyUtils();
 
 //
 
+$url = $mu->get_env('URL_SOCCER_TEAM_CSV_FILE');
+$urls_is_cache[$url] = null;
+
+//
+
 $url = 'http://www.carp.co.jp/_calendar/list.html';
 $urls_is_cache[$url] = null;
 
