@@ -8,76 +8,143 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-// get_record_count($mu, '/tmp/dummy');
-backup_db($mu, '/tmp/dummy');
+backup_opml($mu, '/tmp/dummy');
 
 error_log(file_get_contents('/tmp/dummy'));
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
 
-function backup_db($mu_, $file_name_blog_)
+function backup_task($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $file_name = '/tmp/' . getenv('HEROKU_APP_NAME')  . '_' .  date('d', strtotime('+9 hours')) . '_pg_dump.txt';
-    error_log($log_prefix . $file_name);
-    $cmd = 'pg_dump --format=plain --dbname=' . getenv('DATABASE_URL') . ' >' . $file_name;
-    exec($cmd);
+    $cookie = tempnam("/tmp", time());
 
-    $file_size = $mu_->backup_data(file_get_contents($file_name), $file_name);
+    $url = 'https://www.toodledo.com/signin.php?redirect=/tools/backup.php';
+
+    $options = [
+        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_HTTPHEADER => [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            'DNT: 1',
+            'Upgrade-Insecure-Requests: 1',
+            ],
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_TIMEOUT => 20,
+    ];
+
+    $res = $mu_->get_contents($url, $options);
+
+    $rc = preg_match('/<input .+? name="csrf1" value="(.*?)"/s', $res, $matches);
+    $csrf1 = $matches[1];
+    $rc = preg_match('/<input .+? name="csrf2" value="(.*?)"/s', $res, $matches);
+    $csrf2 = $matches[1];
+
+    $post_data = [
+        'csrf1' => $csrf1,
+        'csrf2' => $csrf2,
+        'redirect' => '/tools/backup.php',
+        'email' => base64_decode(getenv('TOODLEDO_EMAIL')),
+        'pass' => base64_decode(getenv('TOODLEDO_PASSWORD')),
+    ];
+
+    $options = [
+        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_HTTPHEADER => [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            'DNT: 1',
+            'Upgrade-Insecure-Requests: 1',
+            ],
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_TIMEOUT => 20,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
+    ];
+
+    $url = 'https://www.toodledo.com/signin.php';
+
+    $res = $mu_->get_contents($url, $options);
+
+    unlink($cookie);
+
+    $file_name = '/tmp/' . getenv('HEROKU_APP_NAME')  . '_' .  date('d', strtotime('+9 hours')) . '_tasks.txt';
+
+    $file_size = $mu_->backup_data($res, $file_name);
     $file_size = number_format($file_size);
-
-    $sql = <<< __HEREDOC__
-SELECT SUM(T1.reltuples) cnt
-  FROM pg_class T1
- WHERE EXISTS ( SELECT 'X'
-                  FROM pg_stat_user_tables T2
-                 WHERE T2.relname = T1.relname
-                   AND T2.schemaname='public'
-              )
-__HEREDOC__;
-
-    $pdo = $mu_->get_pdo();
-    $record_count = 0;
-    foreach ($pdo->query($sql) as $row) {
-        error_log($log_prefix . print_r($row, true));
-        $record_count = $row['cnt'];
-        $record_count = number_format($record_count);
-    }
-    $pdo = null;
-
-    file_put_contents($file_name_blog_, "Database backup size : ${file_size}Byte\nRecord Count : ${record_count}", FILE_APPEND);
+    
+    file_put_contents($file_name_blog_, "Task backup size : ${file_size}Byte\n", FILE_APPEND);
 }
 
-function get_record_count($mu_, $file_name_blog_)
+function backup_opml($mu_, $file_name_blog_)
 {
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $cookie = tempnam("/tmp", time());
+
+    $url = 'https://www.inoreader.com/';
+
+    $post_data = [
+        'warp_action' => 'login',
+        'hash_action' => '',
+        'sendback' => '',
+        'username' => base64_decode(getenv('INOREADER_USER')),
+        'password' => base64_decode(getenv('INOREADER_PASSWORD')),
+        'remember_me' => 'on',
+    ];
+
+    $options = [
+        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_HTTPHEADER => [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            'DNT: 1',
+            'Upgrade-Insecure-Requests: 1',
+            ],
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_TIMEOUT => 20,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
+    ];
+
+    $res = $mu_->get_contents($url, $options);
+
+    $url = 'https://www.inoreader.com/reader/subscriptions/export?download=1';
+
+    $options = [
+        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_HTTPHEADER => [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            'DNT: 1',
+            'Upgrade-Insecure-Requests: 1',
+            ],
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_TIMEOUT => 20,
+    ];
+
+    $res = $mu_->get_contents($url, $options);
     
-    $pdo = $mu_->get_pdo();
+    unlink($cookie);
     
-    $sql = <<< __HEREDOC__
-VACUUM t_webcache
-__HEREDOC__;
+    $file_name = '/tmp/' . getenv('HEROKU_APP_NAME')  . '_' .  date('d', strtotime('+9 hours')) . '_OPML.txt';
+
+    $file_size = $mu_->backup_data($res, $file_name);
+    $file_size = number_format($file_size);
     
-    $pdo->exec($sql);
-    
-    $sql = <<< __HEREDOC__
-SELECT SUM(T1.reltuples) cnt
-  FROM pg_class T1
- WHERE EXISTS ( SELECT 'X'
-                  FROM pg_stat_user_tables T2
-                 WHERE T2.relname = T1.relname
-                   AND T2.schemaname='public'
-              )
-__HEREDOC__;
-    
-    $count = 0;
-    foreach ($pdo->query($sql) as $row) {
-        error_log(print_r($row, true));
-        $count = $row['cnt'];
-    }
-    
-    error_log($count);
-    
-    $pdo = null;
+    file_put_contents($file_name_blog_, "OPML backup size : ${file_size}Byte\n", FILE_APPEND);
 }
