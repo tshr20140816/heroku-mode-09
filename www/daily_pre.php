@@ -13,6 +13,13 @@ $mu = new MyUtils();
 
 //
 
+$pdo = $mu->get_pdo();
+$rc = $pdo->exec('TRUNCATE t_webcache');
+error_log($pid . ' TRUNCATE t_webcache $rc : ' . $rc);
+$pdo = null;
+
+//
+
 $url = $mu->get_env('URL_SOCCER_TEAM_CSV_FILE');
 $urls_is_cache[$url] = null;
 
@@ -156,27 +163,7 @@ for ($j = 0; $j < 4; $j++) {
 
 //
 
-$sql_delete = <<< __HEREDOC__
-DELETE
-  FROM t_webcache
- WHERE url_base64 = :b_url_base64
-__HEREDOC__;
-
-$pdo = $mu->get_pdo();
-$statement = $pdo->prepare($sql_delete);
-
 $sub_address = $mu->get_env('SUB_ADDRESS');
-for ($i = 11; $i > -1; $i--) {
-    $url = 'https://feed43.com/' . $sub_address . ($i * 5 + 11) . '-' . ($i * 5 + 15) . '.xml';
-    $url_base64 = base64_encode($url);
-    $rc = $statement->execute([':b_url_base64' => $url_base64]);
-    error_log($pid . ' DELETE $rc : ' . $rc);
-}
-$rc = $pdo->exec('VACUUM t_webcache');
-error_log($pid . ' VACUUM t_webcache $rc : ' . $rc);
-
-$pdo = null;
-
 for ($i = 11; $i > -1; $i--) {
     $url = 'https://feed43.com/' . $sub_address . ($i * 5 + 11) . '-' . ($i * 5 + 15) . '.xml';
     $res = $mu->get_contents($url, null, true);
