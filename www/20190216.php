@@ -140,11 +140,13 @@ function backup_opml($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url, $options);
     
     unlink($cookie);
+
+    $feed_count = preg_match_all('/ xmlUrl="/', $res);
     
     $file_name = '/tmp/' . getenv('HEROKU_APP_NAME')  . '_' .  date('d', strtotime('+9 hours')) . '_OPML.txt';
 
     $file_size = $mu_->backup_data($res, $file_name);
     $file_size = number_format($file_size);
     
-    file_put_contents($file_name_blog_, "OPML backup size : ${file_size}Byte\n", FILE_APPEND);
+    file_put_contents($file_name_blog_, "OPML backup size : ${file_size}Byte\nFeed count : ${feed_count}", FILE_APPEND);
 }
