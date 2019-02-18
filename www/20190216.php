@@ -77,6 +77,7 @@ function backup_task($mu_, $file_name_blog_)
     unlink($cookie);
 
     $task_count = preg_match_all('/<\/task>/', $res);
+    $task_count = number_format($task_count);
 
     $file_name = '/tmp/' . getenv('HEROKU_APP_NAME')  . '_' .  date('d', strtotime('+9 hours')) . '_tasks.txt';
 
