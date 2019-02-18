@@ -576,7 +576,7 @@ function get_task_soccer($mu_, $file_name_blog_)
     // Get Contexts
     $list_context_id = $mu_->get_contexts();
 
-    $res = $mu_->get_contents($mu_->get_env('URL_SOCCER_TEAM_CSV_FILE'), true);
+    $res = $mu_->get_contents($mu_->get_env('URL_SOCCER_TEAM_CSV_FILE'), null, true);
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
 
     $list_tmp = explode("\n", $res);
