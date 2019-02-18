@@ -167,6 +167,8 @@ for ($i = 11; $i > -1; $i--) {
     $rc = $statement->execute([':b_url_base64' => $url_base64]);
     error_log($pid . ' DELETE $rc : ' . $rc);
 }
+$rc = $pdo->exec('VACUUM t_webcache');
+error_log($pid . ' VACUUM t_webcache $rc : ' . $rc);
 
 $pdo = null;
 
