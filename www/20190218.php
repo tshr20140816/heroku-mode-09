@@ -41,5 +41,5 @@ while ($one_line = fgets($fp)) {
 }
 
 fclose($fp);
-unlonk($file_name);
+unlink($file_name);
 
