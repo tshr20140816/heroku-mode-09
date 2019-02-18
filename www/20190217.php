@@ -8,8 +8,6 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$cookie = tempnam('/tmp', time());
-
 $options = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
     CURLOPT_HTTPHEADER => [
@@ -20,11 +18,25 @@ $options = [
         'DNT: 1',
         'Upgrade-Insecure-Requests: 1',
         ],
-    CURLOPT_COOKIEJAR => $cookie,
-    CURLOPT_COOKIEFILE => $cookie,
 ];
 
 $url = getenv('TEST_URL_010');
 $res = $mu->get_contents($url, $options);
 
-error_log($res);
+// error_log($res);
+
+$file_name = tempnam('/tmp', 'A' . time());
+
+file_put_contents($file_name, $res);
+
+$fp = fopen($file_name, 'r');
+
+while ($one_line = fgets($fp)) {
+    if ($one_line == '') {
+        break;
+    }
+    error_log($one_line);
+}
+
+fclose($fp);
+unlonk($file_name);
