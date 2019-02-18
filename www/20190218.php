@@ -12,7 +12,6 @@ $cookie = tempnam('/tmp', time());
 
 $url = 'http://www.ticket.carp.co.jp/shop/o_kuuseki/kuuseki.csv';
 
-curl_setopt($ch, CURLOPT_HEADER, 1);
 $options = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
     CURLOPT_HTTPHEADER => [
