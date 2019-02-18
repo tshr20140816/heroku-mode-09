@@ -986,8 +986,27 @@ function backup_db($mu_, $file_name_blog_)
 
     $file_size = $mu_->backup_data(file_get_contents($file_name), $file_name);
     $file_size = number_format($file_size);
-    
-    file_put_contents($file_name_blog_, "Database backup size : ${file_size}Byte\n", FILE_APPEND);
+
+    $sql = <<< __HEREDOC__
+SELECT SUM(T1.reltuples) cnt
+  FROM pg_class T1
+ WHERE EXISTS ( SELECT 'X'
+                  FROM pg_stat_user_tables T2
+                 WHERE T2.relname = T1.relname
+                   AND T2.schemaname='public'
+              )
+__HEREDOC__;
+
+    $pdo = $mu_->get_pdo();
+    $record_count = 0;
+    foreach ($pdo->query($sql) as $row) {
+        error_log($log_prefix . print_r($row, true));
+        $record_count = $row['cnt'];
+        $record_count = number_format($record_count);
+    }
+    $pdo = null;
+
+    file_put_contents($file_name_blog_, "Database backup size : ${file_size}Byte\nRecord count : ${record_count}", FILE_APPEND);
 }
 
 function backup_task($mu_, $file_name_blog_)
