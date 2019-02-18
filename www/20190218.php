@@ -34,10 +34,10 @@ file_put_contents($file_name, $res);
 $fp = fopen($file_name, 'r');
 
 while ($one_line = fgets($fp)) {
-    if ($one_line == '') {
+    if (trim($one_line) == '') {
         break;
     }
-    error_log($one_line);
+    error_log(trim($one_line));
 }
 
 fclose($fp);
