@@ -7,6 +7,7 @@ $pdo = new PDO(
     $connection_info['pass']
 );
 
+//
 
 $sql = <<< __HEREDOC__
 CREATE TABLE m_authorization (
@@ -21,6 +22,8 @@ __HEREDOC__;
 $count = $pdo->exec($sql);
 error_log('create table result : ' . $count);
 
+//
+
 $sql = <<< __HEREDOC__
 CREATE TABLE t_webcache (
     url_base64 character varying(1024) PRIMARY KEY,
@@ -30,6 +33,8 @@ CREATE TABLE t_webcache (
 __HEREDOC__;
 $count = $pdo->exec($sql);
 error_log('create table result : ' . $count);
+
+//
 
 $sql = <<< __HEREDOC__
 CREATE TABLE m_tenki (
@@ -50,6 +55,8 @@ __HEREDOC__;
 $count = $pdo->exec($sql);
 error_log('create table result : ' . $count);
 
+//
+
 $sql = <<< __HEREDOC__
 CREATE TABLE t_imageparsehash (
     group_id integer NOT NULL,
@@ -62,6 +69,8 @@ __HEREDOC__;
 $count = $pdo->exec($sql);
 error_log('create table result : ' . $count);
 
+//
+
 $sql = <<< __HEREDOC__
 CREATE TABLE m_env (
     key character varying(128) PRIMARY KEY,
@@ -71,11 +80,25 @@ __HEREDOC__;
 $count = $pdo->exec($sql);
 error_log('create table result : ' . $count);
 
+//
+
 $sql = <<< __HEREDOC__
 CREATE TABLE m_lib_account (
     lib_id character varying(64) PRIMARY KEY,
     lib_password character varying(64) NOT NULL,
     symbol character varying(3) NOT NULL,
+    update_time timestamp without time zone DEFAULT LOCALTIMESTAMP NOT NULL
+);
+__HEREDOC__;
+$count = $pdo->exec($sql);
+error_log('create table result : ' . $count);
+
+//
+
+$sql = <<< __HEREDOC__
+CREATE TABLE t_check_webpage (
+    url_base64 character varying(1024) PRIMARY KEY,
+    content_compress_base64 text,
     update_time timestamp without time zone DEFAULT LOCALTIMESTAMP NOT NULL
 );
 __HEREDOC__;
