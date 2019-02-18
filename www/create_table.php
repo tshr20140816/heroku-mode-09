@@ -100,6 +100,8 @@ CREATE TABLE t_check_webpage (
     url_base64 character varying(1024) PRIMARY KEY,
     content_compress_base64 text,
     last_modified character varying(64),
+    hash character varying(128),
+    type integer NOT NULL,
     update_time timestamp without time zone DEFAULT LOCALTIMESTAMP NOT NULL
 );
 __HEREDOC__;
