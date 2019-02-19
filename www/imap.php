@@ -32,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     error_log('header : ' . print_r($header, true));
     error_log('body : ' . $body);
+    error_log('body quoted_printable_decode : ' . quoted_printable_decode($body));
     
     imap_close($imap);
 } else {
