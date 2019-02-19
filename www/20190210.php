@@ -31,24 +31,10 @@ if (count($res) == 0) {
     exit();
 }
 
-for ($i = 0; $i < count($res); $i++) {
-    $msg_no = $res[$i];
+$header = imap_header($imap, $msg_no);
+$body = imap_body($imap, $msg_no);
 
-    $header = imap_header($imap, $msg_no);
-    // error_log(print_r($header, true));
+error_log(print_r($header, true));
+error_log(print_r($body, true));
 
-    $date = $header->Date;
-
-    if (strpos($date, ' 2018 ') > 0) {
-        // $res1 = imap_mime_header_decode($header->Subject);
-        // error_log(print_r($res1, true));
-        $rc = imap_mail_move($imap, $msg_no, '2018');
-        error_log($i . ' ' . $rc . ' ' . $date);
-        imap_expunge($imap);
-    }
-}
-
-imap_expunge($imap);
 imap_close($imap);
-$res = imap_errors();
-// error_log(print_r($res, true));
