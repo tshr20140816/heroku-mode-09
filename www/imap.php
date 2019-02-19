@@ -35,30 +35,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     error_log('struct : ' . print_r($struct, true));
     
     if (isset($struct->parts)) {
-        $charset = $struct->parts[0]->parameters[0]->value;
-        $encoding = $struct->parts[0]->encoding;
+        $loop_end = count($struct->parts);
     } else {
-        $charset = $struct->parameters[0]->value;
-        $encoding = $struct->encoding;
+        $loop_end = 1;
     }
     
-    switch ($encoding) {
-        case 1: // 8bit
-            $body = imap_8bit($body);
-            $body = imap_qprint($body);
-            break;
-        case 3: // Base64
-            $body = imap_base64($body);
-            break;
-        case 4: // Quoted-Printable
-            $body = imap_qprint($body);
-            break;
-        default:
-            break;
-    }
-    $body = mb_convert_encoding($body, 'UTF-8', $charset);
+    for ($i = 0; $i < $loop_end; $i++) {
+        if (isset($struct->parts)) {
+            $charset = $struct->parts[$i]->parameters[0]->value;
+            $encoding = $struct->parts[$i]->encoding;
+        } else {
+            $charset = $struct->parameters[0]->value;
+            $encoding = $struct->encoding;
+        }
     
-    error_log($body);
+        switch ($encoding) {
+            case 1: // 8bit
+                $body = imap_8bit($body);
+                $body = imap_qprint($body);
+                break;
+            case 3: // Base64
+                $body = imap_base64($body);
+                break;
+            case 4: // Quoted-Printable
+                $body = imap_qprint($body);
+                break;
+            default:
+                break;
+        }
+        $body = mb_convert_encoding($body, 'UTF-8', $charset);
+    
+        error_log('----- No. ' . ($i + 1) . ' -----');
+        error_log($body);
+    }
     
     imap_close($imap);
 } else {
