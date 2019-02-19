@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $imap = imap_open('{imap.mail.yahoo.co.jp:993/ssl}', $user, $password);
     
     $header = imap_header($imap, $message_number);
-    $body = imap_body($imap, $message_number);
+    $body = imap_fetchbody($imap, $message_number);
     
     error_log('header : ' . print_r($header, true));
     error_log('body : ' . $body);
