@@ -35,6 +35,10 @@ $url = 'https://travel.rakuten.co.jp/yado/mie/tsu.html';
 $res = $mu->get_contents($url, $options);
 // $res = file_get_contents($url);
 
+
+$url = 'https://search.travel.rakuten.co.jp/ds/hotellist/Japan-Mie-Tsu';
+$res = $mu->get_contents($url, $options);
+
 // error_log($res);
 
 unlink($cookie);
