@@ -1006,7 +1006,7 @@ __HEREDOC__;
     }
     $pdo = null;
 
-    file_put_contents($file_name_blog_, "Database backup size : ${file_size}Byte\nRecord count : ${record_count}", FILE_APPEND);
+    file_put_contents($file_name_blog_, "Database backup size : ${file_size}Byte\nRecord count : ${record_count}\n", FILE_APPEND);
 }
 
 function backup_task($mu_, $file_name_blog_)
@@ -1078,7 +1078,7 @@ function backup_task($mu_, $file_name_blog_)
     $file_size = $mu_->backup_data($res, $file_name);
     $file_size = number_format($file_size);
 
-    file_put_contents($file_name_blog_, "Task backup size : ${file_size}Byte\nTask count : ${task_count}", FILE_APPEND);
+    file_put_contents($file_name_blog_, "Task backup size : ${file_size}Byte\nTask count : ${task_count}\n", FILE_APPEND);
 }
 
 function backup_opml($mu_, $file_name_blog_)
@@ -1145,7 +1145,7 @@ function backup_opml($mu_, $file_name_blog_)
     $file_size = $mu_->backup_data($res, $file_name);
     $file_size = number_format($file_size);
 
-    file_put_contents($file_name_blog_, "OPML backup size : ${file_size}Byte\nFeed count : ${feed_count}", FILE_APPEND);
+    file_put_contents($file_name_blog_, "OPML backup size : ${file_size}Byte\nFeed count : ${feed_count}\n", FILE_APPEND);
 }
 
 function get_quota($mu_, $file_name_blog_)
