@@ -29,10 +29,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $header = imap_header($imap, $message_number);
     $body = imap_fetchbody($imap, $message_number, 1);
+    $struct = imap_fetchstructure($imap, $message_number);
     
     error_log('header : ' . print_r($header, true));
-    error_log('body : ' . $body);
-    error_log('body quoted_printable_decode : ' . quoted_printable_decode($body));
+    error_log('struct : ' . print_r($struct, true));
+    //error_log('body : ' . $body);
+    //error_log('body quoted_printable_decode : ' . quoted_printable_decode($body));
     
     imap_close($imap);
 } else {
