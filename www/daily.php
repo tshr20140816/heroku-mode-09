@@ -42,6 +42,9 @@ $folder_id_label = $mu->get_folder_id('LABEL');
 $file_name_blog = '/tmp/blog.txt';
 @unlink($file_name_blog);
 
+// quota
+get_quota($mu, $file_name_blog);
+
 // Database Backup
 backup_db($mu, $file_name_blog);
 
@@ -50,9 +53,6 @@ backup_task($mu, $file_name_blog);
 
 // OPML Backup
 backup_opml($mu, $file_name_blog);
-
-// quota
-get_quota($mu, $file_name_blog);
 
 // holiday 3年後の12月まで
 $list_holiday2 = get_holiday2($mu);
