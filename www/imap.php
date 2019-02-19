@@ -31,7 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $header = imap_header($imap, $message_number);
     $struct = imap_fetchstructure($imap, $message_number);
-    $body = imap_fetchbody($imap, $message_number, 1);
     
     error_log('header : ' . print_r($header, true));
     error_log('struct : ' . print_r($struct, true));
@@ -51,6 +50,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $encoding = $struct->encoding;
         }
     
+        $body = imap_fetchbody($imap, $message_number, $i + 1);
+        
         switch ($encoding) {
             case 1: // 8bit
                 $body = imap_8bit($body);
