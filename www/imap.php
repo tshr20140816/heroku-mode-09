@@ -30,8 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $header = imap_header($imap, $message_number);
     $body = imap_body($imap, $message_number);
     
-    error_log(print_r($header, true));
-    error_log(print_r($body, true));
+    error_log('header : ' . print_r($header, true));
+    error_log('body : ' . $body);
     
     imap_close($imap);
 } else {
