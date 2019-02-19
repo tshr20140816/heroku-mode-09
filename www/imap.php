@@ -28,13 +28,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $imap = imap_open('{imap.mail.yahoo.co.jp:993/ssl}', $user, $password);
     
     $header = imap_header($imap, $message_number);
-    $body = imap_fetchbody($imap, $message_number, 1);
     $struct = imap_fetchstructure($imap, $message_number);
+    $body = imap_fetchbody($imap, $message_number, 1);
     
     error_log('header : ' . print_r($header, true));
     error_log('struct : ' . print_r($struct, true));
-    //error_log('body : ' . $body);
-    //error_log('body quoted_printable_decode : ' . quoted_printable_decode($body));
+    
+    if (isset($struct->parts)) {
+        $charset = $struct->parts[0]->parameters[0]->value;
+        $encoding = $struct->parts[0]->encoding;
+    } else {
+        $charset = $struct->parameters[0]->value;
+        $encoding = $struct->encoding;
+    }
+    
+    switch ($encoding) {
+        case 1: // 8bit
+            $body = imap_8bit($body);
+            $body = imap_qprint($body);
+            break;
+        case 3: // Base64
+            $body = imap_base64($body);
+            break;
+        case 4: // Quoted-Printable
+            $body = imap_qprint($body);
+            break;
+        default:
+            break;
+    }
+    $body = mb_convert_encoding($body, 'UTF-8', $charset);
+    
+    error_log($body);
     
     imap_close($imap);
 } else {
