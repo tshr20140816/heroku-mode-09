@@ -36,7 +36,7 @@ $res = $mu->get_contents($url, $options);
 // $res = file_get_contents($url);
 
 
-$url = 'https://search.travel.rakuten.co.jp/ds/hotellist/Japan-Mie-Tsu';
+$url = 'https://hotel.travel.rakuten.co.jp/hotelinfo/plan/149326?f_teikei=&f_hizuke=&f_hak=&f_dai=japan&f_chu=mie&f_shou=tsu&f_sai=&f_tel=&f_target_flg=&f_tscm_flg=&f_p_no=&f_custom_code=&f_search_type=&f_camp_id=&f_static=1&f_rm_equip=&f_hi1=12&f_tuki1=10&f_nen1=2019&f_hi2=13&f_tuki2=10&f_nen2=2019&f_heya_su=1&f_otona_su=2&f_kin2=0&f_kin=&f_s1=0&f_s2=0&f_y1=0&f_y2=0&f_y3=0&f_y4=0';
 $res = $mu->get_contents($url, $options);
 
 // error_log($res);
