@@ -30,7 +30,8 @@ $res = $mu->get_contents($url, $options);
 
 $url = 'https://search.travel.rakuten.co.jp/ds/hotellist/Japan-Mie-Tsu?f_landmark_id=&f_ido=0&f_kdo=0&f_teikei=&f_disp_type=&f_rm_equip=&f_hyoji=30&f_image=1&f_tab=hotel&f_setubi=&f_point_min=0&f_datumType=&f_cok=&f_hi1=5&f_tuki1=10&f_nen1=2019&f_hi2=6&f_tuki2=10&f_nen2=2019&f_heya_su=1&f_otona_su=2&f_kin2=0&f_kin=&f_s1=0&f_s2=0&f_y1=0&f_y2=0&f_y3=0&f_y4=0';
 
-$res = $mu->get_contents($url, $options);
+// $res = $mu->get_contents($url, $options);
+$res = file_get_contents($url);
 
 error_log($res);
 
