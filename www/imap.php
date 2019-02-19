@@ -26,21 +26,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $_POST['user'];
     $password = $_POST['password'];
     $message_number = $_POST['message_number'];
-    
+
     $imap = imap_open('{imap.mail.yahoo.co.jp:993/ssl}', $user, $password);
-    
+
     $header = imap_header($imap, $message_number);
     $struct = imap_fetchstructure($imap, $message_number);
-    
+
     error_log('header : ' . print_r($header, true));
     error_log('struct : ' . print_r($struct, true));
-    
+
     if (isset($struct->parts)) {
         $loop_end = count($struct->parts);
     } else {
         $loop_end = 1;
     }
-    
+
     for ($i = 0; $i < $loop_end; $i++) {
         if (isset($struct->parts)) {
             $charset = $struct->parts[$i]->parameters[0]->value;
@@ -49,9 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $charset = $struct->parameters[0]->value;
             $encoding = $struct->encoding;
         }
-    
+
         $body = imap_fetchbody($imap, $message_number, $i + 1);
-        
+
         switch ($encoding) {
             case 1: // 8bit
                 $body = imap_8bit($body);
@@ -67,11 +67,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 break;
         }
         $body = mb_convert_encoding($body, 'UTF-8', $charset);
-    
+
         error_log('----- No. ' . ($i + 1) . ' -----');
         error_log($body);
     }
-    
+
     imap_close($imap);
 } else {
     echo $html;
