@@ -8,11 +8,11 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_test($mu);
+check_all_size($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_test($mu_)
+function check_all_size($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
