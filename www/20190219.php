@@ -45,7 +45,7 @@ function func_test($mu_)
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
         CURLOPT_HEADER => true,
-        CURLOPT_CUSTOMREQUEST = 'HEAD',
+        CURLOPT_CUSTOMREQUEST => 'HEAD',
     ];
     $res = $mu_->get_contents($url, $options);
     
