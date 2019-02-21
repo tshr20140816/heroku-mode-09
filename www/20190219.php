@@ -28,14 +28,16 @@ $url = 'https://theoldreader.com/users/sign_in';
 
 $res = $mu->get_contents($url, $options);
 
-error_log($res);
+// error_log($res);
 
 $rc = preg_match('/"authenticity_token".+?value="(.+?)"/', $res, $match);
 
 error_log(print_r($match, true));
 
 $post_data = ['authenticity_token' => $match[1],
-             '' => '',
+             'utf8' => '&#x2713;',
+             'user[login]' => getenv('TEST3_USER'),
+             'user[password]' => getenv('TEST3_PASSWORD'),
              ];
 
 $options = [
@@ -54,5 +56,8 @@ $options = [
     CURLOPT_POSTFIELDS => http_build_query($post_data),
 ];
 
+$res = $mu->get_contents($url, $options);
+
+error_log($res);
 
 unlink($cookie);
