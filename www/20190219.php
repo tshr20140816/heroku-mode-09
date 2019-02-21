@@ -49,7 +49,11 @@ function func_test($mu_)
     ];
     $res = $mu_->get_contents($url, $options);
     
-    error_log($res);
+    // error_log($res);
+    
+    // Content-Length: 773824
+    $rc = preg_match_all('/Content-Length: (\d+)/', $res, $match);
+    error_log(print_r($match, true));
     
     unlink($cookie);
 }
