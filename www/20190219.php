@@ -28,7 +28,10 @@ $url = 'https://theoldreader.com/users/sign_in';
 
 $res = $mu->get_contents($url, $options);
 
+// error_log($res);
 
-error_log($res);
+$rc = preg_match('/"authenticity_token".+?value="(.+?)"/', $res, $match);
+
+error_log(print_r($match, true));
 
 unlink($cookie);
