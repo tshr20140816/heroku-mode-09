@@ -66,7 +66,7 @@ function backup_opml2($mu_, $file_name_blog_)
 
     $res = $mu_->get_contents($url, $options1);
 
-    error_log($log_prefix . $res);
+    // error_log($log_prefix . $res);
 
     unlink($cookie);
 
