@@ -34,7 +34,8 @@ function func_test($mu_)
     $tmp = explode('<tbody>', $res)[1];
     $rc = preg_match_all('/<a href="(.+?)">/', $tmp, $matches);
     
-    error_log(print_r($matches, true));
+    array_shift($matches[1]);
+    error_log(print_r($matches[1], true));
     
     unlink($cookie);
 }
