@@ -37,6 +37,17 @@ function func_test($mu_)
     array_shift($matches[1]);
     error_log(print_r($matches[1], true));
     
+    $url = $matches[1][0];
+    
+    $options = [
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_HEADER => true,
+    ];
+    $res = $mu_->get_contents($url, $options);
+    
+    error_log($res);
+    
     unlink($cookie);
 }
 
