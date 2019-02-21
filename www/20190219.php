@@ -58,6 +58,26 @@ $options = [
 
 $res = $mu->get_contents($url, $options);
 
+// error_log($res);
+
+$options = [
+    CURLOPT_ENCODING => 'gzip, deflate, br',
+    CURLOPT_HTTPHEADER => [
+        'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+        'Cache-Control: no-cache',
+        'Connection: keep-alive',
+        'DNT: 1',
+        'Upgrade-Insecure-Requests: 1',
+        ],
+    CURLOPT_COOKIEJAR => $cookie,
+    CURLOPT_COOKIEFILE => $cookie,
+];
+
+$url = 'https://theoldreader.com/feeds.opml';
+
+$res = $mu->get_contents($url, $options);
+
 error_log($res);
 
 unlink($cookie);
