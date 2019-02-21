@@ -38,6 +38,7 @@ function func_test($mu_)
     
     $size = 0;
     
+    /*
     foreach($matches[1] as $file_name) {
         $url = "https://webdav.hidrive.strato.com/users/${user}/" . $file_name;
 
@@ -54,5 +55,21 @@ function func_test($mu_)
         error_log(print_r($match, true));
         $size += (int)$match[1];
     }
-    error_log($size);
+    */
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+        CURLOPT_USERPWD => "${user}:${password}",
+        CURLOPT_HEADER => true,
+        CURLOPT_NOBODY => true,
+        CURLOPT_HTTPHEADER => ['Connection: keep-alive',],
+    ];
+    foreach($matches[1] as $file_name) {
+        $url = "https://webdav.hidrive.strato.com/users/${user}/" . $file_name;
+        $urls[$url] = $options;
+    }
+    $res = $mu_->get_contents_multi($urls, null);
+    
+    error_log(print_r($res, true));
+    
+    // error_log($size);
 }
