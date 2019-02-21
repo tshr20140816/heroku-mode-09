@@ -37,7 +37,7 @@ function func_test($mu_)
     array_shift($matches[1]);
     error_log(print_r($matches[1], true));
     
-    $url = $matches[1][0];
+    $url = "https://webdav.hidrive.strato.com/users/${user}/" . $matches[1][0];
     
     $options = [
         CURLOPT_COOKIEJAR => $cookie,
