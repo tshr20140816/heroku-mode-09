@@ -14,5 +14,6 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 
 function func_test($mu_)
 {
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
 }
