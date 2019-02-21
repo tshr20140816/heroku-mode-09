@@ -1218,7 +1218,7 @@ function backup_opml2($mu_, $file_name_blog_)
     $file_size = $mu_->backup_data($res, $file_name);
     $file_size = number_format($file_size);
 
-    file_put_contents($file_name_blog_, "OPML backup size : ${file_size}Byte\nFeed count : ${feed_count}\n", FILE_APPEND);
+    file_put_contents($file_name_blog_, "OPML2 backup size : ${file_size}Byte\nFeed count : ${feed_count}\n", FILE_APPEND);
 }
 
 function get_quota($mu_, $file_name_blog_)
