@@ -63,13 +63,18 @@ function func_test($mu_)
         CURLOPT_NOBODY => true,
         CURLOPT_HTTPHEADER => ['Connection: keep-alive',],
     ];
-    foreach($matches[1] as $file_name) {
+    foreach ($matches[1] as $file_name) {
         $url = "https://webdav.hidrive.strato.com/users/${user}/" . $file_name;
         $urls[$url] = $options;
     }
     $res = $mu_->get_contents_multi($urls, null);
     
-    error_log(print_r($res, true));
+    // error_log(print_r($res, true));
     
-    // error_log($size);
+    foreach ($res as $result) {
+        $rc = preg_match('/Content-Length: (\d+)/', $result, $match);
+        $size += (int)$match[1];
+    }
+    
+    error_log($size);
 }
