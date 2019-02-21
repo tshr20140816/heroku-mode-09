@@ -37,23 +37,23 @@ function func_test($mu_)
     array_shift($matches[1]);
     error_log(print_r($matches[1], true));
     
-    $url = "https://webdav.hidrive.strato.com/users/${user}/" . $matches[1][0];
+    $size = 0;
     
-    $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_ANY,
-        CURLOPT_USERPWD => "${user}:${password}",
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
-        CURLOPT_HEADER => true,
-        CURLOPT_NOBODY => true,
-    ];
-    $res = $mu_->get_contents($url, $options);
-    
-    // error_log($res);
-    
-    // Content-Length: 773824
-    $rc = preg_match_all('/Content-Length: (\d+)/', $res, $match);
-    error_log(print_r($match, true));
+    foreach($matches[1] as $file_name) {
+        $url = "https://webdav.hidrive.strato.com/users/${user}/" . $file_name;
+
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+            CURLOPT_USERPWD => "${user}:${password}",
+            CURLOPT_HEADER => true,
+            CURLOPT_NOBODY => true,
+        ];
+        $res = $mu_->get_contents($url, $options);
+
+        $rc = preg_match('/Content-Length: (\d+)/', $res, $match);
+        error_log(print_r($match, true));
+        break;
+    }
     
     unlink($cookie);
 }
