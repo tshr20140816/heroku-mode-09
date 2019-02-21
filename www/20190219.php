@@ -32,7 +32,7 @@ function backup_opml2($mu_, $file_name_blog_)
         CURLOPT_COOKIEFILE => $cookie,
     ];
 
-    $res = $mu->get_contents($url, $options1);
+    $res = $mu_->get_contents($url, $options1);
 
     $rc = preg_match('/"authenticity_token".+?value="(.+?)"/', $res, $match);
 
@@ -60,11 +60,11 @@ function backup_opml2($mu_, $file_name_blog_)
         CURLOPT_POSTFIELDS => http_build_query($post_data),
     ];
 
-    $res = $mu->get_contents($url, $options2);
+    $res = $mu_->get_contents($url, $options2);
 
     $url = 'https://theoldreader.com/feeds.opml';
 
-    $res = $mu->get_contents($url, $options1);
+    $res = $mu_->get_contents($url, $options1);
 
     error_log($log_prefix . $res);
 
