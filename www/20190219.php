@@ -40,6 +40,8 @@ function func_test($mu_)
     $url = "https://webdav.hidrive.strato.com/users/${user}/" . $matches[1][0];
     
     $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+        CURLOPT_USERPWD => "${user}:${password}",
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
         CURLOPT_HEADER => true,
