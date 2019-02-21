@@ -16,4 +16,8 @@ function func_test($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $url = 'https://login.hidrive.com/';
+    $res = $mu_->get_contents($url);
+    
+    error_log($res);
 }
