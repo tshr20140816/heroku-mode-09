@@ -14,16 +14,28 @@ function func_test($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $cookie = tempnam("/tmp", time());
+    
     $user = base64_decode(getenv('HIDRIVE_USER'));
     $password = base64_decode(getenv('HIDRIVE_PASSWORD'));
     
     $url = "https://webdav.hidrive.strato.com/users/${user}/";
     $options = [
+        CURLOPT_ENCODING => 'gzip, deflate, br',
         CURLOPT_HTTPAUTH => CURLAUTH_ANY,
         CURLOPT_USERPWD => "${user}:${password}",
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
     ];
     $res = $mu_->get_contents($url, $options);
     
-    error_log($res);
+    // error_log($res);
+    
+    $tmp = explode('<tbody>', $res)[1];
+    $rc = preg_match_all('/<a href="(.+?)">/', $tmp, $matches);
+    
+    error_log(print_r($matches, true));
+    
+    unlink($cookie);
 }
 
