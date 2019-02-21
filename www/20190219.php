@@ -52,8 +52,9 @@ function func_test($mu_)
 
         $rc = preg_match('/Content-Length: (\d+)/', $res, $match);
         error_log(print_r($match, true));
-        break;
+        $size += (int)$match[1];
     }
+    error_log($size);
     
     unlink($cookie);
 }
