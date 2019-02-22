@@ -23,5 +23,12 @@ function func_test($mu_)
     
     $rc = preg_match_all('/<li>(.+?)<\/li>/s', $res, $matches);
     
-    error_log(print_r($matches, true));
+    // error_log(print_r($matches, true));
+    
+    foreach ($matches[1] as $match) {
+        //if (strpos($match, '生放送') === false) {
+        //    continue;
+        //}
+        error_log(print_r($match, true));
+    }
 }
