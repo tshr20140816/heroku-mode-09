@@ -29,7 +29,12 @@ function func_test($mu_)
         if (strpos($item, '生放送') === false) {
             continue;
         }
+        $item = str_replace('生放送', '', $item);
+        $item = str_replace('2ヵ国語', '', $item);
+        $item = str_replace('新番組', '', $item);
+        $item = str_replace('～', '-', $item);
         $item = preg_replace('/\s+/s', ' ', strip_tags($item));
+        $item = preg_replace('/\(.+?\)/', '', $item);
         error_log($item);
     }
 }
