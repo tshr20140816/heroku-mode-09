@@ -29,6 +29,7 @@ function func_test($mu_)
         if (strpos($item, '生放送') === false) {
             continue;
         }
-        error_log(strip_tags($item));
+        $item = preg_replace('/\s+/s', ' ', strip_tags($item));
+        error_log($item);
     }
 }
