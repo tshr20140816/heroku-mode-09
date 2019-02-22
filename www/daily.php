@@ -57,6 +57,8 @@ backup_opml($mu, $file_name_blog);
 // OPML2 Backup
 backup_opml2($mu, $file_name_blog);
 
+check_hidrive_usage($mu, $file_name_blog);
+
 // holiday 3年後の12月まで
 $list_holiday2 = get_holiday2($mu);
 
@@ -1261,4 +1263,49 @@ function get_quota($mu_, $file_name_blog_)
     $quota = floor($quota / 86400) . 'd ' . ($quota / 3600 % 24) . 'h ' . ($quota / 60 % 60) . 'm';
 
     file_put_contents($file_name_blog_, "\nQuota : ${quota}\n", FILE_APPEND);
+}
+
+function check_hidrive_usage($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $user = base64_decode(getenv('HIDRIVE_USER'));
+    $password = base64_decode(getenv('HIDRIVE_PASSWORD'));
+
+    $url = "https://webdav.hidrive.strato.com/users/${user}/";
+    $options = [
+        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+        CURLOPT_USERPWD => "${user}:${password}",
+        CURLOPT_HTTPHEADER => ['Connection: keep-alive',],
+    ];
+    $res = $mu_->get_contents($url, $options);
+
+    $tmp = explode('<tbody>', $res)[1];
+    $rc = preg_match_all('/<a href="(.+?)">/', $tmp, $matches);
+
+    array_shift($matches[1]);
+
+    $size = 0;
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+        CURLOPT_USERPWD => "${user}:${password}",
+        CURLOPT_HEADER => true,
+        CURLOPT_NOBODY => true,
+        CURLOPT_HTTPHEADER => ['Connection: keep-alive',],
+    ];
+    foreach ($matches[1] as $file_name) {
+        $url = "https://webdav.hidrive.strato.com/users/${user}/" . $file_name;
+        $urls[$url] = $options;
+    }
+    $res = $mu_->get_contents_multi($urls, null);
+
+    foreach ($res as $result) {
+        $rc = preg_match('/Content-Length: (\d+)/', $result, $match);
+        $size += (int)$match[1];
+    }
+    $size = number_format($size);
+
+    error_log($log_prefix . "Hidrive usage : ${size}Byte");
+    file_put_contents($file_name_blog_, "\nHidrive usage : ${size}Byte\n", FILE_APPEND);
 }
