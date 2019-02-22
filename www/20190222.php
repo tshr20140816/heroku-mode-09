@@ -16,7 +16,7 @@ function func_test($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $url = 'https://classic.hidrive.com';
+    $url = 'http://otn.fujitv.co.jp/b_hp/918200222.html';
     $res = $mu_->get_contents($url);
     
     error_log($res);
