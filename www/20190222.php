@@ -19,5 +19,9 @@ function func_test($mu_)
     $url = 'http://otn.fujitv.co.jp/b_hp/918200222.html';
     $res = $mu_->get_contents($url);
     
-    error_log($res);
+    // error_log($res);
+    
+    $rc = preg_match_all('/<li>(.+?)<\/li>/s', $res, $matches);
+    
+    error_log(print_r($matches, true));
 }
