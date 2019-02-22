@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     file_put_contents($file_name, $res);
 
     $zip_file = '/tmp/' . pathinfo($file_name)['filename'] . '.zip';
-    $password = base64_decode(getenv('ZIP_PASSWORD'));
+    $password = base64_decode($mu->get_env('ZIP_PASSWORD'));
     exec("zip -j -P ${password} ${zip_file} ${file_name}");
 
     header('Content-Transfer-Encoding: binary');
