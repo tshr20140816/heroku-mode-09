@@ -25,10 +25,10 @@ function func_test($mu_)
     
     // error_log(print_r($matches, true));
     
-    foreach ($matches[1] as $match) {
-        //if (strpos($match, '生放送') === false) {
+    foreach ($matches[1] as $item) {
+        //if (strpos($item, '生放送') === false) {
         //    continue;
         //}
-        error_log(print_r($match, true));
+        error_log($item);
     }
 }
