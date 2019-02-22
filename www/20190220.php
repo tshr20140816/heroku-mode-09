@@ -8,11 +8,11 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-check_all_size($mu);
+check_hidrive_usage($mu, '/tmp/dummy');
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function check_all_size($mu_)
+function check_hidrive_usage($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
@@ -56,6 +56,8 @@ function check_all_size($mu_)
         $rc = preg_match('/Content-Length: (\d+)/', $result, $match);
         $size += (int)$match[1];
     }
+    $size = number_format($size);
     
-    error_log($size);
+    error_log($log_prefix . $size);
+    file_put_contents($file_name_blog_, "\nHidrive usage : ${size}Byte\n", FILE_APPEND);
 }
