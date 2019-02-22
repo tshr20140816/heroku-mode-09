@@ -28,13 +28,10 @@ function check_hidrive_usage($mu_, $file_name_blog_)
     ];
     $res = $mu_->get_contents($url, $options);
     
-    // error_log($res);
-    
     $tmp = explode('<tbody>', $res)[1];
     $rc = preg_match_all('/<a href="(.+?)">/', $tmp, $matches);
     
     array_shift($matches[1]);
-    error_log(print_r($matches[1], true));
     
     $size = 0;
     $options = [
