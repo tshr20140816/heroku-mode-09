@@ -26,9 +26,9 @@ function func_test($mu_)
     // error_log(print_r($matches, true));
     
     foreach ($matches[1] as $item) {
-        //if (strpos($item, '生放送') === false) {
-        //    continue;
-        //}
+        if (strpos($item, '生放送') === false) {
+            continue;
+        }
         error_log($item);
     }
 }
