@@ -29,6 +29,6 @@ function func_test($mu_)
         if (strpos($item, '生放送') === false) {
             continue;
         }
-        error_log($item);
+        error_log(strip_tags($item));
     }
 }
