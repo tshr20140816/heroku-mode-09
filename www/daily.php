@@ -1307,5 +1307,5 @@ function check_hidrive_usage($mu_, $file_name_blog_)
     $size = number_format($size);
 
     error_log($log_prefix . "Hidrive usage : ${size}Byte");
-    file_put_contents($file_name_blog_, "\nHidrive usage : ${size}Byte\n", FILE_APPEND);
+    file_put_contents($file_name_blog_, "\nHidrive usage : ${size}Byte\n\n", FILE_APPEND);
 }
