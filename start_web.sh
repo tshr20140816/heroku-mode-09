@@ -27,6 +27,11 @@ echo "$(httpd -v)" > /tmp/apache_current_version
 echo "$(php -v | head -n 1)" > /tmp/php_current_version
 echo "$(curl -V | head -n 1)" > /tmp/curl_current_version
 
+minute=`date +%-M`
+
+if [ minute -lt 10]; then
+    echo 'EXECUTE'
+fi
 # heroku-buildpack-php
 composer update > /dev/null 2>&1 &
 
