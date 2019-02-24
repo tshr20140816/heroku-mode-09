@@ -28,10 +28,9 @@ echo "$(php -v | head -n 1)" > /tmp/php_current_version
 echo "$(curl -V | head -n 1)" > /tmp/curl_current_version
 
 if [ $(date +%-M) -lt 10 ]; then
-    echo 'EXECUTE'
+  # heroku-buildpack-php
+  composer update > /dev/null 2>&1 &
 fi
-# heroku-buildpack-php
-composer update > /dev/null 2>&1 &
 
 export USER_AGENT=$(curl https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/useragent.txt)
 
