@@ -19,12 +19,11 @@ function func_test($mu_)
     $url = 'http://otn.fujitv.co.jp/b_hp/918200222.html';
     $res = $mu_->get_contents($url);
     
-    // error_log($res);
-    
     $rc = preg_match_all('/<li>(.+?)<\/li>/s', $res, $matches);
     
     // error_log(print_r($matches, true));
     
+    $list_add_task = [];
     foreach ($matches[1] as $item) {
         if (strpos($item, '生放送') === false) {
             continue;
@@ -34,7 +33,9 @@ function func_test($mu_)
         $item = str_replace('新番組', '', $item);
         $item = str_replace('～', '-', $item);
         $item = preg_replace('/\s+/s', ' ', strip_tags($item));
-        $item = preg_replace('/\(.+?\)/', '', $item);
+        $item = trim(preg_replace('/\(.+?\)/', '', $item));
         error_log($item);
+        $yyyymmdd = date('Y') . '/' . substr($item, 0, 5);
+        error_log($yyyymmdd);
     }
 }
