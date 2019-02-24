@@ -29,7 +29,7 @@ echo "$(curl -V | head -n 1)" > /tmp/curl_current_version
 
 minute=`date +%-M`
 
-if [ minute -lt 10]; then
+if [ minute -lt 10 ]; then
     echo 'EXECUTE'
 fi
 # heroku-buildpack-php
