@@ -171,7 +171,8 @@ foreach ($tasks as $task) {
             || $task['tag'] == 'CULTURECENTER'
             || $task['tag'] == 'CARP'
             || $task['tag'] == 'HIGHWAY'
-            || $task['tag'] == 'BUS') {
+            || $task['tag'] == 'BUS'
+            || $task['tag'] == 'F1') {
             $hash = date('Ymd', $task['duedate']) . hash('sha512', $task['title']);
             $list_delete_task[$hash] = $task['id'];
         } elseif ($task['tag'] == 'HOLIDAY' || $task['tag'] == 'ADDITIONAL') {
@@ -198,6 +199,7 @@ $list_get_task = [get_task_highway($mu, $file_name_blog),
                   get_task_full_moon($mu, $file_name_blog),
                   get_task_carp($mu, $file_name_blog),
                   get_task_bus($mu, $file_name_blog),
+                  get_task_f1($mu, $file_name_blog),
                  ];
 foreach ($list_get_task as $list_add_task_tmp) {
     $list_duplicate_task_keys = array_intersect(array_keys($list_add_task_tmp), array_keys($list_delete_task));
@@ -423,6 +425,55 @@ function get_sun($mu_)
 
     error_log($log_prefix . '$list_sunrise_sunset : ' . print_r($list_sunrise_sunset, true));
     return $list_sunrise_sunset;
+}
+
+function get_task_f1($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    // Get Folders
+    $folder_id_label = $mu_->get_folder_id('LABEL');
+    // Get Contexts
+    $list_context_id = $mu_->get_contexts();
+
+    $list_add_task = [];
+    $add_task_template = '{"title":"__TITLE__","duedate":"__DUEDATE__","context":"__CONTEXT__","tag":"F1","folder":"'
+      . $folder_id_label . '"}';
+
+    $url = 'http://otn.fujitv.co.jp/b_hp/918200222.html';
+    $res = $mu_->get_contents($url, null, true);
+
+    $rc = preg_match('/<title>(\d+)/', $res, $match);
+
+    $yyyy = $match[1];
+
+    $rc = preg_match_all('/<li>(.+?)<\/li>/s', $res, $matches);
+
+    foreach ($matches[1] as $item) {
+        if (strpos($item, '生放送') === false) {
+            continue;
+        }
+        $item = str_replace('生放送', '', $item);
+        $item = str_replace('2ヵ国語', '', $item);
+        $item = str_replace('新番組', '', $item);
+        $item = str_replace('～', '-', $item);
+        $item = preg_replace('/\s+/s', ' ', strip_tags($item));
+        $item = trim(preg_replace('/\(.+?\)/', '', $item));
+
+        $timestamp = strtotime($yyyy . '/' . substr($item, 0, 5));
+        if ($timestamp < time()) {
+            continue;
+        }
+        $tmp = str_replace('__TITLE__', $item, $add_task_template);
+        $tmp = str_replace('__DUEDATE__', $timestamp, $tmp);
+        $list_add_task[] = str_replace('__CONTEXT__', $list_context_id[date('w', $timestamp)], $tmp);
+    }
+    $list_add_task = array_unique($list_add_task);
+
+    $count_task = count($list_add_task);
+    file_put_contents($file_name_blog_, "F1 Task Add : ${count_task}\n", FILE_APPEND);
+    error_log($log_prefix . 'Tasks F1 : ' . print_r($list_add_task, true));
+    return $list_add_task;
 }
 
 function get_task_bus($mu_, $file_name_blog_) {
