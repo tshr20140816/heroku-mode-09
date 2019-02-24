@@ -20,6 +20,11 @@ $pdo = null;
 
 //
 
+$url = 'http://otn.fujitv.co.jp/b_hp/918200222.html';
+$urls_is_cache[$url] = null;
+
+//
+
 $url = $mu->get_env('URL_SOCCER_TEAM_CSV_FILE');
 $urls_is_cache[$url] = null;
 
