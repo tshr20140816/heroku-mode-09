@@ -11,7 +11,7 @@ $mu = new MyUtils();
 // Access Token
 $access_token = $mu->get_access_token();
 
-func_test($mu, '/tmp/dummy');
+get_task_f1($mu, '/tmp/dummy');
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
