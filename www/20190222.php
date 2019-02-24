@@ -11,11 +11,11 @@ $mu = new MyUtils();
 // Access Token
 $access_token = $mu->get_access_token();
 
-func_test($mu);
+func_test($mu, '/tmp/dummy');
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_test($mu_)
+function get_task_f1($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -29,16 +29,14 @@ function func_test($mu_)
       . $folder_id_label . '"}';
     
     $url = 'http://otn.fujitv.co.jp/b_hp/918200222.html';
-    $res = $mu_->get_contents($url);
+    $res = $mu_->get_contents($url, null, true);
     
     $rc = preg_match('/<title>(\d+)/', $res, $match);
     
-    error_log($log_prefix . print_r($match, true));
     $yyyy = $match[1];
     
     $rc = preg_match_all('/<li>(.+?)<\/li>/s', $res, $matches);
     
-    // error_log(print_r($matches, true));
     foreach ($matches[1] as $item) {
         if (strpos($item, '生放送') === false) {
             continue;
@@ -49,7 +47,7 @@ function func_test($mu_)
         $item = str_replace('～', '-', $item);
         $item = preg_replace('/\s+/s', ' ', strip_tags($item));
         $item = trim(preg_replace('/\(.+?\)/', '', $item));
-        // error_log($item);
+
         $timestamp = strtotime($yyyy . '/' . substr($item, 0, 5));
         if ($timestamp < time()) {
             continue;
@@ -59,5 +57,9 @@ function func_test($mu_)
         $list_add_task[] = str_replace('__CONTEXT__', $list_context_id[date('w', $timestamp)], $tmp);
     }
     $list_add_task = array_unique($list_add_task);
-    error_log(print_r($list_add_task, true));
+    
+    $count_task = count($list_add_task);
+    file_put_contents($file_name_blog_, "F1 Task Add : ${count_task}\n", FILE_APPEND);
+    error_log($log_prefix . 'Tasks F1 : ' . print_r($list_add_task, true));
+    return $list_add_task;
 }
