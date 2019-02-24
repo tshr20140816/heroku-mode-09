@@ -110,6 +110,13 @@ $list_contents = $mu->get_contents_multi(null, $urls_is_cache);
 
 //
 
+$yyyy = date('Y');
+$yyyy++;
+$url = "https://e-moon.net/calendar_list/calendar_moon_${yyyy}/";
+$res = $mu->get_contents($url, null, true);
+
+//
+
 $options = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
     CURLOPT_HTTPHEADER => [
