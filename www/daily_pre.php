@@ -11,6 +11,27 @@ $rc = apcu_clear_cache();
 
 $mu = new MyUtils();
 
+$file_name_blog = '/tmp/blog.txt';
+@unlink($file_name_blog);
+
+// quota
+get_quota($mu, $file_name_blog);
+
+// Database Backup
+backup_db($mu, $file_name_blog);
+
+// Task Backup
+backup_task($mu, $file_name_blog);
+
+// OPML Backup
+backup_opml($mu, $file_name_blog);
+
+// OPML2 Backup
+backup_opml2($mu, $file_name_blog);
+
+// HiDrive usage
+check_hidrive_usage($mu, $file_name_blog);
+
 //
 
 $pdo = $mu->get_pdo();
@@ -180,27 +201,6 @@ for ($i = 11; $i > -1; $i--) {
     $url = 'https://feed43.com/' . $sub_address . ($i * 5 + 11) . '-' . ($i * 5 + 15) . '.xml';
     $res = $mu->get_contents($url, null, true);
 }
-
-$file_name_blog = '/tmp/blog.txt';
-@unlink($file_name_blog);
-
-// quota
-get_quota($mu, $file_name_blog);
-
-// Database Backup
-backup_db($mu, $file_name_blog);
-
-// Task Backup
-backup_task($mu, $file_name_blog);
-
-// OPML Backup
-backup_opml($mu, $file_name_blog);
-
-// OPML2 Backup
-backup_opml2($mu, $file_name_blog);
-
-// HiDrive usage
-check_hidrive_usage($mu, $file_name_blog);
 
 $time_finish = microtime(true);
 $mu->post_blog_wordpress("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]',
