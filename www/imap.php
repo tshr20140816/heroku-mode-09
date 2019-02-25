@@ -22,7 +22,7 @@ $html = <<< __HEREDOC__
 </body></html>
 __HEREDOC__;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == 'POST') {
     $user = $_POST['user'];
     $password = $_POST['password'];
     $message_number = $_POST['message_number'];
