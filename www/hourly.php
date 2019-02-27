@@ -26,6 +26,7 @@ $latitude = $mu->get_env('LATITUDE');
 // outlet parking information ここでは呼び捨て 後で回収
 $urls['https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/outlet_parking_information.php'] = [
     CURLOPT_TIMEOUT => 3,
+    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
     CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
 ];
 
@@ -342,12 +343,20 @@ $mu->delete_tasks($list_delete_task);
 
 if ($rainfall_continue_flag === true) {
     $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/rainfall.php?c=11';
-    $options = [CURLOPT_TIMEOUT => 2, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
+    $options = [
+        CURLOPT_TIMEOUT => 2,
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
+    ];
     $res = $mu->get_contents($url, $options);
 }
 
 $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/lib_info.php?n=0';
-$options = [CURLOPT_TIMEOUT => 2, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
+$options = [
+    CURLOPT_TIMEOUT => 2,
+    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+    CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
+];
 $res = $mu->get_contents($url, $options);
 
 $time_finish = microtime(true);
