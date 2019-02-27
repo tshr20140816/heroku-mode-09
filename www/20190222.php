@@ -32,7 +32,7 @@ __HEREDOC__;
     $hatena_blog_id = getenv('HATENA_BLOG_ID');
     $hatena_api_key = getenv('HATENA_API_KEY');
 
-    $url = "https://blog.hatena.ne.jp/${hatena_id}/${hatena_blog_id}/atom";
+    $url = "https://blog.hatena.ne.jp/${hatena_id}/${hatena_blog_id}/atom/entry";
     
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
