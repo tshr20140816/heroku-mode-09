@@ -109,4 +109,15 @@ __HEREDOC__;
 $count = $pdo->exec($sql);
 error_log('create table result : ' . $count);
 
+$sql = <<< __HEREDOC__
+CREATE TABLE t_mail (
+    uid character varying(255) PRIMARY KEY
+   ,no bigint NOT NULL
+   ,header text NOT NULL
+   ,body text
+)
+__HEREDOC__;
+$count = $pdo->exec($sql);
+error_log('create table result : ' . $count);
+
 $pdo = null;
