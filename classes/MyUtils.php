@@ -72,9 +72,10 @@ __HEREDOC__;
 
             $res = $this->get_contents(
                 'https://api.toodledo.com/3/account/token.php',
-                [CURLOPT_USERPWD => base64_decode(getenv('TOODLEDO_CLIENTID')) . ':' . base64_decode(getenv('TOODLEDO_SECRET')),
-                CURLOPT_POST => true,
-                CURLOPT_POSTFIELDS => http_build_query($post_data),
+                [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                 CURLOPT_USERPWD => base64_decode(getenv('TOODLEDO_CLIENTID')) . ':' . base64_decode(getenv('TOODLEDO_SECRET')),
+                 CURLOPT_POST => true,
+                 CURLOPT_POSTFIELDS => http_build_query($post_data),
                 ]
             );
 
