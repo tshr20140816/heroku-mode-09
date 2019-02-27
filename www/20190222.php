@@ -17,4 +17,5 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 
 function func_test($mu_, $file_name_blog_)
 {
+    $a = 0;
 }
