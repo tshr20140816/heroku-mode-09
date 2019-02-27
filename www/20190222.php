@@ -25,12 +25,12 @@ function func_test($mu_, $file_name_blog_)
 </entry>
 __HEREDOC__;
     
-    $xml = str_replace('__TITLE__', '日本語テスト', $xml);
-    $xml = str_replace('__CONTENT__', '日本語', $xml);
+    $xml = str_replace('__TITLE__', 'TEST TITLE', $xml);
+    $xml = str_replace('__CONTENT__', 'TEST CONTENT', $xml);
     
-    $hatena_id = getenv('HATENA_ID');
-    $hatena_blog_id = getenv('HATENA_BLOG_ID');
-    $hatena_api_key = getenv('HATENA_API_KEY');
+    $hatena_id = base64_decode(getenv('HATENA_ID'));
+    $hatena_blog_id = base64_decode(getenv('HATENA_BLOG_ID'));
+    $hatena_api_key = base64_decode(getenv('HATENA_API_KEY'));
 
     $url = "https://blog.hatena.ne.jp/${hatena_id}/${hatena_blog_id}/atom/entry";
     
