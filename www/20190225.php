@@ -8,7 +8,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$url = 'https://www.pcloud.com/';
+$url = 'https://www.pcloud.com/cloud-storage-pricing-plans.html';
 
 $res = $mu->get_contents($url);
 
