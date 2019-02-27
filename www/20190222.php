@@ -42,5 +42,7 @@ __HEREDOC__;
         CURLOPT_HEADER => true,
     ];
     
-    $rc = $mu_->get_contents($url, $options);
+    $res = $mu_->get_contents($url, $options);
+    
+    error_log($res);
 }
