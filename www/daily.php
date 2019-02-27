@@ -433,6 +433,7 @@ function get_task_f1($mu_, $file_name_blog_)
         $item = str_replace('～', '-', $item);
         $item = preg_replace('/\s+/s', ' ', strip_tags($item));
         $item = trim(preg_replace('/\(.+?\)/', '', $item));
+        $item .= ' ⠴⬬⠶⠷⬬⠝ ⚑⚐⚑⚐';
 
         $timestamp = strtotime($yyyy . '/' . substr($item, 0, 5));
         if ($timestamp < time()) {
