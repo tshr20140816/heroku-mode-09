@@ -61,6 +61,16 @@ if ($res === 'continue') {
         CURLOPT_POSTFIELDS => http_build_query($post_data),
         ]
     );
+    
+    $url = 'https://' . base64_decode(getenv('HATENA_BLOG_ID')) . '/feed/';
+    $post_data = ['hub.mode' => 'publish', 'hub.url' => $url];
+    $res = $mu->get_contents(
+        'https://pubsubhubbub.superfeedr.com/',
+        [CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
+        ]
+    );
+    
     error_log("${pid} opcache_get_status : " . print_r(opcache_get_status(), true));
 }
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
