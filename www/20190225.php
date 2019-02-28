@@ -19,6 +19,6 @@ $options = [
 
 $url = 'https://api.pcloud.com/userinfo?getauth=1&logout=1&username=' . getenv('PCLOUD_USER') . '&password=' . getenv('PCLOUD_PASSWORD');
 
-$res = $mu->get_contents($url, $options);
+$res = $mu->get_contents($url);
 
 error_log($res);
