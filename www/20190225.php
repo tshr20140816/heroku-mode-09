@@ -11,7 +11,7 @@ $mu = new MyUtils();
 $url = 'https://webdav.pcloud.com/';
 
 $options = [
-    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+    CURLOPT_HTTPAUTH => CURLAUTH_ANY,
     CURLOPT_USERPWD => getenv('PCLOUD_USER') . ':' . getenv('PCLOUD_PASSWORD'),
 ];
 
