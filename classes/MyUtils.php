@@ -421,6 +421,7 @@ __HEREDOC__;
             CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => $xml,
+            CURLOPT_BINARYTRANSFER => true,
             CURLOPT_HEADER => true,
         ];
 
