@@ -388,6 +388,7 @@ __HEREDOC__;
         } catch (Exception $e) {
             error_log($log_prefix . 'Exception : ' . $e->getMessage());
         }
+        $this->post_blog_hatena($title_, $description_);
     }
 
     public function post_blog_hatena($title_, $description_ = null)
