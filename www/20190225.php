@@ -25,9 +25,9 @@ $res = $mu->get_contents($url);
 
 error_log($res);
 
-$url = 'https://webdav.pcloud.com/';
-
 $file_name = '/tmp/test.txt';
+
+$url = 'https://webdav.pcloud.com/' . pathinfo($file_name)['basename'];
 
 file_put_contents($file_name, 'TESTDATA');
 
