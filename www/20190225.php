@@ -24,3 +24,24 @@ $url = 'https://api.pcloud.com/userinfo?getauth=1&logout=1&username=' . getenv('
 $res = $mu->get_contents($url);
 
 error_log($res);
+
+$url = 'https://webdav.pcloud.com/';
+
+$file_name = '/tmp/test.txt';
+
+file_put_contents($file_name, 'TESTDATA');
+
+$file_size = filesize($file_name);
+$fh = fopen($file_name, 'r');
+$options = [
+    CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+    CURLOPT_USERPWD => getenv('PCLOUD_USER') . ':' . getenv('PCLOUD_PASSWORD'),
+    CURLOPT_PUT => true,
+    CURLOPT_INFILE => $fh,
+    CURLOPT_INFILESIZE => $file_size,
+];
+$res = $mu->get_contents($url, $options);
+fclose($fh);
+unlink($file_name);
+
+error_log($res);
