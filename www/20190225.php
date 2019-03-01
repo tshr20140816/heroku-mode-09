@@ -28,7 +28,7 @@ error_log($res);
 $data = json_decode($res);
 
 // error_log(print_r($data, true));
-error_log($data['usedquota']);
+error_log($data->usedquota);
 
 $file_name = '/tmp/test.txt';
 
