@@ -32,6 +32,9 @@ backup_opml2($mu, $file_name_blog);
 // HiDrive usage
 check_hidrive_usage($mu, $file_name_blog);
 
+// pCloud usage
+check_pcloud_usage($mu, $file_name_blog);
+
 // apache version check
 check_version_apache($mu, $file_name_blog);
 
@@ -504,6 +507,23 @@ function backup_opml2($mu_, $file_name_blog_)
     file_put_contents($file_name_blog_, "\nOPML2 backup size : ${file_size}Byte\nFeed count : ${feed_count}\n", FILE_APPEND);
 }
 
+function check_pcloud_usage($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $user = base64_decode(getenv('PCLOUD_USER'));
+    $password = base64_decode(getenv('PCLOUD_PASSWORD'));
+
+    $url = "https://api.pcloud.com/userinfo?getauth=1&logout=1&username=${user}&password=${password}";
+    $res = $mu_->get_contents($url);
+
+    $data = json_decode($res);
+    $size = number_format($data->usedquota);
+
+    error_log($log_prefix . "pCloud usage : ${size}Byte");
+    file_put_contents($file_name_blog_, "\npCloud usage : ${size}Byte\n\n", FILE_APPEND);
+}
+
 function check_hidrive_usage($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
@@ -545,7 +565,7 @@ function check_hidrive_usage($mu_, $file_name_blog_)
     }
     $size = number_format($size);
 
-    error_log($log_prefix . "Hidrive usage : ${size}Byte");
+    error_log($log_prefix . "HiDrive usage : ${size}Byte");
     file_put_contents($file_name_blog_, "\nHiDrive usage : ${size}Byte\n\n", FILE_APPEND);
 }
 
