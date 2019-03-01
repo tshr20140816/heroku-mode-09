@@ -8,7 +8,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$url = 'http://www.carp.co.jp/news19/n-039.html';
+$url = 'https://www.ticket.carp.co.jp/ticket/official-general/admission/login?gameIndex=0&seatIndex=7';
 
 $options = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
