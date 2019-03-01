@@ -11,7 +11,7 @@ $mu = new MyUtils();
 // Access Token
 $access_token = $mu->get_access_token();
 
-func_test($mu, 'TEST', 'TEST');
+func_test($mu, 'TEST', "TEST\r\n" . microtime(true));
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
@@ -30,6 +30,12 @@ __HEREDOC__;
     $xml = str_replace('__TITLE__', $title_, $xml);
     $xml = str_replace('__CONTENT__', $description_, $xml);
 
+    $file_name = '/tmp/hatena_blog.xml';
+    file_put_contents($file_name, $description_);
+    
+    $file_size = filesize($file_name);
+    $fh = fopen($file_name, 'r');
+    
     $hatena_id = base64_decode(getenv('HATENA_ID'));
     $hatena_blog_id = base64_decode(getenv('HATENA_BLOG_ID'));
     $hatena_api_key = base64_decode(getenv('HATENA_API_KEY'));
@@ -39,12 +45,17 @@ __HEREDOC__;
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => $xml,
         CURLOPT_HEADER => true,
+        CURLOPT_PUT => true,
+        CURLOPT_INFILE => $fh,
+        CURLOPT_INFILESIZE => $file_size,
     ];
 
     $res = $mu_->get_contents($url, $options);
 
-    error_log($log_prefix . 'RESULT : ' . print_r($res, true));
+    error_log($log_prefix . 'RESULT : ' . $res);
+    
+    fclose($fh);
+    
+    unlink($file_name);
 }
