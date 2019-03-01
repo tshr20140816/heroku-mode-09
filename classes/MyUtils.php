@@ -740,7 +740,7 @@ __HEREDOC__;
 
         $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name_)['basename'];
         $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user}:${password}",
             CURLOPT_CUSTOMREQUEST => 'DELETE',
         ];
@@ -759,7 +759,7 @@ __HEREDOC__;
 
         $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name_)['basename'];
         $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user}:${password}",
             CURLOPT_PUT => true,
             CURLOPT_INFILE => $fh,
