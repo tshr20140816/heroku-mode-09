@@ -8,7 +8,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$url = 'http://www.carp.co.jp/news19/n-038.html';
+$url = 'http://www.carp.co.jp/news19/n-039.html';
 
 $options = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
