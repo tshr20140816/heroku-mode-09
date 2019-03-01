@@ -8,7 +8,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$url = 'http://www.ticket.carp.co.jp/shop/o_kuuseki/kuuseki.csv';
+$url = 'http://www.carp.co.jp/news19/n-038.html';
 
 $options = [
     CURLOPT_ENCODING => 'gzip, deflate, br',
@@ -23,23 +23,11 @@ $options = [
     CURLOPT_HEADER => true,
 ];
 
-$res = $mu->get_contents($url, $options);
-
-// error_log($res);
-
-$file_name = tempnam('/tmp', 'A' . time());
-
-file_put_contents($file_name, $res);
-
-$fp = fopen($file_name, 'r');
-
-while ($one_line = fgets($fp)) {
-    if (trim($one_line) == '') {
-        break;
+for ($i = 0; $i < 100; $i++) {
+    $res = $mu->get_contents($url, $options);
+    if (strlen($res) > 100) {
+        echo $res;
     }
-    error_log(trim($one_line));
 }
 
-fclose($fp);
-unlink($file_name);
-
+error_log($res);
