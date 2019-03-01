@@ -735,6 +735,8 @@ __HEREDOC__;
 
         $user = base64_decode(getenv('HIDRIVE_USER'));
         $password = base64_decode(getenv('HIDRIVE_PASSWORD'));
+        $user_pcloud = base64_decode(getenv('PCLOUD_USER'));
+        $password_pcloud = base64_decode(getenv('PCLOUD_PASSWORD'));
 
         $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name_)['basename'];
         $options = [
@@ -744,9 +746,18 @@ __HEREDOC__;
         ];
         $res = $this->get_contents($url, $options);
 
+        $url = 'https://webdav.pcloud.com/' . pathinfo($file_name_)['basename'];
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+            CURLOPT_USERPWD => "${user_pcloud}:${password_pcloud}",
+            CURLOPT_CUSTOMREQUEST => 'DELETE',
+        ];
+        $res = $this->get_contents($url, $options);
+
         $file_size = filesize($file_name_);
         $fh = fopen($file_name_, 'r');
 
+        $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name_)['basename'];
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_ANY,
             CURLOPT_USERPWD => "${user}:${password}",
@@ -754,7 +765,16 @@ __HEREDOC__;
             CURLOPT_INFILE => $fh,
             CURLOPT_INFILESIZE => $file_size,
         ];
+        $res = $this->get_contents($url, $options);
 
+        $url = 'https://webdav.pcloud.com/' . pathinfo($file_name_)['basename'];
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+            CURLOPT_USERPWD => "${user_pcloud}:${password_pcloud}",
+            CURLOPT_PUT => true,
+            CURLOPT_INFILE => $fh,
+            CURLOPT_INFILESIZE => $file_size,
+        ];
         $res = $this->get_contents($url, $options);
 
         fclose($fh);
