@@ -27,6 +27,7 @@ for ($i = 0; $i < 100; $i++) {
     $res = $mu->get_contents($url, $options);
     if (strlen($res) > 100) {
         echo $res;
+        break;
     }
 }
 
