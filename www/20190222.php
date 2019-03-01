@@ -47,6 +47,7 @@ __HEREDOC__;
         CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
         CURLOPT_HEADER => true,
         CURLOPT_PUT => true,
+        CURLOPT_BINARYTRANSFER => true,
         CURLOPT_INFILE => $fh,
         CURLOPT_INFILESIZE => $file_size,
     ];
