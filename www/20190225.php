@@ -29,12 +29,22 @@ $file_name = '/tmp/test.txt';
 
 $url = 'https://webdav.pcloud.com/' . pathinfo($file_name)['basename'];
 
+$options = [
+    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+    CURLOPT_USERPWD => getenv('PCLOUD_USER') . ':' . getenv('PCLOUD_PASSWORD'),
+    CURLOPT_CUSTOMREQUEST => 'DELETE',
+];
+
+$res = $mu->get_contents($url, $options);
+
+error_log($res);
+
 file_put_contents($file_name, 'TESTDATA');
 
 $file_size = filesize($file_name);
 $fh = fopen($file_name, 'r');
 $options = [
-    CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
     CURLOPT_USERPWD => getenv('PCLOUD_USER') . ':' . getenv('PCLOUD_PASSWORD'),
     CURLOPT_PUT => true,
     CURLOPT_INFILE => $fh,
