@@ -31,7 +31,7 @@ __HEREDOC__;
     $xml = str_replace('__CONTENT__', $description_, $xml);
 
     $file_name = '/tmp/hatena_blog.xml';
-    file_put_contents($file_name, $description_);
+    file_put_contents($file_name, $xml);
     
     $file_size = filesize($file_name);
     $fh = fopen($file_name, 'r');
