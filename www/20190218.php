@@ -25,7 +25,7 @@ $options = [
 
 for ($i = 0; $i < 100; $i++) {
     $res = $mu->get_contents($url, $options);
-    if (strlen($res) > 1000) {
+    if (strlen($res) > 2500) {
         echo $res;
         break;
     }
