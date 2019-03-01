@@ -23,7 +23,7 @@ $options = [
     CURLOPT_HEADER => true,
 ];
 
-for ($i = 0; $i < 100; $i++) {
+for ($i = 0; $i < 1000; $i++) {
     $res = $mu->get_contents($url, $options);
     if (strlen($res) > 100) {
         echo $res;
