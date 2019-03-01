@@ -27,7 +27,8 @@ error_log($res);
 
 $data = json_decode($res);
 
-error_log(print_r($data, true));
+// error_log(print_r($data, true));
+error_log($data['usedquota']);
 
 $file_name = '/tmp/test.txt';
 
@@ -43,6 +44,7 @@ $res = $mu->get_contents($url, $options);
 
 error_log($res);
 
+/*
 file_put_contents($file_name, 'TESTDATA');
 
 $file_size = filesize($file_name);
@@ -59,3 +61,4 @@ fclose($fh);
 unlink($file_name);
 
 error_log($res);
+*/
