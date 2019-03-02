@@ -11,11 +11,13 @@ $password_teracloud = base64_decode(getenv('TERACLOUD_PASSWORD'));
 $api_key_teracloud = getenv('TERACLOUD_API_KEY');
 
 $url = 'https://uno.teracloud.jp/v2/api/dataset/(property);properties=jp.teracloud:quota,quota,used,usedbychildren,usedbydataset,usedbysnapshots;recursive=false;api_key=' . $api_key_teracloud;
-$url = 'https://uno.teracloud.jp/v2/api/dataset/(property);used;recursive=false;api_key=' . $api_key_teracloud;
+$url = 'https://uno.teracloud.jp/v2/api/dataset/(property)';
 
 $options = [
     CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
     CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
+    CURLOPT_ENCODING => 'gzip, deflate, br',
+    CURLOPT_HTTPHEADER => ['X-TeraCLOUD-API-KEY: ' . $api_key_teracloud,],
 ];
 $res = $mu->get_contents($url, $options);
 error_log($res);
