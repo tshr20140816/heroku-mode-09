@@ -760,7 +760,7 @@ __HEREDOC__;
         ];
         $res = $this->get_contents($url, $options);
 
-        $url = "https://${node_teracloud}.teracloud.jp/dav/" . pathinfo($file_name)['basename'];
+        $url = "https://${node_teracloud}.teracloud.jp/dav/" . pathinfo($file_name_)['basename'];
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
@@ -791,7 +791,7 @@ __HEREDOC__;
         ];
         $res = $this->get_contents($url, $options);
 
-        $url = "https://${node_teracloud}.teracloud.jp/dav/" . pathinfo($file_name)['basename'];
+        $url = "https://${node_teracloud}.teracloud.jp/dav/" . pathinfo($file_name_)['basename'];
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
