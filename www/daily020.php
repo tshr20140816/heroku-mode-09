@@ -35,6 +35,9 @@ check_hidrive_usage($mu, $file_name_blog);
 // pCloud usage
 check_pcloud_usage($mu, $file_name_blog);
 
+// TeraCLOUD usage
+check_teracloud_usage($mu, $file_name_blog);
+
 // apache version check
 check_version_apache($mu, $file_name_blog);
 
@@ -505,6 +508,31 @@ function backup_opml2($mu_, $file_name_blog_)
     $file_size = number_format($file_size);
 
     file_put_contents($file_name_blog_, "\nOPML2 backup size : ${file_size}Byte\nFeed count : ${feed_count}\n", FILE_APPEND);
+}
+
+function check_teracloud_usage($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $user_teracloud = base64_decode(getenv('TERACLOUD_USER'));
+    $password_teracloud = base64_decode(getenv('TERACLOUD_PASSWORD'));
+    $api_key_teracloud = base64_decode(getenv('TERACLOUD_API_KEY'));
+    $node_teracloud = base64_decode(getenv('TERACLOUD_NODE'));
+
+    $url = "https://${node_teracloud}.teracloud.jp/v2/api/dataset/(property)";
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
+        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_HTTPHEADER => ["X-TeraCLOUD-API-KEY: ${api_key_teracloud}",],
+    ];
+    $res = $mu_->get_contents($url, $options);
+
+    $data = json_decode($res);
+    $size = number_format($data->dataset->__ROOT__->used);
+
+    error_log($log_prefix . "TeraCLOUD usage : ${size}Byte");
+    file_put_contents($file_name_blog_, "\nTeraCLOUD usage : ${size}Byte\n\n", FILE_APPEND);
 }
 
 function check_pcloud_usage($mu_, $file_name_blog_)
