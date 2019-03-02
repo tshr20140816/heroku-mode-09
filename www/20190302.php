@@ -25,6 +25,9 @@ error_log($res);
 $data = json_decode($res);
 error_log(print_r($data, true));
 
+$size = $data->dataset->__ROOT__->used;
+error_log($size);
+
 /*
 $file_name = '/tmp/test.txt';
 
