@@ -26,7 +26,7 @@ error_log(print_r($data, true));
 
 $session_id = $data->SessionID;
 
-$url = "https://dev.opendrive.com/api/v1/accountusers/info.json/${session_id}/${user_opendrive}";
+$url = "https://dev.opendrive.com/api/v1/accountusers/info.json/${session_id}/" . urlencode($user_opendrive);
 $res = $mu->get_contents($url);
 error_log($res);
 
