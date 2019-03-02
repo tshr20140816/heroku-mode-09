@@ -24,6 +24,15 @@ error_log($res);
 $data = json_decode($res);
 error_log(print_r($data, true));
 
+$session_id = $data->SessionID;
+
+$url = "https://dev.opendrive.com/api/v1/accountusers/info.json/${session_id}/${user_opendrive}";
+$res = $mu->get_contents($url);
+error_log($res);
+
+$data = json_decode($res);
+error_log(print_r($data, true));
+
 /*
 $file_name = '/tmp/test.txt';
 
