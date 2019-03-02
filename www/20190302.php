@@ -8,9 +8,10 @@ $mu = new MyUtils();
 
 $user_teracloud = base64_decode(getenv('TERACLOUD_USER'));
 $password_teracloud = base64_decode(getenv('TERACLOUD_PASSWORD'));
-$api_key_teracloud = getenv('TERACLOUD_API_KEY');
+$api_key_teracloud = base64_decode(getenv('TERACLOUD_API_KEY'));
+$node_teracloud = base64_decode(getenv('TERACLOUD_NODE'));
 
-$url = 'https://uno.teracloud.jp/v2/api/dataset/(property)';
+$url = "https://${node_teracloud}.teracloud.jp/v2/api/dataset/(property)";
 
 $options = [
     CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
@@ -32,7 +33,7 @@ file_put_contents($file_name, 'TEST');
 $file_size = filesize($file_name);
 $fh = fopen($file_name, 'r');
 
-$url = 'https://uno.teracloud.jp/dav/' . pathinfo($file_name)['basename'];
+$url = "https://${node_teracloud}.teracloud.jp/dav/" . pathinfo($file_name)['basename'];
 
 $options = [
     CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
