@@ -6,27 +6,23 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-$user_teracloud = base64_decode(getenv('TERACLOUD_USER'));
-$password_teracloud = base64_decode(getenv('TERACLOUD_PASSWORD'));
-$api_key_teracloud = base64_decode(getenv('TERACLOUD_API_KEY'));
-$node_teracloud = base64_decode(getenv('TERACLOUD_NODE'));
+$user_opendrive = getenv('OPENDRIVE_USER');
+$password_opendrive = getenv('OPENDRIVE_PASSWORD');
 
-$url = "https://${node_teracloud}.teracloud.jp/v2/api/dataset/(property)";
+$url = 'https://dev.opendrive.com/api/v1/session/login.json';
+
+$post_data = ['username' => $user_opendrive, 'passwd' => $password_opendrive, 'version' => '1', 'partner_id' => '',];
 
 $options = [
-    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-    CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
+    CURLOPT_POST => true,
     CURLOPT_ENCODING => 'gzip, deflate, br',
-    CURLOPT_HTTPHEADER => ['X-TeraCLOUD-API-KEY: ' . $api_key_teracloud,],
+    CURLOPT_POSTFIELDS => http_build_query($post_data),
 ];
 $res = $mu->get_contents($url, $options);
 error_log($res);
 
 $data = json_decode($res);
 error_log(print_r($data, true));
-
-$size = $data->dataset->__ROOT__->used;
-error_log($size);
 
 /*
 $file_name = '/tmp/test.txt';
