@@ -10,7 +10,7 @@ $user_teracloud = base64_decode(getenv('TERACLOUD_USER'));
 $password_teracloud = base64_decode(getenv('TERACLOUD_PASSWORD'));
 $api_key_teracloud = getenv('TERACLOUD_API_KEY');
 
-$url = 'https://uno.teracloud.jp/v2/;api_key=' . $api_key_teracloud;
+$url = 'https://uno.teracloud.jp/v2/api/dataset/(property);properties=jp.teracloud:quota,quota,used,usedbychildren,usedbydataset,usedbysnapshots;recursive=false;api_key=' . $api_key_teracloud;
 $options = [
     CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
     CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
