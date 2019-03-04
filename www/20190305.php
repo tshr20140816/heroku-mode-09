@@ -24,6 +24,7 @@ function get_task_f1($mu_, $file_name_blog_)
 
     $url = 'http://otn.fujitv.co.jp/b_hp/918200222.html';
     $res = $mu_->get_contents($url, null, true);
+    error_log($res);
 
     $rc = preg_match('/<title>(\d+)/', $res, $match);
 
