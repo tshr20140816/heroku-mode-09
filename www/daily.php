@@ -427,10 +427,12 @@ function get_task_f1($mu_, $file_name_blog_)
         if (strpos($item, '生放送') === false) {
             continue;
         }
+        $item = explode('<div class="btnArea">', $item)[0];
         $item = str_replace('生放送', '', $item);
         $item = str_replace('2ヵ国語', '', $item);
         $item = str_replace('新番組', '', $item);
         $item = str_replace('～', '-', $item);
+        $item = preg_replace('/#\d+/s', '', $item);
         $item = preg_replace('/\s+/s', ' ', strip_tags($item));
         $item = trim(preg_replace('/\(.+?\)/', '', $item));
         $item .= ' ⠴⬬⠶⠷⬬⠝ ⚑⚐⚑⚐';
