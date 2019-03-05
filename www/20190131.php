@@ -26,8 +26,11 @@ function delete_blog_wordpress($mu) {
     error_log($log_prefix . 'RESULT : ' . print_r($result, true));
     $blogid = $result[0]['blogid'];
     
+    //$client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
+    //$result = $client->getPosts($blogid, $username, $password, ['number' => 10, 'offset' => 5000,]);
+    
     $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
-    $result = $client->getPosts($blogid, $username, $password, ['number' => 10, 'offset' => 5000,]);
+    $result = $client->getOptions($blogid, $username, $password);
     
     error_log(print_r($result, true));
 }
