@@ -24,7 +24,6 @@ function get_task_f1($mu_, $file_name_blog_)
 
     $url = 'http://otn.fujitv.co.jp/b_hp/918200222.html';
     $res = $mu_->get_contents($url, null, true);
-    error_log($res);
 
     $rc = preg_match('/<title>(\d+)/', $res, $match);
 
@@ -36,6 +35,7 @@ function get_task_f1($mu_, $file_name_blog_)
         if (strpos($item, '生放送') === false) {
             continue;
         }
+        error_log($item);
         $item = str_replace('生放送', '', $item);
         $item = str_replace('2ヵ国語', '', $item);
         $item = str_replace('新番組', '', $item);
