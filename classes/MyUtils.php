@@ -412,7 +412,7 @@ __HEREDOC__;
 __HEREDOC__;
 
         $xml = str_replace('__TITLE__', date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${title_}", $xml);
-        $xml = str_replace('__CONTENT__', $description_, $xml);
+        $xml = str_replace('__CONTENT__', htmlspecialchars(nl2br($description_)), $xml);
 
         $url = "https://blog.hatena.ne.jp/${hatena_id}/${hatena_blog_id}/atom/entry";
 
