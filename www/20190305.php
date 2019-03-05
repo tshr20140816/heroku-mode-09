@@ -35,7 +35,6 @@ function get_task_f1($mu_, $file_name_blog_)
         if (strpos($item, '生放送') === false) {
             continue;
         }
-        error_log($item);
         $item = str_replace('生放送', '', $item);
         $item = str_replace('2ヵ国語', '', $item);
         $item = str_replace('新番組', '', $item);
@@ -44,6 +43,7 @@ function get_task_f1($mu_, $file_name_blog_)
         $item = trim(preg_replace('/\(.+?\)/', '', $item));
         $item .= ' ⠴⬬⠶⠷⬬⠝ ⚑⚐⚑⚐';
 
+        error_log($yyyy . '/' . substr($item, 0, 5));
         $timestamp = strtotime($yyyy . '/' . substr($item, 0, 5));
         if ($timestamp < time()) {
             continue;
