@@ -27,7 +27,7 @@ function delete_blog_wordpress($mu) {
     $blogid = $result[0]['blogid'];
     
     $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
-    $result = $client->getPageList($blogid, $username, $password);
+    $result = $client->getPosts($blogid, $username, $password);
     
     error_log(print_r($result, true));
 }
