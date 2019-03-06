@@ -14,7 +14,7 @@ function func_test($mu_, $file_name_blog_)
 
     $url = 'https://member.livedoor.com/login/';
     
-    $mu_->get_contents($url);
+    $res = $mu_->get_contents($url);
     
-    error_log($url);
+    error_log($res);
 }
