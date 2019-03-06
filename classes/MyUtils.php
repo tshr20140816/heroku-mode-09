@@ -389,6 +389,7 @@ __HEREDOC__;
             error_log($log_prefix . 'Exception : ' . $e->getMessage());
         }
         $this->post_blog_hatena($title_, $description_);
+        $this->post_blog_livedoor($title_, $description_);
     }
 
     public function post_blog_hatena($title_, $description_ = null)
