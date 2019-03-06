@@ -40,7 +40,7 @@ function func_test($mu_, $file_name_blog_)
     $token = $match[1];
     
     $post_data = [
-        'org.apache.struts.taglib.html.TOKEN' => $token;
+        'org.apache.struts.taglib.html.TOKEN' => $token,
         'cardNo' => getenv('WAON_CARD_NO'),
         'secNo' => getenv('WAON_CODE'),
         'magic' => '1',
