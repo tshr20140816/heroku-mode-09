@@ -681,7 +681,7 @@ function check_opendrive_usage($mu_, $file_name_blog_)
     $session_id = $data->SessionID;
 
     $url = "https://dev.opendrive.com/api/v1/users/info.json/${session_id}";
-    $res = $mu->get_contents($url);
+    $res = $mu_->get_contents($url);
     $data = json_decode($res);
     $size = number_format($data->StorageUsed);
 
