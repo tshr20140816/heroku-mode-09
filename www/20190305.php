@@ -148,7 +148,7 @@ __HEREDOC__;
     $rc = $statement->execute(
         [':b_check_time' => date('Y/m/d H:i:s'),
          ':b_balance' => $balance,
-         ':b_last_use_date' => date($last_use_date_new, 'Y/m/d'),
+         ':b_last_use_date' => date('Y/m/d', $last_use_date_new),
         ]);
     error_log(print_r($statement->errorInfo(), true));
     error_log($log_prefix . 'INSERT $rc : ' . $rc);
