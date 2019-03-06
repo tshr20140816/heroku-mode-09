@@ -6,8 +6,8 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-$user_opendrive = base64decode(getenv('OPENDRIVE_USER'));
-$password_opendrive = base64decode(getenv('OPENDRIVE_PASSWORD'));
+$user_opendrive = base64_decode(getenv('OPENDRIVE_USER'));
+$password_opendrive = base64_decode(getenv('OPENDRIVE_PASSWORD'));
 
 $url = 'https://dev.opendrive.com/api/v1/session/login.json';
 
