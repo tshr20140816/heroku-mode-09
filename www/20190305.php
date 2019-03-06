@@ -7,9 +7,9 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 $access_token = $mu->get_access_token();
 
-$rc = get_task_f1($mu, '/tmp/dummy');
+$rc = func_test($mu, '/tmp/dummy');
 
-function get_task_f1($mu_, $file_name_blog_)
+function func_test($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
