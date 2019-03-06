@@ -150,6 +150,7 @@ __HEREDOC__;
          ':b_balance' => $balance,
          ':b_last_use_date' => $last_use_date_new,
         ]);
+    error_log(print_r($pdo->errorInfo(), true));
     error_log($log_prefix . 'INSERT $rc : ' . $rc);
     unlink($cookie);
     $pdo = null;
