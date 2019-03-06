@@ -788,13 +788,16 @@ __HEREDOC__;
         $user_opendrive = base64_decode(getenv('OPENDRIVE_USER'));
         $password_opendrive = base64_decode(getenv('OPENDRIVE_PASSWORD'));
 
+        $urls = [];
+
         $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name_)['basename'];
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user}:${password}",
             CURLOPT_CUSTOMREQUEST => 'DELETE',
         ];
-        $res = $this->get_contents($url, $options);
+        // $res = $this->get_contents($url, $options);
+        $urls[$url] = $options;
 
         $url = 'https://webdav.pcloud.com/' . pathinfo($file_name_)['basename'];
         $options = [
@@ -802,7 +805,8 @@ __HEREDOC__;
             CURLOPT_USERPWD => "${user_pcloud}:${password_pcloud}",
             CURLOPT_CUSTOMREQUEST => 'DELETE',
         ];
-        $res = $this->get_contents($url, $options);
+        // $res = $this->get_contents($url, $options);
+        $urls[$url] = $options;
 
         $url = "https://${node_teracloud}.teracloud.jp/dav/" . pathinfo($file_name_)['basename'];
         $options = [
@@ -810,7 +814,8 @@ __HEREDOC__;
             CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
             CURLOPT_CUSTOMREQUEST => 'DELETE',
         ];
-        $res = $this->get_contents($url, $options);
+        // $res = $this->get_contents($url, $options);
+        $urls[$url] = $options;
 
         $url = 'https://webdav.opendrive.com/' . pathinfo($file_name_)['basename'];
         $options = [
@@ -818,7 +823,10 @@ __HEREDOC__;
             CURLOPT_USERPWD => "${user_opendrive}:${password_opendrive}",
             CURLOPT_CUSTOMREQUEST => 'DELETE',
         ];
-        $res = $this->get_contents($url, $options);
+        // $res = $this->get_contents($url, $options);
+        $urls[$url] = $options;
+
+        $rc = $this->get_contents_multi($urls);
 
         $file_size = filesize($file_name_);
         $fh = fopen($file_name_, 'r');
