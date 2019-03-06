@@ -529,7 +529,6 @@ function check_opendrive_usage($mu_, $file_name_blog_)
     ];
     $options = [
         CURLOPT_POST => true,
-        CURLOPT_ENCODING => 'gzip, deflate, br',
         CURLOPT_POSTFIELDS => http_build_query($post_data),
     ];
     $res = $mu_->get_contents($url, $options);
@@ -558,7 +557,6 @@ function check_teracloud_usage($mu_, $file_name_blog_)
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
-        CURLOPT_ENCODING => 'gzip, deflate, br',
         CURLOPT_HTTPHEADER => ["X-TeraCLOUD-API-KEY: ${api_key_teracloud}",],
     ];
     $res = $mu_->get_contents($url, $options);
@@ -596,7 +594,6 @@ function check_hidrive_usage($mu_, $file_name_blog_)
 
     $url = "https://webdav.hidrive.strato.com/users/${user}/";
     $options = [
-        CURLOPT_ENCODING => 'gzip, deflate, br',
         CURLOPT_HTTPAUTH => CURLAUTH_ANY,
         CURLOPT_USERPWD => "${user}:${password}",
         CURLOPT_HTTPHEADER => ['Connection: keep-alive',],
