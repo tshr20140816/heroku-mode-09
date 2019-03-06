@@ -104,6 +104,9 @@ __HEREDOC__;
     }
     
     error_log($last_use_date);
+    $tmp = explode('-', $last_use_date);
+    $last_use_date = mktime(0, 0, 0, $tmp[1], $tmp[2], $tmp[0]);
+    error_log(date('Ymd', $last_use_date));
     
     foreach ($items as $item) {
         if (strpos($item, '取引年月日') == false) {
@@ -111,12 +114,14 @@ __HEREDOC__;
         }
         
         $rc = preg_match('/取引年月日<.+?><.+?>(.+?)</s', $item, $match);
-        $date = trim($match[1]);
+        $tmp = trim($match[1]);
+        $tmp = explode('/', $tmp);
+        $use_date = mktime(0, 0, 0, $tmp[1], $tmp[2], $tmp[0]);
         
         $rc = preg_match('/利用金額<.+?><.+?>(.+?)円/s', $item, $match);
         $amount = trim($match[1]);
         
-        error_log($date . ' ' . $amount);
+        error_log(date('Ymd', $use_date) . ' ' . $amount);
     }
     
     unlink($cookie);
