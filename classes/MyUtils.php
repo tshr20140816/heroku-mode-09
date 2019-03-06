@@ -800,7 +800,7 @@ __HEREDOC__;
             CURLOPT_INFILESIZE => $file_size,
         ];
         $res = $this->get_contents($url, $options);
-        
+
         fclose($fh);
 
         unlink($file_name_);
