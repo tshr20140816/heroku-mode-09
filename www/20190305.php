@@ -16,7 +16,7 @@ function func_test($mu_, $file_name_blog_)
     
     $url = 'https://www.waon.com/wmUseHistoryInq/mInit.do';
     
-    $options = [
+    $options1 = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
         CURLOPT_HTTPHEADER => [
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -30,7 +30,7 @@ function func_test($mu_, $file_name_blog_)
         CURLOPT_COOKIEFILE => $cookie,
     ];
     
-    $res = $mu_->get_contents($url, $options);
+    $res = $mu_->get_contents($url, $options1);
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
     
     $rc = preg_match('/<input type="hidden" name="org.apache.struts.taglib.html.TOKEN" value="(.+?)"/s', $res, $match);
@@ -70,21 +70,7 @@ function func_test($mu_, $file_name_blog_)
     $url = 'https://www.waon.com/wmUseHistoryInq/mMoveMonth.do?beforeMonth=0&org.apache.struts.taglib.html.TOKEN=' . $token;
     // $url = 'https://www.waon.com/wmUseHistoryInq/mMoveMonth.do?beforeMonth=1&org.apache.struts.taglib.html.TOKEN=' . $token;
     
-    $options = [
-        CURLOPT_ENCODING => 'gzip, deflate, br',
-        CURLOPT_HTTPHEADER => [
-            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
-            'Cache-Control: no-cache',
-            'Connection: keep-alive',
-            'DNT: 1',
-            'Upgrade-Insecure-Requests: 1',
-            ],
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
-    ];
-    
-    $res = $mu_->get_contents($url, $options);
+    $res = $mu_->get_contents($url, $options1);
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
 
     $items = explode('<hr size="1">', $res);
