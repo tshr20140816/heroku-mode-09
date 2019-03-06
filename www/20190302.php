@@ -6,53 +6,42 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-$user_opendrive = base64_decode(getenv('OPENDRIVE_USER'));
-$password_opendrive = base64_decode(getenv('OPENDRIVE_PASSWORD'));
+post_blog_livedoor('TEST ' . microtime(true), "ONE_LINE\nTWO_LINE");
 
-$url = 'https://dev.opendrive.com/api/v1/session/login.json';
+public function post_blog_livedoor($title_, $description_ = null)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-$post_data = ['username' => $user_opendrive, 'passwd' => $password_opendrive, 'version' => '1', 'partner_id' => '',];
+    if (is_null($description_)) {
+        $description_ = '.';
+    }
 
-$options = [
-    CURLOPT_POST => true,
-    CURLOPT_ENCODING => 'gzip, deflate, br',
-    CURLOPT_POSTFIELDS => http_build_query($post_data),
-];
-$res = $mu->get_contents($url, $options);
-error_log($res);
+    $livedoor_id = base64_decode(getenv('LIVEDOOR_ID'));
+    $livedoor_atom_password = base64_decode(getenv('LIVEDOOR_ATOM_PASSWORD'));
 
-$data = json_decode($res);
-error_log(print_r($data, true));
+    $xml = <<< __HEREDOC__
+<?xml version="1.0" encoding="utf-8"?>
+<entry xmlns="http://www.w3.org/2005/Atom" xmlns:app="http://www.w3.org/2007/app">
+  <title>__TITLE__</title>
+  <content type="text/plain">__CONTENT__</content>
+</entry>
+__HEREDOC__;
 
-$session_id = $data->SessionID;
+    $xml = str_replace('__TITLE__', date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${title_}", $xml);
+    $xml = str_replace('__CONTENT__', $description_, $xml);
 
-$url = "https://dev.opendrive.com/api/v1/users/info.json/${session_id}";
-$res = $mu->get_contents($url);
-error_log($res);
+    $url = "https://livedoor.blogcms.jp/atompub/${livedoor_id}/";
 
-$data = json_decode($res);
-error_log(print_r($data, true));
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${livedoor_id}:${livedoor_atom_password}",
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $xml,
+        CURLOPT_BINARYTRANSFER => true,
+        CURLOPT_HEADER => true,
+    ];
 
-$file_name = '/tmp/test2.txt';
+    $res = $this->get_contents($url, $options);
 
-file_put_contents($file_name, 'TEST');
-
-$file_size = filesize($file_name);
-$fh = fopen($file_name, 'r');
-
-$url = 'https://webdav.opendrive.com/' . pathinfo($file_name)['basename'];
-
-$options = [
-    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-    CURLOPT_USERPWD => "${user_opendrive}:${password_opendrive}",
-    CURLOPT_PUT => true,
-    CURLOPT_INFILE => $fh,
-    CURLOPT_INFILESIZE => $file_size,
-];
-$res = $mu->get_contents($url, $options);
-
-error_log($res);
-
-fclose($fh);
-
-unlink($file_name);
+    error_log($log_prefix . 'RESULT : ' . $res);
+}
