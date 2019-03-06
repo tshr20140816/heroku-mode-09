@@ -40,11 +40,11 @@ file_put_contents($file_name, 'TEST');
 $file_size = filesize($file_name);
 $fh = fopen($file_name, 'r');
 
-$url = "https://${node_teracloud}.teracloud.jp/dav/" . pathinfo($file_name)['basename'];
+$url = "https://www.opendrive.com/webdav/" . pathinfo($file_name)['basename'];
 
 $options = [
     CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-    CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
+    CURLOPT_USERPWD => "${user_opendrive}:${password_opendrive}",
     CURLOPT_PUT => true,
     CURLOPT_INFILE => $fh,
     CURLOPT_INFILESIZE => $file_size,
