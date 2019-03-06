@@ -774,8 +774,8 @@ __HEREDOC__;
         error_log($log_prefix . pathinfo($file_name_)['basename'] . ' size : ' . strlen($res));
         file_put_contents($file_name_, $res);
 
-        $user = base64_decode(getenv('HIDRIVE_USER'));
-        $password = base64_decode(getenv('HIDRIVE_PASSWORD'));
+        $user_hidrive = base64_decode(getenv('HIDRIVE_USER'));
+        $password_hidrive = base64_decode(getenv('HIDRIVE_PASSWORD'));
 
         $user_pcloud = base64_decode(getenv('PCLOUD_USER'));
         $password_pcloud = base64_decode(getenv('PCLOUD_PASSWORD'));
@@ -790,10 +790,10 @@ __HEREDOC__;
 
         $urls = [];
 
-        $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name_)['basename'];
+        $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/" . pathinfo($file_name_)['basename'];
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-            CURLOPT_USERPWD => "${user}:${password}",
+            CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
             CURLOPT_CUSTOMREQUEST => 'DELETE',
         ];
         // $res = $this->get_contents($url, $options);
@@ -831,10 +831,10 @@ __HEREDOC__;
         $file_size = filesize($file_name_);
         $fh = fopen($file_name_, 'r');
 
-        $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name_)['basename'];
+        $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/" . pathinfo($file_name_)['basename'];
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-            CURLOPT_USERPWD => "${user}:${password}",
+            CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
             CURLOPT_PUT => true,
             CURLOPT_INFILE => $fh,
             CURLOPT_INFILESIZE => $file_size,
