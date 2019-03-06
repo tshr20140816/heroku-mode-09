@@ -33,7 +33,7 @@ error_log($res);
 $data = json_decode($res);
 error_log(print_r($data, true));
 
-$file_name = '/tmp/test.txt';
+$file_name = '/tmp/test2.txt';
 
 file_put_contents($file_name, 'TEST');
 
