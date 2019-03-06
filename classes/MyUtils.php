@@ -424,6 +424,7 @@ __HEREDOC__;
             CURLOPT_POSTFIELDS => $xml,
             CURLOPT_BINARYTRANSFER => true,
             CURLOPT_HEADER => true,
+            CURLOPT_HTTPHEADER => ['Expect:',],
         ];
 
         $res = $this->get_contents($url, $options);
@@ -462,7 +463,7 @@ __HEREDOC__;
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => $xml,
             CURLOPT_BINARYTRANSFER => true,
-            CURLOPT_HTTPHEADER => ['Accept: application/atom+xml;type=entry',],
+            CURLOPT_HTTPHEADER => ['Accept: application/atom+xml;type=entry', 'Expect:',],
         ];
 
         $res = $this->get_contents($url, $options);
