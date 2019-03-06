@@ -35,6 +35,24 @@ function func_test($mu_, $file_name_blog_)
     
     $rc = preg_match('/<input type="hidden" name="org.apache.struts.taglib.html.TOKEN" value="(.+?)"/s', $res, $match);
     $token = $match[1];
+
+    $pdo = $mu_->get_pdo();
+    
+    $sql = <<< __HEREDOC__
+SELECT T2.balance
+      ,T2.last_use_date
+  FROM t_waon_history T2
+ WHERE T2.check_time = (SELECT MAX(T1.check_time) FROM t_waon_history T1)
+__HEREDOC__;
+    
+    foreach ($pdo->query($sql) as $row) {
+        $balance = (int)$row['balance'];
+        $last_use_date = $row['last_use_date'];
+    }
+    
+    $tmp = explode('-', $last_use_date);
+    $last_use_date = mktime(0, 0, 0, $tmp[1], $tmp[2], $tmp[0]);
+    $last_use_date_new = $last_use_date;
     
     $post_data = [
         'org.apache.struts.taglib.html.TOKEN' => $token,
@@ -64,30 +82,11 @@ function func_test($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url, $options2);
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
     
-    $rc = preg_match('/<a href="\/wmUseHistoryInq\/mMoveMonth.do\?beforeMonth=0&amp;org.apache.struts.taglib.html.TOKEN=(.+?)"/s', $res, $match);
-    $token = $match[1];
-
-    $pdo = $mu_->get_pdo();
-    
-    $sql = <<< __HEREDOC__
-SELECT T2.balance
-      ,T2.last_use_date
-  FROM t_waon_history T2
- WHERE T2.check_time = (SELECT MAX(T1.check_time) FROM t_waon_history T1)
-__HEREDOC__;
-    
-    foreach ($pdo->query($sql) as $row) {
-        $balance = (int)$row['balance'];
-        $last_use_date = $row['last_use_date'];
-    }
-    
-    $tmp = explode('-', $last_use_date);
-    $last_use_date = mktime(0, 0, 0, $tmp[1], $tmp[2], $tmp[0]);
-    $last_use_date_new = $last_use_date;
-    
     for ($i = 0; $i < 2; $i++) {
-        $url = 'https://www.waon.com/wmUseHistoryInq/mMoveMonth.do?beforeMonth=0&org.apache.struts.taglib.html.TOKEN=' . $token;
-        // $url = 'https://www.waon.com/wmUseHistoryInq/mMoveMonth.do?beforeMonth=1&org.apache.struts.taglib.html.TOKEN=' . $token;
+        $rc = preg_match('/<a href="\/wmUseHistoryInq\/mMoveMonth.do\?beforeMonth=0&amp;org.apache.struts.taglib.html.TOKEN=(.+?)"/s', $res, $match);
+        $token = $match[1];
+        
+        $url = 'https://www.waon.com/wmUseHistoryInq/mMoveMonth.do?beforeMonth=' . $i . '&org.apache.struts.taglib.html.TOKEN=' . $token;
     
         $res = $mu_->get_contents($url, $options1);
         $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
@@ -116,6 +115,9 @@ __HEREDOC__;
             }
 
             error_log($log_prefix . date('Ymd', $use_date) . "${amount} ${balance}");
+        }
+        if ((int)date('j', strtotime('+9 hours')) > 10) {
+            break;
         }
     }
     
