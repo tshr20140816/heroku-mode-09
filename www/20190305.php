@@ -28,13 +28,10 @@ function func_test($mu_, $file_name_blog_)
             ],
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
-        CURLOPT_HEADER => true,
     ];
     
     $res = $mu_->get_contents($url, $options);
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
-    
-    // error_log($res);
     
     $rc = preg_match('/<input type="hidden" name="org.apache.struts.taglib.html.TOKEN" value="(.+?)"/s', $res, $match);
     $token = $match[1];
@@ -60,7 +57,6 @@ function func_test($mu_, $file_name_blog_)
             ],
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
-        CURLOPT_HEADER => true,
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => http_build_query($post_data),
     ];
@@ -68,12 +64,8 @@ function func_test($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url, $options);
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
     
-    // error_log($res);
-    
     $rc = preg_match('/<a href="\/wmUseHistoryInq\/mMoveMonth.do\?beforeMonth=0&amp;org.apache.struts.taglib.html.TOKEN=(.+?)">(\d+?)月</s', $res, $match);
     $token = $match[1];
-    
-    error_log(print_r($match, true));
     
     // $url = 'https://www.waon.com/wmUseHistoryInq/mMoveMonth.do?beforeMonth=0&org.apache.struts.taglib.html.TOKEN=' . $token;
     $url = 'https://www.waon.com/wmUseHistoryInq/mMoveMonth.do?beforeMonth=1&org.apache.struts.taglib.html.TOKEN=' . $token;
@@ -90,14 +82,11 @@ function func_test($mu_, $file_name_blog_)
             ],
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
-        CURLOPT_HEADER => true,
     ];
     
     $res = $mu_->get_contents($url, $options);
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
-    
-    error_log($res);
-    
+
     $items = explode('<hr size="1">', $res);
     
     foreach ($items as $item) {
