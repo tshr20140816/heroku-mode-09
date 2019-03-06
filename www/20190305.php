@@ -12,7 +12,7 @@ function func_test($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $cookie = tempnam("/tmp", microtime(true));
+    $cookie = tempnam("/tmp", md5(microtime(true)));
     
     $url = 'https://www.waon.com/wmUseHistoryInq/mLogin.do';
     
