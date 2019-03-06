@@ -830,6 +830,7 @@ __HEREDOC__;
             CURLOPT_PUT => true,
             CURLOPT_INFILE => $fh,
             CURLOPT_INFILESIZE => $file_size,
+            CURLOPT_HEADER => true,
         ];
         $res = $this->get_contents($url, $options);
 
@@ -840,6 +841,7 @@ __HEREDOC__;
             CURLOPT_PUT => true,
             CURLOPT_INFILE => $fh,
             CURLOPT_INFILESIZE => $file_size,
+            CURLOPT_HEADER => true,
         ];
         $res = $this->get_contents($url, $options);
 
@@ -850,6 +852,7 @@ __HEREDOC__;
             CURLOPT_PUT => true,
             CURLOPT_INFILE => $fh,
             CURLOPT_INFILESIZE => $file_size,
+            CURLOPT_HEADER => true,
         ];
         $res = $this->get_contents($url, $options);
 
@@ -860,6 +863,7 @@ __HEREDOC__;
             CURLOPT_PUT => true,
             CURLOPT_INFILE => $fh,
             CURLOPT_INFILESIZE => $file_size,
+            CURLOPT_HEADER => true,
         ];
         $res = $this->get_contents($url, $options);
 
