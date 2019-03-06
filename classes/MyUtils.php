@@ -605,7 +605,7 @@ __HEREDOC__;
             }
         }
 
-        error_log($log_prefix . 'LENGTH : ' . strlen($res));
+        error_log($log_prefix . 'LENGTH : ' . number_format(strlen($res)));
         return $res;
     }
 
