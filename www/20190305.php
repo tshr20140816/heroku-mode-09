@@ -66,15 +66,7 @@ function func_test($mu_, $file_name_blog_)
     
     $rc = preg_match('/<a href="\/wmUseHistoryInq\/mMoveMonth.do\?beforeMonth=0&amp;org.apache.struts.taglib.html.TOKEN=(.+?)"/s', $res, $match);
     $token = $match[1];
-    
-    $url = 'https://www.waon.com/wmUseHistoryInq/mMoveMonth.do?beforeMonth=0&org.apache.struts.taglib.html.TOKEN=' . $token;
-    // $url = 'https://www.waon.com/wmUseHistoryInq/mMoveMonth.do?beforeMonth=1&org.apache.struts.taglib.html.TOKEN=' . $token;
-    
-    $res = $mu_->get_contents($url, $options1);
-    $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
 
-    $items = explode('<hr size="1">', $res);
-    
     $pdo = $mu_->get_pdo();
     
     $sql = <<< __HEREDOC__
@@ -93,27 +85,38 @@ __HEREDOC__;
     $last_use_date = mktime(0, 0, 0, $tmp[1], $tmp[2], $tmp[0]);
     $last_use_date_new = $last_use_date;
     
-    foreach ($items as $item) {
-        if (strpos($item, '取引年月日') == false) {
-            continue;
-        }
-        
-        $rc = preg_match('/取引年月日<.+?><.+?>(.+?)</s', $item, $match);
-        $tmp = trim($match[1]);
-        $tmp = explode('/', $tmp);
-        $use_date = mktime(0, 0, 0, $tmp[1], $tmp[2], $tmp[0]);
-        
-        $rc = preg_match('/利用金額<.+?><.+?>(.+?)円/s', $item, $match);
-        $amount = (int)trim($match[1]);
-        
-        if ($use_date > $last_use_date) {
-            $balance -= $amount;
-            if ($last_use_date_new < $use_date) {
-                $last_use_date_new = $use_date;
+    for ($i = 0; $i < 2; $i++) {
+        $url = 'https://www.waon.com/wmUseHistoryInq/mMoveMonth.do?beforeMonth=0&org.apache.struts.taglib.html.TOKEN=' . $token;
+        // $url = 'https://www.waon.com/wmUseHistoryInq/mMoveMonth.do?beforeMonth=1&org.apache.struts.taglib.html.TOKEN=' . $token;
+    
+        $res = $mu_->get_contents($url, $options1);
+        $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
+        error_log($res);
+
+        $items = explode('<hr size="1">', $res);
+    
+        foreach ($items as $item) {
+            if (strpos($item, '取引年月日') == false) {
+                continue;
             }
-        }
         
-        error_log($log_prefix . date('Ymd', $use_date) . "${amount} ${balance}");
+            $rc = preg_match('/取引年月日<.+?><.+?>(.+?)</s', $item, $match);
+            $tmp = trim($match[1]);
+            $tmp = explode('/', $tmp);
+            $use_date = mktime(0, 0, 0, $tmp[1], $tmp[2], $tmp[0]);
+        
+            $rc = preg_match('/利用金額<.+?><.+?>(.+?)円/s', $item, $match);
+            $amount = (int)trim($match[1]);
+        
+            if ($use_date > $last_use_date) {
+                $balance -= $amount;
+                if ($last_use_date_new < $use_date) {
+                    $last_use_date_new = $use_date;
+                }
+            }
+
+            error_log($log_prefix . date('Ymd', $use_date) . "${amount} ${balance}");
+        }
     }
     
     $sql = <<< __HEREDOC__
