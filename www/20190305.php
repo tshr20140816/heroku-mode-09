@@ -34,7 +34,7 @@ function func_test($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url, $options);
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
     
-    error_log($res);
+    // error_log($res);
     
     $rc = preg_match('/<input type="hidden" name="org.apache.struts.taglib.html.TOKEN" value="(.+?)"/s', $res, $match);
     $token = $match[1];
@@ -68,8 +68,11 @@ function func_test($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url, $options);
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
     
-    error_log($res);
-    error_log(file_get_contents($cookie));
+    // error_log($res);
+    
+    $rc = preg_match('/<a href="\/wmUseHistoryInq\/mMoveMonth.do?beforeMonth=0&amp;org.apache.struts.taglib.html.TOKEN=(.+?)">(.+?)月</s', $res, $match);
+    
+    error_log(print_r($match, true));
     
     unlink($cookie);
 }
