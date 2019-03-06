@@ -786,7 +786,7 @@ function get_task_sun($mu_, $file_name_blog_)
     $yyyy = date('Y', $timestamp);
     $mm = date('m', $timestamp);
 
-    $res = $mu_->get_contents('https://eco.mtk.nao.ac.jp/koyomi/dni/' . $yyyy . '/s' . $mu_->get_env('AREA_ID') . $mm . '.html', null, true);
+    $res = $mu_->get_contents("https://eco.mtk.nao.ac.jp/koyomi/dni/${yyyy}/s" . $mu_->get_env('AREA_ID') . $mm . '.html', null, true);
     $res = mb_convert_encoding($res, 'UTF-8', 'EUC-JP');
 
     $tmp = explode('<table ', $res);
