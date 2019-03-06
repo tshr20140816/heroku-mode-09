@@ -8,7 +8,7 @@ $mu = new MyUtils();
 
 post_blog_livedoor('TEST ' . microtime(true), "ONE_LINE\nTWO_LINE");
 
-public function post_blog_livedoor($title_, $description_ = null)
+function post_blog_livedoor($title_, $description_ = null)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
