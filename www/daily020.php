@@ -510,6 +510,38 @@ function backup_opml2($mu_, $file_name_blog_)
     file_put_contents($file_name_blog_, "\nOPML2 backup size : ${file_size}Byte\nFeed count : ${feed_count}\n", FILE_APPEND);
 }
 
+function check_opendrive_usage($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $user_opendrive = base64_decode(getenv('OPENDRIVE_USER'));
+    $password_opendrive = base64_decode(getenv('OPENDRIVE_PASSWORD'));
+
+    $url = 'https://dev.opendrive.com/api/v1/session/login.json';
+    $post_data = [
+        'username' => $user_opendrive,
+        'passwd' => $password_opendrive,
+        'version' => '1',
+        'partner_id' => '',
+    ];
+    $options = [
+        CURLOPT_POST => true,
+        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
+    ];
+    $res = $mu_->get_contents($url, $options);
+    $data = json_decode($res);
+    $session_id = $data->SessionID;
+
+    $url = "https://dev.opendrive.com/api/v1/users/info.json/${session_id}";
+    $res = $mu->get_contents($url);
+    $data = json_decode($res);
+    $size = number_format($data->StorageUsed);
+
+    error_log($log_prefix . "OpenDrive usage : ${size}Byte");
+    file_put_contents($file_name_blog_, "\nOpenDrive usage : ${size}Byte\n\n", FILE_APPEND);
+}
+
 function check_teracloud_usage($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
