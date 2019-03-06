@@ -734,13 +734,13 @@ function check_hidrive_usage($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $user = base64_decode(getenv('HIDRIVE_USER'));
-    $password = base64_decode(getenv('HIDRIVE_PASSWORD'));
+    $user_hidrive = base64_decode(getenv('HIDRIVE_USER'));
+    $password_hidrive = base64_decode(getenv('HIDRIVE_PASSWORD'));
 
-    $url = "https://webdav.hidrive.strato.com/users/${user}/";
+    $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/";
     $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_ANY,
-        CURLOPT_USERPWD => "${user}:${password}",
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
         CURLOPT_HTTPHEADER => ['Connection: keep-alive',],
     ];
     $res = $mu_->get_contents($url, $options);
@@ -752,14 +752,14 @@ function check_hidrive_usage($mu_, $file_name_blog_)
 
     $size = 0;
     $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_ANY,
-        CURLOPT_USERPWD => "${user}:${password}",
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
         CURLOPT_HEADER => true,
         CURLOPT_NOBODY => true,
         CURLOPT_HTTPHEADER => ['Connection: keep-alive',],
     ];
     foreach ($matches[1] as $file_name) {
-        $url = "https://webdav.hidrive.strato.com/users/${user}/" . $file_name;
+        $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/" . $file_name;
         $urls[$url] = $options;
     }
     $res = $mu_->get_contents_multi($urls, null);
