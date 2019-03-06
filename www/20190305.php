@@ -144,6 +144,7 @@ INSERT INTO t_waon_history
 )
 __HEREDOC__;
     
+    error_log(date('Y/m/d H:i:s'));
     $statement = $pdo->prepare($sql);
     $rc = $statement->execute(
         [':b_check_time' => date('Y/m/d H:i:s'),
