@@ -75,7 +75,7 @@ function func_test($mu_, $file_name_blog_)
     
     error_log(print_r($match, true));
     
-    $url = 'https://www.waon.com/wmUseHistoryInq/mMoveMonth.do?beforeMonth=0&org.apache.struts.taglib.html.TOKEN=' . $token;
+    $url = 'https://www.waon.com/wmUseHistoryInq/mMoveMonth.do?beforeMonth=1&org.apache.struts.taglib.html.TOKEN=' . $token;
     
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
