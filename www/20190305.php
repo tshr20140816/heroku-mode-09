@@ -144,10 +144,9 @@ INSERT INTO t_waon_history
 )
 __HEREDOC__;
     
-    error_log(date('Y/m/d H:i:s'));
     $statement = $pdo->prepare($sql);
     $rc = $statement->execute(
-        [':b_check_time' => date('Y/m/d H:i:s'),
+        [':b_check_time' => date('Y/m/d H:i:s', strtotime('+9 hours')),
          ':b_balance' => $balance,
          ':b_last_use_date' => date('Y/m/d', $last_use_date_new),
         ]);
