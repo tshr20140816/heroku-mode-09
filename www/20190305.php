@@ -138,7 +138,7 @@ INSERT INTO t_waon_history
  ,balance
  ,last_use_date
 ) VALUES (
-  TO_DATE(:b_check_time, 'YYYY/MM/DD HH24:MI:SS')
+  TO_TIMESTAMP(:b_check_time, 'YYYY/MM/DD HH24:MI:SS')
  ,:b_balance
  ,TO_DATE(:b_last_use_date, 'YYYY/MM/DD')
 )
