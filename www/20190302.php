@@ -40,7 +40,7 @@ file_put_contents($file_name, 'TEST');
 $file_size = filesize($file_name);
 $fh = fopen($file_name, 'r');
 
-$url = "https://www.opendrive.com/webdav/" . pathinfo($file_name)['basename'];
+$url = 'https://webdav.opendrive.com/' . pathinfo($file_name)['basename'];
 
 $options = [
     CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
