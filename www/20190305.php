@@ -89,6 +89,22 @@ function func_test($mu_, $file_name_blog_)
 
     $items = explode('<hr size="1">', $res);
     
+    $pdo = $mu->get_pdo();
+    
+    $sql = <<< __HEREDOC__
+SELECT T2.balance
+      ,T2.last_use_date
+  FROM t_waon_history T2
+ WHERE T2.check_time = (SELECT MAX(T1.check_time) FROM t_waon_history T1)
+__HEREDOC__
+    
+    foreach ($pdo->query($sql) as $row) {
+        $balance = $row['balance'];
+        $last_use_date = $row['last_use_date'];
+    }
+    
+    error_log($last_use_date);
+    
     foreach ($items as $item) {
         if (strpos($item, '取引年月日') == false) {
             continue;
@@ -104,4 +120,5 @@ function func_test($mu_, $file_name_blog_)
     }
     
     unlink($cookie);
+    $pdo = null;
 }
