@@ -75,6 +75,7 @@ function func_test($mu_, $file_name_blog_)
     
     error_log(print_r($match, true));
     
+    // $url = 'https://www.waon.com/wmUseHistoryInq/mMoveMonth.do?beforeMonth=0&org.apache.struts.taglib.html.TOKEN=' . $token;
     $url = 'https://www.waon.com/wmUseHistoryInq/mMoveMonth.do?beforeMonth=1&org.apache.struts.taglib.html.TOKEN=' . $token;
     
     $options = [
@@ -96,6 +97,22 @@ function func_test($mu_, $file_name_blog_)
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
     
     error_log($res);
+    
+    $items = explode('<hr size="1">', $res);
+    
+    foreach ($items as $item) {
+        if (strpos($item, '取引年月日') == false) {
+            continue;
+        }
+        
+        $rc = preg_match('/取引年月日<.+?><.+?>(.+?)</s', $item, $match);
+        $date = trim($match[1]);
+        
+        $rc = preg_match('/利用金額<.+?><.+?>(.+?)</s', $item, $match);
+        $amount = trim($match[1]);
+        
+        error_log($date . ' ' . $amount);
+    }
     
     unlink($cookie);
 }
