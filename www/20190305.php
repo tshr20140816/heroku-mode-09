@@ -116,7 +116,7 @@ __HEREDOC__;
 
             error_log($log_prefix . date('Ymd', $use_date) . "${amount} ${balance}");
         }
-        if ((int)date('j', strtotime('+9 hours')) > 10) {
+        if ((int)date('j', strtotime('+9 hours')) > 4) {
             break;
         }
     }
