@@ -141,6 +141,11 @@ __HEREDOC__;
         ]);
     error_log($log_prefix . print_r($statement->errorInfo(), true));
     error_log($log_prefix . 'INSERT $rc : ' . $rc);
-    unlink($cookie);
     $pdo = null;
+    
+    unlink($cookie);
+    
+    $last_used = date('Y/m/d', $last_use_date_new);
+    $balance = number_format($balance);
+    file_put_contents($file_name_blog_, "\nWAON balance : ${balance}yen\nLast used : ${last_used}\n", FILE_APPEND);
 }
