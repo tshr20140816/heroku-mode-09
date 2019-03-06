@@ -321,8 +321,8 @@ __HEREDOC__;
 
     $post_data = [
         'org.apache.struts.taglib.html.TOKEN' => $token,
-        'cardNo' => getenv('WAON_CARD_NO'),
-        'secNo' => getenv('WAON_CODE'),
+        'cardNo' => base64_decode(getenv('WAON_CARD_NO')),
+        'secNo' => base64_decode(getenv('WAON_CODE')),
         'magic' => '1',
     ];
 
