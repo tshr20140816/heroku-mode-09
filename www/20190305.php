@@ -45,7 +45,7 @@ function func_test($mu_, $file_name_blog_)
     
     $url = 'https://www.waon.com/wmUseHistoryInq/mLogin.do';
     
-    $options = [
+    $options2 = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
         CURLOPT_HTTPHEADER => [
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -61,10 +61,10 @@ function func_test($mu_, $file_name_blog_)
         CURLOPT_POSTFIELDS => http_build_query($post_data),
     ];
     
-    $res = $mu_->get_contents($url, $options);
+    $res = $mu_->get_contents($url, $options2);
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
     
-    $rc = preg_match('/<a href="\/wmUseHistoryInq\/mMoveMonth.do\?beforeMonth=0&amp;org.apache.struts.taglib.html.TOKEN=(.+?)">(\d+?)月</s', $res, $match);
+    $rc = preg_match('/<a href="\/wmUseHistoryInq\/mMoveMonth.do\?beforeMonth=0&amp;org.apache.struts.taglib.html.TOKEN=(.+?)"/s', $res, $match);
     $token = $match[1];
     
     $url = 'https://www.waon.com/wmUseHistoryInq/mMoveMonth.do?beforeMonth=0&org.apache.struts.taglib.html.TOKEN=' . $token;
@@ -89,11 +89,9 @@ __HEREDOC__;
         $last_use_date = $row['last_use_date'];
     }
     
-    error_log($last_use_date);
     $tmp = explode('-', $last_use_date);
     $last_use_date = mktime(0, 0, 0, $tmp[1], $tmp[2], $tmp[0]);
     $last_use_date_new = $last_use_date;
-    error_log(date('Ymd', $last_use_date));
     
     foreach ($items as $item) {
         if (strpos($item, '取引年月日') == false) {
@@ -115,7 +113,7 @@ __HEREDOC__;
             }
         }
         
-        error_log(date('Ymd', $use_date) . ' ' . $amount . ' ' . $balance);
+        error_log($log_prefix . date('Ymd', $use_date) . "${amount} ${balance}");
     }
     
     $sql = <<< __HEREDOC__
@@ -136,7 +134,7 @@ __HEREDOC__;
          ':b_balance' => $balance,
          ':b_last_use_date' => date('Y/m/d', $last_use_date_new),
         ]);
-    error_log(print_r($statement->errorInfo(), true));
+    error_log($log_prefix . print_r($statement->errorInfo(), true));
     error_log($log_prefix . 'INSERT $rc : ' . $rc);
     unlink($cookie);
     $pdo = null;
