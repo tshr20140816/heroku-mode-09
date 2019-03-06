@@ -21,4 +21,9 @@ function func_test($mu_, $file_name_blog_)
     $rc = preg_match('/<input type="hidden" name="_token" value="(.+?)" \/>/s', $res, $match);
     
     error_log(print_r($match, true));
+    
+    $livedoor_id = base64_decode(getenv('LIVEDOOR_ID'));
+    $livedoor_password = base64_decode(getenv('LIVEDOOR_PASSWORD'));
+    
+    $post_data = ['_token' => $match[1], '.next' => '', '.sv' => '', 'livedoor_id' => $livedoor_id, 'password' => $livedoor_password, 'x' => 80, 'y' => 22];
 }
