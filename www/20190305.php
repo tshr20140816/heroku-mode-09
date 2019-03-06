@@ -14,7 +14,7 @@ function func_test($mu_, $file_name_blog_)
 
     $cookie = tempnam("/tmp", md5(microtime(true)));
     
-    $url = 'https://www.waon.com/wmUseHistoryInq/mLogin.do';
+    $url = 'https://www.waon.com/wmUseHistoryInq/init.do';
     
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
@@ -36,6 +36,8 @@ function func_test($mu_, $file_name_blog_)
     
     error_log($res);
     error_log(file_get_contents($cookie));
+    
+    return;
     
     $post_data = ['cardNo' => getenv('WAON_CARD_NO'), 'secNo' => getenv('WAON_CODE'), 'magic' => '1'];
     
