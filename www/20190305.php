@@ -17,4 +17,8 @@ function func_test($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url);
     
     error_log($res);
+    
+    $rc = preg_match('/<input type="hidden" name="_token" value="(.+?)" \/>/s', $res, $match);
+    
+    error_log(print_r($match, true));
 }
