@@ -41,4 +41,20 @@ __HEREDOC__;
     $res = $mu_->get_contents($url, $options);
 
     error_log($log_prefix . 'RESULT : ' . $res);
+
+    $url = "https://livedoor.blogcms.jp/atompub/${livedoor_id}/article";
+
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${livedoor_id}:${livedoor_atom_password}",
+        CURLOPT_HEADER => true,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $xml,
+        CURLOPT_BINARYTRANSFER => true,
+        CURLOPT_HTTPHEADER => ['Accept: application/atom+xml;type=entry',],
+    ];
+
+    $res = $mu_->get_contents($url, $options);
+
+    error_log($log_prefix . 'RESULT : ' . $res);
 }
