@@ -37,7 +37,7 @@ function func_test($mu_, $file_name_blog_)
     error_log($res);
     error_log(file_get_contents($cookie));
     
-    $post_data = ['cardNo' => getenv('WAON_CARD_NO'), 'secNo' => getenv('WAON_CODE', 'magic' => '1')];
+    $post_data = ['cardNo' => getenv('WAON_CARD_NO'), 'secNo' => getenv('WAON_CODE'), 'magic' => '1'];
     
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
