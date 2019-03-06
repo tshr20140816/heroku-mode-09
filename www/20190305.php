@@ -28,12 +28,14 @@ function func_test($mu_, $file_name_blog_)
             ],
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_HEADER => true,
     ];
     
     $res = $mu_->get_contents($url, $options);
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
     
     error_log($res);
+    error_log(file_get_contents($cookie));
     
     unlink($cookie);
 }
