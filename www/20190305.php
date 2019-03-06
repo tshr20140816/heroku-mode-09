@@ -129,7 +129,7 @@ __HEREDOC__;
             }
         }
         
-        error_log(date('Ymd', $use_date) . ' ' . $amount);
+        error_log(date('Ymd', $use_date) . ' ' . $amount . ' ' . $balance);
     }
     
     $sql = <<< __HEREDOC__
