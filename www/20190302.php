@@ -6,9 +6,9 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-post_blog_livedoor('TEST ' . microtime(true), "ONE_LINE\nTWO_LINE");
+post_blog_livedoor($mu, 'TEST ' . microtime(true), "ONE_LINE\nTWO_LINE");
 
-function post_blog_livedoor($title_, $description_ = null)
+function post_blog_livedoor($mu_, $title_, $description_ = null)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -41,7 +41,7 @@ __HEREDOC__;
         CURLOPT_HEADER => true,
     ];
 
-    $res = $this->get_contents($url, $options);
+    $res = $mu_->get_contents($url, $options);
 
     error_log($log_prefix . 'RESULT : ' . $res);
 }
