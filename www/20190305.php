@@ -96,7 +96,7 @@ SELECT T2.balance
       ,T2.last_use_date
   FROM t_waon_history T2
  WHERE T2.check_time = (SELECT MAX(T1.check_time) FROM t_waon_history T1)
-__HEREDOC__
+__HEREDOC__;
     
     foreach ($pdo->query($sql) as $row) {
         $balance = $row['balance'];
