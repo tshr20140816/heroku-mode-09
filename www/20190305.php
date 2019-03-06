@@ -108,7 +108,7 @@ function func_test($mu_, $file_name_blog_)
         $rc = preg_match('/取引年月日<.+?><.+?>(.+?)</s', $item, $match);
         $date = trim($match[1]);
         
-        $rc = preg_match('/利用金額<.+?><.+?>(.+?)</s', $item, $match);
+        $rc = preg_match('/利用金額<.+?><.+?>(.+?)円/s', $item, $match);
         $amount = trim($match[1]);
         
         error_log($date . ' ' . $amount);
