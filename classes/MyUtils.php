@@ -744,6 +744,9 @@ __HEREDOC__;
         $api_key_teracloud = base64_decode(getenv('TERACLOUD_API_KEY'));
         $node_teracloud = base64_decode(getenv('TERACLOUD_NODE'));
 
+        $user_opendrive = base64_decode(getenv('OPENDRIVE_USER'));
+        $password_opendrive = base64_decode(getenv('OPENDRIVE_PASSWORD'));
+
         $url = "https://webdav.hidrive.strato.com/users/${user}/" . pathinfo($file_name_)['basename'];
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
@@ -764,6 +767,14 @@ __HEREDOC__;
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
+            CURLOPT_CUSTOMREQUEST => 'DELETE',
+        ];
+        $res = $this->get_contents($url, $options);
+
+        $url = 'https://webdav.opendrive.com/' . pathinfo($file_name_)['basename'];
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+            CURLOPT_USERPWD => "${user_opendrive}:${password_opendrive}",
             CURLOPT_CUSTOMREQUEST => 'DELETE',
         ];
         $res = $this->get_contents($url, $options);
@@ -795,6 +806,16 @@ __HEREDOC__;
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
+            CURLOPT_PUT => true,
+            CURLOPT_INFILE => $fh,
+            CURLOPT_INFILESIZE => $file_size,
+        ];
+        $res = $this->get_contents($url, $options);
+
+        $url = 'https://webdav.opendrive.com/' . pathinfo($file_name_)['basename'];
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+            CURLOPT_USERPWD => "${user_opendrive}:${password_opendrive}",
             CURLOPT_PUT => true,
             CURLOPT_INFILE => $fh,
             CURLOPT_INFILESIZE => $file_size,
