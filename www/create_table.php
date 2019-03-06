@@ -120,4 +120,16 @@ __HEREDOC__;
 $count = $pdo->exec($sql);
 error_log('create table result : ' . $count);
 
+//
+
+$sql = <<< __HEREDOC__
+CREATE TABLE t_waon_history (
+    check_time timestamp PRIMARY KEY,
+    balance int,
+    last_use_date date
+);
+__HEREDOC__;
+$count = $pdo->exec($sql);
+error_log('create table result : ' . $count);
+
 $pdo = null;
