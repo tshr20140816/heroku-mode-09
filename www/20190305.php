@@ -138,17 +138,17 @@ INSERT INTO t_waon_history
  ,balance
  ,last_use_date
 ) VALUES (
-  :b_check_time
+  TO_DATE(:b_check_time, 'YYYY/MM/DD HH24:MI:SS')
  ,:b_balance
- ,:b_last_use_date
+ ,TO_DATE(:b_last_use_date, 'YYYY/MM/DD')
 )
 __HEREDOC__;
     
     $statement = $pdo->prepare($sql);
     $rc = $statement->execute(
-        [':b_check_time' => time(),
+        [':b_check_time' => date('Y/m/d H:i:s'),
          ':b_balance' => $balance,
-         ':b_last_use_date' => $last_use_date_new,
+         ':b_last_use_date' => date($last_use_date_new, 'Y/m/d'),
         ]);
     error_log(print_r($statement->errorInfo(), true));
     error_log($log_prefix . 'INSERT $rc : ' . $rc);
