@@ -39,11 +39,14 @@ function func_test($mu_, $file_name_blog_)
     $rc = preg_match('/<input type="hidden" name="org.apache.struts.taglib.html.TOKEN" value="(.+?)"/s', $res, $match);
     $token = $match[1];
     
-    return;
+    $post_data = [
+        'org.apache.struts.taglib.html.TOKEN' => $token;
+        'cardNo' => getenv('WAON_CARD_NO'),
+        'secNo' => getenv('WAON_CODE'),
+        'magic' => '1',
+    ];
     
-    $post_data = ['cardNo' => getenv('WAON_CARD_NO'), 'secNo' => getenv('WAON_CODE'), 'magic' => '1'];
-    
-    $url = 'https://www.waon.com/wmUseHistoryInq/login.do';
+    $url = 'https://www.waon.com/wmUseHistoryInq/mLogin.do';
     
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
