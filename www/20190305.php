@@ -31,6 +31,7 @@ function func_test($mu_, $file_name_blog_)
     ];
     
     $res = $mu_->get_contents($url, $options);
+    $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
     
     error_log($res);
     
