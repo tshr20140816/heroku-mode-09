@@ -30,7 +30,7 @@ __HEREDOC__;
     $xml = str_replace('__TITLE__', date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${title_}", $xml);
     $xml = str_replace('__CONTENT__', $description_, $xml);
 
-    $url = "https://livedoor.blogcms.jp/atompub/${livedoor_id}/";
+    $url = "https://livedoor.blogcms.jp/atompub/${livedoor_id}";
 
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
