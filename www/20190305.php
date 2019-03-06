@@ -89,7 +89,7 @@ function func_test($mu_, $file_name_blog_)
 
     $items = explode('<hr size="1">', $res);
     
-    $pdo = $mu->get_pdo();
+    $pdo = $mu_->get_pdo();
     
     $sql = <<< __HEREDOC__
 SELECT T2.balance
