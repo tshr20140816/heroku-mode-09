@@ -37,5 +37,30 @@ function func_test($mu_, $file_name_blog_)
     error_log($res);
     error_log(file_get_contents($cookie));
     
+    $post_data = ['cardNo' => getenv('WAON_CARD_NO'), 'secNo' => getenv('WAON_CODE', 'magic' => '1')];
+    
+    $options = [
+        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_HTTPHEADER => [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            'DNT: 1',
+            'Upgrade-Insecure-Requests: 1',
+            ],
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_HEADER => true,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
+    ];
+    
+    $res = $mu_->get_contents($url, $options);
+    $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
+    
+    error_log($res);
+    error_log(file_get_contents($cookie));
+    
     unlink($cookie);
 }
