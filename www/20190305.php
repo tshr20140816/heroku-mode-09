@@ -14,7 +14,7 @@ function func_test($mu_, $file_name_blog_)
 
     $cookie = tempnam("/tmp", md5(microtime(true)));
     
-    $url = 'https://www.waon.com/wmUseHistoryInq/init.do';
+    $url = 'https://www.waon.com/wmUseHistoryInq/mInit.do';
     
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
@@ -35,11 +35,15 @@ function func_test($mu_, $file_name_blog_)
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
     
     error_log($res);
-    error_log(file_get_contents($cookie));
+    
+    $rc = preg_match('/<input type="hidden" name="org.apache.struts.taglib.html.TOKEN" value="(.+?)"/s', $res, $match);
+    $token = $match[1];
     
     return;
     
     $post_data = ['cardNo' => getenv('WAON_CARD_NO'), 'secNo' => getenv('WAON_CODE'), 'magic' => '1'];
+    
+    $url = 'https://www.waon.com/wmUseHistoryInq/login.do';
     
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
