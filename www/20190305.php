@@ -99,13 +99,14 @@ SELECT T2.balance
 __HEREDOC__;
     
     foreach ($pdo->query($sql) as $row) {
-        $balance = $row['balance'];
+        $balance = (int)$row['balance'];
         $last_use_date = $row['last_use_date'];
     }
     
     error_log($last_use_date);
     $tmp = explode('-', $last_use_date);
     $last_use_date = mktime(0, 0, 0, $tmp[1], $tmp[2], $tmp[0]);
+    $last_use_date_new = $last_use_date;
     error_log(date('Ymd', $last_use_date));
     
     foreach ($items as $item) {
@@ -119,11 +120,37 @@ __HEREDOC__;
         $use_date = mktime(0, 0, 0, $tmp[1], $tmp[2], $tmp[0]);
         
         $rc = preg_match('/利用金額<.+?><.+?>(.+?)円/s', $item, $match);
-        $amount = trim($match[1]);
+        $amount = (int)trim($match[1]);
+        
+        if ($use_date > $last_use_date) {
+            $balance -= $amount;
+            if ($last_use_date_new < $use_date) {
+                $last_use_date_new = $use_date;
+            }
+        }
         
         error_log(date('Ymd', $use_date) . ' ' . $amount);
     }
     
+    $sql = <<< __HEREDOC__
+INSERT INTO t_waon_history
+( check_time
+ ,balance
+ ,last_use_date
+) VALUES (
+  :b_check_time
+ ,:b_balance
+ ,:b_last_use_date
+)
+__HEREDOC__;
+    
+    $statement = $pdo->prepare($sql);
+    $rc = $statement->execute(
+        [':b_check_time' => time(),
+         ':b_balance' => $balance,
+         ':b_last_use_date' => $last_use_date_new,
+        ]);
+    error_log($log_prefix . 'INSERT $rc : ' . $rc);
     unlink($cookie);
     $pdo = null;
 }
