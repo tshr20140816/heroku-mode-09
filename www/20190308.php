@@ -9,7 +9,7 @@ $mu = new MyUtils();
 $user_cloudme = getenv('CLOUDME_USER');
 $user_password = getenv('CLOUDME_PASSWORD');
 
-$url = 'https://webdav.cloudme.com/${user_cloudme}';
+$url = "https://webdav.cloudme.com/${user_cloudme}";
 
 $options = [
     CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
