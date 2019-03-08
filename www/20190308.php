@@ -12,7 +12,7 @@ $password_cloudme = getenv('CLOUDME_PASSWORD');
 $url = "https://webdav.cloudme.com/${user_cloudme}";
 
 $options = [
-    CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+    CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
     CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
     CURLOPT_HEADER => true,
 ];
