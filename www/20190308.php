@@ -14,6 +14,7 @@ $url = "https://webdav.cloudme.com/${user_cloudme}";
 $options = [
     CURLOPT_HTTPAUTH => CURLAUTH_ANY,
     CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
+    CURLOPT_HEADER => true,
 ];
 
 $res = $mu->get_contents($url, $options);
