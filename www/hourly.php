@@ -435,7 +435,7 @@ function check_heroku_buildpack_php($mu_)
     error_log($log_prefix . 'heroku-buildpack-php current : ' . $current_version);
     error_log($log_prefix . 'heroku-buildpack-php latest : ' . $latest_version);
     if ($current_version != $latest_version) {
-            $mu_->post_blog_fc2('heroku-buildpack-php : update ' . $latest_version);
+            $mu_->post_blog_wordpress('heroku-buildpack-php : update ' . $latest_version);
     }
 }
 
