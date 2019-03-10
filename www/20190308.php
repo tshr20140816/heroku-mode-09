@@ -6,6 +6,11 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
+$pdo = $mu->get_pdo();
+
+$pdo = null;
+
+/*
 $user_cloudme = getenv('CLOUDME_USER');
 $password_cloudme = getenv('CLOUDME_PASSWORD');
 
@@ -21,3 +26,4 @@ $options = [
 $res = $mu->get_contents($url, $options);
 
 error_log($res);
+*/
