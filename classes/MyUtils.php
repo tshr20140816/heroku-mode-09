@@ -18,9 +18,8 @@ class MyUtils
             $connection_info['pass']
         );
         foreach ($pdo->query('SELECT version();') as $row) {
-            error_log(print_r($row, true));
+            error_log($log_prefix . $row[0]);
         }
-        //error_log($log_prefix . $pdo->query('SELECT version();')[0]);
         return $pdo;
     }
 
