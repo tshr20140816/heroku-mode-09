@@ -17,7 +17,9 @@ class MyUtils
             $connection_info['user'],
             $connection_info['pass']
         );
-        error_log($log_prefix . $pdo->query('SELECT version();')[0]);
+        $rc = $pdo->query('SELECT version();');
+        error_log(print_r($rc, true));
+        //error_log($log_prefix . $pdo->query('SELECT version();')[0]);
         return $pdo;
     }
 
