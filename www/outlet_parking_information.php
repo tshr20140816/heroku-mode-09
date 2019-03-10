@@ -41,7 +41,8 @@ $pdo = null;
 if (strlen($parse_text) > 0) {
     file_put_contents('/tmp/outlet_parking_information.txt', $parse_text);
     error_log("${pid} (CACHE HIT)PARSE TEXT ${parse_text}");
-    error_log("${pid} FINISH");
+    $time_finish = microtime(true);
+    error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's');
     exit();
 }
 
