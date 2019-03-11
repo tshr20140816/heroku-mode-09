@@ -6,7 +6,7 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-error_log(openssl_get_cipher_methods());
+error_log(print_r(openssl_get_cipher_methods(), true));
 
 //$key = getenv('ENCRYPT_KEY');
 
