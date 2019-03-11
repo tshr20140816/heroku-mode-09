@@ -7,6 +7,16 @@ class MyUtils
     private $_access_token = null;
     public $_count_web_access = 0;
 
+    public function get_decrypt_string($encrypt_base64_string_)
+    {
+        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+        $method = 'aes-256-cbc';
+        $key = getenv('ENCRYPT_KEY');
+        $iv = hex2bin(substr(hash('sha512', $key), 0, openssl_cipher_iv_length($method) * 2));
+        return openssl_decrypt($encrypt_base64_string_, $method, $key, 0, $iv);
+    }
+
     public function get_pdo()
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
