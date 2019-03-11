@@ -791,7 +791,7 @@ __HEREDOC__;
 
         $res = bzcompress($data_, 9);
 
-        $method = 'AES-256-CBC';
+        $method = 'aes-256-cbc';
         $password = base64_encode(getenv('HIDRIVE_USER')) . base64_encode(getenv('HIDRIVE_PASSWORD'));
         $IV = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
         $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
