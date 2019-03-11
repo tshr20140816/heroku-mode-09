@@ -8,10 +8,13 @@ $mu = new MyUtils();
 
 error_log(print_r(openssl_get_cipher_methods(), true));
 
-//$key = getenv('ENCRYPT_KEY');
+$key = getenv('ENCRYPT_KEY');
 
-//$res = openssl_encrypt('TEST_DATA', );
-//error_log(base64_encode($res));
+$method = 'aes-256-cbc';
+
+$res = openssl_encrypt('TEST_DATA', $method, $key);
+error_log($res);
+error_log(base64_encode($res));
 
 /*
 $user_cloudme = getenv('CLOUDME_USER');
