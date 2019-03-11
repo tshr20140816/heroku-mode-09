@@ -109,14 +109,15 @@ function get_task_rainfall2($mu_, $file_name_blog_)
 
     $longitude = $mu_->get_env('LONGITUDE');
     $latitude = $mu_->get_env('LATITUDE');
+    $api_key_yahoo = $mu_->get_env('YAHOO_API_KEY', true);
 
-    $url = 'https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?output=json&appid=' . getenv('YAHOO_API_KEY')
+    $url = 'https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?output=json&appid=' . $api_key_yahoo
         . '&lon=' . $longitude . '&lat=' . $latitude;
     $res = $mu_->get_contents($url, null, true);
     $data = json_decode($res, true);
     error_log($log_prefix . '$data : ' . print_r($data, true));
 
-    $url = 'https://map.yahooapis.jp/weather/V1/place?interval=5&output=json&appid=' . getenv('YAHOO_API_KEY')
+    $url = 'https://map.yahooapis.jp/weather/V1/place?interval=5&output=json&appid=' . $api_key_yahoo
         . '&coordinates=' . $longitude . ',' . $latitude;
     $res = $mu_->get_contents($url);
 
