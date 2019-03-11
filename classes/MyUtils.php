@@ -384,8 +384,8 @@ __HEREDOC__;
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-        $username = base64_decode(getenv('WORDPRESS_USERNAME'));
-        $password = base64_decode(getenv('WORDPRESS_PASSWORD'));
+        $username = $this->get_env('WORDPRESS_USERNAME', true);
+        $password = $this->get_env('WORDPRESS_PASSWORD', true);
         try {
             $url = 'https://' . $username . '.wordpress.com/xmlrpc.php';
 
