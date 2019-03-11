@@ -6,15 +6,15 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-/*
-error_log($mu->get_encrypt_string(base64_decode(getenv('PCLOUD_USER'))));
-error_log($mu->get_encrypt_string(base64_decode(getenv('PCLOUD_PASSWORD'))));
-*/
+error_log($mu->get_encrypt_string(base64_decode(getenv('WORDPRESS_PASSWORD'))));
+error_log($mu->get_encrypt_string(base64_decode(getenv('WORDPRESS_USERNAME'))));
 
+/*
 error_log(base64_encode($mu->get_env('PCLOUD_USER', true)));
 error_log(getenv('PCLOUD_USER'));
 error_log(base64_encode($mu->get_env('PCLOUD_PASSWORD', true)));
 error_log(getenv('PCLOUD_PASSWORD'));
+*/
 
 /*
 $user_cloudme = getenv('CLOUDME_USER');
