@@ -40,7 +40,7 @@ if ($res === 'continue') {
     $log .= date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . "s]";
     $mu->post_blog_wordpress('/lib_info.php', $log);
     
-    $username = base64_decode(getenv('WORDPRESS_USERNAME'));
+    $username = $mu->get_env('WORDPRESS_USERNAME', true);
     $url = 'https://' . $username . '.wordpress.com/feed/';
     $post_data = ['hub.mode' => 'publish', 'hub.url' => $url];
     $res = $mu->get_contents(
@@ -62,7 +62,7 @@ if ($res === 'continue') {
         ]
     );
     
-    $url = 'https://' . base64_decode(getenv('HATENA_BLOG_ID')) . '/feed/';
+    $url = 'https://' . $mu->get_env('HATENA_BLOG_ID', true); . '/feed/';
     $post_data = ['hub.mode' => 'publish', 'hub.url' => $url];
     $res = $mu->get_contents(
         'https://pubsubhubbub.superfeedr.com/',
