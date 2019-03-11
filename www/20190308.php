@@ -11,7 +11,7 @@ $mu = new MyUtils();
 $method = 'aes-256-cbc';
 $key = getenv('ENCRYPT_KEY');
 
-$iv = hex2bin(substr(hash('sha512', $key), 0, openssl_cipher_iv_length($method)));
+$iv = hex2bin(substr(hash('sha512', $key), 0, openssl_cipher_iv_length($method) * 2));
 
 $res = openssl_encrypt('TEST_DATA', $method, $key, 0, $iv);
 error_log($res);
