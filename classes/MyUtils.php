@@ -321,6 +321,7 @@ __HEREDOC__;
 SELECT T1.key
       ,T1.value
   FROM m_env T1
+ ORDER BY T1.key
 __HEREDOC__;
 
             $pdo = $this->get_pdo();
