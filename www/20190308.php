@@ -6,9 +6,12 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-$pdo = $mu->get_pdo();
+error_log(openssl_get_cipher_methods());
 
-$pdo = null;
+//$key = getenv('ENCRYPT_KEY');
+
+//$res = openssl_encrypt('TEST_DATA', );
+//error_log(base64_encode($res));
 
 /*
 $user_cloudme = getenv('CLOUDME_USER');
