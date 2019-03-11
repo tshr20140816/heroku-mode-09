@@ -62,7 +62,7 @@ if ($res === 'continue') {
         ]
     );
     
-    $url = 'https://' . $mu->get_env('HATENA_BLOG_ID', true); . '/feed/';
+    $url = 'https://' . $mu->get_env('HATENA_BLOG_ID', true) . '/feed/';
     $post_data = ['hub.mode' => 'publish', 'hub.url' => $url];
     $res = $mu->get_contents(
         'https://pubsubhubbub.superfeedr.com/',
