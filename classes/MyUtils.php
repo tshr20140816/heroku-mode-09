@@ -309,7 +309,7 @@ __HEREDOC__;
         return $list_weather_guest_area;
     }
 
-    public function get_env($key_name_)
+    public function get_env($key_name_, $is_decrypt_ = false)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -338,6 +338,9 @@ __HEREDOC__;
         $value = '';
         if (array_key_exists($key_name_, $list_env)) {
             $value = $list_env[$key_name_];
+            if ($is_decrypt_ === true) {
+                $value = $this->get_decrypt_string($value);
+            }
         }
         return $value;
     }
