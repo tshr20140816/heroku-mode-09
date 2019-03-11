@@ -20,6 +20,7 @@ $file_outlet_parking_information = '/tmp/outlet_parking_information.txt';
 
 $longitude = $mu->get_env('LONGITUDE');
 $latitude = $mu->get_env('LATITUDE');
+$api_key_yahoo = $mu->get_env('YAHOO_API_KEY', true);
 
 // cache search off url list
 
@@ -40,7 +41,7 @@ $urls[$mu->get_env('URL_RIVER_2')] = null;
 for ($i = 1; $i < 5; $i++) {
     $urls[$mu->get_env('URL_PARKING_1') . '?park_id=' . $i . '&mode=pc'] = null;
 }
-$url = 'https://map.yahooapis.jp/weather/V1/place?interval=5&output=json&appid=' . getenv('YAHOO_API_KEY')
+$url = 'https://map.yahooapis.jp/weather/V1/place?interval=5&output=json&appid=' . $api_key_yahoo
     . '&coordinates=' . $longitude . ',' . $latitude;
 $urls[$url] = null;
 
@@ -55,7 +56,7 @@ $urls_is_cache['https://api.heroku.com/account'] =
                             'Authorization: Bearer ' . getenv('HEROKU_API_KEY'),
                            ]];
 
-$url = 'https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?output=json&appid=' . getenv('YAHOO_API_KEY')
+$url = 'https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?output=json&appid=' . $api_key_yahoo
     . '&lon=' . $longitude . '&lat=' . $latitude;
 $urls_is_cache[$url] = null;
 
