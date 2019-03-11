@@ -135,6 +135,7 @@ function get_task_rainfall2($mu_, $file_name_blog_)
         file_put_contents($file_name_blog_, implode("\n", $list_rainfall));
     } else {
         $tmp = '☀';
+        file_put_contents($file_name_blog_, 'NONE');
     }
     $update_marker = $mu_->to_small_size(' _' . date('Ymd Hi', strtotime('+ 9 hours')) . '_');
     $list_add_task[] = '{"title":"' . $tmp . $suffix . $update_marker
