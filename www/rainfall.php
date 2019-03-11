@@ -37,6 +37,9 @@ if ($count !== 0) {
     $options = [CURLOPT_TIMEOUT => 3, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
     $res = $mu->get_contents($url, $options);
 } else {
+    $file_name_blog = '/tmp/rainfall.txt';
+    unlink($file_name_blog);
+    
     // Access Token
     $access_token = $mu->get_access_token();
     
@@ -56,7 +59,7 @@ if ($count !== 0) {
             }
         }
     }    
-    $list_add_task = get_task_rainfall2($mu);
+    $list_add_task = get_task_rainfall2($mu, $file_name_blog);
     foreach ($list_add_task as $task) {
         if (strpos($task, '☀') == false) {
             $continue_flag = true;
@@ -78,13 +81,15 @@ if ($count !== 0) {
 
 $time_finish = microtime(true);
 if ($count === 0) {
-    $mu->post_blog_wordpress($requesturi . ' [' . substr(($time_finish - $time_start), 0, 6) . 's]');
+    $mu->post_blog_wordpress($requesturi . ' [' . substr(($time_finish - $time_start), 0, 6) . 's]',
+                            file_get_contents($file_name_blog));
+    unlink($file_name_blog);
 }
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
 exit();
 
-function get_task_rainfall2($mu_)
+function get_task_rainfall2($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -127,6 +132,7 @@ function get_task_rainfall2($mu_)
     }
     if (count($list_rainfall) > 0) {
         $tmp = '☂ ' . implode(' ', $list_rainfall);
+        file_put_contents($file_name_blog_, implode("\n", $list_rainfall));
     } else {
         $tmp = '☀';
     }
