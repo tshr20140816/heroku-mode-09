@@ -717,10 +717,10 @@ function check_pcloud_usage($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $user = base64_decode(getenv('PCLOUD_USER'));
-    $password = base64_decode(getenv('PCLOUD_PASSWORD'));
+    $user_pcloud = $this->get_env('PCLOUD_USER', true);
+    $password_pcloud = $this->get_env('PCLOUD_PASSWORD', true);
 
-    $url = "https://api.pcloud.com/userinfo?getauth=1&logout=1&username=${user}&password=${password}";
+    $url = "https://api.pcloud.com/userinfo?getauth=1&logout=1&username=${user_pcloud}&password=${password_pcloud}";
     $res = $mu_->get_contents($url);
 
     $data = json_decode($res);
