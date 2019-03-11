@@ -430,9 +430,9 @@ __HEREDOC__;
             $description_ = '.';
         }
 
-        $hatena_id = base64_decode(getenv('HATENA_ID'));
-        $hatena_blog_id = base64_decode(getenv('HATENA_BLOG_ID'));
-        $hatena_api_key = base64_decode(getenv('HATENA_API_KEY'));
+        $hatena_id = $this->get_env('HATENA_ID', true);
+        $hatena_blog_id = $this->get_env('HATENA_BLOG_ID', true);
+        $hatena_api_key = $this->get_env('HATENA_API_KEY', true);
 
         $xml = <<< __HEREDOC__
 <?xml version="1.0" encoding="utf-8"?>
