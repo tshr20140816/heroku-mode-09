@@ -6,15 +6,15 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-/*
-error_log($mu->get_encrypt_string(base64_decode(getenv('WORDPRESS_PASSWORD'))));
-error_log($mu->get_encrypt_string(base64_decode(getenv('WORDPRESS_USERNAME'))));
-*/
+error_log($mu->get_encrypt_string(base64_decode(getenv('WAON_CARD_NO'))));
+error_log($mu->get_encrypt_string(base64_decode(getenv('WAON_CODE'))));
 
+/*
 error_log(base64_encode($mu->get_env('WORDPRESS_PASSWORD', true)));
 error_log(getenv('WORDPRESS_PASSWORD'));
 error_log(base64_encode($mu->get_env('WORDPRESS_USERNAME', true)));
 error_log(getenv('WORDPRESS_USERNAME'));
+*/
 
 /*
 $user_cloudme = getenv('CLOUDME_USER');
