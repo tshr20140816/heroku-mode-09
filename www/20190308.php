@@ -6,16 +6,18 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-// error_log($mu->get_encrypt_string(getenv('YAHOO_API_KEY')));
-
+/*
 error_log($mu->get_encrypt_string(base64_decode(getenv('HATENA_API_KEY'))));
 error_log($mu->get_encrypt_string(base64_decode(getenv('HATENA_BLOG_ID'))));
 error_log($mu->get_encrypt_string(base64_decode(getenv('HATENA_ID'))));
-
-/*
-error_log($mu->get_env('YAHOO_API_KEY', true));
-error_log(getenv('YAHOO_API_KEY'));
 */
+
+error_log(base64_encode($mu->get_env('HATENA_API_KEY', true)));
+error_log(getenv('HATENA_API_KEY'));
+error_log(base64_encode($mu->get_env('HATENA_BLOG_ID', true)));
+error_log(getenv('HATENA_BLOG_ID'));
+error_log(base64_encode($mu->get_env('HATENA_ID', true)));
+error_log(getenv('HATENA_ID'));
 
 /*
 $user_cloudme = getenv('CLOUDME_USER');
