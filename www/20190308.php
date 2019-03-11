@@ -14,7 +14,6 @@ $method = 'aes-256-cbc';
 
 $res = openssl_encrypt('TEST_DATA', $method, $key);
 error_log($res);
-error_log(base64_encode($res));
 
 /*
 $user_cloudme = getenv('CLOUDME_USER');
