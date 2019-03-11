@@ -6,18 +6,9 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-// error_log(print_r(openssl_get_cipher_methods(), true));
+error_log(print_r(openssl_get_cipher_methods(), true));
 
-$method = 'aes-256-cbc';
-$key = getenv('ENCRYPT_KEY');
-
-$iv = hex2bin(substr(hash('sha512', $key), 0, openssl_cipher_iv_length($method) * 2));
-
-$res = openssl_encrypt('TEST_DATA', $method, $key, 0, $iv);
-error_log($res);
-
-$res = openssl_decrypt($res, $method, $key, 0, $iv);
-error_log($res);
+$mu->get_decrypt_string(getenv('YAHOO_API_KEY'));
 
 /*
 $user_cloudme = getenv('CLOUDME_USER');
