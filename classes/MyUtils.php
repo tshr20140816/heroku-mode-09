@@ -807,8 +807,8 @@ __HEREDOC__;
         $user_hidrive = base64_decode(getenv('HIDRIVE_USER'));
         $password_hidrive = base64_decode(getenv('HIDRIVE_PASSWORD'));
 
-        $user_pcloud = this->get_env('PCLOUD_USER', true);
-        $password_pcloud = this->get_env('PCLOUD_PASSWORD', true);
+        $user_pcloud = $this->get_env('PCLOUD_USER', true);
+        $password_pcloud = $this->get_env('PCLOUD_PASSWORD', true);
 
         $user_teracloud = base64_decode(getenv('TERACLOUD_USER'));
         $password_teracloud = base64_decode(getenv('TERACLOUD_PASSWORD'));
