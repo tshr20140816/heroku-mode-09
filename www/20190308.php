@@ -8,7 +8,7 @@ $mu = new MyUtils();
 
 // error_log($mu->get_encrypt_string(getenv('YAHOO_API_KEY')));
 
-error_log($mu->get_decrypt_string($mu->get_env('YAHOO_API_KEY')));
+error_log($mu->get_env('YAHOO_API_KEY', true));
 error_log(getenv('YAHOO_API_KEY'));
 
 /*
