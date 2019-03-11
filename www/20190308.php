@@ -6,6 +6,7 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
+error_log(print_r(apcu_sma_info(), true));
 error_log(print_r(apcu_cache_info(), true));
 
 /*
