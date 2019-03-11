@@ -37,9 +37,11 @@ class MyUtils
             $connection_info['user'],
             $connection_info['pass']
         );
+        /*
         foreach ($pdo->query('SELECT version();') as $row) {
             error_log($log_prefix . $row[0]);
         }
+        */
         return $pdo;
     }
 
