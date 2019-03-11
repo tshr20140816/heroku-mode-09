@@ -10,6 +10,9 @@ error_log(print_r(openssl_get_cipher_methods(), true));
 
 $key = getenv('ENCRYPT_KEY');
 
+$hash = md5($key);
+error_log($hash);
+
 $method = 'aes-256-cbc';
 $len = openssl_cipher_iv_length($method);
 error_log($len);
