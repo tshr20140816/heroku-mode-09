@@ -8,8 +8,14 @@ $mu = new MyUtils();
 
 // error_log($mu->get_encrypt_string(getenv('YAHOO_API_KEY')));
 
+error_log($mu->get_encrypt_string(base64_decode(getenv('HATENA_API_KEY'))));
+error_log($mu->get_encrypt_string(base64_decode(getenv('HATENA_BLOG_ID'))));
+error_log($mu->get_encrypt_string(base64_decode(getenv('HATENA_ID'))));
+
+/*
 error_log($mu->get_env('YAHOO_API_KEY', true));
 error_log(getenv('YAHOO_API_KEY'));
+*/
 
 /*
 $user_cloudme = getenv('CLOUDME_USER');
