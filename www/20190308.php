@@ -11,7 +11,8 @@ error_log(print_r(openssl_get_cipher_methods(), true));
 $key = getenv('ENCRYPT_KEY');
 
 $method = 'aes-256-cbc';
-
+$len = openssl_cipher_iv_length($method);
+error_log($len);
 $res = openssl_encrypt('TEST_DATA', $method, $key);
 error_log($res);
 
