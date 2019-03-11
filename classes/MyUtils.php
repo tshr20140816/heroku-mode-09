@@ -470,8 +470,8 @@ __HEREDOC__;
             $description_ = '.';
         }
 
-        $livedoor_id = base64_decode(getenv('LIVEDOOR_ID'));
-        $livedoor_atom_password = base64_decode(getenv('LIVEDOOR_ATOM_PASSWORD'));
+        $livedoor_id = $this->get_env('LIVEDOOR_ID', true);
+        $livedoor_atom_password = $this->get_env('LIVEDOOR_ATOM_PASSWORD', true);
 
         $xml = <<< __HEREDOC__
 <?xml version="1.0" encoding="utf-8"?>
