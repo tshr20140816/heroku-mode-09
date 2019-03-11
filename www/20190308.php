@@ -6,9 +6,10 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-error_log(print_r(openssl_get_cipher_methods(), true));
+// error_log($mu->get_encrypt_string(getenv('YAHOO_API_KEY')));
 
-error_log($mu->get_encrypt_string(getenv('YAHOO_API_KEY')));
+error_log($mu->get_decrypt_string($mu->get_env('YAHOO_API_KEY')));
+error_log(getenv('YAHOO_API_KEY'));
 
 /*
 $user_cloudme = getenv('CLOUDME_USER');
