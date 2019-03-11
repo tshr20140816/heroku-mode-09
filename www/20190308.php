@@ -6,18 +6,14 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-error_log(print_r(openssl_get_cipher_methods(), true));
-
-$key = getenv('ENCRYPT_KEY');
-
-$hash = hash('sha512', $key);
-error_log($hash);
-error_log(hex2bin($hash));
+// error_log(print_r(openssl_get_cipher_methods(), true));
 
 $method = 'aes-256-cbc';
-$len = openssl_cipher_iv_length($method);
-error_log($len);
-$res = openssl_encrypt('TEST_DATA', $method, $key);
+$key = getenv('ENCRYPT_KEY');
+
+$iv = hex2bin(substr(hash('sha512', $key), 0, openssl_cipher_iv_length($method)));
+
+$res = openssl_encrypt('TEST_DATA', $method, $key, 0, $iv);
 error_log($res);
 
 /*
