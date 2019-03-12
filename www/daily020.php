@@ -14,6 +14,7 @@ $mu = new MyUtils();
 if (file_exists('/tmp/' . basename(__FILE__) . '.txt')) {
     $file_time = filemtime('/tmp/' . basename(__FILE__) . '.txt');
     if ((time() - $file_time) < 1800) {
+        error_log("${pid} FINISH No Action");
         exit();
     }
 }
