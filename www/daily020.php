@@ -703,10 +703,10 @@ function check_teracloud_usage($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $user_teracloud = $this->get_env('TERACLOUD_USER', true);
-    $password_teracloud = $this->get_env('TERACLOUD_PASSWORD', true);
-    $api_key_teracloud = $this->get_env('TERACLOUD_API_KEY', true);
-    $node_teracloud = $this->get_env('TERACLOUD_NODE', true);
+    $user_teracloud = $mu_->get_env('TERACLOUD_USER', true);
+    $password_teracloud = $mu_->get_env('TERACLOUD_PASSWORD', true);
+    $api_key_teracloud = $mu_->get_env('TERACLOUD_API_KEY', true);
+    $node_teracloud = $mu_->get_env('TERACLOUD_NODE', true);
 
     $url = "https://${node_teracloud}.teracloud.jp/v2/api/dataset/(property)";
     $options = [
@@ -727,8 +727,8 @@ function check_pcloud_usage($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $user_pcloud = $this->get_env('PCLOUD_USER', true);
-    $password_pcloud = $this->get_env('PCLOUD_PASSWORD', true);
+    $user_pcloud = $mu_->get_env('PCLOUD_USER', true);
+    $password_pcloud = $mu_->get_env('PCLOUD_PASSWORD', true);
 
     $url = "https://api.pcloud.com/userinfo?getauth=1&logout=1&username=${user_pcloud}&password=${password_pcloud}";
     $res = $mu_->get_contents($url);
