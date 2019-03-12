@@ -51,7 +51,6 @@ function check_version_postgresql($mu_, $file_name_blog_)
     
     $version_latest = '';
     foreach ($matches[1] as $match) {
-        error_log(str_replace('  ', ' ', strip_tags($match)));
         $version_latest .= str_replace('  ', ' ', strip_tags($match)) . "\n";
     }
 
@@ -62,7 +61,6 @@ function check_version_postgresql($mu_, $file_name_blog_)
     }
     $pdo = null;
 
-    $content = "\nPostgreSQL Version\nlatest : ${version_latest}\ncurrent : ${version_current}\n";
-    error_log($content);
-    // file_put_contents($file_name_blog_, $content, FILE_APPEND);
+    $content = "\nPostgreSQL Version\nlatest : ${version_latest}current : ${version_current}\n";
+    file_put_contents($file_name_blog_, $content, FILE_APPEND);
 }
