@@ -662,8 +662,9 @@ function get_task_rainfall($mu_, $list_contents_)
 
     $longitude = $mu_->get_env('LONGITUDE');
     $latitude = $mu_->get_env('LATITUDE');
+    $api_key_yahoo = $mu->get_env('YAHOO_API_KEY', true);
 
-    $url = 'https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?output=json&appid=' . getenv('YAHOO_API_KEY')
+    $url = 'https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?output=json&appid=' . $api_key_yahoo
         . '&lon=' . $longitude . '&lat=' . $latitude;
     if (array_key_exists($url, $list_contents_)) {
         $res = $list_contents_[$url];
@@ -674,7 +675,7 @@ function get_task_rainfall($mu_, $list_contents_)
     // error_log($log_prefix . '$data : ' . print_r($data, true));
     error_log($log_prefix . $data['Feature'][0]['Property']['Building'][0]['Name']);
 
-    $url = 'https://map.yahooapis.jp/weather/V1/place?interval=5&output=json&appid=' . getenv('YAHOO_API_KEY')
+    $url = 'https://map.yahooapis.jp/weather/V1/place?interval=5&output=json&appid=' . $api_key_yahoo
         . '&coordinates=' . $longitude . ',' . $latitude;
     if (array_key_exists($url, $list_contents_)) {
         $res = $list_contents_[$url];
