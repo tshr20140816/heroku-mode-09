@@ -747,8 +747,8 @@ function check_hidrive_usage($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $user_hidrive = base64_decode(getenv('HIDRIVE_USER'));
-    $password_hidrive = base64_decode(getenv('HIDRIVE_PASSWORD'));
+    $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
+    $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
 
     $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/";
     $options = [
