@@ -11,6 +11,13 @@ $rc = apcu_clear_cache();
 
 $mu = new MyUtils();
 
+if (file_exists('/tmp/' . basename(__FILE__) . '.txt')) {
+    $file_time = filemtime('/tmp/' . basename(__FILE__) . '.txt');
+    if ((time() - $file_time) < 1800) {
+        exit();
+    }
+}
+
 $file_name_blog = '/tmp/blog.txt';
 @unlink($file_name_blog);
 
@@ -222,6 +229,8 @@ for ($i = 11; $i > -1; $i--) {
     $url = 'https://feed43.com/' . $sub_address . ($i * 5 + 11) . '-' . ($i * 5 + 15) . '.xml';
     $res = $mu->get_contents($url, null, true);
 }
+
+file_put_contents('/tmp/' . basename(__FILE__) . '.txt', 'DUMMY');
 
 $time_finish = microtime(true);
 $mu->post_blog_wordpress("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]',
