@@ -836,10 +836,10 @@ __HEREDOC__;
         $user_pcloud = $this->get_env('PCLOUD_USER', true);
         $password_pcloud = $this->get_env('PCLOUD_PASSWORD', true);
 
-        $user_teracloud = base64_decode(getenv('TERACLOUD_USER'));
-        $password_teracloud = base64_decode(getenv('TERACLOUD_PASSWORD'));
-        $api_key_teracloud = base64_decode(getenv('TERACLOUD_API_KEY'));
-        $node_teracloud = base64_decode(getenv('TERACLOUD_NODE'));
+        $user_teracloud = $this->get_env('TERACLOUD_USER', true);
+        $password_teracloud = $this->get_env('TERACLOUD_PASSWORD', true);
+        $api_key_teracloud = $this->get_env('TERACLOUD_API_KEY', true);
+        $node_teracloud = $this->get_env('TERACLOUD_NODE', true);
 
         $user_opendrive = base64_decode(getenv('OPENDRIVE_USER'));
         $password_opendrive = base64_decode(getenv('OPENDRIVE_PASSWORD'));
