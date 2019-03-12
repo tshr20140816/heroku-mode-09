@@ -6,12 +6,10 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-/*
 error_log($mu->get_encrypt_string(base64_decode(getenv('TERACLOUD_API_KEY'))));
 error_log($mu->get_encrypt_string(base64_decode(getenv('TERACLOUD_NODE'))));
 error_log($mu->get_encrypt_string(base64_decode(getenv('TERACLOUD_PASSWORD'))));
 error_log($mu->get_encrypt_string(base64_decode(getenv('TERACLOUD_USER'))));
-*/
 
 /*
 error_log(base64_encode($mu->get_env('WORDPRESS_PASSWORD', true)));
