@@ -46,9 +46,12 @@ function check_version_postgresql($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url, null, true);
     $tmp = explode('<h2>Latest Releases</h2>', $res);
     $tmp = explode('</ul>', $tmp[1]);
-    error_log($tmp[0]);
-    $rc = preg_match_all('/<li .+?>(.+?)<a/s', $tmp[0], $matches,  PREG_SET_ORDER);
+    $tmp = str_replace('&middot;', '', $tmp[0]);
+    $rc = preg_match_all('/<li .+?>(.+?)<a/s', $tmp, $matches);
     error_log(print_r($matches, true));
+    foreach ($matches[1] as $match) {
+        error_log(strip_tags($match));
+    }
     $version_latest = '';
 
     // error_log($log_prefix . '$version_latest : ' . $version_latest);
