@@ -47,7 +47,7 @@ function check_version_postgresql($mu_, $file_name_blog_)
     $tmp = explode('<h2>Latest Releases</h2>', $res);
     $tmp = explode('</ul>', $tmp[1]);
     error_log($tmp[0]);
-    $rc = preg_match_all('/<li>(.+?)<a/s', $tmp[0], $matches,  PREG_SET_ORDER);
+    $rc = preg_match_all('/<li .+?>(.+?)<a/s', $tmp[0], $matches,  PREG_SET_ORDER);
     error_log(print_r($matches, true));
     $version_latest = '';
 
