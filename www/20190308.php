@@ -11,10 +11,12 @@ error_log($mu->get_encrypt_string(base64_decode(getenv('OPENDRIVE_USER'))));
 error_log($mu->get_encrypt_string(base64_decode(getenv('OPENDRIVE_PASSWORD'))));
 */
 
+/*
 error_log(base64_encode($mu->get_env('OPENDRIVE_USER', true)));
 error_log(getenv('OPENDRIVE_USER'));
 error_log(base64_encode($mu->get_env('OPENDRIVE_PASSWORD', true)));
 error_log(getenv('OPENDRIVE_PASSWORD'));
+*/
 
 /*
 $user_cloudme = getenv('CLOUDME_USER');
@@ -42,8 +44,8 @@ function check_version_postgresql($mu_, $file_name_blog_)
 
     $url = 'https://www.postgresql.org/?4nocache' . date('Ymd', strtotime('+9 hours'));
     $res = $mu_->get_contents($url, null, true);
-    error_log($res);
     $tmp = explode('<h2>Latest Releases</h2>', $res);
+    error_log($tmp[1]);
     $tmp = explode('</ul>', $tmp[1]);
     $rc = preg_match_all('/<li>(.+?)<a/s', $tmp[0], $matches,  PREG_SET_ORDER);
     error_log(print_r($matches, true));
