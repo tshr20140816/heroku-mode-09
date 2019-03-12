@@ -45,8 +45,8 @@ function check_version_postgresql($mu_, $file_name_blog_)
     $url = 'https://www.postgresql.org/?4nocache' . date('Ymd', strtotime('+9 hours'));
     $res = $mu_->get_contents($url, null, true);
     $tmp = explode('<h2>Latest Releases</h2>', $res);
-    error_log($tmp[1]);
     $tmp = explode('</ul>', $tmp[1]);
+    error_log($tmp[0]);
     $rc = preg_match_all('/<li>(.+?)<a/s', $tmp[0], $matches,  PREG_SET_ORDER);
     error_log(print_r($matches, true));
     $version_latest = '';
