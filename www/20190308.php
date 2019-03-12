@@ -6,12 +6,11 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-error_log(print_r(apcu_sma_info(), true));
-error_log(print_r(apcu_cache_info(), true));
-
 /*
-error_log($mu->get_encrypt_string(base64_decode(getenv('WAON_CARD_NO'))));
-error_log($mu->get_encrypt_string(base64_decode(getenv('WAON_CODE'))));
+error_log($mu->get_encrypt_string(base64_decode(getenv('TERACLOUD_API_KEY'))));
+error_log($mu->get_encrypt_string(base64_decode(getenv('TERACLOUD_NODE'))));
+error_log($mu->get_encrypt_string(base64_decode(getenv('TERACLOUD_PASSWORD'))));
+error_log($mu->get_encrypt_string(base64_decode(getenv('TERACLOUD_USER'))));
 */
 
 /*
