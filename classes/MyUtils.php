@@ -830,8 +830,8 @@ __HEREDOC__;
         error_log($log_prefix . pathinfo($file_name_)['basename'] . ' size : ' . strlen($res));
         file_put_contents($file_name_, $res);
 
-        $user_hidrive = base64_decode(getenv('HIDRIVE_USER'));
-        $password_hidrive = base64_decode(getenv('HIDRIVE_PASSWORD'));
+        $user_hidrive = $this->get_env('HIDRIVE_USER', true);
+        $password_hidrive = $this->get_env('HIDRIVE_PASSWORD', true);
 
         $user_pcloud = $this->get_env('PCLOUD_USER', true);
         $password_pcloud = $this->get_env('PCLOUD_PASSWORD', true);
