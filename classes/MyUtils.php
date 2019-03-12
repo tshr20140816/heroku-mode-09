@@ -841,8 +841,8 @@ __HEREDOC__;
         $api_key_teracloud = $this->get_env('TERACLOUD_API_KEY', true);
         $node_teracloud = $this->get_env('TERACLOUD_NODE', true);
 
-        $user_opendrive = base64_decode(getenv('OPENDRIVE_USER'));
-        $password_opendrive = base64_decode(getenv('OPENDRIVE_PASSWORD'));
+        $user_opendrive = $this->get_env('OPENDRIVE_USER', true);
+        $password_opendrive = $this->get_env('OPENDRIVE_PASSWORD', true);
 
         $urls = [];
 
