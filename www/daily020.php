@@ -61,6 +61,9 @@ check_version_php($mu, $file_name_blog);
 // curl version check
 check_version_curl($mu, $file_name_blog);
 
+// PostgreSQL version check
+check_version_postgresql($mu, $file_name_blog);
+
 //
 
 $pdo = $mu->get_pdo();
@@ -915,15 +918,23 @@ function check_version_postgresql($mu_, $file_name_blog_)
 
     $url = 'https://www.postgresql.org/?4nocache' . date('Ymd', strtotime('+9 hours'));
     $res = $mu_->get_contents($url, null, true);
-
     $tmp = explode('<h2>Latest Releases</h2>', $res);
     $tmp = explode('</ul>', $tmp[1]);
-    $rc = preg_match_all('/<li>(.+?)<a/s', $tmp[0], $matches);
+    $tmp = str_replace('&middot;', '', $tmp[0]);
+    $rc = preg_match_all('/<li .+?>(.+?)<a/s', $tmp, $matches);
+    
     $version_latest = '';
+    foreach ($matches[1] as $match) {
+        $version_latest .= str_replace('  ', ' ', strip_tags($match)) . "\n";
+    }
 
-    error_log($log_prefix . '$version_latest : ' . $version_latest);
-    error_log($log_prefix . '$version_current : ' . $version_current);
+    $pdo = $mu_->get_pdo();
+    $version_current = '';
+    foreach ($pdo->query('SELECT version();') as $row) {
+        $version_current = $row[0];
+    }
+    $pdo = null;
 
-    $content = "\nPostgreSQL Version\nlatest : ${version_latest}\ncurrent : ${version_current}\n";
+    $content = "\nPostgreSQL Version\nlatest : ${version_latest}current : ${version_current}\n";
     file_put_contents($file_name_blog_, $content, FILE_APPEND);
 }
