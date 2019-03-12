@@ -546,8 +546,8 @@ function backup_opml($mu_, $file_name_blog_)
         'warp_action' => 'login',
         'hash_action' => '',
         'sendback' => '',
-        'username' => base64_decode(getenv('INOREADER_USER')),
-        'password' => base64_decode(getenv('INOREADER_PASSWORD')),
+        'username' => $mu_->get_env('INOREADER_USER', true),
+        'password' => $mu_->get_env('INOREADER_PASSWORD', true),
         'remember_me' => 'on',
     ];
 
