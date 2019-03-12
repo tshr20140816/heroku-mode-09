@@ -48,15 +48,21 @@ function check_version_postgresql($mu_, $file_name_blog_)
     $tmp = explode('</ul>', $tmp[1]);
     $tmp = str_replace('&middot;', '', $tmp[0]);
     $rc = preg_match_all('/<li .+?>(.+?)<a/s', $tmp, $matches);
-    error_log(print_r($matches, true));
-    foreach ($matches[1] as $match) {
-        error_log(strip_tags($match));
-    }
+    
     $version_latest = '';
+    foreach ($matches[1] as $match) {
+        error_log(str_replace('  ', ' ', strip_tags($match)));
+        $version_latest .= str_replace('  ', ' ', strip_tags($match)) . "\n";
+    }
 
-    // error_log($log_prefix . '$version_latest : ' . $version_latest);
-    // error_log($log_prefix . '$version_current : ' . $version_current);
+    $pdo = $mu_->get_pdo();
+    $version_current = '';
+    foreach ($pdo->query('SELECT version();') as $row) {
+        $version_current = $row[0];
+    }
+    $pdo = null;
 
     $content = "\nPostgreSQL Version\nlatest : ${version_latest}\ncurrent : ${version_current}\n";
+    error_log($content);
     // file_put_contents($file_name_blog_, $content, FILE_APPEND);
 }
