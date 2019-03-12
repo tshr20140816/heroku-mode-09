@@ -360,6 +360,9 @@ $options = [
 ];
 $res = $mu->get_contents($url, $options);
 
+error_log($pid . ' apcu_sma_info : ' . print_r(apcu_sma_info(), true));
+error_log($pid . ' apcu_cache_info : ' . print_r(apcu_cache_info(), true));
+
 if (apcu_exists('HTTP_STATUS') === true) {
     $dic_http_status = apcu_fetch('HTTP_STATUS');
 } else {
