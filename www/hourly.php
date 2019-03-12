@@ -662,7 +662,7 @@ function get_task_rainfall($mu_, $list_contents_)
 
     $longitude = $mu_->get_env('LONGITUDE');
     $latitude = $mu_->get_env('LATITUDE');
-    $api_key_yahoo = $mu->get_env('YAHOO_API_KEY', true);
+    $api_key_yahoo = $mu_->get_env('YAHOO_API_KEY', true);
 
     $url = 'https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?output=json&appid=' . $api_key_yahoo
         . '&lon=' . $longitude . '&lat=' . $latitude;
