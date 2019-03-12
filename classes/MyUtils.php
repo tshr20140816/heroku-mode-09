@@ -821,15 +821,6 @@ __HEREDOC__;
 
         $res = bzcompress($data_, 9);
 
-        $method = 'aes-256-cbc';
-        $password = base64_encode(getenv('HIDRIVE_USER')) . base64_encode(getenv('HIDRIVE_PASSWORD'));
-        $IV = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
-        $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
-
-        $res = base64_encode($res);
-        error_log($log_prefix . pathinfo($file_name_)['basename'] . ' size : ' . strlen($res));
-        file_put_contents($file_name_, $res);
-
         $user_hidrive = $this->get_env('HIDRIVE_USER', true);
         $password_hidrive = $this->get_env('HIDRIVE_PASSWORD', true);
 
@@ -843,6 +834,16 @@ __HEREDOC__;
 
         $user_opendrive = $this->get_env('OPENDRIVE_USER', true);
         $password_opendrive = $this->get_env('OPENDRIVE_PASSWORD', true);
+        
+        $method = 'aes-256-cbc';
+        //$password = base64_encode(getenv('HIDRIVE_USER')) . base64_encode(getenv('HIDRIVE_PASSWORD'));
+        $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
+        $iv = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
+        $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $iv);
+
+        $res = base64_encode($res);
+        error_log($log_prefix . pathinfo($file_name_)['basename'] . ' size : ' . strlen($res));
+        file_put_contents($file_name_, $res);
 
         $urls = [];
 
