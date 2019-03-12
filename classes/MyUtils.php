@@ -618,10 +618,21 @@ __HEREDOC__;
             }
             $res = curl_exec($ch);
             $time_finish = microtime(true);
-            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $http_code = (string)curl_getinfo($ch, CURLINFO_HTTP_CODE);
             error_log($log_prefix .
                       "HTTP STATUS CODE : ${http_code} [" . substr(($time_finish - $time_start), 0, 5) . 'sec]');
             curl_close($ch);
+            if (apcu_exists('HTTP_STATUS') === true) {
+                $dic_http_status = apcu_fetch('HTTP_STATUS');
+            } else {
+                $dic_http_status = [];
+            }
+            if (array_key_exists($http_code, $dic_http_status) === true) {
+                $dic_http_status[$http_code]++;
+            } else {
+                $dic_http_status[$http_code] = 1;
+            }
+            apcu_store('HTTP_STATUS', $dic_http_status);
             if ($http_code == '200' || $http_code == '201') {
                 break;
             }
@@ -733,13 +744,26 @@ __HEREDOC__;
         foreach (array_keys($urls_) as $url) {
             $ch = $list_ch[$url];
             $res = curl_getinfo($ch);
-            if ($res['http_code'] == 200) {
+            $http_code = (string)$res['http_code'];
+            if ($http_code == '200') {
                 error_log($log_prefix . 'CURL Result $url : ' . $url);
                 $result = curl_multi_getcontent($ch);
                 $results[$url] = $result;
             }
             curl_multi_remove_handle($mh, $ch);
             curl_close($ch);
+
+            if (apcu_exists('HTTP_STATUS') === true) {
+                $dic_http_status = apcu_fetch('HTTP_STATUS');
+            } else {
+                $dic_http_status = [];
+            }
+            if (array_key_exists($http_code, $dic_http_status) === true) {
+                $dic_http_status[$http_code]++;
+            } else {
+                $dic_http_status[$http_code] = 1;
+            }
+            apcu_store('HTTP_STATUS', $dic_http_status);
         }
 
         curl_multi_close($mh);
