@@ -6,8 +6,8 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-error_log($mu->get_encrypt_string(base64_decode($mu->get_env('INOREADER_USER'))));
-error_log($mu->get_encrypt_string(base64_decode($mu->get_env('INOREADER_PASSWORD'))));
+error_log($mu->get_encrypt_string(base64_decode(getenv('INOREADER_USER'))));
+error_log($mu->get_encrypt_string(base64_decode(getenv('INOREADER_PASSWORD'))));
 
 /*
 error_log(base64_encode($mu->get_env('HIDRIVE_USER', true)));
