@@ -360,9 +360,21 @@ $options = [
 ];
 $res = $mu->get_contents($url, $options);
 
+if (apcu_exists('HTTP_STATUS') === true) {
+    $dic_http_status = apcu_fetch('HTTP_STATUS');
+} else {
+    $dic_http_status = [];
+}
+ksort($dic_http_status);
+$blog_text = '';
+foreach ($dic_http_status as $key => $val) {
+    $blog_text .= "${key} : ${val}\n";
+}
+
 $time_finish = microtime(true);
 $mu->post_blog_wordpress("${requesturi} add : ${count_add_task} / edit : ${count_edit_task} / delete : ${count_delete_task} ["
-                         . substr(($time_finish - $time_start), 0, 6) . 's]');
+                         . substr(($time_finish - $time_start), 0, 6) . 's]',
+                        $blog_text);
 error_log($pid . ' Web Access Count : ' . $mu->_count_web_access);
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
