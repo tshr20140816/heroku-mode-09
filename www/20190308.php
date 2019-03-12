@@ -6,15 +6,15 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
+/*
 error_log($mu->get_encrypt_string(base64_decode(getenv('THEOLDREADER_USER'))));
 error_log($mu->get_encrypt_string(base64_decode(getenv('THEOLDREADER_PASSWORD'))));
-
-/*
-error_log(base64_encode($mu->get_env('OPENDRIVE_USER', true)));
-error_log(getenv('OPENDRIVE_USER'));
-error_log(base64_encode($mu->get_env('OPENDRIVE_PASSWORD', true)));
-error_log(getenv('OPENDRIVE_PASSWORD'));
 */
+
+error_log(base64_encode($mu->get_env('THEOLDREADER_USER', true)));
+error_log(getenv('THEOLDREADER_USER'));
+error_log(base64_encode($mu->get_env('THEOLDREADER_PASSWORD', true)));
+error_log(getenv('THEOLDREADER_PASSWORD'));
 
 /*
 $user_cloudme = getenv('CLOUDME_USER');
