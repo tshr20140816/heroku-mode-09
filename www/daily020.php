@@ -675,8 +675,8 @@ function check_opendrive_usage($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $user_opendrive = base64_decode(getenv('OPENDRIVE_USER'));
-    $password_opendrive = base64_decode(getenv('OPENDRIVE_PASSWORD'));
+    $user_opendrive = $mu_->get_env('OPENDRIVE_USER', true);
+    $password_opendrive = $mu_->get_env('OPENDRIVE_PASSWORD', true);
 
     $url = 'https://dev.opendrive.com/api/v1/session/login.json';
     $post_data = [
