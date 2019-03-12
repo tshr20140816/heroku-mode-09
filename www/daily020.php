@@ -908,3 +908,22 @@ function check_version_curl($mu_, $file_name_blog_)
     $content = "\ncurl Version\nlatest : ${version_latest}\ncurrent : ${version_current}\n";
     file_put_contents($file_name_blog_, $content, FILE_APPEND);
 }
+
+function check_version_postgresql($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $url = 'https://www.postgresql.org/?4nocache' . date('Ymd', strtotime('+9 hours'));
+    $res = $mu_->get_contents($url, null, true);
+
+    $tmp = explode('<h2>Latest Releases</h2>', $res);
+    $tmp = explode('</ul>', $tmp[1]);
+    $rc = preg_match_all('/<li>(.+?)<a/s', $tmp[0], $matches);
+    $version_latest = '';
+
+    error_log($log_prefix . '$version_latest : ' . $version_latest);
+    error_log($log_prefix . '$version_current : ' . $version_current);
+
+    $content = "\nPostgreSQL Version\nlatest : ${version_latest}\ncurrent : ${version_current}\n";
+    file_put_contents($file_name_blog_, $content, FILE_APPEND);
+}
