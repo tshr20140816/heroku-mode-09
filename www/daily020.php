@@ -631,8 +631,8 @@ function backup_opml2($mu_, $file_name_blog_)
 
     $post_data = ['authenticity_token' => $match[1],
                  'utf8' => '&#x2713;',
-                 'user[login]' => base64_decode(getenv('THEOLDREADER_USER')),
-                 'user[password]' => base64_decode(getenv('THEOLDREADER_PASSWORD')),
+                 'user[login]' => $mu_->get_env('THEOLDREADER_USER', true),
+                 'user[password]' => $mu_->get_env('THEOLDREADER_PASSWORD', true),
                  ];
 
     $options2 = [
