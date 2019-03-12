@@ -23,8 +23,8 @@ __HEREDOC__;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $file_name = pathinfo($_POST['file_name'])['basename'];
     error_log("${pid} file name : ${file_name}");
-    $user = base64_decode(getenv('HIDRIVE_USER'));
-    $password = base64_decode(getenv('HIDRIVE_PASSWORD'));
+    $user = $mu->get_env('HIDRIVE_USER', true);
+    $password = $mu->get_env('HIDRIVE_PASSWORD', true);
     $url = "https://webdav.hidrive.strato.com/users/${user}/${file_name}";
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_ANY,
@@ -39,15 +39,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $file_name = "/tmp/${file_name}";
     $method = 'AES-256-CBC';
-    $password = base64_encode(getenv('HIDRIVE_USER')) . base64_encode(getenv('HIDRIVE_PASSWORD'));
-    $IV = substr(sha1($file_name), 0, openssl_cipher_iv_length($method));
-    $res = openssl_decrypt($res, $method, $password, OPENSSL_RAW_DATA, $IV);
+    // $password = base64_encode(getenv('HIDRIVE_USER')) . base64_encode(getenv('HIDRIVE_PASSWORD'));
+    $password = base64_encode($user) . base64_encode($password);
+    $iv = substr(sha1($file_name), 0, openssl_cipher_iv_length($method));
+    $res = openssl_decrypt($res, $method, $password, OPENSSL_RAW_DATA, $iv);
 
     error_log($pid . ' openssl_decrypt : ' . strlen($res));
 
     $res = bzdecompress($res);
 
-    error_log($pid . ' bzdecompress : ' . strlen($res));
+    error_log("${pid} bzdecompress : " . strlen($res));
 
     file_put_contents($file_name, $res);
 
