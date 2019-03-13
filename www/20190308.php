@@ -11,7 +11,8 @@ $cookie = tempnam("/tmp", md5(microtime(true)));
 $user_cloudme = getenv('CLOUDME_USER');
 $password_cloudme = getenv('CLOUDME_PASSWORD');
 
-$url = "https://webdav.cloudme.com/${user_cloudme}";
+//$url = "https://webdav.cloudme.com/${user_cloudme}";
+$url = "https://webdav.cloudme.com/";
 
 $options = [
     CURLOPT_HTTPAUTH => CURLAUTH_ANY,
