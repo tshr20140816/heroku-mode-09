@@ -6,17 +6,6 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-/*
-error_log($mu->get_encrypt_string(base64_decode(getenv('FC2_ID'))));
-error_log($mu->get_encrypt_string(base64_decode(getenv('FC2_PASSWORD'))));
-*/
-
-error_log(base64_encode($mu->get_env('FC2_ID', true)));
-error_log(getenv('FC2_ID'));
-error_log(base64_encode($mu->get_env('FC2_PASSWORD', true)));
-error_log(getenv('FC2_PASSWORD'));
-
-/*
 $user_cloudme = getenv('CLOUDME_USER');
 $password_cloudme = getenv('CLOUDME_PASSWORD');
 
@@ -32,4 +21,3 @@ $options = [
 $res = $mu->get_contents($url, $options);
 
 error_log($res);
-*/
