@@ -8,7 +8,7 @@ $mu = new MyUtils();
 
 $cookie = tempnam("/tmp", md5(microtime(true)));
 
-$url = "https://webdav.4shared.com";
+$url = 'https://webdav.4shared.com/';
 
 $options = [
     CURLOPT_COOKIEJAR => $cookie,
@@ -20,7 +20,7 @@ $res = $mu->get_contents($url, $options);
 $user_cloudme = getenv('CLOUDME_USER');
 $password_cloudme = getenv('CLOUDME_PASSWORD');
 
-$url = "https://webdav.4shared.com";
+$url = 'https://webdav.4shared.com/';
 
 $options = [
     CURLOPT_HTTPAUTH => CURLAUTH_ANY,
