@@ -8,6 +8,18 @@ $mu = new MyUtils();
 
 $cookie = tempnam("/tmp", md5(microtime(true)));
 
+$url = "https://webdav.cloudme.com/";
+
+$options = [
+    CURLOPT_HEADER => true,
+    CURLOPT_COOKIEJAR => $cookie,
+    CURLOPT_COOKIEFILE => $cookie,
+];
+
+$res = $mu->get_contents($url, $options);
+
+error_log($res);
+
 $user_cloudme = getenv('CLOUDME_USER');
 $password_cloudme = getenv('CLOUDME_PASSWORD');
 
