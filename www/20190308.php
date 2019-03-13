@@ -26,7 +26,7 @@ $password_cloudme = getenv('CLOUDME_PASSWORD');
 $url = "https://webdav.cloudme.com/${user_cloudme}";
 
 $options = [
-    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+    CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
     CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
     CURLOPT_HEADER => true,
     CURLOPT_COOKIEJAR => $cookie,
@@ -45,7 +45,7 @@ $fh = fopen($file_name, 'r');
 
 $url = "https://webdav.cloudme.com/${user_cloudme}/" . pathinfo($file_name_)['basename'];
 $options = [
-    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+    CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
     CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
     CURLOPT_PUT => true,
     CURLOPT_INFILE => $fh,
