@@ -39,6 +39,8 @@ $options = [
     CURLOPT_INFILE => $fh,
     CURLOPT_INFILESIZE => $file_size,
     CURLOPT_HEADER => true,
+    CURLOPT_COOKIEJAR => $cookie,
+    CURLOPT_COOKIEFILE => $cookie,
 ];
 $res = $mu->get_contents($url, $options);
 
