@@ -43,7 +43,7 @@ file_put_contents($file_name, 'DUMMY');
 $file_size = filesize($file_name);
 $fh = fopen($file_name, 'r');
 
-$url = "https://webdav.cloudme.com/${user_cloudme}/1/" . pathinfo($file_name)['basename'];
+$url = "https://webdav.cloudme.com/${user_cloudme}/" . pathinfo($file_name)['basename'];
 $options = [
     CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
     CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
