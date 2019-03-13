@@ -35,6 +35,7 @@ $options = [
 ];
 
 $res = $mu->get_contents($url, $options);
+$res = $mu->get_contents($url, $options);
 
 error_log($res);
 
