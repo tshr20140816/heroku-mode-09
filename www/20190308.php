@@ -19,6 +19,8 @@ $res = $mu->get_contents($url, $options);
 
 error_log($res);
 
+sleep(3);
+
 $user_cloudme = getenv('CLOUDME_USER');
 $password_cloudme = getenv('CLOUDME_PASSWORD');
 
