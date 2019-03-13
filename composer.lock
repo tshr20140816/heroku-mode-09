@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9541a1e1ab632eac05c42de12ac0d9fc",
+    "content-hash": "24af4413b0a99c37d2d9b3e89f3321cd",
     "packages": [],
     "packages-dev": [
         {
@@ -67,12 +67,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/heroku/heroku-buildpack-php.git",
-                "reference": "19842f10bd7ccd714aecfbe03913451bfa66279f"
+                "reference": "6957c99ad679c07c520ae64669e39a9dd751d523"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/19842f10bd7ccd714aecfbe03913451bfa66279f",
-                "reference": "19842f10bd7ccd714aecfbe03913451bfa66279f",
+                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/6957c99ad679c07c520ae64669e39a9dd751d523",
+                "reference": "6957c99ad679c07c520ae64669e39a9dd751d523",
                 "shasum": ""
             },
             "bin": [
@@ -103,7 +103,7 @@
                 "nginx",
                 "php"
             ],
-            "time": "2019-03-08T17:22:51+00:00"
+            "time": "2019-03-13T20:58:00+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -1529,7 +1529,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.3.0",
+        "php": ">=7.3.3",
         "ext-mbstring": "*",
         "ext-gd": "*",
         "ext-apcu": "*",
