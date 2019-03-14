@@ -26,5 +26,5 @@ function func_test($mu_, $file_name_blog_)
         CURLOPT_POSTFIELDS => $json,
     ];
     $res = $mu_->get_contents($url, $options);
-    error_log($res);
+    error_log(print_r(json_decode($res), true));
 }
