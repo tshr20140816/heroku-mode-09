@@ -17,9 +17,14 @@ function func_test($mu_, $file_name_blog_)
     $basic_password = getenv('BASIC_PASSWORD');
     $login_user = getenv('TEST_USER_01');
     $login_password = getenv('TEST_PASSWORD_01');
+    $json = '{"op":"login","user":"' . $login_user .'","password":"' . $login_password . '"}';
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${basic_user}:${basic_password}",],
+        CURLOPT_HTTPHEADER => ['Content-Type: application/json',],
+        CURLOPT_POST = true,
+        CURLOPT_POSTFIELDS = $json,
     ];
     $res = $mu_->get_contents($url, $options);
+    error_log($res);
 }
