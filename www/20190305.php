@@ -28,5 +28,5 @@ function func_test($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url, $options);
     error_log(print_r(json_decode($res), true));
     $data = json_decode($res);
-    error_log($data['content']->session_id);
+    error_log($data->content->session_id);
 }
