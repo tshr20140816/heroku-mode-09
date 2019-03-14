@@ -72,5 +72,8 @@ function func_test($mu_, $file_name_blog_)
             continue;
         }
         error_log(print_r($item->items, true));
+        foreach ($item->items as $item2) {
+            error_log($item2->id);
+        }
     }
 }
