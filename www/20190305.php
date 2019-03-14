@@ -41,4 +41,9 @@ function func_test($mu_, $file_name_blog_)
     ];
     $res = $mu_->get_contents($url, $options);
     error_log(print_r(json_decode($res), true));
+    $data = json_decode($res);
+    foreach ($data->content as $feed) {
+        error_log($feed->feed_url);
+        error_log($feed->id);
+    }
 }
