@@ -12,12 +12,20 @@ function func_test($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    $options_base = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${basic_user}:${basic_password}",
+        CURLOPT_HTTPHEADER => ['Content-Type: application/json',],
+        CURLOPT_POST => true,
+    ];
+    
     $url = getenv('TEST_URL_01');
     $basic_user = getenv('BASIC_USER');
     $basic_password = getenv('BASIC_PASSWORD');
     $login_user = getenv('TEST_USER_01');
     $login_password = getenv('TEST_PASSWORD_01');
     $json = '{"op":"login","user":"' . $login_user .'","password":"' . $login_password . '"}';
+    /*
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${basic_user}:${basic_password}",
@@ -25,10 +33,11 @@ function func_test($mu_, $file_name_blog_)
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => $json,
     ];
+    */
+    $options = $options_base + [CURLOPT_POSTFIELDS => $json,];
     $res = $mu_->get_contents($url, $options);
-    //error_log(print_r(json_decode($res), true));
+    error_log($res);
     $data = json_decode($res);
-    //error_log($data->content->session_id);
     $session_id = $data->content->session_id;
 
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
@@ -43,11 +52,10 @@ function func_test($mu_, $file_name_blog_)
         CURLOPT_POSTFIELDS => $json,
     ];
     $res = $mu_->get_contents($url, $options);
-    // error_log(print_r(json_decode($res), true));
     $data = json_decode($res);
     foreach ($data->content as $feed) {
-        error_log($feed->feed_url);
-        error_log($feed->id);
+        // error_log($feed->feed_url);
+        // error_log($feed->id);
         if ($url_feed == $feed->feed_url) {
             $json = '{"sid":"' . $session_id . '","op":"updateFeed","feed_id":' . $feed->id . '}';
             $options = [
