@@ -26,9 +26,9 @@ function func_test($mu_, $file_name_blog_)
         CURLOPT_POSTFIELDS => $json,
     ];
     $res = $mu_->get_contents($url, $options);
-    error_log(print_r(json_decode($res), true));
+    //error_log(print_r(json_decode($res), true));
     $data = json_decode($res);
-    error_log($data->content->session_id);
+    //error_log($data->content->session_id);
     $session_id = $data->content->session_id;
 
     /*
@@ -64,7 +64,10 @@ function func_test($mu_, $file_name_blog_)
         CURLOPT_POSTFIELDS => $json,
     ];
     $res = $mu_->get_contents($url, $options);
-    error_log(print_r(json_decode($res), true));
+    //error_log(print_r(json_decode($res), true));
     $data = json_decode($res);
-    error_log(print_r($data->content->categories->items[1], true));
+    //error_log(print_r($data->content->categories->items[1], true));
+    foreach ($data->content->categories->items as $item) {
+        error_log(print_r($item, true));
+    }
 }
