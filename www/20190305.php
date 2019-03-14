@@ -22,8 +22,8 @@ function func_test($mu_, $file_name_blog_)
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${basic_user}:${basic_password}",
         CURLOPT_HTTPHEADER => ['Content-Type: application/json',],
-        CURLOPT_POST = true,
-        CURLOPT_POSTFIELDS = $json,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $json,
     ];
     $res = $mu_->get_contents($url, $options);
     error_log($res);
