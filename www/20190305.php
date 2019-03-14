@@ -15,18 +15,21 @@ function func_test($mu_, $file_name_blog_)
     $url = 'https://devcenter.heroku.com/articles/ruby-support?' . date('Ymd', strtotime('+9 hours'));
     $res = $mu_->get_contents($url, null, true);
     
-    // error_log($res);
-    
     $tmp = explode('<p><strong>MRI:</strong></p>', $res);
     $tmp = explode('</ul>', $tmp[1]);
     $rc = preg_match_all('/<li>(.+?)<\/li>/s', $tmp[0], $matches);
-    error_log(print_r($matches, true));
+
+    $version_support = '';
     foreach ($matches[1] as $line) {
-        error_log(trim(strip_tags($line)));
+        $version_support .= trim(strip_tags($line)) . "\n";
     }
     
     $url = getenv('TARGET_GEM_FILE') . '?' . date('Ymd', strtotime('+9 hours'));
     $res = $mu_->get_contents($url, null, true);
     $rc = preg_match('/ruby "(.+?)"/', $res, $match);
-    error_log(print_r($match, true));
+    $version_current = $match[1];
+    
+    $content = "\nRuby Version\ncurrent : ${version_current}\nsupport : ${version_support}\n";
+    error_log($content);
+    file_put_contents($file_name_blog_, $content, FILE_APPEND);
 }
