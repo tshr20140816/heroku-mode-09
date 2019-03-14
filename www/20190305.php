@@ -20,7 +20,7 @@ function func_test($mu_, $file_name_blog_)
     $json = '{"op":"login","user":"' . $login_user .'","password":"' . $login_password . '"}';
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-        CURLOPT_USERPWD => "${basic_user}:${basic_password}",],
+        CURLOPT_USERPWD => "${basic_user}:${basic_password}",
         CURLOPT_HTTPHEADER => ['Content-Type: application/json',],
         CURLOPT_POST = true,
         CURLOPT_POSTFIELDS = $json,
