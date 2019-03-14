@@ -43,8 +43,19 @@ function func_test($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url, $options);
     error_log(print_r(json_decode($res), true));
     */
-
+    /*
     $json = '{"sid":"' . $session_id . '","op":"getCounters","output_mode":"f"}';
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${basic_user}:${basic_password}",
+        CURLOPT_HTTPHEADER => ['Content-Type: application/json',],
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $json,
+    ];
+    $res = $mu_->get_contents($url, $options);
+    error_log(print_r(json_decode($res), true));
+    */
+    $json = '{"sid":"' . $session_id . '","op":"getFeedTree","include_empty":true}';
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${basic_user}:${basic_password}",
