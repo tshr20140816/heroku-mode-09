@@ -501,6 +501,44 @@ __HEREDOC__;
         $res = $this->get_contents($url, $options);
 
         error_log($log_prefix . 'RESULT : ' . $res);
+
+        $this->update_ttrss();
+    }
+
+    public function update_ttrss()
+    {
+        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+            CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
+            CURLOPT_HTTPHEADER => ['Content-Type: application/json',],
+            CURLOPT_POST => true,
+        ];
+
+        $url = $this->get_env('URL_TTRSS_1') . 'api/';
+        $login_user = base64_decode(getenv('TTRSS_USER'));
+        $login_password = base64_decode(getenv('TTRSS_PASSWORD'));
+        $json = '{"op":"login","user":"' . $login_user .'","password":"' . $login_password . '"}';
+        $res = $this->get_contents($url, $options + [CURLOPT_POSTFIELDS => $json,]);
+        $data = json_decode($res);
+        $session_id = $data->content->session_id;
+
+        $livedoor_id = $this->get_env('LIVEDOOR_ID', true);
+        $url_feed = "http://blog.livedoor.jp/${livedoor_id}/atom.xml";
+
+        $json = '{"sid":"' . $session_id . '","op":"getFeeds","cat_id":-3}';
+        $res = $this->get_contents($url, $options + [CURLOPT_POSTFIELDS => $json,]);
+        $data = json_decode($res);
+        foreach ($data->content as $feed) {
+            error_log($log_prefix . $feed->feed_url);
+            error_log($log_prefix . $feed->id);
+            if ($url_feed == $feed->feed_url) {
+                $json = '{"sid":"' . $session_id . '","op":"updateFeed","feed_id":' . $feed->id . '}';
+                $res = $this->get_contents($url, $options + [CURLOPT_POSTFIELDS => $json,]);
+                error_log($log_prefix . print_r(json_decode($res), true));
+            }
+        }
     }
 
     public function get_contents($url_, $options_ = null, $is_cache_search = false)
