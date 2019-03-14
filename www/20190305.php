@@ -45,6 +45,7 @@ function func_test($mu_, $file_name_blog_)
     $url_feed = "http://blog.livedoor.jp/${livedoor_id}/atom.xml";
     
     $json = '{"sid":"' . $session_id . '","op":"getFeeds","cat_id":-3}';
+    /*
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${basic_user}:${basic_password}",
@@ -52,6 +53,8 @@ function func_test($mu_, $file_name_blog_)
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => $json,
     ];
+    */
+    $options = $options_base + [CURLOPT_POSTFIELDS => $json,];
     $res = $mu_->get_contents($url, $options);
     $data = json_decode($res);
     foreach ($data->content as $feed) {
@@ -59,6 +62,7 @@ function func_test($mu_, $file_name_blog_)
         // error_log($feed->id);
         if ($url_feed == $feed->feed_url) {
             $json = '{"sid":"' . $session_id . '","op":"updateFeed","feed_id":' . $feed->id . '}';
+            /*
             $options = [
                 CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                 CURLOPT_USERPWD => "${basic_user}:${basic_password}",
@@ -66,6 +70,8 @@ function func_test($mu_, $file_name_blog_)
                 CURLOPT_POST => true,
                 CURLOPT_POSTFIELDS => $json,
             ];
+            */
+            $options = $options_base + [CURLOPT_POSTFIELDS => $json,];
             $res = $mu_->get_contents($url, $options);
             error_log(print_r(json_decode($res), true));
         }
