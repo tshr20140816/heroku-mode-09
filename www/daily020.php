@@ -161,8 +161,12 @@ $mm = date('m', $timestamp);
 $url = "https://eco.mtk.nao.ac.jp/koyomi/dni/${yyyy}/m" . $mu->get_env('AREA_ID') . "${mm}.html";
 $urls_is_cache[$url] = null;
 
+//
+
+$urls[$mu->get_env('URL_TTRSS_1')] = [CURLOPT_TIMEOUT => 3,];
+
 // multi
-$list_contents = $mu->get_contents_multi(null, $urls_is_cache);
+$list_contents = $mu->get_contents_multi($urls, $urls_is_cache);
 
 //
 
