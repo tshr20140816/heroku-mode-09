@@ -12,7 +12,7 @@ function func_test($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $options_base = [
+    $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
         CURLOPT_HTTPHEADER => ['Content-Type: application/json',],
@@ -23,25 +23,22 @@ function func_test($mu_, $file_name_blog_)
     $login_user = base64_decode(getenv('TTRSS_USER'));
     $login_password = base64_decode(getenv('TTRSS_PASSWORD'));
     $json = '{"op":"login","user":"' . $login_user .'","password":"' . $login_password . '"}';
-    $options = $options_base + [CURLOPT_POSTFIELDS => $json,];
-    $res = $mu_->get_contents($url, $options);
+    $res = $mu_->get_contents($url, $options + [CURLOPT_POSTFIELDS => $json,]);
     $data = json_decode($res);
     $session_id = $data->content->session_id;
 
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
     $url_feed = "http://blog.livedoor.jp/${livedoor_id}/atom.xml";
-    
+
     $json = '{"sid":"' . $session_id . '","op":"getFeeds","cat_id":-3}';
-    $options = $options_base + [CURLOPT_POSTFIELDS => $json,];
-    $res = $mu_->get_contents($url, $options);
+    $res = $mu_->get_contents($url, $options + [CURLOPT_POSTFIELDS => $json,]);
     $data = json_decode($res);
     foreach ($data->content as $feed) {
         error_log($log_prefix . $feed->feed_url);
         error_log($log_prefix . $feed->id);
         if ($url_feed == $feed->feed_url) {
             $json = '{"sid":"' . $session_id . '","op":"updateFeed","feed_id":' . $feed->id . '}';
-            $options = $options_base + [CURLOPT_POSTFIELDS => $json,];
-            $res = $mu_->get_contents($url, $options);
+            $res = $mu_->get_contents($url, $options + [CURLOPT_POSTFIELDS => $json,]);
             error_log($log_prefix . print_r(json_decode($res), true));
         }
     }
