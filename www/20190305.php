@@ -12,4 +12,12 @@ function func_test($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    $url = getenv('TEST_URL_01');
+    $basic_user = getenv('BASIC_USER');
+    $basic_password = getenv('BASIC_PASSWORD');
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${basic_user}:${basic_password}",],
+    ];
+    $res = $mu_->get_contents($url, $options);
 }
