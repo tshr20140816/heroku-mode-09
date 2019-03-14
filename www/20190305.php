@@ -29,7 +29,7 @@ function func_test($mu_, $file_name_blog_)
     $rc = preg_match('/ruby "(.+?)"/', $res, $match);
     $version_current = $match[1];
     
-    $content = "\nRuby Version\ncurrent : ${version_current}\nsupport : ${version_support}\n";
+    $content = "\nRuby Version\ncurrent : ${version_current}\nsupport : ${version_support}";
     error_log($content);
     file_put_contents($file_name_blog_, $content, FILE_APPEND);
 }
