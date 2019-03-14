@@ -31,6 +31,9 @@ function func_test($mu_, $file_name_blog_)
     //error_log($data->content->session_id);
     $session_id = $data->content->session_id;
 
+    $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
+    $url_feed = "http://blog.livedoor.jp/${livedoor_id}/atom.xml";
+    
     $json = '{"sid":"' . $session_id . '","op":"getFeeds","cat_id":-3}';
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
@@ -40,12 +43,12 @@ function func_test($mu_, $file_name_blog_)
         CURLOPT_POSTFIELDS => $json,
     ];
     $res = $mu_->get_contents($url, $options);
-    error_log(print_r(json_decode($res), true));
+    // error_log(print_r(json_decode($res), true));
     $data = json_decode($res);
     foreach ($data->content as $feed) {
         error_log($feed->feed_url);
         error_log($feed->id);
-        if (getenv('TEST_URL_02') == $feed->feed_url) {
+        if ($url_feed == $feed->feed_url) {
             $json = '{"sid":"' . $session_id . '","op":"updateFeed","feed_id":' . $feed->id . '}';
             $options = [
                 CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
