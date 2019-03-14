@@ -21,4 +21,7 @@ function func_test($mu_, $file_name_blog_)
     $tmp = explode('</ul>', $tmp[1]);
     $rc = preg_match_all('/<li>(.+?)<\/li>/s', $tmp[0], $matches);
     error_log(print_r($matches, true));
+    foreach ($matches[1] as $line) {
+        error_log(strip_tags($line));
+    }
 }
