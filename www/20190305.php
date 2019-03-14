@@ -19,6 +19,7 @@ function func_test($mu_, $file_name_blog_)
     $tmp = explode('</ul>', $tmp[1]);
     $rc = preg_match_all('/<li>(.+?)<\/li>/s', $tmp[0], $matches);
 
+    rsort($matches[1]);
     $version_support = '';
     foreach ($matches[1] as $line) {
         $version_support .= trim(strip_tags($line)) . "\n";
