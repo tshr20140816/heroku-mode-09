@@ -12,7 +12,7 @@ function func_test($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $url = 'https://devcenter.heroku.com/articles/ruby-support' . date('Ymd', strtotime('+9 hours'));
+    $url = 'https://devcenter.heroku.com/articles/ruby-support?' . date('Ymd', strtotime('+9 hours'));
     $res = $mu_->get_contents($url, null, true);
     
     // error_log($res);
