@@ -43,8 +43,7 @@ function func_test($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url, $options);
     error_log(print_r(json_decode($res), true));
     */
-    /*
-    $json = '{"sid":"' . $session_id . '","op":"getCounters","output_mode":"f"}';
+    $json = '{"sid":"' . $session_id . '","op":"getFeeds"}';
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${basic_user}:${basic_password}",
@@ -54,7 +53,6 @@ function func_test($mu_, $file_name_blog_)
     ];
     $res = $mu_->get_contents($url, $options);
     error_log(print_r(json_decode($res), true));
-    */
     /*
     $json = '{"sid":"' . $session_id . '","op":"getFeedTree","include_empty":false}';
     $options = [
@@ -78,6 +76,7 @@ function func_test($mu_, $file_name_blog_)
         }
     }
     */
+    /*
     $json = '{"sid":"' . $session_id . '","op":"getHeadlines","feed_id":4,"limit":2,"skip":0,"filter":"","is_cat":false,"include_header":true,"show_content":false}';
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
@@ -88,4 +87,5 @@ function func_test($mu_, $file_name_blog_)
     ];
     $res = $mu_->get_contents($url, $options);
     error_log(print_r(json_decode($res), true));
+    */
 }
