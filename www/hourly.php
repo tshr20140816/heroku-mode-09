@@ -757,12 +757,21 @@ function get_task_quota($mu_, $list_contents_)
     error_log($log_prefix . '$dyno_used : ' . $dyno_used);
     error_log($log_prefix . '$dyno_quota : ' . $dyno_quota);
 
-    $tmp = $dyno_quota - $dyno_used;
-    $tmp = floor($tmp / 86400) . 'd ' . ($tmp / 3600 % 24) . 'h ' . ($tmp / 60 % 60) . 'm';
+    $quota = $dyno_quota - $dyno_used;
+    $title = floor($quota / 86400) . 'd ' . ($quota / 3600 % 24) . 'h ' . ($quota / 60 % 60) . 'm ';
+
+    $last_day = (int)date('d', strtotime('last day of ' . date('Y-m')));
+    if (($quota / 3600) > ($last_day - (int)date('d') + 2) * 24) {
+        $title .= '⭕';
+    } else if (($quota / 3600) > ($last_day - (int)date('d') + 2) * 15) {
+        $title .= '❓';
+    } else {
+        $title .= '❌';
+    }
 
     $update_marker = $mu_->to_small_size(' _' . date('Ymd Hi', strtotime('+ 9 hours')) . '_');
 
-    $list_add_task[] = '{"title":"' . $account . ' : ' . $tmp . $update_marker
+    $list_add_task[] = '{"title":"' . $account . ' : ' . $title . $update_marker
       . '","duedate":"' . mktime(0, 0, 0, 1, 3, 2018)
       . '","context":"' . $list_context_id[date('w', mktime(0, 0, 0, 1, 3, 2018))]
       . '","tag":"HOURLY","folder":"' . $folder_id_label . '"}';
