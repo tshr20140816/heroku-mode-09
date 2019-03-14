@@ -15,6 +15,8 @@ function func_test($mu_, $file_name_blog_)
     $url = getenv('TEST_URL_01');
     $basic_user = getenv('BASIC_USER');
     $basic_password = getenv('BASIC_PASSWORD');
+    $login_user = getenv('TEST_USER_01');
+    $login_password = getenv('TEST_PASSWORD_01');
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${basic_user}:${basic_password}",],
