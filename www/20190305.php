@@ -27,6 +27,6 @@ function func_test($mu_, $file_name_blog_)
     
     $url = getenv('TARGET_GEM_FILE') . '?' . date('Ymd', strtotime('+9 hours'));
     $res = $mu_->get_contents($url, null, true);
-    $rc = preg_match('/^ruby "(.+?)"/s', $res, $match);
+    $rc = preg_match('/^ruby "(.+?)"/', $res, $match);
     error_log(print_r($match, true));
 }
