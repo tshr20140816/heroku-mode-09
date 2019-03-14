@@ -14,5 +14,5 @@ function func_test($mu_, $file_name_blog_)
 
     $last_day = (int)date('d', strtotime('last day of ' . date('Y-m')));
     error_log($last_day);
-    error_log($last_day - (int)date('d') + 1);
+    error_log(($last_day - (int)date('d') + 2) * 15);
 }
