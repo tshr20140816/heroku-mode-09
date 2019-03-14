@@ -68,6 +68,9 @@ function func_test($mu_, $file_name_blog_)
     $data = json_decode($res);
     //error_log(print_r($data->content->categories->items[1], true));
     foreach ($data->content->categories->items as $item) {
+        if (strpos($item->id, '-') > 0) {
+            continue;
+        }
         error_log(print_r($item, true));
     }
 }
