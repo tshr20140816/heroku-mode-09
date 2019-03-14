@@ -66,5 +66,5 @@ function func_test($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url, $options);
     error_log(print_r(json_decode($res), true));
     $data = json_decode($res);
-    error_log(print_r($data->content->categories->items, true));
+    error_log(print_r($data->content->categories->items[1], true));
 }
