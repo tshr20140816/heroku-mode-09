@@ -78,7 +78,7 @@ function func_test($mu_, $file_name_blog_)
         }
     }
     */
-    $json = '{"sid":"' . $session_id . '","op":"getHeadlines"}';
+    $json = '{"sid":"' . $session_id . '","op":"getHeadlines","feed_id ":4}';
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${basic_user}:${basic_password}",
