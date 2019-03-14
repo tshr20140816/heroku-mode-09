@@ -922,8 +922,7 @@ function check_version_postgresql($mu_, $file_name_blog_)
     $tmp = explode('</ul>', $tmp[1]);
     $tmp = str_replace('&middot;', '', $tmp[0]);
     $rc = preg_match_all('/<li .+?>(.+?)<a/s', $tmp, $matches);
-    
-    rsort($matches[1]);
+
     $version_latest = '';
     foreach ($matches[1] as $match) {
         $version_latest .= str_replace('  ', ' ', strip_tags($match)) . "\n";
