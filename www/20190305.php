@@ -31,6 +31,7 @@ function func_test($mu_, $file_name_blog_)
     error_log($data->content->session_id);
     $session_id = $data->content->session_id;
 
+    /*
     $json = '{"sid":"' . $session_id . '","op":"getCategories","unread_only":false,"enable_nested":false,"include_empty":false}';
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
@@ -40,5 +41,17 @@ function func_test($mu_, $file_name_blog_)
         CURLOPT_POSTFIELDS => $json,
     ];
     $res = $mu_->get_contents($url, $options);
-    error_log(print_r(json_decode($res), true));    
+    error_log(print_r(json_decode($res), true));
+    */
+
+    $json = '{"sid":"' . $session_id . '","op":"getCounters","output_mode":"f"}';
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${basic_user}:${basic_password}",
+        CURLOPT_HTTPHEADER => ['Content-Type: application/json',],
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $json,
+    ];
+    $res = $mu_->get_contents($url, $options);
+    error_log(print_r(json_decode($res), true));
 }
