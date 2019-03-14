@@ -71,6 +71,6 @@ function func_test($mu_, $file_name_blog_)
         if (strpos($item->id, '-') > 0) {
             continue;
         }
-        error_log(print_r($item, true));
+        error_log(print_r($item->items, true));
     }
 }
