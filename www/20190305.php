@@ -45,5 +45,17 @@ function func_test($mu_, $file_name_blog_)
     foreach ($data->content as $feed) {
         error_log($feed->feed_url);
         error_log($feed->id);
+        if (getenv('TEST_URL_02') == $feed->feed_url) {
+            $json = '{"sid":"' . $session_id . '","op":"updateFeed","feed_id":' . $feed->id . '}';
+            $options = [
+                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => "${basic_user}:${basic_password}",
+                CURLOPT_HTTPHEADER => ['Content-Type: application/json',],
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => $json,
+            ];
+            $res = $mu_->get_contents($url, $options);
+            error_log(print_r(json_decode($res), true));
+        }
     }
 }
