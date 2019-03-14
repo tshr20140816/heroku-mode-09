@@ -11,24 +11,20 @@ $rc = func_test($mu, '/tmp/dummy');
 function func_test($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
-    $basic_user = getenv('BASIC_USER');
-    $basic_password = getenv('BASIC_PASSWORD');
-    
+
     $options_base = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-        CURLOPT_USERPWD => "${basic_user}:${basic_password}",
+        CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
         CURLOPT_HTTPHEADER => ['Content-Type: application/json',],
         CURLOPT_POST => true,
     ];
-    
-    $url = getenv('TEST_URL_01');
-    $login_user = getenv('TEST_USER_01');
-    $login_password = getenv('TEST_PASSWORD_01');
+
+    $url = $mu_->get_env('URL_TTRSS_1' . 'api/');
+    $login_user = base64_decode(getenv('TTRSS_USER'));
+    $login_password = base64_decode(getenv('TTRSS_PASSWORD'));
     $json = '{"op":"login","user":"' . $login_user .'","password":"' . $login_password . '"}';
     $options = $options_base + [CURLOPT_POSTFIELDS => $json,];
     $res = $mu_->get_contents($url, $options);
-    error_log($res);
     $data = json_decode($res);
     $session_id = $data->content->session_id;
 
@@ -40,13 +36,13 @@ function func_test($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url, $options);
     $data = json_decode($res);
     foreach ($data->content as $feed) {
-        // error_log($feed->feed_url);
-        // error_log($feed->id);
+        error_log($log_prefix . $feed->feed_url);
+        error_log($log_prefix . $feed->id);
         if ($url_feed == $feed->feed_url) {
             $json = '{"sid":"' . $session_id . '","op":"updateFeed","feed_id":' . $feed->id . '}';
             $options = $options_base + [CURLOPT_POSTFIELDS => $json,];
             $res = $mu_->get_contents($url, $options);
-            error_log(print_r(json_decode($res), true));
+            error_log($log_prefix . print_r(json_decode($res), true));
         }
     }
 }
