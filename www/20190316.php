@@ -15,5 +15,9 @@ function func_test($mu_, $file_name_blog_)
     
     $res = $mu_->get_contents($url, $options);
     
-    error_log($res);
+    // error_log($res);
+    $tmp = explode('window["ytInitialData"]', $res);
+    $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
+    
+    error_log($tmp[0]);
 }
