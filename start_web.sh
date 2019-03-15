@@ -36,6 +36,8 @@ export USER_AGENT=$(curl https://raw.githubusercontent.com/tshr20140816/heroku-m
 
 htpasswd -c -b .htpasswd ${BASIC_USER} ${BASIC_PASSWORD}
 
+dig -t txt _netblocks.google.com
+
 pushd www
 mv ical.php ${ICS_ADDRESS}.php
 popd
@@ -52,8 +54,6 @@ for file in $( ls . | grep .php$ ); do
 done
 popd
 set -x
-
-dig -t txt _netblocks.google.com
 
 wait
 
