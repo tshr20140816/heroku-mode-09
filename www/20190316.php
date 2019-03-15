@@ -19,5 +19,5 @@ function func_test($mu_, $file_name_blog_)
     $tmp = explode('window["ytInitialData"] = ', $res);
     $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
     
-    error_log(print_r(json_decode(trim($tmp[0])), true));
+    error_log(print_r(json_decode(trim(trim($tmp[0])), ';'), true));
 }
