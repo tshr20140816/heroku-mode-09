@@ -9,13 +9,13 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-if (!isset($_GET['access_key']) || $_GET['access_key'] != base64_decode(getenv('ACCESS_KEY')) || strlen(getenv('ACCESS_KEY')) == 0) {
+if (!isset($_POST['access_key']) || $_POST['access_key'] != base64_decode(getenv('ACCESS_KEY')) || strlen(getenv('ACCESS_KEY')) == 0) {
     error_log("${pid} FINISH Invalid Param");
     exit();
 }
 
-$title = $_GET['title'];
-$content = $_GET['content'];
+$title = $_POST['title'];
+$content = $_POST['content'];
 
 if (strlen($title) == 0) {
     error_log("${pid} FINISH Invalid Param");
