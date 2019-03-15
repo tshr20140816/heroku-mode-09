@@ -82,7 +82,7 @@ if ($count !== 0) {
 $time_finish = microtime(true);
 if ($count === 0) {
     $mu->post_blog_wordpress($requesturi . ' [' . substr(($time_finish - $time_start), 0, 6) . 's]',
-                            file_get_contents($file_name_blog));
+                            $mu->to_big_size(file_get_contents($file_name_blog)));
     unlink($file_name_blog);
 }
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
