@@ -9,6 +9,8 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
+error_log("${pid} " . $_GET['access_key']);
+
 if (!isset($_GET['access_key']) || $_GET['access_key'] != base64_decode(getenv('ACCESS_KEY')) || strlen(getenv('ACCESS_KEY')) == 0) {
     error_log("${pid} FINISH Invalid Param");
     exit();
