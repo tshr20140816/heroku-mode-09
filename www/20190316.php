@@ -19,14 +19,20 @@ function func_test($mu_, $file_name_blog_)
     $tmp = explode('window["ytInitialData"] = ', $res);
     $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
     
-    //error_log(trim(trim($tmp[0]), ';'));
-    //error_log(print_r(json_decode(trim(trim($tmp[0]), ';')), true));
     $json = json_decode(trim(trim($tmp[0]), ';'));
-    //error_log(print_r($json->contents->twoColumnBrowseResultsRenderer->tabs[1]->tabRenderer->content->sectionListRenderer->contents, true));
     $json = $json->contents->twoColumnBrowseResultsRenderer->tabs[1]->tabRenderer->content->sectionListRenderer->contents[0];
-    //error_log(print_r($json, true));
     foreach ($json->itemSectionRenderer->contents[0]->gridRenderer->items as $item) {
-        error_log(print_r($item, true));
+        //error_log(print_r($item, true));
+        $title = $item->gridVideoRenderer->title->simpleText;
+        $thumbnail = $item->gridVideoRenderer->thumbnail->thumbnails[0]->url;
+        $link = $item->gridVideoRenderer->navigationEndpoint->commandMetadata->webCommandMetadata->url;
+        $count = $item->gridVideoRenderer->viewCountText->simpleText;
+        $time = $item->gridVideoRenderer->thumbnailOverlays[0]->thumbnailOverlayTimeStatusRenderer->text->simpleText;
+        error_log($title);
+        error_log($thumbnail);
+        error_log($link);
+        error_log($count);
+        error_log($time);
         break;
     }
 }
