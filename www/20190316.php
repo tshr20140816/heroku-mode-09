@@ -17,7 +17,7 @@ function func_test($mu_, $file_name_blog_)
     
     $tmp = explode('window["ytInitialData"] = ', $res);
     $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
-    error_log($tmp);
+    // error_log($tmp);
     
     $json = json_decode(trim(trim($tmp[0]), ';'));
     foreach ($json->contents->twoColumnWatchNextResults->playlist->playlist->contents as $item) {
