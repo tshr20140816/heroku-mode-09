@@ -53,6 +53,8 @@ done
 popd
 set -x
 
+dig -t txt _netblocks.google.com
+
 wait
 
 curl -s -m 1 --basic -u ${BASIC_USER}:${BASIC_PASSWORD} https://${HEROKU_APP_NAME}.herokuapp.com/opcache_compile_file.php
