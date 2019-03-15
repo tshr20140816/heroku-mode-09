@@ -28,6 +28,7 @@ function func_test($mu_, $file_name_blog_)
         $link = $item->gridVideoRenderer->navigationEndpoint->commandMetadata->webCommandMetadata->url;
         $count = $item->gridVideoRenderer->viewCountText->simpleText;
         $time = $item->gridVideoRenderer->thumbnailOverlays[0]->thumbnailOverlayTimeStatusRenderer->text->simpleText;
+        $thumbnail = explode('?', $thumbnail)[0];
         error_log($title);
         error_log($thumbnail);
         error_log($link);
