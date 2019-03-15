@@ -22,5 +22,10 @@ function func_test($mu_, $file_name_blog_)
     //error_log(trim(trim($tmp[0]), ';'));
     //error_log(print_r(json_decode(trim(trim($tmp[0]), ';')), true));
     $json = json_decode(trim(trim($tmp[0]), ';'));
-    error_log(print_r($json->contents->twoColumnBrowseResultsRenderer->tabs[1]->tabRenderer->content->sectionListRenderer->contents, true));
+    //error_log(print_r($json->contents->twoColumnBrowseResultsRenderer->tabs[1]->tabRenderer->content->sectionListRenderer->contents, true));
+    $json = $json->contents->twoColumnBrowseResultsRenderer->tabs[1]->tabRenderer->content->sectionListRenderer->contents[0];
+    foreach ($json->gridRenderer->items as $item) {
+        error_log(print_r($item, true));
+        break;
+    }
 }
