@@ -12,6 +12,8 @@ function func_test($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    error_log(hash('sha512', base64_decode(getenv('ACCESS_KEY'))));
+    
     $post_data = [
         'access_key' => base64_decode(getenv('ACCESS_KEY')),
         'title' => 'TEST_TITLE',
