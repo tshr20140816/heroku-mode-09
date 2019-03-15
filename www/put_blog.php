@@ -9,7 +9,9 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-if (!isset($_POST['access_key']) || $_POST['access_key'] != base64_decode(getenv('ACCESS_KEY')) || strlen(getenv('ACCESS_KEY')) == 0) {
+if (!isset($_POST['access_key'])
+    || hash('sha512', $_POST['access_key']) != getenv('ACCESS_KEY_HASH')
+    || strlen(getenv('ACCESS_KEY_HASH')) == 0) {
     error_log("${pid} FINISH Invalid Param");
     exit();
 }
