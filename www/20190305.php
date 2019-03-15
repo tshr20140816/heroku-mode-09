@@ -12,7 +12,17 @@ function func_test($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $last_day = (int)date('d', strtotime('last day of ' . date('Y-m')));
-    error_log($last_day);
-    error_log(($last_day - (int)date('d') + 2) * 15);
+    $post_data = [
+        'access_key' => base64_decode(getenv('ACCESS_KEY')),
+        'titile' => 'TEST_TITLE',
+        'content' => "TEST_CONTENT\nTWO LINE\nTHREE LINE",
+    ];
+    $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/put_blog.php';
+    $options = [
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
+    ];
+    $res = $mu_->get_contents($url, $options);
 }
