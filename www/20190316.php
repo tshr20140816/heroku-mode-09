@@ -16,8 +16,8 @@ function func_test($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url, $options);
     
     // error_log($res);
-    $tmp = explode('window["ytInitialData"]', $res);
+    $tmp = explode('window["ytInitialData"] = ', $res);
     $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
     
-    error_log($tmp[0]);
+    error_log(print_r(json_decode(trim($tmp[0])), true));
 }
