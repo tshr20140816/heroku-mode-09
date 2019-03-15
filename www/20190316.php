@@ -11,6 +11,7 @@ function func_test($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    /*
     $url = 'https://www.youtube.com/channel/UCPPC65lyLljwbhAkyEBIQDw/videos';
     
     $res = $mu_->get_contents($url, $options);
@@ -36,4 +37,8 @@ function func_test($mu_, $file_name_blog_)
         error_log($time);
         //break;
     }
+    */
+    $url = 'https://www.youtube.com/watch?v=mg01S3eosZ0&list=UUPPC65lyLljwbhAkyEBIQDw';
+    $res = $mu_->get_contents($url);
+    error_log($res);
 }
