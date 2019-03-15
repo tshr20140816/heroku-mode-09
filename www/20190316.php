@@ -21,20 +21,20 @@ function func_test($mu_, $file_name_blog_)
     
     $json = json_decode(trim(trim($tmp[0]), ';'));
     foreach ($json->contents->twoColumnWatchNextResults->playlist->playlist->contents as $item) {
-        error_log(print_r($item, true));
-        /*
-        $title = $item->gridVideoRenderer->title->simpleText;
-        $thumbnail = $item->gridVideoRenderer->thumbnail->thumbnails[0]->url;
-        $link = $item->gridVideoRenderer->navigationEndpoint->commandMetadata->webCommandMetadata->url;
-        $count = $item->gridVideoRenderer->viewCountText->simpleText;
-        $time = $item->gridVideoRenderer->thumbnailOverlays[0]->thumbnailOverlayTimeStatusRenderer->text->simpleText;
+        //error_log(print_r($item, true));
+
+        $title = $item->playlistPanelVideoRenderer->title->simpleText;
+        $thumbnail = $item->playlistPanelVideoRenderer->thumbnail->thumbnails[0]->url;
+        $link = $item->playlistPanelVideoRenderer->navigationEndpoint->commandMetadata->webCommandMetadata->url;
+        //$count = $item->gridVideoRenderer->viewCountText->simpleText;
+        $time = $item->playlistPanelVideoRenderer->thumbnailOverlays[0]->thumbnailOverlayTimeStatusRenderer->text->simpleText;
         $thumbnail = explode('?', $thumbnail)[0];
         error_log($title);
         error_log($thumbnail);
         error_log($link);
-        error_log($count);
+        //error_log($count);
         error_log($time);
-        */
+
         break;
     }
 }
