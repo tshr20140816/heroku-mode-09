@@ -26,5 +26,5 @@ function func_test($mu_, $file_name_blog_)
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
     ];
-    $res = $mu_->get_contents($url, $options);
+    //$res = $mu_->get_contents($url, $options);
 }
