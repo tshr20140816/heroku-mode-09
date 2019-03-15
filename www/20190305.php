@@ -14,7 +14,7 @@ function func_test($mu_, $file_name_blog_)
 
     $post_data = [
         'access_key' => base64_decode(getenv('ACCESS_KEY')),
-        'titile' => 'TEST_TITLE',
+        'title' => 'TEST_TITLE',
         'content' => "TEST_CONTENT\nTWO LINE\nTHREE LINE",
     ];
     $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/put_blog.php';
