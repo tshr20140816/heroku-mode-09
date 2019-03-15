@@ -11,12 +11,11 @@ function func_test($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    /*
-    $url = 'https://www.youtube.com/channel/UCPPC65lyLljwbhAkyEBIQDw/videos';
+    $url = 'https://www.youtube.com/watch?v=mg01S3eosZ0&list=UUPPC65lyLljwbhAkyEBIQDw';
     
     $res = $mu_->get_contents($url, $options);
     
-    // error_log($res);
+    error_log($res);
     $tmp = explode('window["ytInitialData"] = ', $res);
     $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
     
@@ -35,10 +34,6 @@ function func_test($mu_, $file_name_blog_)
         error_log($link);
         error_log($count);
         error_log($time);
-        //break;
+        break;
     }
-    */
-    $url = 'https://www.youtube.com/watch?v=mg01S3eosZ0&list=UUPPC65lyLljwbhAkyEBIQDw';
-    $res = $mu_->get_contents($url);
-    error_log($res);
 }
