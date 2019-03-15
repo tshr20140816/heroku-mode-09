@@ -9,5 +9,5 @@ $rc = func_test($mu, '/tmp/dummy');
 
 function func_test($mu_, $file_name_blog_)
 {
-
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 }
