@@ -34,7 +34,5 @@ function func_test($mu_, $file_name_blog_)
         error_log($link);
         //error_log($count);
         error_log($time);
-
-        break;
     }
 }
