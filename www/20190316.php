@@ -27,7 +27,7 @@ function func_test($mu_, $file_name_blog_)
         $thumbnail = $item->playlistPanelVideoRenderer->thumbnail->thumbnails[0]->url;
         $link = $item->playlistPanelVideoRenderer->navigationEndpoint->commandMetadata->webCommandMetadata->url;
         //$count = $item->gridVideoRenderer->viewCountText->simpleText;
-        $time = $item->playlistPanelVideoRenderer->thumbnailOverlays[0]->thumbnailOverlayTimeStatusRenderer->text->simpleText;
+        $time = $item->playlistPanelVideoRenderer->lengthText->simpleText;
         $thumbnail = explode('?', $thumbnail)[0];
         error_log($title);
         error_log($thumbnail);
