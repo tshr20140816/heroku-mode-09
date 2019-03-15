@@ -15,9 +15,9 @@ function func_test($mu_, $file_name_blog_)
     
     $res = $mu_->get_contents($url, $options);
     
-    error_log($res);
     $tmp = explode('window["ytInitialData"] = ', $res);
     $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
+    error_log($tmp);
     
     $json = json_decode(trim(trim($tmp[0]), ';'));
     $json = $json->contents->twoColumnBrowseResultsRenderer->tabs[1]->tabRenderer->content->sectionListRenderer->contents[0];
