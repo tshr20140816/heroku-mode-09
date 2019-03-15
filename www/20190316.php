@@ -20,9 +20,9 @@ function func_test($mu_, $file_name_blog_)
     error_log($tmp);
     
     $json = json_decode(trim(trim($tmp[0]), ';'));
-    $json = $json->contents->twoColumnBrowseResultsRenderer->tabs[1]->tabRenderer->content->sectionListRenderer->contents[0];
-    foreach ($json->itemSectionRenderer->contents[0]->gridRenderer->items as $item) {
-        //error_log(print_r($item, true));
+    foreach ($json->contents->twoColumnWatchNextResults->playlist->playlist->contents as $item) {
+        error_log(print_r($item, true));
+        /*
         $title = $item->gridVideoRenderer->title->simpleText;
         $thumbnail = $item->gridVideoRenderer->thumbnail->thumbnails[0]->url;
         $link = $item->gridVideoRenderer->navigationEndpoint->commandMetadata->webCommandMetadata->url;
@@ -34,6 +34,7 @@ function func_test($mu_, $file_name_blog_)
         error_log($link);
         error_log($count);
         error_log($time);
+        */
         break;
     }
 }
