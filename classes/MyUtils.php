@@ -357,6 +357,15 @@ __HEREDOC__;
         return $target_;
     }
 
+    public function to_big_size($target_)
+    {
+        $subscript = '₀₁₂₃₄₅₆₇₈₉';
+        for ($i = 0; $i < 10; $i++) {
+            $target_ = str_replace(mb_substr($subscript, $i, 1), $i, $target_);
+        }
+        return $target_;
+    }
+
     public function post_blog_fc2($title_, $description_ = null)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
