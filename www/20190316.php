@@ -10,4 +10,10 @@ $rc = func_test($mu, '/tmp/dummy');
 function func_test($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $url = 'https://www.youtube.com/channel/UCPPC65lyLljwbhAkyEBIQDw/videos';
+    
+    $res = $mu_->get_contents($url, $options);
+    
+    error_log($res);
 }
