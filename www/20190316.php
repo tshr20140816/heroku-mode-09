@@ -13,13 +13,13 @@ function func_test($mu_, $file_name_blog_)
     
     $url = 'https://www.youtube.com/watch?v=mg01S3eosZ0&list=UUPPC65lyLljwbhAkyEBIQDw';
     
-    $res = $mu_->get_contents($url, $options);
+    $res = $mu_->get_contents($url);
     
     $tmp = explode('window["ytInitialData"] = ', $res);
     $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
     
     $playlist = [];
-    $urls = [];
+    // $urls = [];
     $json = json_decode(trim(trim($tmp[0]), ';'));
     foreach ($json->contents->twoColumnWatchNextResults->playlist->playlist->contents as $item) {
         //error_log(print_r($item, true));
@@ -46,13 +46,14 @@ function func_test($mu_, $file_name_blog_)
         $data['thumbnail'] = $thumbnail;
         $data['time'] = $time;
         $playlist[$url] = $data;
-        $urls[$url] = null;
+        // $urls[$url] = null;
     }
     
-    $list_contents = $mu_->get_contents_multi($urls);
+    // $list_contents = $mu_->get_contents_multi($urls);
     
-    foreach ($list_contents as $url => $content) {
-        $tmp = explode('window["ytInitialData"] = ', $content);
+    foreach (array_keys($playlist) as $url) {
+        $res = $mu_->get_contents($url);
+        $tmp = explode('window["ytInitialData"] = ', $res);
         $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
         $json = json_decode(trim(trim($tmp[0]), ';'));
         $count = $json->contents->twoColumnWatchNextResults->results->results->contents[0]->videoPrimaryInfoRenderer->viewCount;
