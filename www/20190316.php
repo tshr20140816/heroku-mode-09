@@ -71,5 +71,5 @@ function func_test($mu_, $file_name_blog_)
         $content .= $data['title'] . ' ' . $data['count'] . "\n";
     }
     error_log($content);
-    // $mu_->post_blog_fc2('TEST', $content);
+    $mu_->post_blog_livedoor('TEST', $content);
 }
