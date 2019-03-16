@@ -28,6 +28,13 @@ function func_test($mu_, $file_name_blog_)
         $thumbnail = $item->playlistPanelVideoRenderer->thumbnail->thumbnails[0]->url;
         $url = $item->playlistPanelVideoRenderer->navigationEndpoint->commandMetadata->webCommandMetadata->url;
         $url = 'https://www.youtube.com/' . $url;
+        foreach (explode('&', parse_url($url, PHP_URL_QUERY)) as $param) {
+            if (explode('=', $param)[0] = 'v') {
+                error_log($param);
+                $url = explode('?', $url)[0] . '?' . $param;
+                break;
+            }
+        }
         $time = $item->playlistPanelVideoRenderer->lengthText->simpleText;
         $thumbnail = explode('?', $thumbnail)[0];
         error_log($title);
