@@ -68,6 +68,7 @@ function func_test($mu_, $file_name_blog_)
     }
     */
     
+    $urls = [];
     foreach (array_keys($playlist) as $url) {
         $urls[$url] = null;
         if (count($urls) == 5) {
@@ -83,6 +84,7 @@ function func_test($mu_, $file_name_blog_)
                 $data['count'] = $count;
                 $playlist[$key] = $data;
             }
+            $urls = [];
         }
     }
     
