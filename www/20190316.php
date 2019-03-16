@@ -47,7 +47,6 @@ function func_test($mu_, $file_name_blog_)
         $data['time'] = $time;
         $playlist[$url] = $data;
         $urls[$url] = null;
-        break;
     }
     
     $list_contents = $mu_->get_contents_multi($urls);
