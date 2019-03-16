@@ -69,5 +69,5 @@ function func_test($mu_, $file_name_blog_)
     foreach ($playlist as $url -> $data) {
         $content = $data['title'] . ' ' . $data['count'] . "\n";
     }
-    $mu_->post_blog_fc2('TEST', $content);
+    // $mu_->post_blog_fc2('TEST', $content);
 }
