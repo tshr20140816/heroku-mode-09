@@ -17,37 +17,42 @@ function func_test($mu_, $file_name_blog_)
     
     $tmp = explode('window["ytInitialData"] = ', $res);
     $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
-    // error_log($tmp);
     
-    $urls = [];
+    $playlist = [];
     $json = json_decode(trim(trim($tmp[0]), ';'));
     foreach ($json->contents->twoColumnWatchNextResults->playlist->playlist->contents as $item) {
         //error_log(print_r($item, true));
 
         $title = $item->playlistPanelVideoRenderer->title->simpleText;
         $thumbnail = $item->playlistPanelVideoRenderer->thumbnail->thumbnails[0]->url;
-        $link = $item->playlistPanelVideoRenderer->navigationEndpoint->commandMetadata->webCommandMetadata->url;
-        $link = 'https://www.youtube.com/' . $link;
-        //$count = $item->gridVideoRenderer->viewCountText->simpleText;
+        $url = $item->playlistPanelVideoRenderer->navigationEndpoint->commandMetadata->webCommandMetadata->url;
+        $url = 'https://www.youtube.com/' . $url;
         $time = $item->playlistPanelVideoRenderer->lengthText->simpleText;
         $thumbnail = explode('?', $thumbnail)[0];
         error_log($title);
         error_log($thumbnail);
-        error_log($link);
+        error_log($url);
         //error_log($count);
         error_log($time);
-        $urls[$link] = null;
+        $data['title'] = $title;
+        $data['thumbnail'] = $thumbnail;
+        $data['time'] = $time;
+        $playlist[$url] = $data;
         break;
     }
     
-    $list_contents = $mu_->get_contents_multi($urls);
+    $list_contents = $mu_->get_contents_multi(array_keys($playlist));
     
-    foreach ($list_contents as $content) {
+    foreach ($list_contents as $url => $content) {
         $tmp = explode('window["ytInitialData"] = ', $content);
         $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
         $json = json_decode(trim(trim($tmp[0]), ';'));
         $count = $json->contents->twoColumnWatchNextResults->results->results->contents[0]->videoPrimaryInfoRenderer->viewCount;
         $count = $count->videoViewCountRenderer->viewCount->simpleText;
         error_log($count);
+        $data = $playlist[$url];
+        $data['count'] = $count;
+        $playlist[$url] = $data;
     }
+    error_log(print_r($playlist, true));
 }
