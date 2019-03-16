@@ -741,7 +741,7 @@ __HEREDOC__;
 
         $mh = curl_multi_init();
         // curl_multi_setopt($mh, CURLMOPT_PIPELINING, 1);
-        curl_multi_setopt($mh, CURLMOPT_MAX_HOST_CONNECTIONS, 5);
+        // curl_multi_setopt($mh, CURLMOPT_MAX_HOST_CONNECTIONS, 5);
 
         foreach ($urls_ as $url => $options_add) {
             error_log($log_prefix . 'CURL MULTI Add $url : ' . $url);
