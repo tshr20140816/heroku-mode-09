@@ -74,6 +74,7 @@ function func_test($mu_, $file_name_blog_)
         if (count($urls) == 5) {
             $list_contents = $mu_->get_contents_multi($urls);
             foreach ($list_contents as $key -> $value) {
+                error_log($key);
                 error_log(strlen($value));
                 $tmp = explode('window["ytInitialData"] = ', $value);
                 $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
