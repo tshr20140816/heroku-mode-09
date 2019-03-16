@@ -19,6 +19,7 @@ function func_test($mu_, $file_name_blog_)
     $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
     // error_log($tmp);
     
+    $urls = [];
     $json = json_decode(trim(trim($tmp[0]), ';'));
     foreach ($json->contents->twoColumnWatchNextResults->playlist->playlist->contents as $item) {
         //error_log(print_r($item, true));
@@ -26,6 +27,7 @@ function func_test($mu_, $file_name_blog_)
         $title = $item->playlistPanelVideoRenderer->title->simpleText;
         $thumbnail = $item->playlistPanelVideoRenderer->thumbnail->thumbnails[0]->url;
         $link = $item->playlistPanelVideoRenderer->navigationEndpoint->commandMetadata->webCommandMetadata->url;
+        $link = 'https://www.youtube.com/' . $link;
         //$count = $item->gridVideoRenderer->viewCountText->simpleText;
         $time = $item->playlistPanelVideoRenderer->lengthText->simpleText;
         $thumbnail = explode('?', $thumbnail)[0];
@@ -34,5 +36,17 @@ function func_test($mu_, $file_name_blog_)
         error_log($link);
         //error_log($count);
         error_log($time);
+        $urls[$link] = null;
+        break;
+    }
+    
+    $list_contents = $mu_->get_contents_multi($urls);
+    
+    foreach ($list_contents as $content) {
+        $tmp = explode('window["ytInitialData"] = ', $content);
+        $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
+        $json = json_decode(trim(trim($tmp[0]), ';'));
+        $count = $json->contents->twoColumnWatchNextResults->results->results->contents[0]->videoPrimaryInfoRenderer->viewCount->simpleText;
+        error_log($count);
     }
 }
