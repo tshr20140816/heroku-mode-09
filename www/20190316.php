@@ -64,4 +64,10 @@ function func_test($mu_, $file_name_blog_)
     }
     
     error_log(print_r($playlist, true));
+    
+    $content = '';
+    foreach ($playlist as $url -> $data) {
+        $content = $data['title'] . ' ' . $data['count'] . "\n";
+    }
+    $mu_->post_blog_fc2('TEST', $content);
 }
