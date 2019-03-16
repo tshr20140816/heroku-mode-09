@@ -797,7 +797,6 @@ __HEREDOC__;
                 error_log($log_prefix . 'CURL Result $url : ' . $url);
                 $result = curl_multi_getcontent($ch);
                 $results[$url] = $result;
-                error_log($log_prefix . 'CURL Result len : ' . strlen($result));
             }
             curl_multi_remove_handle($mh, $ch);
             curl_close($ch);
