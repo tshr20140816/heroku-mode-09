@@ -46,7 +46,8 @@ function func_test($mu_, $file_name_blog_)
         $tmp = explode('window["ytInitialData"] = ', $content);
         $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
         $json = json_decode(trim(trim($tmp[0]), ';'));
-        $count = $json->contents->twoColumnWatchNextResults->results->results->contents[0]->videoPrimaryInfoRenderer->viewCount->simpleText;
+        $count = $json->contents->twoColumnWatchNextResults->results->results->contents[0]->videoPrimaryInfoRenderer->viewCount;
+        $count = $count->videoViewCountRenderer->viewCount->simpleText;
         error_log($count);
     }
 }
