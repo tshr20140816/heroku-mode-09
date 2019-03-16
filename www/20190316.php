@@ -19,6 +19,7 @@ function func_test($mu_, $file_name_blog_)
     $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
     
     $playlist = [];
+    $urls = [];
     $json = json_decode(trim(trim($tmp[0]), ';'));
     foreach ($json->contents->twoColumnWatchNextResults->playlist->playlist->contents as $item) {
         //error_log(print_r($item, true));
@@ -38,10 +39,11 @@ function func_test($mu_, $file_name_blog_)
         $data['thumbnail'] = $thumbnail;
         $data['time'] = $time;
         $playlist[$url] = $data;
+        $urls[$url] = null;
         break;
     }
     
-    $list_contents = $mu_->get_contents_multi(array_keys($playlist));
+    $list_contents = $mu_->get_contents_multi($urls);
     
     foreach ($list_contents as $url => $content) {
         $tmp = explode('window["ytInitialData"] = ', $content);
