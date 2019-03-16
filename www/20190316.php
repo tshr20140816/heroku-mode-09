@@ -53,6 +53,7 @@ function func_test($mu_, $file_name_blog_)
     
     // $list_contents = $mu_->get_contents_multi($urls);
     
+    /*
     foreach (array_keys($playlist) as $url) {
         $res = $mu_->get_contents($url);
         $tmp = explode('window["ytInitialData"] = ', $res);
@@ -65,12 +66,12 @@ function func_test($mu_, $file_name_blog_)
         $data['count'] = $count;
         $playlist[$url] = $data;
     }
+    */
     
-    /*
     $urls = [];
     foreach (array_keys($playlist) as $url) {
         $urls[$url] = null;
-        if (count($urls) == 5) {
+        if (count($urls) == 2) {
             $list_contents = $mu_->get_contents_multi($urls);
             foreach ($list_contents as $key -> $value) {
                 error_log($key);
@@ -86,9 +87,9 @@ function func_test($mu_, $file_name_blog_)
                 $playlist[$key] = $data;
             }
             $urls = [];
+            break;
         }
     }
-    */
     
     error_log(print_r($playlist, true));
 }
