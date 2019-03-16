@@ -42,18 +42,13 @@ function func_test($mu_, $file_name_blog_)
         error_log($title);
         error_log($thumbnail);
         error_log($url);
-        //error_log($count);
         error_log($time);
         $data['title'] = $title;
         $data['thumbnail'] = $thumbnail;
         $data['time'] = $time;
         $playlist[$url] = $data;
-        // $urls[$url] = null;
     }
     
-    // $list_contents = $mu_->get_contents_multi($urls);
-    
-    /*
     foreach (array_keys($playlist) as $url) {
         $res = $mu_->get_contents($url);
         $tmp = explode('window["ytInitialData"] = ', $res);
@@ -65,30 +60,6 @@ function func_test($mu_, $file_name_blog_)
         $data = $playlist[$url];
         $data['count'] = $count;
         $playlist[$url] = $data;
-    }
-    */
-    
-    $urls = [];
-    foreach (array_keys($playlist) as $url) {
-        $urls[$url] = null;
-        if (count($urls) == 2) {
-            $list_contents = $mu_->get_contents_multi($urls);
-            foreach ($list_contents as $key -> $value) {
-                error_log($key);
-                error_log(strlen($value));
-                $tmp = explode('window["ytInitialData"] = ', $value);
-                $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
-                $json = json_decode(trim(trim($tmp[0]), ';'));
-                $count = $json->contents->twoColumnWatchNextResults->results->results->contents[0]->videoPrimaryInfoRenderer->viewCount;
-                $count = $count->videoViewCountRenderer->viewCount->simpleText;
-                error_log($count);
-                $data = $playlist[$key];
-                $data['count'] = $count;
-                $playlist[$key] = $data;
-            }
-            $urls = [];
-            break;
-        }
     }
     
     error_log(print_r($playlist, true));
