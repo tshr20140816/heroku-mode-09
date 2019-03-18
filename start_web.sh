@@ -14,6 +14,9 @@ if [ ! -v BASIC_PASSWORD ]; then
   exit
 fi
 
+grep -c -e processor /proc/cpuinfo
+cat /proc/cpuinfo | head -n 27
+
 httpd -V
 # httpd -M | sort
 php --version
