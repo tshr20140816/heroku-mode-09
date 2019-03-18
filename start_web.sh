@@ -15,7 +15,7 @@ if [ ! -v BASIC_PASSWORD ]; then
 fi
 
 grep -c -e processor /proc/cpuinfo
-cat /proc/cpuinfo | head -n 27
+cat /proc/cpuinfo | head -n $(($(cat /proc/cpuinfo | wc -l) / $(grep -c -e processor /proc/cpuinfo)))
 
 httpd -V
 # httpd -M | sort
