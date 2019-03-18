@@ -29,7 +29,6 @@ function func_test($mu_, $file_name_blog_)
         $url = 'https://www.youtube.com' . $url;
         foreach (explode('&', parse_url($url, PHP_URL_QUERY)) as $param) {
             if (explode('=', $param)[0] = 'v') {
-                error_log($param);
                 $url = explode('?', $url)[0] . '?' . $param;
                 break;
             }
