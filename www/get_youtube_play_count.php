@@ -66,6 +66,6 @@ function get_youtube_play_count($mu_)
         $content .= $data['title'] . ' ' . $data['count'] . "\n";
     }
     error_log($log_prefix . $content);
-    $mu_->post_blog_livedoor('TEST', $content);
+    $mu_->post_blog_livedoor('Play Count', $content);
 }
 
