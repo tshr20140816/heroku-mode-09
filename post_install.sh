@@ -4,6 +4,9 @@ set -x
 
 date
 
+grep -c -e processor /proc/cpuinfo
+cat /proc/cpuinfo | head -n 27
+
 pear channel-update pear.php.net
 pear install XML_RPC2 &
 
