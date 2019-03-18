@@ -5,7 +5,7 @@ set -x
 date
 
 grep -c -e processor /proc/cpuinfo
-cat /proc/cpuinfo | head -n 27
+cat /proc/cpuinfo | head -n $(($(cat /proc/cpuinfo | wc -l) / $(grep -c -e processor /proc/cpuinfo)))
 
 pear channel-update pear.php.net
 pear install XML_RPC2 &
