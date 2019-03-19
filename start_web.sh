@@ -23,7 +23,6 @@ php --version
 # whereis php
 # php -m
 cat /proc/version
-cat /proc/cpuinfo | grep 'model name' | head -n 1
 curl --version
 
 echo "$(httpd -v)" > /tmp/apache_current_version
