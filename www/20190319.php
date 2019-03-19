@@ -25,4 +25,6 @@ function func_test($mu_, $file_name_blog_)
     foreach ($matches[1] as $match) {
         error_log(print_r($match, true));
     }
+    
+    error_log(ip2long($_SERVER['HTTP_X_FORWARDED_FOR']));
 }
