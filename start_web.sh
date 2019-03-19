@@ -38,7 +38,7 @@ export USER_AGENT=$(curl https://raw.githubusercontent.com/tshr20140816/heroku-m
 
 htpasswd -c -b .htpasswd ${BASIC_USER} ${BASIC_PASSWORD}
 
-dig -t txt _netblocks.google.com | grep ^[\;] > /tmp/_netblocks.google.com.txt
+dig -t txt _netblocks.google.com | grep ^[^\;] > /tmp/_netblocks.google.com.txt
 
 pushd www
 mv ical.php ${ICS_ADDRESS}.php
