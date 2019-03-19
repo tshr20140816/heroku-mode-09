@@ -39,8 +39,23 @@ if ($ical_data == '') {
     echo gzdecode(base64_decode($ical_data));
 }
 
+$res = file_get_contents('/tmp/_netblocks.google.com.txt');
+error_log("${pid} ${res}");
+$rc = preg_match_all('/ip4:(.+?) /', $res, $matches);
+
+$target_ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+$is_google = false;
+foreach ($matches[1] as $cidr) {
+    list($base_ip, $subnetmask) = explode('/', $cidr);
+    if (ip2long($target_ipaddress) >> (32 - $subnetmask) == ip2long($base_ip) >> (32 - $subnetmask)) {
+        $is_google = true;
+        break;
+    }
+}
+$result = $is_google === true ? 'OK' : 'NG';
+
 $time_finish = microtime(true);
-$mu->post_blog_wordpress('/ical.php ' . substr(($time_finish - $time_start), 0, 6) . 's', $_SERVER['HTTP_X_FORWARDED_FOR']);
+$mu->post_blog_wordpress('/ical.php ' . substr(($time_finish - $time_start), 0, 6) . 's', "${target_ipaddress} ${result}");
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
 exit();
