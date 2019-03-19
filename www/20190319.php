@@ -22,9 +22,15 @@ function func_test($mu_, $file_name_blog_)
     
     error_log(print_r($matches, true));
     
-    foreach ($matches[1] as $match) {
-        error_log(print_r($match, true));
+    $is_google = false;
+    foreach ($matches[1] as $cidr) {
+        error_log($cidr);
+        list($base_ip, $subnetmask) = explode('/', $cidr);
+        if (ip2long($_SERVER['HTTP_X_FORWARDED_FOR']) >> (32 - $subnetmask) == ip2long($base_ip) >> (32 - $subnetmask)) {
+            $is_google = true;
+            break;
+        }
     }
     
-    error_log(ip2long($_SERVER['HTTP_X_FORWARDED_FOR']));
+    error_log($is_google);
 }
