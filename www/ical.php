@@ -47,7 +47,7 @@ $target_ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
 $is_google = false;
 foreach ($matches[1] as $cidr) {
     list($base_ip, $subnetmask) = explode('/', $cidr);
-    if (ip2long($target_ipaddress) >> (32 - $subnetmask) == ip2long($base_ip) >> (32 - $subnetmask)) {
+    if (ip2long($target_ipaddress) >> (32 - $subnetmask) === ip2long($base_ip) >> (32 - $subnetmask)) {
         $is_google = true;
         break;
     }
