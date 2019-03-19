@@ -32,5 +32,9 @@ function func_test($mu_, $file_name_blog_)
         }
     }
     
-    error_log($is_google);
+    if ($is_google === true) {
+        error_log('OK');
+    } else {
+        error_log('NG');
+    }
 }
