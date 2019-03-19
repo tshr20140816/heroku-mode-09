@@ -14,4 +14,15 @@ function func_test($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $res = file_get_contents('/tmp/_netblocks.google.com.txt');
+    
+    error_log($res);
+    
+    $rc = preg_match_all('/ip4:(.+?) /', $res, $matches);
+    
+    error_log(print_r($matches, true));
+    
+    foreach ($matches[1] as $match) {
+        error_log(print_r($match, true));
+    }
 }
