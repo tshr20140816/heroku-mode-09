@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $mu->get_env('HIDRIVE_PASSWORD', true);
     $url = "https://webdav.hidrive.strato.com/users/${user}/${file_name}";
     $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${user}:${password}",
         CURLOPT_CUSTOMREQUEST => 'GET',
     ];
