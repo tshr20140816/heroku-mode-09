@@ -12,55 +12,44 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 function func_test($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
-    $url = getenv('URL_YOUTUBE');
-    
-    $res = $mu_->get_contents($url);
-    
-    $tmp = explode('window["ytInitialData"] = ', $res);
-    $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
-    
-    $playlist = [];
-    $json = json_decode(trim(trim($tmp[0]), ';'));
-    foreach ($json->contents->twoColumnWatchNextResults->playlist->playlist->contents as $item) {
-        $title = $item->playlistPanelVideoRenderer->title->simpleText;
-        $thumbnail = $item->playlistPanelVideoRenderer->thumbnail->thumbnails[0]->url;
-        $url = $item->playlistPanelVideoRenderer->navigationEndpoint->commandMetadata->webCommandMetadata->url;
-        $url = 'https://www.youtube.com' . $url;
-        foreach (explode('&', parse_url($url, PHP_URL_QUERY)) as $param) {
-            if (explode('=', $param)[0] = 'v') {
-                $url = explode('?', $url)[0] . '?' . $param;
-                break;
-            }
-        }
-        $time = $item->playlistPanelVideoRenderer->lengthText->simpleText;
-        $thumbnail = explode('?', $thumbnail)[0];
-        $data['title'] = $title;
-        $data['thumbnail'] = $thumbnail;
-        $data['time'] = $time;
-        $playlist[$url] = $data;
+
+    $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
+    $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
+
+    $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/";
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
+        CURLOPT_HTTPHEADER => ['Connection: keep-alive',],
+    ];
+    $res = $mu_->get_contents($url, $options);
+
+    $tmp = explode('<tbody>', $res)[1];
+    $rc = preg_match_all('/<a href="(.+?)">/', $tmp, $matches);
+
+    array_shift($matches[1]);
+
+    $size = 0;
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
+        CURLOPT_HEADER => true,
+        CURLOPT_NOBODY => true,
+        CURLOPT_HTTPHEADER => ['Connection: keep-alive',],
+    ];
+    foreach ($matches[1] as $file_name) {
+        $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/" . $file_name;
+        $urls[$url] = $options;
     }
-    
-    foreach (array_keys($playlist) as $url) {
-        $res = $mu_->get_contents($url);
-        $tmp = explode('window["ytInitialData"] = ', $res);
-        $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
-        $json = json_decode(trim(trim($tmp[0]), ';'));
-        $count = $json->contents->twoColumnWatchNextResults->results->results->contents[0]->videoPrimaryInfoRenderer->viewCount;
-        $count = trim($count->videoViewCountRenderer->viewCount->simpleText);
-        $count = explode(' ', $count)[0];
-        $data = $playlist[$url];
-        $data['count'] = $count;
-        $playlist[$url] = $data;
+    $res = $mu_->get_contents_multi($urls, null);
+
+    foreach ($res as $result) {
+        $rc = preg_match('/Content-Length: (\d+)/', $result, $match);
+        $size += (int)$match[1];
     }
-    
-    error_log($log_prefix . print_r($playlist, true));
-    
-    $content = '';
-    foreach (array_keys($playlist) as $url) {
-        $data = $playlist[$url];
-        $content .= $data['title'] . ' ' . $data['count'] . "\n";
-    }
-    error_log($log_prefix . $content);
-    $mu_->post_blog_livedoor('TEST', $content);
+    $percentage = ($size / (5 * 1024 * 1024 * 1024)) * 100;
+    $size = number_format($size);
+
+    error_log($log_prefix . "HiDrive usage : ${size}Byte ${percentage}%");
+    file_put_contents($file_name_blog_, "\nHiDrive usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
 }
