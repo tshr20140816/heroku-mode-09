@@ -47,7 +47,7 @@ function func_test($mu_, $file_name_blog_)
         $rc = preg_match('/Content-Length: (\d+)/', $result, $match);
         $size += (int)$match[1];
     }
-    $percentage = ($size / (5 * 1024 * 1024 * 1024)) * 100;
+    $percentage = substr(($size / (5 * 1024 * 1024 * 1024)) * 100, 0, 5);
     $size = number_format($size);
 
     error_log($log_prefix . "HiDrive usage : ${size}Byte ${percentage}%");
