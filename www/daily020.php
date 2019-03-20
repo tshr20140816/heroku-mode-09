@@ -717,7 +717,7 @@ function check_opendrive_usage($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url);
     $data = json_decode($res);
     $size = number_format($data->StorageUsed);
-    $percentage = ($data->StorageUsed / (5 * 1024 * 1024 * 1024)) * 100;
+    $percentage = substr(($data->StorageUsed / (5 * 1024 * 1024 * 1024)) * 100, 0, 5);
 
     error_log($log_prefix . "OpenDrive usage : ${size}Byte ${percentage}%");
     file_put_contents($file_name_blog_, "\nOpenDrive usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
@@ -742,7 +742,7 @@ function check_teracloud_usage($mu_, $file_name_blog_)
 
     $data = json_decode($res);
     $size = number_format($data->dataset->__ROOT__->used);
-    $percentage = ($data->dataset->__ROOT__->used / (10 * 1024 * 1024 * 1024)) * 100;
+    $percentage = substr(($data->dataset->__ROOT__->used / (10 * 1024 * 1024 * 1024)) * 100, 0, 5);
 
     error_log($log_prefix . "TeraCLOUD usage : ${size}Byte ${percentage}%");
     file_put_contents($file_name_blog_, "\nTeraCLOUD usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
@@ -760,7 +760,7 @@ function check_pcloud_usage($mu_, $file_name_blog_)
 
     $data = json_decode($res);
     $size = number_format($data->usedquota);
-    $percentage = ($data->usedquota / (10 * 1024 * 1024 * 1024)) * 100;
+    $percentage = substr(($data->usedquota / (10 * 1024 * 1024 * 1024)) * 100, 0, 5);
 
     error_log($log_prefix . "pCloud usage : ${size}Byte ${percentage}%");
     file_put_contents($file_name_blog_, "\npCloud usage : ${size}Byte  ${percentage}%\n\n", FILE_APPEND);
@@ -804,7 +804,7 @@ function check_hidrive_usage($mu_, $file_name_blog_)
         $rc = preg_match('/Content-Length: (\d+)/', $result, $match);
         $size += (int)$match[1];
     }
-    $percentage = ($size / (5 * 1024 * 1024 * 1024)) * 100;
+    $percentage = substr(($size / (5 * 1024 * 1024 * 1024)) * 100, 0, 5);
     $size = number_format($size);
 
     error_log($log_prefix . "HiDrive usage : ${size}Byte ${percentage}%");
