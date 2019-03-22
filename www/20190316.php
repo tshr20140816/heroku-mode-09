@@ -32,7 +32,7 @@ function func_test($mu_, $file_name_blog_)
         ['post_title']
     );
     
-    error_log(print_r($result, true));
+    error_log(print_r($results, true));
     /*
     foreach ($results as $result) {
         error_log($result['post_title']);
