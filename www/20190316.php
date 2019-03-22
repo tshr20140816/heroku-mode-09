@@ -23,10 +23,19 @@ function func_test($mu_, $file_name_blog_)
     $blogid = $result[0]['blogid'];
     
     $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
-    $results = $client->getPosts($blogid, $username, $password, ['number' => 500]);
+    // $results = $client->getPosts($blogid, $username, $password, ['number' => 500]);
+    $results = $client->getPosts(
+        $blogid,
+        $username,
+        $password,
+        ['number' => 10, 'orderby' => 'desc', 'order' => 'date'],
+        ['post_title']
+    );
     
-    // error_log(print_r($result, true));
+    error_log(print_r($result, true));
+    /*
     foreach ($results as $result) {
         error_log($result['post_title']);
     }
+    */
 }
