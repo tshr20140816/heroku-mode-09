@@ -19,11 +19,11 @@ function func_test($mu_, $file_name_blog_)
     $url = 'https://' . $username . '.wordpress.com/xmlrpc.php';
     $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
     $result = $client->getUsersBlogs($username, $password);
-    error_log($result);
+    error_log(print_r($result, true));
     $blogid = $result[0]['blogid'];
     
     $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
     $result = $client->getPosts($blogid, $username, $password);
     
-    error_log($result);
+    error_log(print_r($result, true));
 }
