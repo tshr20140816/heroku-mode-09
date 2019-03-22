@@ -74,6 +74,7 @@ if ($res === 'continue') {
     error_log("${pid} opcache_get_status : " . print_r(opcache_get_status(), true));
 }
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
+exit();
 
 function check_lib($mu_, $order_) {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
