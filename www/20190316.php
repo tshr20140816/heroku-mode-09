@@ -13,43 +13,21 @@ function func_test($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
-    $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
-
-    $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/";
+    $cookie = tempnam("/tmp", md5(microtime(true)));
     $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-        CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
-        CURLOPT_HTTPHEADER => ['Connection: keep-alive',],
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_HTTPHEADER => [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            'DNT: 1',
+            'Upgrade-Insecure-Requests: 1',
+            ],
     ];
-    $res = $mu_->get_contents($url, $options);
-
-    $tmp = explode('<tbody>', $res)[1];
-    $rc = preg_match_all('/<a href="(.+?)">/', $tmp, $matches);
-
-    array_shift($matches[1]);
-
-    $size = 0;
-    $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-        CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
-        CURLOPT_HEADER => true,
-        CURLOPT_NOBODY => true,
-        CURLOPT_HTTPHEADER => ['Connection: keep-alive',],
-    ];
-    foreach ($matches[1] as $file_name) {
-        $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/" . $file_name;
-        $urls[$url] = $options;
-    }
-    $res = $mu_->get_contents_multi($urls, null);
-
-    foreach ($res as $result) {
-        $rc = preg_match('/Content-Length: (\d+)/', $result, $match);
-        $size += (int)$match[1];
-    }
-    $percentage = substr(($size / (5 * 1024 * 1024 * 1024)) * 100, 0, 5);
-    $size = number_format($size);
-
-    error_log($log_prefix . "HiDrive usage : ${size}Byte ${percentage}%");
-    file_put_contents($file_name_blog_, "\nHiDrive usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
+    $url = getenv('URL_010');
+    error_log("${pid} ${url}");
+    error_log($mu_->get_contents($url, $options));
 }
