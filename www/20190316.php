@@ -29,6 +29,7 @@ function func_test($mu_, $file_name_blog_)
         $username,
         $password,
         ['number' => 3, 'orderby' => 'desc', 'order' => 'date'],
+        ['post_title', 'post_date_gmt'],
     );
     
     error_log(print_r($results, true));
