@@ -12,27 +12,17 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 function func_test($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-
-    $cookie = tempnam("/tmp", md5(microtime(true)));
-    $options = [
-        CURLOPT_HEADER => true,
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
-        CURLOPT_ENCODING => 'gzip, deflate, br',
-        CURLOPT_HTTPHEADER => [
-            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
-            'Cache-Control: no-cache',
-            'Connection: keep-alive',
-            'DNT: 1',
-            'Upgrade-Insecure-Requests: 1',
-            ],
-    ];
-    $url = getenv('URL_010');
-    error_log("${pid} ${url}");
-    error_log($mu_->get_contents($url, $options));
     
-    // $url = getenv('URL_011');
-    // error_log("${pid} ${url}");
-    // error_log($mu_->get_contents($url, $options));
+    $username = $mu_->get_env('WORDPRESS_USERNAME', true);
+    $password = $mu_->get_env('WORDPRESS_PASSWORD', true);
+    
+    $url = 'https://' . $username . '.wordpress.com/xmlrpc.php';
+    $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
+    $result = $client->getUsersBlogs($username, $password);
+    $blogid = $result[0]['blogid'];
+    
+    $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
+    $result = $client->getPosts($blogid, $username, $password);
+    
+    error_log($result);
 }
