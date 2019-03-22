@@ -31,4 +31,8 @@ function func_test($mu_, $file_name_blog_)
     $url = getenv('URL_010');
     error_log("${pid} ${url}");
     error_log($mu_->get_contents($url, $options));
+    
+    $url = getenv('URL_011');
+    error_log("${pid} ${url}");
+    error_log($mu_->get_contents($url, $options));
 }
