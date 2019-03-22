@@ -15,6 +15,7 @@ function func_test($mu_, $file_name_blog_)
 
     $cookie = tempnam("/tmp", md5(microtime(true)));
     $options = [
+        CURLOPT_HEADER => true,
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
         CURLOPT_ENCODING => 'gzip, deflate, br',
