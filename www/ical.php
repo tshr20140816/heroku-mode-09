@@ -52,7 +52,7 @@ foreach ($matches[1] as $cidr) {
         break;
     }
 }
-$result = $is_google === true ? 'OK' : 'NG';
+$result = $is_google === true ? '⭕' : '❌';
 
 $time_finish = microtime(true);
 $mu->post_blog_wordpress('/ical.php ' . substr(($time_finish - $time_start), 0, 6) . 's', "${target_ipaddress} ${result}");
