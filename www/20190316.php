@@ -28,8 +28,7 @@ function func_test($mu_, $file_name_blog_)
         $blogid,
         $username,
         $password,
-        ['number' => 10, 'orderby' => 'desc', 'order' => 'date'],
-        ['post_title']
+        ['number' => 3, 'orderby' => 'desc', 'order' => 'date'],
     );
     
     error_log(print_r($results, true));
