@@ -30,7 +30,7 @@ function func_test3($mu_, $file_name_blog_)
             if (mb_strpos($item, '広島') === false) {
                 continue;
             }
-            $rc = preg_match('/<.+?>(\d+)\/(\d+).+?>.*?<.+?>(.+?)<.+?>.*?<.+?>(.+?)<.+?>.*?<.+?>(.+?)<.+?>.*?<.+?>(.+?)<.+?>.*?<.+?>(.+?)<.+?>/s', $item, $match);
+            $rc = preg_match('/<.+?>(\d+)\/(\d+).+?>' . str_repeat('.*?<.+?>(.+?)<.+?>', 5) . '/s', $item, $match);
 
             $timestamp = strtotime($yyyy . '/' . $match[1] . '/' . $match[2]);
             if ($timestamp < time()) {
