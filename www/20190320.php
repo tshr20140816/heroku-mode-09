@@ -12,5 +12,9 @@ function func_test3($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $url = '';
+    $url = 'https://' . $username . '.wordpress.com/wp-json/';
+    
+    $res = $mu_->get_contents($url);
+    
+    error_log($res);
 }
