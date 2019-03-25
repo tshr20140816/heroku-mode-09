@@ -2,7 +2,11 @@
 
 $url = 'https://www.iwakuni-kanko.com/festival/0505/';
 
-function get_contents_nocache($url_, $options_ = null)
+$res = get_contents($url);
+
+error_log($res);
+
+function get_contents($url_, $options_ = null)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'URL : ' . $url_);
@@ -19,4 +23,25 @@ function get_contents_nocache($url_, $options_ = null)
         CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2TLS,
     ];
+    
+    $ch = curl_init();
+    foreach ($options as $key => $value) {
+        $rc = curl_setopt($ch, $key, $value);
+        if ($rc == false) {
+            error_log($log_prefix . "curl_setopt : ${key} ${value}");
+        }
+    }
+    if (is_null($options_) === false) {
+        foreach ($options_ as $key => $value) {
+            $rc = curl_setopt($ch, $key, $value);
+            if ($rc == false) {
+                error_log($log_prefix . "curl_setopt : ${key} ${value}");
+            }
+        }
+    }
+    $res = curl_exec($ch);
+    $http_code = (string)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    
+    return $res;
 }
