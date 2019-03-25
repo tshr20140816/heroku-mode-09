@@ -71,11 +71,13 @@ __HEREDOC__;
     $res = $mu_->get_contents($url, $options3);
     
     // error_log($res);
-    $res = preg_replace("/\n+/s", "\n", $res);
+    $res = preg_replace('/\n+/s', '\n', $res);
     $rc = preg_match_all('/<li>(.+?)<\/li>/s', $res, $matches);
     
     //error_log(print_r($matches[1], true));
     foreach ($matches[1] as $item) {
-        error_log($log_prefix . trim(strip_tags($item)));
+        // error_log($log_prefix . trim(strip_tags($item)));
+        $rc = preg_match('/(.+)\n(.*)\n/s', $item, $match);
+        error_log(print_r($item, true));
     }
 }
