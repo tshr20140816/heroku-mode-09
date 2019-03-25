@@ -22,21 +22,27 @@ function func_test($mu_, $file_name_blog_)
     error_log(print_r($result, true));
     $blogid = $result[0]['blogid'];
     
-    $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
-    // $results = $client->getPosts($blogid, $username, $password, ['number' => 500]);
-    $results = $client->getPosts(
-        $blogid,
-        $username,
-        $password,
-        ['number' => 3, 'offset' => 1, 'orderby' => 'desc', 'order' => 'date'],
-        ['post_title', 'post_date_gmt'],
-    );
+    for ($i = 0; $i < 100; $i++) {
+        $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
+        // $results = $client->getPosts($blogid, $username, $password, ['number' => 500]);
+        $results = $client->getPosts(
+            $blogid,
+            $username,
+            $password,
+            ['number' => 10, 'offset' => $i, 'orderby' => 'desc', 'order' => 'date'],
+            ['post_title', 'post_date_gmt'],
+        );
     
-    // error_log(print_r($results, true));
-    foreach ($results as $result) {
-        error_log($result['post_title']);
-        // 60 * 60 * 24 * 10
-        error_log(time() - $result['post_date_gmt']->timestamp);
+        // error_log(print_r($results, true));
+        foreach ($results as $result) {
+            error_log($result['post_title']);
+            // 60 * 60 * 24 * 10
+            $time_diff = time() - $result['post_date_gmt']->timestamp;
+            if ($time_diff > (60 * 60 * 24 * 10)) {
+                error_log($time_diff);
+                break 2;
+            }
+        }
     }
 
 }
