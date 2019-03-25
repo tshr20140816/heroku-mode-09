@@ -2,7 +2,7 @@
 
 $url = 'https://www.iwakuni-kanko.com/festival/0505/';
 
-$res = get_contents($url);
+$res = get_contents($url, [CURLOPT_HEADER => true]);
 
 error_log($res);
 
