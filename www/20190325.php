@@ -76,6 +76,6 @@ __HEREDOC__;
     
     //error_log(print_r($matches[1], true));
     foreach ($matches[1] as $item) {
-        error_log(trim(strip_tags($item)));
+        error_log($log_prefix . trim(strip_tags($item)));
     }
 }
