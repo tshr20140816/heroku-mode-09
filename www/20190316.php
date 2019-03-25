@@ -23,13 +23,14 @@ function func_test($mu_, $file_name_blog_)
     $blogid = $result[0]['blogid'];
     
     for ($i = 0; $i < 100; $i++) {
+        error_log($i);
         $client = XML_RPC2_Client::create($url, ['prefix' => 'wp.']);
         // $results = $client->getPosts($blogid, $username, $password, ['number' => 500]);
         $results = $client->getPosts(
             $blogid,
             $username,
             $password,
-            ['number' => 50, 'offset' => $i, 'orderby' => 'desc', 'order' => 'date'],
+            ['number' => 50, 'offset' => $i * 50, 'orderby' => 'desc', 'order' => 'date'],
             ['post_title', 'post_date_gmt'],
         );
     
