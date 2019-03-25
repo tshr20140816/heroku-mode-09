@@ -70,5 +70,8 @@ __HEREDOC__;
     $url = 'https://' . parse_url($url)['host'] . '/winj/opac/reserve-list.do';
     $res = $mu_->get_contents($url, $options3);
     
-    error_log($res);
+    // error_log($res);
+    $rc = preg_match_all('/<li>(.+?)<\/li>/s', $res, $matches, PREG_SET_ORDER);
+    
+    error_log(print_r($matches[1], true));
 }
