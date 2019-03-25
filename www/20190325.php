@@ -5,9 +5,10 @@ $requesturi = $_SERVER['REQUEST_URI'];
 $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
-$rc = func_test($mu, '/tmp/dummy');
+$rc = func_test2($mu, '/tmp/dummy');
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_test($mu_, $file_name_blog_)
+function func_test2($mu_, $file_name_blog_)
 {
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 }
