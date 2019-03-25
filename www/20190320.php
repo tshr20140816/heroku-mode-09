@@ -11,10 +11,8 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 function func_test3($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
-    $username = $mu_->get_env('WORDPRESS_USERNAME', true);
-    
-    $url = "https://public-api.wordpress.com/wp/v2/sites/${username}/pages";
+        
+    $url = 'https://elevensports.jp/schedule/farm';
     
     $res = $mu_->get_contents($url);
     
