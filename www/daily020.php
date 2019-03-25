@@ -175,6 +175,15 @@ $list_contents = $mu->get_contents_multi($urls, $urls_is_cache);
 //
 
 $yyyy = date('Y');
+$ymd = date('Ymd', strtotime('+9 hours'));
+for ($i = 3; $i < 10; $i++) {
+    $url = "https://elevensports.jp/schedule/farm/${yyyy}/" . str_pad($i, 2, '0', STR_PAD_LEFT) . "?4nocache${ymd}";
+    $res = $mu->get_contents($url, null, true);
+}
+
+//
+
+$yyyy = date('Y');
 $yyyy++;
 $url = "https://e-moon.net/calendar_list/calendar_moon_${yyyy}/";
 $res = $mu->get_contents($url, null, true);
