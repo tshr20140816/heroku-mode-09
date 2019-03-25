@@ -74,5 +74,8 @@ __HEREDOC__;
     $res = preg_replace("/\n+/s", "\n", $res);
     $rc = preg_match_all('/<li>(.+?)<\/li>/s', $res, $matches);
     
-    error_log(print_r($matches[1], true));
+    //error_log(print_r($matches[1], true));
+    foreach ($matches[1] as $item) {
+        error_log(trim(strip_tags($item)));
+    }
 }
