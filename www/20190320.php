@@ -12,6 +12,8 @@ function func_test3($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    $username = $mu_->get_env('WORDPRESS_USERNAME', true);
+    
     $url = 'https://' . $username . '.wordpress.com/wp-json/';
     
     $res = $mu_->get_contents($url);
