@@ -16,5 +16,13 @@ function func_test3($mu_, $file_name_blog_)
     
     $res = $mu_->get_contents($url);
     
-    error_log($res);
+    //error_log($res);
+    $rc = preg_match_all('/<tr>(.+?)<\/tr>/s', $res, $matches);
+    
+    foreach ($matches[1] as $item) {
+        if (mb_strpos($item, '広島') === false) {
+            continue;
+        }
+        error_log($item);
+    }
 }
