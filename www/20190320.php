@@ -17,6 +17,7 @@ function func_test3($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url);
     
     //error_log($res);
+    $res = str_replace(' ', '', $res);
     $rc = preg_match_all('/<tr>(.+?)<\/tr>/s', $res, $matches);
     
     foreach ($matches[1] as $item) {
