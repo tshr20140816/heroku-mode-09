@@ -12,7 +12,7 @@ function func_test3($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
         
-    $url = 'https://elevensports.jp/schedule/farm';
+    $url = 'https://elevensports.jp/schedule/farm/2019/03';
     
     $res = $mu_->get_contents($url);
     
