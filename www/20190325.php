@@ -78,6 +78,6 @@ __HEREDOC__;
     foreach ($matches[1] as $item) {
         // error_log($log_prefix . trim(strip_tags($item)));
         $rc = preg_match('/(.+?)\n(.*?)\n/s', trim(strip_tags($item)), $match);
-        error_log(print_r($match, true));
+        error_log($match[1] . $match[2]);
     }
 }
