@@ -69,6 +69,10 @@ check_version_ruby($mu, $file_name_blog);
 
 //
 
+$suffix = '4nocache' . date('Ymd', strtotime('+9 hours'));
+
+//
+
 $pdo = $mu->get_pdo();
 $rc = $pdo->exec('TRUNCATE t_webcache');
 error_log($pid . ' TRUNCATE t_webcache $rc : ' . $rc);
@@ -108,22 +112,22 @@ $urls_is_cache[$url] = null;
 
 //
 
-$url = 'https://github.com/apache/httpd/releases.atom?4nocache' . date('Ymd', strtotime('+9 hours'));
+$url = 'https://github.com/apache/httpd/releases.atom?' . $suffix;
 $urls_is_cache[$url] = null;
 
 //
 
-$url = 'https://github.com/php/php-src/releases.atom?4nocache' . date('Ymd', strtotime('+9 hours'));
+$url = 'https://github.com/php/php-src/releases.atom?' . $suffix;
 $urls_is_cache[$url] = null;
 
 //
 
-$url = 'https://github.com/curl/curl/releases.atom?4nocache' . date('Ymd', strtotime('+9 hours'));
+$url = 'https://github.com/curl/curl/releases.atom?' . $suffix;
 $urls_is_cache[$url] = null;
 
 //
 
-$url = 'https://devcenter.heroku.com/articles/php-support?4nocache' . date('Ymd', strtotime('+9 hours'));
+$url = 'https://devcenter.heroku.com/articles/php-support?' . $suffix;
 $urls_is_cache[$url] = null;
 
 //
@@ -177,7 +181,7 @@ $list_contents = $mu->get_contents_multi($urls, $urls_is_cache);
 $yyyy = date('Y');
 $ymd = date('Ymd', strtotime('+9 hours'));
 for ($i = 3; $i < 10; $i++) {
-    $url = "https://elevensports.jp/schedule/farm/${yyyy}/" . str_pad($i, 2, '0', STR_PAD_LEFT) . "?4nocache${ymd}";
+    $url = "https://elevensports.jp/schedule/farm/${yyyy}/" . str_pad($i, 2, '0', STR_PAD_LEFT) . "?${suffix}";
     $res = $mu->get_contents($url, null, true);
 }
 
@@ -203,7 +207,7 @@ $options = [
 ];
 
 for ($i = 0; $i < 8; $i++) {
-    $url = $mu->get_env('URL_BUS_0' . ($i + 1)) . '&4nocache' . date('Ymd', strtotime('+9 hours'));
+    $url = $mu->get_env('URL_BUS_0' . ($i + 1)) . '&' . $suffix;
     $res = $mu->get_contents($url, $options, true);
 }
 
