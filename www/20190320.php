@@ -39,6 +39,7 @@ function func_test3($mu_, $file_name_blog_)
             }
             
             $title = $match[1] . '/' . $match[2] . ' ' . $match[3] . ' ' . $match[4] . 'v' . $match[6] . ' ' . $match[7];
+            $hash = date('Ymd', $timestamp) . hash('sha512', $title);
             
             $list_add_task[$hash] = '{"title":"' . $title
                 . '","duedate":"' . $timestamp
