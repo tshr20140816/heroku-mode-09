@@ -71,8 +71,7 @@ __HEREDOC__;
     $res = $mu_->get_contents($url, $options3);
     
     // error_log($res);
-    $res = preg_replace('/^\r\n$/s', '', $res);
-    $res = preg_replace('/^\n$/s', '', $res);
+    $res = preg_replace('/\r\n\r\n/s', '\r\n', $res);
     $rc = preg_match_all('/<li>(.+?)<\/li>/s', $res, $matches);
     
     error_log(print_r($matches[1], true));
