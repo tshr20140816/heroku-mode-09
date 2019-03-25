@@ -71,7 +71,7 @@ __HEREDOC__;
     $res = $mu_->get_contents($url, $options3);
     
     // error_log($res);
-    $rc = preg_match_all('/<li>(.+?)<\/li>/s', $res, $matches, PREG_SET_ORDER);
+    $rc = preg_match_all('/<li>(.+?)<\/li>/s', $res, $matches);
     
     error_log(print_r($matches[1], true));
 }
