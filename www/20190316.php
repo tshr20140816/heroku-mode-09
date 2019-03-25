@@ -28,7 +28,7 @@ function func_test($mu_, $file_name_blog_)
         $blogid,
         $username,
         $password,
-        ['number' => 3, 'offset' => 0, 'orderby' => 'desc', 'order' => 'date'],
+        ['number' => 3, 'offset' => 1, 'orderby' => 'desc', 'order' => 'date'],
         ['post_title', 'post_date_gmt'],
     );
     
