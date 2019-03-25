@@ -14,7 +14,7 @@ function func_test3($mu_, $file_name_blog_)
     
     $username = $mu_->get_env('WORDPRESS_USERNAME', true);
     
-    $url = 'https://' . $username . '.wordpress.com/wp-json/';
+    $url = "https://public-api.wordpress.com/wp/v2/sites/${username}/pages";
     
     $res = $mu_->get_contents($url);
     
