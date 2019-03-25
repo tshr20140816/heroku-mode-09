@@ -3,7 +3,7 @@
 $url = 'https://www.iwakuni-kanko.com/festival/0505/';
 
 // $res = get_contents($url, [CURLOPT_HEADER => true]);
-$res = get_contents($url, [CURLOPT_HEADER => true]);
+$res = get_contents($url);
 
 error_log(hash('sha512', $res));
 
