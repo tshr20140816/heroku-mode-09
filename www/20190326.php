@@ -16,7 +16,7 @@ __HEREDOC__;
 
 $url = 'https://feed43.com/tsu20191011.xml';
 
-$res = get_contents($url);
+$res = get_contents($url, [CURLOPT_HEADER => true]);
 
 error_log($res);
 
