@@ -15,7 +15,7 @@ __HEREDOC__;
 error_log(print_r($_COOKIE, true));
 
 $urls[] = 'https://www.ticket.carp.co.jp/storage/assets/json/ticket-stocks/official-general/admission.json';
-$urls[]  = 'https://www.suzukacircuit.jp/f1/ticket/index.html';
+$urls[] = 'https://www.suzukacircuit.jp/f1/ticket/index.html';
 $body = '';
 foreach ($urls as $url) {
     $res = get_contents($url, [CURLOPT_HEADER => true, CURLOPT_NOBODY => true]);
