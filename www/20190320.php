@@ -14,10 +14,6 @@ __HEREDOC__;
 
 error_log(print_r($_COOKIE, true));
 
-$url = 'https://www.mcasiwakunijp.marines.mil/News/Press-Release-View/Article/1753467/';
-$res = get_contents($url, [CURLOPT_HEADER => true, CURLOPT_NOBODY => true]);
-error_log($res);
-
 $urls[] = 'https://www.ticket.carp.co.jp/storage/assets/json/ticket-stocks/official-general/admission.json';
 $urls[] = 'https://www.suzukacircuit.jp/f1/ticket/index.html';
 $body = '';
