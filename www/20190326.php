@@ -14,11 +14,18 @@ __HEREDOC__;
 
 //$url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id=&hi_id=10&dt=2019/10/05&lang=ja-JP';
 
-$url = 'https://feed43.com/tsu20191012.xml';
+$urls[] = 'https://feed43.com/tsu20191011.xml';
+$urls[] = 'https://feed43.com/tsu20191012.xml';
+$body = '';
+foreach ($urls as $url) {
+    $res = get_contents($url);
+    // error_log($res);
 
-$res = get_contents($url, [CURLOPT_HEADER => true]);
-
-error_log($res);
+    $rc = preg_match('/<div class="paging">.+?<\/div>/s', $res, $match);
+    error_log(print_r($match, true));
+    
+    // $body .= '<tr><td>' . $url . '</td><td>' . trim($match[0]) . '</td></tr>' . "\n";
+}
 
 function get_contents($url_, $options_ = null)
 {
