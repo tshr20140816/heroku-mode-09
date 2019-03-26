@@ -13,7 +13,7 @@ __BODY__
 </body></html>
 __HEREDOC__;
 
-error_log(print_r($_COOKIE));
+error_log(print_r($_COOKIE, true));
 
 $url = 'https://www.suzukacircuit.jp/f1/ticket/index.html';
 
