@@ -22,7 +22,7 @@ foreach ($urls as $url) {
     // error_log($res);
 
     $rc = preg_match('/<div class="paging">.+?<\/div>/s', $res, $match);
-    error_log(print_r($match, true));
+    error_log(trim(strip_tags($match[0])));
     
     // $body .= '<tr><td>' . $url . '</td><td>' . trim($match[0]) . '</td></tr>' . "\n";
 }
