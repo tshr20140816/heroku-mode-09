@@ -3,7 +3,6 @@
 $html = <<< __HEREDOC__
 <html>
 <head>
-<meta http-equiv="refresh" content="600">
 <title>__TITLE__</title>
 </head>
 <body>
@@ -21,17 +20,26 @@ $res = get_contents($url, [CURLOPT_HEADER => true, CURLOPT_NOBODY => true]);
 
 error_log($res);
 $rc = preg_match('/Last-Modified.+/', $res, $match);
-// error_log(date('Ymd', strtotime(trim(explode(':', $match[0])[1]))));
-$tmp = trim(explode(':', $match[0], 2)[1]);
-error_log($tmp);
-error_log(strtotime($tmp));
-error_log(date('Y/m/d H:i:s', strtotime($tmp)));
+error_log(date('Ymd', strtotime(trim(explode(':', $match[0], 2)[1]))));
 
 $body = '<tr><td>' . $url . '</td><td>' . $match[0] . '</td></tr>' . "\n";
 
 $html = str_replace('__BODY__', $body, $html);
 
 $hash = hash('sha512', $html);
+
+if (array_key_exists('hash', $_COOKIE)) {
+    if ($_COOKIE['hash'] == $hash) {
+        $html = str_replace('__TITLE__', date('Hi', strtotime('+9 hours')), $html);
+        $html = str_replace('<head>', '<head><meta http-equiv="refresh" content="600">', $html);
+    } else {
+        $html = str_replace('__TITLE__', 'update', $html);
+    }
+} else {
+    $html = str_replace('__TITLE__', 'first', $html);
+    $html = str_replace('<head>', '<head><meta http-equiv="refresh" content="600">', $html);
+}
+
 error_log($hash);
 
 setcookie('hash', $hash, 0, '', '', true, true);
