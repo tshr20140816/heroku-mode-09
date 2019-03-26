@@ -1,13 +1,31 @@
 <?php
 
+$html = <<< __HEREDOC__
+<html>
+<head>
+<meta http-equiv="refresh" content="600">
+<title>__TITLE__</title>
+</head>
+<body>
+<table>
+__BODY__
+</table>
+</body></html>
+__HEREDOC__;
+
 $url = 'https://www.suzukacircuit.jp/f1/ticket/index.html';
 
-// $res = get_contents($url, [CURLOPT_HEADER => true]);
 $res = get_contents($url, [CURLOPT_HEADER => true, CURLOPT_NOBODY => true]);
 
 // error_log($res);
 $rc = preg_match('/Last-Modified.+/', $res, $match);
 error_log($match[0]);
+
+$body = '<tr><td>' . $url . '</td><td>' . $match[0] . '</td></tr>' . "\n";
+
+$html = str_replace('__BODY__', $body, $html);
+
+echo $html;
 
 function get_contents($url_, $options_ = null)
 {
