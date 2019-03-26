@@ -20,7 +20,7 @@ $res = get_contents($url, [CURLOPT_HEADER => true, CURLOPT_NOBODY => true]);
 error_log($res);
 $rc = preg_match('/Last-Modified.+/', $res, $match);
 // error_log(date('Ymd', strtotime(trim(explode(':', $match[0])[1]))));
-$tmp = trim(explode(':', $match[0])[1]);
+$tmp = trim(explode(':', $match[0], 2)[1]);
 error_log($tmp);
 error_log(strtotime($tmp));
 
