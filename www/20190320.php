@@ -69,6 +69,14 @@ function get_contents($url_, $options_ = null)
         CURLOPT_TCP_FASTOPEN => true,
         CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2TLS,
+        CURLOPT_HTTPHEADER => [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            'DNT: 1',
+            'Upgrade-Insecure-Requests: 1',
+        ],
     ];
     
     $ch = curl_init();
