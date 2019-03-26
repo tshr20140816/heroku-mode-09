@@ -3,7 +3,7 @@
 $url = 'https://www.suzukacircuit.jp/f1/ticket/index.html';
 
 // $res = get_contents($url, [CURLOPT_HEADER => true]);
-$res = get_contents($url, [CURLOPT_NOBODY => true]);
+$res = get_contents($url, [CURLOPT_HEADER => true, CURLOPT_NOBODY => true]);
 
 error_log($res);
 
