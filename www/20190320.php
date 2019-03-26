@@ -14,7 +14,9 @@ __HEREDOC__;
 
 error_log(print_r($_COOKIE, true));
 
-$urls[] = 'https://www.ticket.carp.co.jp/storage/assets/json/ticket-stocks/official-general/admission.json';
+// $urls[] = 'https://www.ticket.carp.co.jp/storage/assets/json/ticket-stocks/official-general/admission.json';
+$urls[] = 'https://feed43.com/tsu20191011.xml';
+$urls[] = 'https://feed43.com/tsu20191012.xml';
 $urls[] = 'https://www.suzukacircuit.jp/f1/ticket/index.html';
 $body = '';
 foreach ($urls as $url) {
