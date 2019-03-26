@@ -23,6 +23,7 @@ $rc = preg_match('/Last-Modified.+/', $res, $match);
 $tmp = trim(explode(':', $match[0], 2)[1]);
 error_log($tmp);
 error_log(strtotime($tmp));
+error_log(date('Y/m/d H:i:s', strtotime($tmp)));
 
 $body = '<tr><td>' . $url . '</td><td>' . $match[0] . '</td></tr>' . "\n";
 
