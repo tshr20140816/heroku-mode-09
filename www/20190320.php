@@ -13,6 +13,8 @@ __BODY__
 </body></html>
 __HEREDOC__;
 
+error_log(print_r($_COOKIE));
+
 $url = 'https://www.suzukacircuit.jp/f1/ticket/index.html';
 
 $res = get_contents($url, [CURLOPT_HEADER => true, CURLOPT_NOBODY => true]);
@@ -28,6 +30,11 @@ error_log(date('Y/m/d H:i:s', strtotime($tmp)));
 $body = '<tr><td>' . $url . '</td><td>' . $match[0] . '</td></tr>' . "\n";
 
 $html = str_replace('__BODY__', $body, $html);
+
+$hash = hash('sha512', $html);
+error_log($hash);
+
+setcookie('hash', $hash, 0, '', '', true, true);
 
 echo $html;
 
