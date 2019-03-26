@@ -20,9 +20,9 @@ $res = get_contents($url, [CURLOPT_HEADER => true, CURLOPT_NOBODY => true]);
 
 error_log($res);
 $rc = preg_match('/Last-Modified.+/', $res, $match);
-error_log(date('Ymd', strtotime(trim(explode(':', $match[0], 2)[1]))));
+error_log(date('Ymd', strtotime(trim(explode(':', trim($match[0]), 2)[1]))));
 
-$body = '<tr><td>' . $url . '</td><td>' . $match[0] . '</td></tr>' . "\n";
+$body = '<tr><td>' . $url . '</td><td>' . trim($match[0]) . '</td></tr>' . "\n";
 
 $html = str_replace('__BODY__', $body, $html);
 
