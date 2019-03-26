@@ -14,15 +14,18 @@ __HEREDOC__;
 
 error_log(print_r($_COOKIE, true));
 
-$url = 'https://www.suzukacircuit.jp/f1/ticket/index.html';
+$urls[] = 'https://www.ticket.carp.co.jp/storage/assets/json/ticket-stocks/official-general/admission.json';
+$urls[]  = 'https://www.suzukacircuit.jp/f1/ticket/index.html';
+$body = '';
+foreach ($urls as $url) {
+    $res = get_contents($url, [CURLOPT_HEADER => true, CURLOPT_NOBODY => true]);
 
-$res = get_contents($url, [CURLOPT_HEADER => true, CURLOPT_NOBODY => true]);
+    error_log($res);
+    $rc = preg_match('/Last-Modified.+/', $res, $match);
+    error_log(date('Ymd', strtotime(trim(explode(':', trim($match[0]), 2)[1]))));
 
-error_log($res);
-$rc = preg_match('/Last-Modified.+/', $res, $match);
-error_log(date('Ymd', strtotime(trim(explode(':', trim($match[0]), 2)[1]))));
-
-$body = '<tr><td>' . $url . '</td><td>' . trim($match[0]) . '</td></tr>' . "\n";
+    $body .= '<tr><td>' . $url . '</td><td>' . trim($match[0]) . '</td></tr>' . "\n";
+}
 
 $html = str_replace('__BODY__', $body, $html);
 
