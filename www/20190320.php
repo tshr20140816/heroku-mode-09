@@ -1,11 +1,11 @@
 <?php
 
-$url = 'https://www.iwakuni-kanko.com/festival/0505/';
+$url = 'https://www.suzukacircuit.jp/f1/ticket/index.html';
 
 // $res = get_contents($url, [CURLOPT_HEADER => true]);
-$res = get_contents($url);
+$res = get_contents($url, [CURLOPT_NOBODY => true]);
 
-error_log(hash('sha512', $res));
+error_log($res);
 
 function get_contents($url_, $options_ = null)
 {
