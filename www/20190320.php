@@ -7,7 +7,7 @@ $res = get_contents($url, [CURLOPT_HEADER => true, CURLOPT_NOBODY => true]);
 
 // error_log($res);
 $rc = preg_match('/Last-Modified.+/', $res, $match);
-error_log(print_r($match, true));
+error_log($match[0]);
 
 function get_contents($url_, $options_ = null)
 {
