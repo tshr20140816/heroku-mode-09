@@ -14,7 +14,7 @@ __HEREDOC__;
 
 //$url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id=&hi_id=10&dt=2019/10/05&lang=ja-JP';
 
-$url = 'https://feed43.com/tsu20191011.xml';
+$url = 'https://feed43.com/tsu20191012.xml';
 
 $res = get_contents($url, [CURLOPT_HEADER => true]);
 
