@@ -15,7 +15,7 @@ function func_test3($mu_, $file_name_blog_)
     $livedoor_atom_password = $mu_->get_env('LIVEDOOR_ATOM_PASSWORD', true);
     
     //$url = "https://livedoor.blogcms.jp/atompub/${livedoor_id}/article";
-    $url = "https://livedoor.blogcms.jp/atompub/${livedoor_id}/";
+    $url = "https://livedoor.blogcms.jp/atompub/${livedoor_id}";
 
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
