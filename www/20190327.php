@@ -17,6 +17,6 @@ function func_test3($mu_, $file_name_blog_)
     // error_log($res);
     $rc = preg_match('/<div class="article-body-inner">(.+?)<\/div>/s', $res, $match);
     
-    $tmp = explode("<br />\n", trim($match));
+    $tmp = explode('<br />', trim($match));
     error_log(print_r($tmp, true));
 }
