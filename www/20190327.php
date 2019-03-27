@@ -17,7 +17,7 @@ function func_test3($mu_, $file_name_blog_)
     // error_log($res);
     $rc = preg_match('/<div class="article-body-inner">(.+?)<\/div>/s', $res, $match);
     
-    $tmp = str_replace("\r\n", '' $match[1]);
+    $tmp = str_replace("\r\n", '', trim($match[1]));
     $tmp = explode('<br />', $tmp);
     error_log(print_r($tmp, true));
 }
