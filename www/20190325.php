@@ -72,8 +72,8 @@ __HEREDOC__;
     
     // error_log($res);
     $res = preg_replace('/\n+/s', "\n", $res);
-    // $rc = preg_match_all('/<li>(.+?)<\/li>/s', $res, $matches);
-    $rc = preg_match_all('/>貸出可能<.+?<\/li>(.+?<\/li>)/s', $res, $matches);
+    $res = str_replace('<li><span class="icon-available" style="word-wrap:break-word;">貸出可能</span></li>', '', $res);
+    $rc = preg_match_all('/<li>(.+?)<\/li>/s', $res, $matches);
     
     error_log(print_r($matches[1], true));
     foreach ($matches[1] as $item) {
