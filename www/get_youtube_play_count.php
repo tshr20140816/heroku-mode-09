@@ -71,7 +71,7 @@ function get_youtube_play_count($mu_)
             continue;
         }
         $tmp = strrev($item);
-        $tmp = explode(' ', $tmp, 2);
+        $tmp = explode(' ', $tmp, 4);
         $dic_previous_count[strrev($tmp[1])] = strrev($tmp[0]);
     }
     
