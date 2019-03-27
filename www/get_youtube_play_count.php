@@ -60,10 +60,29 @@ function get_youtube_play_count($mu_)
     
     error_log($log_prefix . print_r($playlist, true));
     
+    $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
+    $url = "http://blog.livedoor.jp/${livedoor_id}/search?q=Play+Count";
+    $res = $mu_->get_contents($url);
+    
+    $rc = preg_match('/<div class="article-body-inner">(.+?)<\/div>/s', $res, $match);
+    $dic_previous_count = [];
+    foreach (explode('<br />', str_replace("\n", '', trim($match[1]))) as $item) {
+        if (strlen($item) == 0) {
+            continue;
+        }
+        $tmp = strrev($item);
+        $tmp = explode(' ', $tmp, 2);
+        $dic_previous_count[strrev($tmp[1])] = strrev($tmp[0]);
+    }
+    
     $content = '';
     foreach (array_keys($playlist) as $url) {
         $data = $playlist[$url];
-        $content .= $data['title'] . ' ' . $data['count'] . "\n";
+        if (array_key_exists($data['title'], $dic_previous_count)) {
+            $content .= $data['title'] . ' ' . $dic_previous_count[$data['title']] . ' → ' . $data['count'] . "\n";
+        } else {
+            $content .= $data['title'] . ' 0 → ' . $data['count'] . "\n";
+        }
     }
     error_log($log_prefix . $content);
     $mu_->post_blog_livedoor('Play Count', $content);
