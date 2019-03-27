@@ -89,5 +89,5 @@ __HEREDOC__;
     error_log($log_prefix . $content);
     error_log($log_prefix . hash('sha512', $content));
     
-    $mu_->post_blog_wordpress("${requesturi_}", hash('sha512', $content) . "\n" . $content);
+    $mu_->post_blog_wordpress('rental', hash('sha512', $content) . "\n" . $content);
 }
