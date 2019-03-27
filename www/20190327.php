@@ -21,7 +21,7 @@ function func_test3($mu_, $file_name_blog_)
         CURLOPT_USERPWD => "${livedoor_id}:${livedoor_atom_password}",
         CURLOPT_HEADER => true,
         CURLOPT_BINARYTRANSFER => true,
-        CURLOPT_HTTPHEADER => ['Accept: application/atom+xml;type=entry', 'Expect:',],
+        CURLOPT_HTTPHEADER => ['Accept: application/atom+xml', 'Expect:',],
     ];
     
     $res = $mu_->get_contents($url, $options);
