@@ -11,6 +11,19 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 
 function func_test3($mu_, $file_name_blog_)
 {
-    $livedoor_id = $this->get_env('LIVEDOOR_ID', true);
-    $livedoor_atom_password = $this->get_env('LIVEDOOR_ATOM_PASSWORD', true);
+    $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
+    $livedoor_atom_password = $mu_->get_env('LIVEDOOR_ATOM_PASSWORD', true);
+    
+    $url = "https://livedoor.blogcms.jp/atompub/${livedoor_id}/article";
+
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${livedoor_id}:${livedoor_atom_password}",
+        CURLOPT_HEADER => true,
+        CURLOPT_BINARYTRANSFER => true,
+        CURLOPT_HTTPHEADER => ['Accept: application/atom+xml;type=entry', 'Expect:',],
+    ];
+    
+    $res = $mu_->get_contents($url, $options);
+    error_log($res);
 }
