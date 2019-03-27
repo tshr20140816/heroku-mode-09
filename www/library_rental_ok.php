@@ -5,7 +5,7 @@ $requesturi = $_SERVER['REQUEST_URI'];
 $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
-$rc = library_rental_ok($mu, $requesturi);
+$rc = check_library_rental_ok($mu, $requesturi);
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
 function check_library_rental_ok($mu_, $requesturi_)
