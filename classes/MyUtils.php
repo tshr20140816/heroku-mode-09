@@ -423,7 +423,9 @@ __HEREDOC__;
             }
             $post_data = ['post_title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${title_}",
                           'post_content' => $description_,
-                          'post_status' => 'publish'];
+                          'post_status' => 'publish',
+                          'encoding' => 'UTF-8',
+                         ];
             $result = $client->newPost($blogid, $username, $password, $post_data);
             error_log($log_prefix . 'RESULT : ' . print_r($result, true));
         } catch (Exception $e) {
