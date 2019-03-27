@@ -88,4 +88,5 @@ __HEREDOC__;
     }
     $content = implode("\n", $list_ok);
     error_log($content);
+    error_log(hash('sha512', $content));
 }
