@@ -5,10 +5,10 @@ $requesturi = $_SERVER['REQUEST_URI'];
 $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
-$rc = func_test2($mu, '/tmp/dummy');
+$rc = func_test2($mu, $requesturi);
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_test2($mu_, $file_name_blog_)
+function func_test2($mu_, $requesturi_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
@@ -83,10 +83,11 @@ __HEREDOC__;
             continue;
         }
         $rc = preg_match('/(.+?)\n(.*?)\n/s', trim(strip_tags($item)), $match);
-        // error_log(mb_convert_kana($match[1] . $match[2], 'asKV'));
         $list_ok[] = mb_convert_kana($match[1] . $match[2], 'asKV');
     }
     $content = implode("\n", $list_ok);
-    error_log($content);
-    error_log(hash('sha512', $content));
+    error_log($log_prefix . $content);
+    error_log($log_prefix . hash('sha512', $content));
+    
+    $mu_->post_blog_wordpress("${requesturi_}", hash('sha512', $content) . "\n" . $content);
 }
