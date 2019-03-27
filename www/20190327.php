@@ -15,16 +15,8 @@ function func_test3($mu_, $file_name_blog_)
     $livedoor_atom_password = $mu_->get_env('LIVEDOOR_ATOM_PASSWORD', true);
     
     //$url = "https://livedoor.blogcms.jp/atompub/${livedoor_id}/article";
-    $url = "https://livedoor.blogcms.jp/atompub/${livedoor_id}";
-
-    $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-        CURLOPT_USERPWD => "${livedoor_id}:${livedoor_atom_password}",
-        CURLOPT_HEADER => true,
-        CURLOPT_BINARYTRANSFER => true,
-        CURLOPT_HTTPHEADER => ['Accept: application/atom+xml', 'Expect:',],
-    ];
+    $url = 'http://blog.livedoor.jp/tshr20140816/search?q=Play+Count';
     
-    $res = $mu_->get_contents($url, $options);
+    $res = $mu_->get_contents($url);
     error_log($res);
 }
