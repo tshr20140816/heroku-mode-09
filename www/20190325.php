@@ -76,7 +76,7 @@ __HEREDOC__;
     
     //error_log(print_r($matches[1], true));
     foreach ($matches[1] as $item) {
-        // error_log($log_prefix . trim(strip_tags($item)));
+        error_log($log_prefix . trim(strip_tags($item)));
         if (mb_strpos($item, '利用可能') === false) {
             continue;
         }
