@@ -181,7 +181,7 @@ $list_get_task = [get_task_highway($mu, $file_name_blog),
                   get_task_culturecenter($mu, $file_name_blog),
                   get_task_full_moon($mu, $file_name_blog),
                   get_task_carp($mu, $file_name_blog),
-                  get_task_firm($mu, $file_name_blog),
+                  get_task_farm($mu, $file_name_blog),
                   get_task_bus($mu, $file_name_blog),
                   get_task_f1($mu, $file_name_blog),
                  ];
@@ -544,7 +544,7 @@ function get_task_carp($mu_, $file_name_blog_) {
     return $list_add_task;
 }
 
-function get_task_firm($mu_, $file_name_blog_)
+function get_task_farm($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -582,7 +582,7 @@ function get_task_firm($mu_, $file_name_blog_)
     }
     $count_task = count($list_add_task);
 
-    file_put_contents($file_name_blog_, "Firm Task Add : ${count_task}\n", FILE_APPEND);
+    file_put_contents($file_name_blog_, "Farm Task Add : ${count_task}\n", FILE_APPEND);
     error_log($log_prefix . 'Tasks Firm : ' . print_r($list_add_task, true));
     return $list_add_task;
 }
