@@ -17,7 +17,14 @@ function func_test3($mu_, $file_name_blog_)
     // error_log($res);
     $rc = preg_match('/<div class="article-body-inner">(.+?)<\/div>/s', $res, $match);
     
-    $tmp = str_replace("\n", '', trim($match[1]));
-    $tmp = explode('<br />', $tmp);
-    error_log(print_r($tmp, true));
+    $dic_item = [];
+    foreach (explode('<br />', str_replace("\n", '', trim($match[1]))) as $item) {
+        if (strlen($item) == 0) {
+            continue;
+        }
+        $tmp = strrev($item);
+        $tmp = explode(' ', $tmp, 2);
+        $dic_item[strrev($tmp[1])] = strrev($tmp[0]);
+    }
+    error_log(print_r($dic_item, true));
 }
