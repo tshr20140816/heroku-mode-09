@@ -35,6 +35,7 @@ function func_test($mu_, $file_name_blog_)
         );
     
         // error_log(print_r($results, true));
+        break;
         foreach ($results as $result) {
             error_log($result['post_title']);
             // 60 * 60 * 24 * 10
