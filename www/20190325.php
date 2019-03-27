@@ -30,7 +30,7 @@ __HEREDOC__;
     }
     $pdo = null;
     
-    $tmp = explode(',', $list_lib_id[0]);
+    $tmp = explode(',', $list_lib_id[1]);
     $lib_id = $tmp[0];
     $lib_password = $tmp[1];
     $symbol = $tmp[2];
@@ -70,7 +70,7 @@ __HEREDOC__;
     $url = 'https://' . parse_url($url)['host'] . '/winj/opac/reserve-list.do';
     $res = $mu_->get_contents($url, $options3);
     
-    // error_log($res);
+    error_log($res);
     $res = preg_replace('/\n+/s', "\n", $res);
     $rc = preg_match_all('/<li>(.+?)<\/li>/s', $res, $matches);
     
