@@ -83,7 +83,7 @@ __HEREDOC__;
             continue;
         }
         $rc = preg_match('/(.+?)\n(.*?)\n/s', trim(strip_tags($item)), $match);
-        $list_ok[] = mb_convert_kana($match[1] . $match[2], 'asKV');
+        $list_ok[] = mb_convert_encoding(mb_convert_kana($match[1] . $match[2], 'asKV'), 'utf-8');
     }
     $content = implode("\n", $list_ok);
     error_log($log_prefix . $content);
