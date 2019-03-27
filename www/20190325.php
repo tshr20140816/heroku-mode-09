@@ -75,6 +75,7 @@ __HEREDOC__;
     $res = str_replace('<li><span class="icon-available" style="word-wrap:break-word;">貸出可能</span></li>', '', $res);
     $rc = preg_match_all('/<li>(.+?)<\/li>/s', $res, $matches);
     
+    $list_ok = [];
     // error_log(print_r($matches[1], true));
     foreach ($matches[1] as $item) {
         // error_log($log_prefix . trim(strip_tags($item)));
@@ -82,6 +83,9 @@ __HEREDOC__;
             continue;
         }
         $rc = preg_match('/(.+?)\n(.*?)\n/s', trim(strip_tags($item)), $match);
-        error_log(mb_convert_kana($match[1] . $match[2], 'asKV'));
+        // error_log(mb_convert_kana($match[1] . $match[2], 'asKV'));
+        $list_ok[] = mb_convert_kana($match[1] . $match[2], 'asKV');
     }
+    $content = implode("\n", $list_ok);
+    error_log($content);
 }
