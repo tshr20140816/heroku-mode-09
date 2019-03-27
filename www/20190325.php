@@ -70,13 +70,13 @@ __HEREDOC__;
     $url = 'https://' . parse_url($url)['host'] . '/winj/opac/reserve-list.do';
     $res = $mu_->get_contents($url, $options3);
     
-    // error_log($res);
+    error_log($res);
     $res = preg_replace('/\n+/s', "\n", $res);
     $rc = preg_match_all('/<li>(.+?)<\/li>/s', $res, $matches);
     
-    //error_log(print_r($matches[1], true));
+    error_log(print_r($matches[1], true));
     foreach ($matches[1] as $item) {
-        error_log($log_prefix . trim(strip_tags($item)));
+        // error_log($log_prefix . trim(strip_tags($item)));
         if (mb_strpos($item, '利用可能') === false) {
             continue;
         }
