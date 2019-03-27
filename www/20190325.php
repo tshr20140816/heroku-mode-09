@@ -70,7 +70,7 @@ __HEREDOC__;
     $url = 'https://' . parse_url($url)['host'] . '/winj/opac/reserve-list.do';
     $res = $mu_->get_contents($url, $options3);
     
-    error_log($res);
+    // error_log($res);
     $res = preg_replace('/\n+/s', "\n", $res);
     // $rc = preg_match_all('/<li>(.+?)<\/li>/s', $res, $matches);
     $rc = preg_match_all('/>貸出可能<.+?<\/li>(.+?<\/li>)/s', $res, $matches);
