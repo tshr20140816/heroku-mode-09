@@ -124,24 +124,25 @@ __HEREDOC__;
     
     $blog_id = json_decode($res)->primary_blog;
     
-    $url = "https://public-api.wordpress.com/wp/v2/sites/${blog_id}/posts/?number=2&search=rental1&fields=content&after="
+    $url = "https://public-api.wordpress.com/wp/v2/sites/${blog_id}/posts/?number=2&search=rental&fields=content&after="
         . urlencode(date('Y-m-d\T00:00:00+00:00', strtotime('-10 days')));
     $options = [CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $access_token,],];
     $res = $mu_->get_contents($url, $options);
-    error_log(print_r(json_decode($res), true));
+    // error_log(print_r(json_decode($res), true));
     
-    $item = array_shift(json_decode($res));
+    $hash_previous = '';
+    if (count(json_decode($res)) > 0) {
+        $item = array_shift(json_decode($res));
     
-    // error_log(print_r($item, true));
-    // error_log($item->content->rendered);
+        // error_log(print_r($item, true));
+        // error_log($item->content->rendered);
     
-    $rc = preg_match('/^<p>(.+?)</', $item->content->rendered, $match);
+        $rc = preg_match('/^<p>(.+?)</', $item->content->rendered, $match);
     
-    error_log($match[1]);
-    
-    /*
-    if ($match[1] != $hash) {
+        error_log($match[1]);
+        $hash_previous = $match[1];
+    }
+    if ($hash_previous != $hash) {
         $mu_->post_blog_wordpress('rental', $hash . "\n" . $content);
     }
-    */
 }
