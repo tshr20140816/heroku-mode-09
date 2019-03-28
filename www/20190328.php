@@ -53,7 +53,7 @@ function func_test20190328($mu_, $file_name_blog_)
     error_log(print_r(json_decode($res), true));
     */
     
-    $url = "https://public-api.wordpress.com/wp/v1.1/sites/${blog_id}/posts/new/";
+    $url = "https://public-api.wordpress.com/rest/v1.1/sites/${blog_id}/posts/new/";
     $post_data = ['title' => 'TEST',
                   'content' => '日本語',
                  ];
