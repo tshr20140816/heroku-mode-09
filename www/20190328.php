@@ -57,4 +57,9 @@ function func_test20190328($mu_, $file_name_blog_)
     
     error_log(print_r($item, true));
     error_log($item->content->rendered);
+    
+    $rc = preg_match('/^<p>(.+?)</', $item->content->rendered, $match);
+    
+    error_log(print_r($match, true));
+    
 }
