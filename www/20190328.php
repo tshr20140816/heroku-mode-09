@@ -17,6 +17,11 @@ function func_test20190328($mu_, $file_name_blog_)
     $client_id = $mu_->get_env('WORDPRESS_CLIENT_ID', true);
     $client_secret = $mu_->get_env('WORDPRESS_CLIENT_SECRET', true);
     
+    error_log($mu_->get_env('WORDPRESS_CLIENT_ID', true));
+    error_log($mu_->get_env('WORDPRESS_CLIENT_SECRET', true));
+    
+    exit();
+    
     $url = 'https://public-api.wordpress.com/oauth2/token';
     $post_data = ['client_id' => $client_id,
                   'client_secret' => $client_secret,
