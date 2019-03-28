@@ -14,9 +14,10 @@ function func_test20190328($mu_, $file_name_blog_)
     
     $username = $mu_->get_env('WORDPRESS_USERNAME', true);
     $password = $mu_->get_env('WORDPRESS_PASSWORD', true);
+    $clientid = getenv('WORDPRESS_CLIENT_ID');
     
     $url = 'https://public-api.wordpress.com/oauth2/token';
-    $post_data = ['client_id' => getenv('WORDPRESS_CLIENT_ID'),
+    $post_data = ['client_id' => $clientid,
                   'client_secret' => getenv('WORDPRESS_CLIENT_SECRET'),
                   'grant_type' => 'password',
                   'username' => $username,
@@ -27,6 +28,13 @@ function func_test20190328($mu_, $file_name_blog_)
                 CURLOPT_POSTFIELDS => http_build_query($post_data),
                ];
     $res = $mu_->get_contents($url, $options);
+    
+    error_log(print_r(json_decode($res), true));
+    
+    $access_token = json_decode($res)->access_token;
+    
+    $url = "https://public-api.wordpress.com/oauth2/token-info?client_id=${clientid}&token=${access_token}";
+    $res = $mu_->get_contents($url);
     
     error_log(print_r(json_decode($res), true));
 }
