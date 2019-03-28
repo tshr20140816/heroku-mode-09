@@ -60,6 +60,6 @@ function func_test20190328($mu_, $file_name_blog_)
     
     $rc = preg_match('/^<p>(.+?)</', $item->content->rendered, $match);
     
-    error_log(print_r($match, true));
+    error_log($match[1]);
     
 }
