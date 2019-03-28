@@ -28,5 +28,5 @@ function func_test20190328($mu_, $file_name_blog_)
                ];
     $res = $mu_->get_contents($url, $options);
     
-    error_log(print_r(json_decode($res, true)));
+    error_log(print_r(json_decode($res), true));
 }
