@@ -56,4 +56,5 @@ function func_test20190328($mu_, $file_name_blog_)
     $item = array_shift(json_decode($res));
     
     error_log(print_r($item, true));
+    error_log($item->content->rendered);
 }
