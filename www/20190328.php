@@ -51,6 +51,9 @@ function func_test20190328($mu_, $file_name_blog_)
         . urlencode(date('Y-m-d\T00:00:00+00:00', strtotime('-10 days')));
     $options = [CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $access_token,],];
     $res = $mu_->get_contents($url, $options);
-    error_log(print_r(json_decode($res), true));
+    // error_log(print_r(json_decode($res), true));
     
+    $item = array_shift(json_decode($res));
+    
+    error_log(print_r($item, true));
 }
