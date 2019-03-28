@@ -40,7 +40,7 @@ function func_test20190328($mu_, $file_name_blog_)
     */
     
     $url = 'https://public-api.wordpress.com/rest/v1/me/';
-    $options = [CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $access_token,]];
+    $options = [CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $access_token,],];
     $res = $mu_->get_contents($url, $options);
     error_log(print_r(json_decode($res), true));
     
@@ -48,9 +48,20 @@ function func_test20190328($mu_, $file_name_blog_)
     
     /*
     $url = "https://public-api.wordpress.com/wp/v2/sites/${blog_id}/posts";
-    $options = [CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $access_token,]];
+    $options = [CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $access_token,],];
     $res = $mu_->get_contents($url, $options);
     error_log(print_r(json_decode($res), true));
     */
     
+    $url = "https://public-api.wordpress.com/wp/v2/sites/${blog_id}/posts/new";
+    $post_data = ['title' => 'TEST',
+                  'content' => '日本語',
+                 ];
+    
+    $options = [CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => http_build_query($post_data),
+                CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $access_token,],
+               ];
+    $res = $mu_->get_contents($url, $options);
+    error_log(print_r(json_decode($res), true));
 }
