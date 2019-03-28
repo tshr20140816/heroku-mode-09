@@ -55,7 +55,7 @@ function func_test20190328($mu_, $file_name_blog_)
     
     $url = "https://public-api.wordpress.com/rest/v1.1/sites/${blog_id}/posts/new/";
     $post_data = ['title' => 'TEST',
-                  'content' => '日本語',
+                  'content' => "日本語\n改行",
                  ];
     
     $options = [CURLOPT_POST => true,
