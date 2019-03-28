@@ -23,7 +23,10 @@ function func_test20190328($mu_, $file_name_blog_)
                   'password' => $password,
                  ];
     
-    $res = $mu_->get_contents($url);
+    $options = [CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => http_build_query($post_data),
+               ];
+    $res = $mu_->get_contents($url, $options);
     
     error_log(print_r(json_decode($res, true)));
 }
