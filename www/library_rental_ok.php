@@ -30,7 +30,7 @@ __HEREDOC__;
     }
     $pdo = null;
     
-    $tmp = explode(',', $list_lib_id[1]);
+    $tmp = explode(',', $list_lib_id[0]);
     $lib_id = $tmp[0];
     $lib_password = $tmp[1];
     $symbol = $tmp[2];
