@@ -42,4 +42,12 @@ function func_test20190328($mu_, $file_name_blog_)
     $options = [CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $access_token,]];
     $res = $mu_->get_contents($url, $options);
     error_log(print_r(json_decode($res), true));
+    
+    $blog_id = json_decode($res)->primary_blog;
+    
+    $url = "https://public-api.wordpress.com/wp/v2/sites/${blog_id}/posts";
+    $options = [CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $access_token,]];
+    $res = $mu_->get_contents($url, $options);
+    error_log(print_r(json_decode($res), true));
+    
 }
