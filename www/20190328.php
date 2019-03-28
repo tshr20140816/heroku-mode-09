@@ -17,13 +17,6 @@ function func_test20190328($mu_, $file_name_blog_)
     $client_id = $mu_->get_env('WORDPRESS_CLIENT_ID', true);
     $client_secret = $mu_->get_env('WORDPRESS_CLIENT_SECRET', true);
     
-    /*
-    error_log($mu_->get_encrypt_string(base64_decode($mu_->get_env('WORDPRESS_CLIENT_ID'))));
-    error_log($mu_->get_encrypt_string(base64_decode($mu_->get_env('WORDPRESS_CLIENT_SECRET'))));
-    */
-    
-    //exit();
-    
     $url = 'https://public-api.wordpress.com/oauth2/token';
     $post_data = ['client_id' => $client_id,
                   'client_secret' => $client_secret,
@@ -54,22 +47,9 @@ function func_test20190328($mu_, $file_name_blog_)
     
     $blog_id = json_decode($res)->primary_blog;
     
-    /*
-    $url = "https://public-api.wordpress.com/wp/v2/sites/${blog_id}/posts";
+    $url = "https://public-api.wordpress.com/wp/v2/sites/${blog_id}/posts?search=rental";
     $options = [CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $access_token,],];
     $res = $mu_->get_contents($url, $options);
     error_log(print_r(json_decode($res), true));
-    */
     
-    $url = "https://public-api.wordpress.com/rest/v1.1/sites/${blog_id}/posts/new/";
-    $post_data = ['title' => 'TEST',
-                  'content' => "日本語\n改行",
-                 ];
-    
-    $options = [CURLOPT_POST => true,
-                CURLOPT_POSTFIELDS => http_build_query($post_data),
-                CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $access_token,],
-               ];
-    //$res = $mu_->get_contents($url, $options);
-    //error_log(print_r(json_decode($res), true));
 }
