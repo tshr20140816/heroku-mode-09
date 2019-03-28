@@ -15,9 +15,15 @@ function func_test20190328($mu_, $file_name_blog_)
     $username = $mu_->get_env('WORDPRESS_USERNAME', true);
     $password = $mu_->get_env('WORDPRESS_PASSWORD', true);
     
-    $url = "https://public-api.wordpress.com/rest/v1.1/sites/${username}/posts/";
+    $url = 'https://public-api.wordpress.com/oauth2/token';
+    $post_data = ['client_id' => getenv('WORDPRESS_CLIENT_ID'),
+                  'client_secret' => getenv('WORDPRESS_CLIENT_SECRET'),
+                  'grant_type' => 'password',
+                  'username' => $username,
+                  'password' => $password,
+                 ];
     
     $res = $mu_->get_contents($url);
     
-    error_log($res);
+    error_log(print_r(json_decode($res, true)));
 }
