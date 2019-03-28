@@ -139,7 +139,9 @@ __HEREDOC__;
     
     error_log($match[1]);
     
+    /*
     if ($match[1] != $hash) {
         $mu_->post_blog_wordpress('rental', $hash . "\n" . $content);
     }
+    */
 }
