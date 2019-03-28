@@ -85,9 +85,61 @@ __HEREDOC__;
         $rc = preg_match('/(.+?)\n(.*?)\n/s', trim(strip_tags($item)), $match);
         $list_ok[] = mb_convert_encoding(mb_convert_kana($match[1] . $match[2], 'asKV'), 'UTF-8');
     }
+    if (count($list_ok) === 0) {
+        return;
+    }
     $content = implode("\n", $list_ok);
-    error_log($log_prefix . $content);
-    error_log($log_prefix . hash('sha512', $content));
     
-    $mu_->post_blog_wordpress('rental', hash('sha512', $content) . "\n" . $content);
+    $hash = hash('sha512', $content);
+    
+    error_log($log_prefix . $content);
+    error_log($log_prefix . $hash);
+    
+    $username = $mu_->get_env('WORDPRESS_USERNAME', true);
+    $password = $mu_->get_env('WORDPRESS_PASSWORD', true);
+    $client_id = $mu_->get_env('WORDPRESS_CLIENT_ID', true);
+    $client_secret = $mu_->get_env('WORDPRESS_CLIENT_SECRET', true);
+    
+    $url = 'https://public-api.wordpress.com/oauth2/token';
+    $post_data = ['client_id' => $client_id,
+                  'client_secret' => $client_secret,
+                  'grant_type' => 'password',
+                  'username' => $username,
+                  'password' => $password,
+                 ];
+    
+    $options = [CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => http_build_query($post_data),
+               ];
+    $res = $mu_->get_contents($url, $options);
+    
+    // error_log(print_r(json_decode($res), true));
+    
+    $access_token = json_decode($res)->access_token;
+    
+    $url = 'https://public-api.wordpress.com/rest/v1/me/';
+    $options = [CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $access_token,],];
+    $res = $mu_->get_contents($url, $options);
+    // error_log(print_r(json_decode($res), true));
+    
+    $blog_id = json_decode($res)->primary_blog;
+    
+    $url = "https://public-api.wordpress.com/wp/v2/sites/${blog_id}/posts/?number=2&search=rental&fields=content&after="
+        . urlencode(date('Y-m-d\T00:00:00+00:00', strtotime('-10 days')));
+    $options = [CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $access_token,],];
+    $res = $mu_->get_contents($url, $options);
+    // error_log(print_r(json_decode($res), true));
+    
+    $item = array_shift(json_decode($res));
+    
+    // error_log(print_r($item, true));
+    // error_log($item->content->rendered);
+    
+    $rc = preg_match('/^<p>(.+?)</', $item->content->rendered, $match);
+    
+    error_log($match[1]);
+    
+    if ($match[1] != $hash) {
+        $mu_->post_blog_wordpress('rental', $hash . "\n" . $content);
+    }
 }
