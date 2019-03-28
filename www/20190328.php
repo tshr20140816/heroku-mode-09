@@ -31,7 +31,7 @@ function func_test20190328($mu_, $file_name_blog_)
     
     error_log(print_r(json_decode($res), true));
     
-    $access_token = json_decode($res)->access_token;
+    $access_token = urlencode(json_decode($res)->access_token);
     
     $url = "https://public-api.wordpress.com/oauth2/token-info?client_id=${clientid}&token=${access_token}";
     $res = $mu_->get_contents($url);
