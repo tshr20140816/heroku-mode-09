@@ -37,11 +37,6 @@ class MyUtils
             $connection_info['user'],
             $connection_info['pass']
         );
-        /*
-        foreach ($pdo->query('SELECT version();') as $row) {
-            error_log($log_prefix . $row[0]);
-        }
-        */
         return $pdo;
     }
 
@@ -366,37 +361,54 @@ __HEREDOC__;
         return $target_;
     }
 
-    public function post_blog_fc2($title_, $description_ = null)
-    {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-
-        try {
-            $url = 'https://blog.fc2.com/xmlrpc.php';
-            error_log($log_prefix . 'url : ' . $url);
-            $client = XML_RPC2_Client::create(
-                $url,
-                ['prefix' => 'metaWeblog.', 'connectionTimeout' => 2000]
-            );
-            error_log($log_prefix . 'xmlrpc : newPost');
-            $this->_count_web_access++;
-            if (is_null($description_)) {
-                $description_ = '.';
-            }
-            $options = ['title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${title_}", 'description' => $description_];
-            $result = $client->newPost('', $this->get_env('FC2_ID', true), $this->get_env('FC2_PASSWORD', true), $options, 1); // 1 : publish
-            error_log($log_prefix . 'RESULT : ' . print_r($result, true));
-        } catch (Exception $e) {
-            error_log($log_prefix . 'Exception : ' . $e->getMessage());
-            $this->post_blog_wordpress($title_, $description_);
-        }
-    }
-
     public function post_blog_wordpress($title_, $description_ = null)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+        if (is_null($description_)) {
+            $description_ = '.';
+        }
+
         $username = $this->get_env('WORDPRESS_USERNAME', true);
         $password = $this->get_env('WORDPRESS_PASSWORD', true);
+        $client_id = $this->get_env('WORDPRESS_CLIENT_ID', true);
+        $client_secret = $this->get_env('WORDPRESS_CLIENT_SECRET', true);
+
+        $url = 'https://public-api.wordpress.com/oauth2/token';
+        $post_data = ['client_id' => $client_id,
+                      'client_secret' => $client_secret,
+                      'grant_type' => 'password',
+                      'username' => $username,
+                      'password' => $password,
+                     ];
+
+        $options = [CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => http_build_query($post_data),
+                   ];
+        $res = $this->get_contents($url, $options);
+        error_log($log_prefix . print_r(json_decode($res), true));
+
+        $access_token = json_decode($res)->access_token;
+
+        $url = 'https://public-api.wordpress.com/rest/v1/me/';
+        $options = [CURLOPT_HTTPHEADER => ["Authorization: Bearer ${access_token}",],];
+        $res = $this->get_contents($url, $options);
+        error_log($log_prefix . print_r(json_decode($res), true));
+
+        $blog_id = json_decode($res)->primary_blog;
+
+        $url = "https://public-api.wordpress.com/rest/v1.1/sites/${blog_id}/posts/new/";
+        $post_data = ['title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${title_}",
+                      'content' => $description_,
+                     ];
+        $options = [CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => http_build_query($post_data),
+                    CURLOPT_HTTPHEADER => ["Authorization: Bearer ${access_token}",],
+                   ];
+        $res = $this->get_contents($url, $options);
+        error_log($log_prefix . print_r(json_decode($res), true));
+
+        /*
         try {
             $url = 'https://' . $username . '.wordpress.com/xmlrpc.php';
 
@@ -424,15 +436,41 @@ __HEREDOC__;
             $post_data = ['post_title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${title_}",
                           'post_content' => $description_,
                           'post_status' => 'publish',
-                          'post_mime_type' => 'text/plain; charset="UTF-8"',
                          ];
             $result = $client->newPost($blogid, $username, $password, $post_data);
             error_log($log_prefix . 'RESULT : ' . print_r($result, true));
         } catch (Exception $e) {
             error_log($log_prefix . 'Exception : ' . $e->getMessage());
         }
+        */
+
         $this->post_blog_hatena($title_, $description_);
         $this->post_blog_livedoor($title_, $description_);
+    }
+
+    public function post_blog_fc2($title_, $description_ = null)
+    {
+        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+        try {
+            $url = 'https://blog.fc2.com/xmlrpc.php';
+            error_log($log_prefix . 'url : ' . $url);
+            $client = XML_RPC2_Client::create(
+                $url,
+                ['prefix' => 'metaWeblog.', 'connectionTimeout' => 2000]
+            );
+            error_log($log_prefix . 'xmlrpc : newPost');
+            $this->_count_web_access++;
+            if (is_null($description_)) {
+                $description_ = '.';
+            }
+            $options = ['title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${title_}", 'description' => $description_];
+            $result = $client->newPost('', $this->get_env('FC2_ID', true), $this->get_env('FC2_PASSWORD', true), $options, 1); // 1 : publish
+            error_log($log_prefix . 'RESULT : ' . print_r($result, true));
+        } catch (Exception $e) {
+            error_log($log_prefix . 'Exception : ' . $e->getMessage());
+            $this->post_blog_wordpress($title_, $description_);
+        }
     }
 
     public function post_blog_hatena($title_, $description_ = null)
@@ -884,7 +922,7 @@ __HEREDOC__;
 
         $user_opendrive = $this->get_env('OPENDRIVE_USER', true);
         $password_opendrive = $this->get_env('OPENDRIVE_PASSWORD', true);
-        
+
         $method = 'aes-256-cbc';
         //$password = base64_encode(getenv('HIDRIVE_USER')) . base64_encode(getenv('HIDRIVE_PASSWORD'));
         $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
