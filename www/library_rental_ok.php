@@ -128,7 +128,7 @@ __HEREDOC__;
         . urlencode(date('Y-m-d\T00:00:00+00:00', strtotime('-10 days')));
     $options = [CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $access_token,],];
     $res = $mu_->get_contents($url, $options);
-    // error_log(print_r(json_decode($res), true));
+    error_log(print_r(json_decode($res), true));
     
     $item = array_shift(json_decode($res));
     
