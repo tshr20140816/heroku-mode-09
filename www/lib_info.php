@@ -181,6 +181,15 @@ __HEREDOC__;
     
     // next
     
+    if ($order_ === 0 && $ok > 0) {
+        $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/library_rental_ok.php';
+        $options3 = [
+            CURLOPT_TIMEOUT => 2,
+            CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
+        ];
+        $res = $mu_->get_contents($url, $options3);
+    }
+    
     if (count($list_lib_id) <= $order_ + 1) {
         return 'last';
     }
