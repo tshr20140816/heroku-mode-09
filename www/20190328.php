@@ -17,7 +17,7 @@ function func_test20190328($mu_, $file_name_blog_)
     
     $url = "https://public-api.wordpress.com/rest/v1.1/sites/${username}/posts/";
     
-    $res = $mu->get_contents($url);
+    $res = $mu_->get_contents($url);
     
     error_log($res);
 }
