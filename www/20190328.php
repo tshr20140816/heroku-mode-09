@@ -47,7 +47,7 @@ function func_test20190328($mu_, $file_name_blog_)
     
     $blog_id = json_decode($res)->primary_blog;
     
-    $url = "https://public-api.wordpress.com/wp/v2/sites/${blog_id}/posts/?number=2&search=rental&after="
+    $url = "https://public-api.wordpress.com/wp/v2/sites/${blog_id}/posts/?number=2&search=rental&fields=content&after="
         . urlencode(date('Y-m-d\T00:00:00+00:00', strtotime('-10 days')));
     $options = [CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $access_token,],];
     $res = $mu_->get_contents($url, $options);
