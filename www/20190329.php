@@ -14,4 +14,7 @@ function func2019329($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    $client = new SoapClient('https://api.4shared.com/jax2/DesktopApp?wsdl');
+    
+    error_log(print_r($client->__getFunctions()));
 }
