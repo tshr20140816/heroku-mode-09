@@ -29,6 +29,13 @@ function func2019329($mu_)
     
     error_log($res);
     
+    $ftp_link_id = ftp_connect('ftp.4shared.com');
+    $rc = ftp_login($ftp_link_id, $user_4shared, $password_4shared);
+    error_log('ftp_login : ' . $rc);
+    
+    $rc = ftp_close($ftp_link_id);
+    error_log('ftp_close : ' . $rc);
+    
     // return;
     
     $file_name_ = '/tmp/dummy1.txt';
