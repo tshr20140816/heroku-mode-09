@@ -6,6 +6,12 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
+$client = new SoapClient('https://www.cloudme.com/v1/');
+
+error_log(print_r($client->__getFunctions()));
+
+exit();
+
 $cookie = tempnam("/tmp", md5(microtime(true)));
 
 $url = "https://webdav.cloudme.com/";
