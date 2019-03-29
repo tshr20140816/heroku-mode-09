@@ -55,6 +55,9 @@ check_opendrive_usage($mu, $file_name_blog);
 // CloudMe usage
 check_cloudme_usage($mu, $file_name_blog);
 
+// 4shared usage
+check_4shared_usage($mu, $file_name_blog);
+
 // apache version check
 check_version_apache($mu, $file_name_blog);
 
@@ -723,8 +726,18 @@ function check_4shared_usage($mu_, $file_name_blog_)
     ];
     $res = $mu_->get_contents($url, $options);
 
-    $rc = preg_match_all('/<D:getcontentlength>(.+?)<\/D:getcontentlength>/s', $res, $matches);
+    $rc = preg_match_all('/<D\:getcontentlength>(.+?)<\/D\:getcontentlength>/', $res, $matches);
+
+    $size = 0;
+    foreach ($matches[1] as $item) {
+        $size += $item;
+    }
     
+    $percentage = substr($size / (15 * 1024 * 1024 * 1024) * 100, 0, 5);
+    $size = number_format($size);
+
+    error_log($log_prefix . "4shared usage : ${size}Byte ${percentage}%");
+    file_put_contents($file_name_blog_, "\n4shared usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
 }
 
 function check_cloudme_usage($mu_, $file_name_blog_)
