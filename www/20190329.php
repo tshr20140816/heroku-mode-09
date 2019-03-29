@@ -30,7 +30,8 @@ function func2019329($mu_)
     
     error_log($res);
     
-    $rc = preg_match_all('/<D\:getcontentlength>(.+?)<\/D\:getcontentlength>/', $res, $matches);
+    //$rc = preg_match_all('/<D\:getcontentlength>(.+?)<\/D\:getcontentlength>/', $res, $matches);
+    $rc = preg_match_all('/getcontentlength>(.+?)</s', $res, $matches);
     error_log(print_r($matches, true));
     
     /*
