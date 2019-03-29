@@ -52,6 +52,9 @@ check_teracloud_usage($mu, $file_name_blog);
 // OpenDrive usage
 check_opendrive_usage($mu, $file_name_blog);
 
+// CloudMe usage
+check_cloudme_usage($mu, $file_name_blog);
+
 // apache version check
 check_version_apache($mu, $file_name_blog);
 
@@ -702,6 +705,46 @@ function backup_opml2($mu_, $file_name_blog_)
     $file_size = number_format($file_size);
 
     file_put_contents($file_name_blog_, "\nOPML2 backup size : ${file_size}Byte\nFeed count : ${feed_count}\n", FILE_APPEND);
+}
+
+function check_cloudme_usage($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $user_cloudme = $mu->get_env('CLOUDME_USER', true);
+    $password_cloudme = $mu->get_env('CLOUDME_PASSWORD', true);
+
+    $soap_text = <<< __HEREDOC__
+<SOAP-ENV:Envelope
+ xmlns:SOAPENV="http://schemas.xmlsoap.org/soap/envelope/"
+ SOAP-ENV:encodingStyle=""
+ xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/1999/XMLSchema">
+  <SOAP-ENV:Body>
+    <login></login>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+__HEREDOC__;
+
+    $url = 'https://www.cloudme.com/v1/';
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+        CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $post_data,
+        CURLOPT_HTTPHEADER => ["soapaction: ${action}",
+                               'Content-Type: text/xml; charset=utf-8',
+                              ],
+    ];
+    $res = $mu_->get_contents($url, $options);
+
+    $rc = preg_match('/<system>home<\/system><currentSize>(.+?)<\/currentSize><quotaLimit>(.+?)<\/quotaLimit>/s', $res, $match);
+
+    $size = number_format($match[1]);
+    $percentage = substr($match[1] / $match[2] * 100, 0, 5);
+
+    error_log($log_prefix . "CloudMe usage : ${size}Byte ${percentage}%");
+    file_put_contents($file_name_blog_, "\nCloudMe usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
 }
 
 function check_opendrive_usage($mu_, $file_name_blog_)
