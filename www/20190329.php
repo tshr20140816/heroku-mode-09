@@ -56,6 +56,7 @@ function func2019329($mu_)
         CURLOPT_INFILE => $fh,
         CURLOPT_INFILESIZE => $file_size,
         CURLOPT_HEADER => true,
+        CURLOPT_HTTPHEADER => ['Content-Type: text/plain',],
     ];
     
     $res = $mu_->get_contents($url, $options);
