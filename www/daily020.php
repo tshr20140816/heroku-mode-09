@@ -707,6 +707,26 @@ function backup_opml2($mu_, $file_name_blog_)
     file_put_contents($file_name_blog_, "\nOPML2 backup size : ${file_size}Byte\nFeed count : ${feed_count}\n", FILE_APPEND);
 }
 
+function check_4shared_usage($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $user_4shared = $this->get_env('4SHARED_USER', true);
+    $password_4shared = $this->get_env('4SHARED_PASSWORD', true);
+
+    $url = 'https://webdav.4shared.com/';
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${user_4shared}:${password_4shared}",
+        CURLOPT_HEADER => true,
+        CURLOPT_CUSTOMREQUEST => 'PROPFIND',        
+    ];
+    $res = $mu_->get_contents($url, $options);
+
+    $rc = preg_match_all('/<D:getcontentlength>(.+?)<\/D:getcontentlength>/s', $res, $matches);
+    
+}
+
 function check_cloudme_usage($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
