@@ -29,7 +29,7 @@ function func2019329($mu_)
     
     error_log($res);
     
-    return;
+    // return;
     
     $file_name_ = '/tmp/dummy1.txt';
     file_put_contents($file_name_, 'DUMMY');
@@ -52,4 +52,17 @@ function func2019329($mu_)
     
     fclose($fh);
     unlink($file_name_);
+    
+    $url = 'https://webdav.4shared.com/' . pathinfo($file_name_)['basename'];
+    
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${user_4shared}:${password_4shared}",
+        CURLOPT_CUSTOMREQUEST => 'DELETE',
+        CURLOPT_HEADER => true,
+    ];
+    
+    $res = $mu_->get_contents($url, $options);
+    
+    error_log($res);
 }
