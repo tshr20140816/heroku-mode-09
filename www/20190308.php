@@ -6,9 +6,43 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-$client = new SoapClient('https://www.cloudme.com/v1/');
+$SOAP_HEADER = <<< __HEREDOC__
+<SOAP-ENV:Envelope
+ xmlns:SOAPENV="http://schemas.xmlsoap.org/soap/envelope/"
+ SOAP-ENV:encodingStyle=""
+ xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/1999/XMLSchema">
+<SOAP-ENV:Body>
+__HEREDOC__;
 
-error_log(print_r($client->__getFunctions()));
+$SOAP_FOOTER = <<< __HEREDOC__
+</SOAP-ENV:Body></SOAP-ENV:Envelope>
+__HEREDOC__;
+
+$url = 'https://www.cloudme.com/v1/';
+
+$user_cloudme = getenv('CLOUDME_USER');
+$password_cloudme = getenv('CLOUDME_PASSWORD');
+
+$action = 'login';
+$body = '';
+
+$post_data = $SOAP_HEADER . "<${action}></${action}>" . $SOAP_FOOTER;
+
+$options = [
+    CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+    CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
+    CURLOPT_HEADER => true,
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS = $post_data,
+    CURLOPT_HTTPHEADER = ["soapaction: ${action}",
+                          'Content-Type: text/xml; charset=utf-8',
+                         ],
+];
+
+$res = $mu->get_contents($url, $options);
+
+error_log($res);
 
 exit();
 
