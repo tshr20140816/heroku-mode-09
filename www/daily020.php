@@ -866,34 +866,20 @@ function check_hidrive_usage($mu_, $file_name_blog_)
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
-        CURLOPT_HTTPHEADER => ['Connection: keep-alive',],
+        CURLOPT_HEADER => true,
+        CURLOPT_CUSTOMREQUEST => 'PROPFIND',
+        CURLOPT_HTTPHEADER => ['Depth: 1',],
     ];
     $res = $mu_->get_contents($url, $options);
 
-    $tmp = explode('<tbody>', $res)[1];
-    $rc = preg_match_all('/<a href="(.+?)">/', $tmp, $matches);
-
-    array_shift($matches[1]);
+    $rc = preg_match_all('/<lp1\:getcontentlength>(.+?)<\/lp1\:getcontentlength>/', $res, $matches);
 
     $size = 0;
-    $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-        CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
-        CURLOPT_HEADER => true,
-        CURLOPT_NOBODY => true,
-        CURLOPT_HTTPHEADER => ['Connection: keep-alive',],
-    ];
-    foreach ($matches[1] as $file_name) {
-        $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/" . $file_name;
-        $urls[$url] = $options;
+    foreach ($matches[1] as $item) {
+        $size += $item;
     }
-    $res = $mu_->get_contents_multi($urls, null);
-
-    foreach ($res as $result) {
-        $rc = preg_match('/Content-Length: (\d+)/', $result, $match);
-        $size += (int)$match[1];
-    }
-    $percentage = substr(($size / (5 * 1024 * 1024 * 1024)) * 100, 0, 5);
+    
+    $percentage = substr($size / (5 * 1024 * 1024 * 1024) * 100, 0, 5);
     $size = number_format($size);
 
     error_log($log_prefix . "HiDrive usage : ${size}Byte ${percentage}%");
