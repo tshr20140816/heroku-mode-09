@@ -34,10 +34,10 @@ $options = [
     CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
     CURLOPT_HEADER => true,
     CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS = $post_data,
-    CURLOPT_HTTPHEADER = ["soapaction: ${action}",
-                          'Content-Type: text/xml; charset=utf-8',
-                         ],
+    CURLOPT_POSTFIELDS => $post_data,
+    CURLOPT_HTTPHEADER => ["soapaction: ${action}",
+                           'Content-Type: text/xml; charset=utf-8',
+                          ],
 ];
 
 $res = $mu->get_contents($url, $options);
