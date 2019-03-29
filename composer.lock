@@ -1539,6 +1539,7 @@
         "ext-xmlrpc": "*",
         "ext-imagick": "*",
         "ext-soap": "*",
+        "ext-ftp": "*",
         "ext-imap": "*"
     },
     "platform-dev": []
