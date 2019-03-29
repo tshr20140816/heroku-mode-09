@@ -23,6 +23,7 @@ function func2019329($mu_)
         CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
         CURLOPT_CUSTOMREQUEST => 'PROPFIND',
         CURLOPT_HEADER => true,
+        CURLOPT_HTTPHEADER => ['Depth: 0',],
     ];
     
     $res = $mu_->get_contents($url, $options);
