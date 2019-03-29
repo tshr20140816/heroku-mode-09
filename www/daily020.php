@@ -53,7 +53,7 @@ check_teracloud_usage($mu, $file_name_blog);
 check_opendrive_usage($mu, $file_name_blog);
 
 // CloudMe usage
-check_cloudme_usage($mu, $file_name_blog);
+//check_cloudme_usage($mu, $file_name_blog);
 
 // 4shared usage
 check_4shared_usage($mu, $file_name_blog);
