@@ -74,7 +74,7 @@ function func2019329($mu_)
         CURLOPT_HEADER => true,
     ];
     
-    $res = $mu_->get_contents($url, $options);
+    // $res = $mu_->get_contents($url, $options);
     
     error_log($res);
 }
