@@ -17,6 +17,9 @@ function func2019329($mu_)
     $user_4shared = getenv('4SHARED_USER');
     $password_4shared = getenv('4SHARED_PASSWORD');
     
+    error_log($mu_->get_encrypt_string($user_4shared));
+    error_log($mu_->get_encrypt_string($password_4shared));
+    
     $url = 'https://webdav.4shared.com/';
     
     $options = [
