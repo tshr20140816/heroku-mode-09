@@ -53,7 +53,7 @@ check_teracloud_usage($mu, $file_name_blog);
 check_opendrive_usage($mu, $file_name_blog);
 
 // CloudMe usage
-//check_cloudme_usage($mu, $file_name_blog);
+check_cloudme_usage($mu, $file_name_blog);
 
 // 4shared usage
 check_4shared_usage($mu, $file_name_blog);
@@ -714,8 +714,8 @@ function check_4shared_usage($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $user_4shared = $this->get_env('4SHARED_USER', true);
-    $password_4shared = $this->get_env('4SHARED_PASSWORD', true);
+    $user_4shared = $mu_->get_env('4SHARED_USER', true);
+    $password_4shared = $mu_->get_env('4SHARED_PASSWORD', true);
 
     $url = 'https://webdav.4shared.com/';
     $options = [
