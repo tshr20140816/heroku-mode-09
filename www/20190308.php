@@ -23,7 +23,7 @@ error_log($res);
 $user_cloudme = getenv('CLOUDME_USER');
 $password_cloudme = getenv('CLOUDME_PASSWORD');
 
-$url = "https://webdav.cloudme.com/${user_cloudme}/xios/dummy2.txt";
+$url = "https://webdav.cloudme.com/${user_cloudme}/xios";
 
 $options = [
     CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
