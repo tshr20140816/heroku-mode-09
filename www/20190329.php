@@ -29,9 +29,7 @@ function func2019329($mu_)
     $res = $mu_->get_contents($url, $options);
     
     error_log($res);
-    
-    exit();
-    
+        
     /*
     $ftp_link_id = ftp_connect('ftp.4shared.com');
     $rc = ftp_login($ftp_link_id, $user_4shared, $password_4shared);
