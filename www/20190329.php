@@ -23,11 +23,14 @@ function func2019329($mu_)
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${user_4shared}:${password_4shared}",
         CURLOPT_HEADER => true,
+        CURLOPT_CUSTOMREQUEST => 'PROPFIND',        
     ];
     
     $res = $mu_->get_contents($url, $options);
     
     error_log($res);
+    
+    exit();
     
     /*
     $ftp_link_id = ftp_connect('ftp.4shared.com');
