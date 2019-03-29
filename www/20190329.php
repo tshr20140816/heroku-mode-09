@@ -71,7 +71,7 @@ function func2019329($mu_)
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${user_4shared}:${password_4shared}",
-        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_CUSTOMREQUEST => 'DELETE',
         CURLOPT_HEADER => true,
     ];
     
