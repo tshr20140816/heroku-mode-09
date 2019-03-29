@@ -720,7 +720,7 @@ __HEREDOC__;
                 $dic_http_status[$http_code] = 1;
             }
             apcu_store('HTTP_STATUS', $dic_http_status);
-            if ($http_code == '200' || $http_code == '201') {
+            if ($http_code == '200' || $http_code == '201' || $http_code == '207') {
                 break;
             }
 
