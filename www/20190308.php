@@ -44,24 +44,10 @@ $res = $mu->get_contents($url, $options);
 
 error_log($res);
 
-exit();
+// exit();
 
-$cookie = tempnam("/tmp", md5(microtime(true)));
-
-$url = "https://webdav.cloudme.com/";
-
-$options = [
-    CURLOPT_HEADER => true,
-    CURLOPT_COOKIEJAR => $cookie,
-    CURLOPT_COOKIEFILE => $cookie,
-];
-
-//$res = $mu->get_contents($url, $options);
-
-error_log($res);
-
-$user_cloudme = getenv('CLOUDME_USER');
-$password_cloudme = getenv('CLOUDME_PASSWORD');
+//$user_cloudme = getenv('CLOUDME_USER');
+//$password_cloudme = getenv('CLOUDME_PASSWORD');
 
 $url = "https://webdav.cloudme.com/${user_cloudme}/xios";
 
@@ -69,11 +55,9 @@ $options = [
     CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
     CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
     CURLOPT_HEADER => true,
-    CURLOPT_COOKIEJAR => $cookie,
-    CURLOPT_COOKIEFILE => $cookie,
 ];
 
-$res = $mu->get_contents($url, $options);
+//$res = $mu->get_contents($url, $options);
 
 error_log($res);
 
@@ -91,10 +75,17 @@ $options = [
     CURLOPT_INFILE => $fh,
     CURLOPT_INFILESIZE => $file_size,
     CURLOPT_HEADER => true,
-    CURLOPT_COOKIEJAR => $cookie,
-    CURLOPT_COOKIEFILE => $cookie,
 ];
-// $res = $mu->get_contents($url, $options);
+$res = $mu->get_contents($url, $options);
 
 fclose($fh);
 @unlink($cookie);
+
+$url = "https://webdav.cloudme.com/${user_cloudme}/xios/" . pathinfo($file_name)['basename'];
+$options = [
+    CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+    CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
+    CURLOPT_CUSTOMREQUEST => 'DELETE',
+    CURLOPT_HEADER => true,
+];
+$res = $mu->get_contents($url, $options);
