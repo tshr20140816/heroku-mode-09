@@ -29,7 +29,10 @@ function func2019329($mu_)
     $res = $mu_->get_contents($url, $options);
     
     error_log($res);
-        
+    
+    $rc = preg_match_all('/<D:getcontentlength>(.+?)<\/D:getcontentlength>/s', $res, $matches);
+    error_log(print_r($matches, true));
+    
     /*
     $ftp_link_id = ftp_connect('ftp.4shared.com');
     $rc = ftp_login($ftp_link_id, $user_4shared, $password_4shared);
@@ -39,7 +42,7 @@ function func2019329($mu_)
     error_log('ftp_close : ' . $rc);
     */
     
-    // return;
+    return;
     
     $file_name_ = '/tmp/dummy1.txt';
     file_put_contents($file_name_, 'DUMMY1');
