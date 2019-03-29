@@ -14,8 +14,8 @@ function func2019329($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $user_hidrive = $this->get_env('HIDRIVE_USER', true);
-    $password_hidrive = $this->get_env('HIDRIVE_PASSWORD', true);
+    $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
+    $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
     
     $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/";
     $options = [
