@@ -732,7 +732,7 @@ __HEREDOC__;
         CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => $post_data,
-        CURLOPT_HTTPHEADER => ["soapaction: login",
+        CURLOPT_HTTPHEADER => ['SoapAction: login',
                                'Content-Type: text/xml; charset=utf-8',
                               ],
     ];
