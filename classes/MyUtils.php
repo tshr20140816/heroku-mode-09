@@ -923,6 +923,9 @@ __HEREDOC__;
         $user_opendrive = $this->get_env('OPENDRIVE_USER', true);
         $password_opendrive = $this->get_env('OPENDRIVE_PASSWORD', true);
 
+        $user_cloudme = $this->get_env('CLOUDME_USER', true);
+        $password_cloudme = $this->get_env('CLOUDME_PASSWORD', true);
+
         $method = 'aes-256-cbc';
         //$password = base64_encode(getenv('HIDRIVE_USER')) . base64_encode(getenv('HIDRIVE_PASSWORD'));
         $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
@@ -940,6 +943,7 @@ __HEREDOC__;
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
             CURLOPT_CUSTOMREQUEST => 'DELETE',
+            CURLOPT_HEADER => true,
         ];
         // $res = $this->get_contents($url, $options);
         $urls[$url] = $options;
@@ -949,6 +953,7 @@ __HEREDOC__;
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_pcloud}:${password_pcloud}",
             CURLOPT_CUSTOMREQUEST => 'DELETE',
+            CURLOPT_HEADER => true,
         ];
         // $res = $this->get_contents($url, $options);
         $urls[$url] = $options;
@@ -958,6 +963,7 @@ __HEREDOC__;
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
             CURLOPT_CUSTOMREQUEST => 'DELETE',
+            CURLOPT_HEADER => true,
         ];
         // $res = $this->get_contents($url, $options);
         $urls[$url] = $options;
@@ -967,6 +973,17 @@ __HEREDOC__;
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_opendrive}:${password_opendrive}",
             CURLOPT_CUSTOMREQUEST => 'DELETE',
+            CURLOPT_HEADER => true,
+        ];
+        // $res = $this->get_contents($url, $options);
+        $urls[$url] = $options;
+
+        $url = "https://webdav.cloudme.com/${user_cloudme}/xios/" . pathinfo($file_name_)['basename'];
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+            CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
+            CURLOPT_CUSTOMREQUEST => 'DELETE',
+            CURLOPT_HEADER => true,
         ];
         // $res = $this->get_contents($url, $options);
         $urls[$url] = $options;
@@ -1013,6 +1030,17 @@ __HEREDOC__;
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_opendrive}:${password_opendrive}",
+            CURLOPT_PUT => true,
+            CURLOPT_INFILE => $fh,
+            CURLOPT_INFILESIZE => $file_size,
+            CURLOPT_HEADER => true,
+        ];
+        $res = $this->get_contents($url, $options);
+
+        $url = "https://webdav.cloudme.com/${user_cloudme}/xios/" . pathinfo($file_name_)['basename'];
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+            CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
             CURLOPT_PUT => true,
             CURLOPT_INFILE => $fh,
             CURLOPT_INFILESIZE => $file_size,
