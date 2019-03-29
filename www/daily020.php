@@ -744,8 +744,8 @@ function check_cloudme_usage($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $user_cloudme = $mu->get_env('CLOUDME_USER', true);
-    $password_cloudme = $mu->get_env('CLOUDME_PASSWORD', true);
+    $user_cloudme = $mu_->get_env('CLOUDME_USER', true);
+    $password_cloudme = $mu_->get_env('CLOUDME_PASSWORD', true);
 
     $soap_text = <<< __HEREDOC__
 <SOAP-ENV:Envelope
