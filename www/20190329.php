@@ -14,17 +14,31 @@ function func2019329($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    $user_4shared = getenv('4SHARED_USER');
+    $password_4shared = getenv('4SHARED_PASSWORD');
+    
+    $url = 'https://webdav.4shared.com/';
+    
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${user_4shared}:${password_4shared}",
+        CURLOPT_HEADER => true,
+    ];
+    
+    $res = $mu_->get_contents($url, $options);
+    
+    error_log($res);
+    
+    return;
+    
     $file_name_ = '/tmp/dummy1.txt';
     file_put_contents($file_name_, 'DUMMY');
     $fh = fopen($file_name_, 'r');
     
-    $user_4shared = getenv('4SHARED_USER');
-    $password_4shared = getenv('4SHARED_PASSWORD');
-    
-    $url = 'https://webdav.4shared.com/' . pathinfo($file_name_)['basename'];;
+    $url = 'https://webdav.4shared.com/' . pathinfo($file_name_)['basename'];
     
     $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${user_4shared}:${password_4shared}",
         CURLOPT_PUT => true,
         CURLOPT_INFILE => $fh,
