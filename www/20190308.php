@@ -29,7 +29,7 @@ $options = [
     CURLOPT_HEADER => true,
     CURLOPT_POST => true,
     CURLOPT_POSTFIELDS => $soap_text,
-    CURLOPT_HTTPHEADER => ['SoapAction: login',
+    CURLOPT_HTTPHEADER => ['SOAPAction: login',
                            'Content-Type: text/xml; charset=utf-8',
                           ],
 ];
