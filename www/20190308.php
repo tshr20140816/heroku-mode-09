@@ -21,11 +21,8 @@ __HEREDOC__;
 
 $url = 'https://www.cloudme.com/v1/';
 
-$user_cloudme = getenv('CLOUDME_USER');
-$password_cloudme = getenv('CLOUDME_PASSWORD');
-
-error_log($mu->get_encrypt_string($user_cloudme));
-error_log($mu->get_encrypt_string($password_cloudme));
+$user_cloudme = $mu->get_env('CLOUDME_USER', true);
+$password_cloudme = $mu->get_env('CLOUDME_PASSWORD', true);
 
 $action = 'login';
 $body = '';
