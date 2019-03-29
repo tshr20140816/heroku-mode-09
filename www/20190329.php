@@ -14,7 +14,7 @@ function func2019329($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $res = $mu_->get_contents('https://api.4shared.com/v1_2/oauth/initiate');
+    $res = $mu_->get_contents('https://api.4shared.com/v1_2/oauth/authorize');
     
     error_log($res);
     
