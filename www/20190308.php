@@ -44,6 +44,10 @@ $res = $mu->get_contents($url, $options);
 
 error_log($res);
 
+$rc = preg_match('/<system>home<\/system><currentSize>(.+?)<\/currentSize><quotaLimit>(.+?)<\/quotaLimit>/s', $res, $match);
+
+error_log(print_r($match, true));
+
 exit();
 
 //$user_cloudme = getenv('CLOUDME_USER');
