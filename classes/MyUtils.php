@@ -926,8 +926,10 @@ __HEREDOC__;
         $user_cloudme = $this->get_env('CLOUDME_USER', true);
         $password_cloudme = $this->get_env('CLOUDME_PASSWORD', true);
 
+        $user_4shared = $this->get_env('4SHARED_USER', true);
+        $password_4shared = $this->get_env('4SHARED_PASSWORD', true);
+
         $method = 'aes-256-cbc';
-        //$password = base64_encode(getenv('HIDRIVE_USER')) . base64_encode(getenv('HIDRIVE_PASSWORD'));
         $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
         $iv = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
         $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $iv);
@@ -988,6 +990,16 @@ __HEREDOC__;
         // $res = $this->get_contents($url, $options);
         $urls[$url] = $options;
 
+        $url = 'https://webdav.4shared.com/' . pathinfo($file_name_)['basename'];
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+            CURLOPT_USERPWD => "${user_4shared}:${password_4shared}",
+            CURLOPT_CUSTOMREQUEST => 'DELETE',
+            CURLOPT_HEADER => true,
+        ];
+        // $res = $this->get_contents($url, $options);
+        $urls[$url] = $options;
+
         $rc = $this->get_contents_multi($urls);
 
         $file_size = filesize($file_name_);
@@ -1041,6 +1053,17 @@ __HEREDOC__;
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
             CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
+            CURLOPT_PUT => true,
+            CURLOPT_INFILE => $fh,
+            CURLOPT_INFILESIZE => $file_size,
+            CURLOPT_HEADER => true,
+        ];
+        $res = $this->get_contents($url, $options);
+
+        $url = 'https://webdav.4shared.com/' . pathinfo($file_name_)['basename'];
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+            CURLOPT_USERPWD => "${user_4shared}:${password_4shared}",
             CURLOPT_PUT => true,
             CURLOPT_INFILE => $fh,
             CURLOPT_INFILESIZE => $file_size,
