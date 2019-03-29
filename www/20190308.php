@@ -23,7 +23,7 @@ error_log($res);
 $user_cloudme = getenv('CLOUDME_USER');
 $password_cloudme = getenv('CLOUDME_PASSWORD');
 
-$url = "https://webdav.cloudme.com/${user_cloudme}.";
+$url = "https://webdav.cloudme.com/${user_cloudme}";
 
 $options = [
     CURLOPT_HTTPAUTH => CURLAUTH_ANY,
@@ -33,11 +33,11 @@ $options = [
     CURLOPT_COOKIEFILE => $cookie,
 ];
 
-$res = $mu->get_contents($url, $options);
+// $res = $mu->get_contents($url, $options);
 
 error_log($res);
 
-$file_name = '/tmp/dummy.txt';
+$file_name = '/tmp/dummy2.txt';
 file_put_contents($file_name, 'DUMMY');
 
 $file_size = filesize($file_name);
@@ -54,7 +54,7 @@ $options = [
     CURLOPT_COOKIEJAR => $cookie,
     CURLOPT_COOKIEFILE => $cookie,
 ];
-// $res = $mu->get_contents($url, $options);
+$res = $mu->get_contents($url, $options);
 
 fclose($fh);
 @unlink($cookie);
