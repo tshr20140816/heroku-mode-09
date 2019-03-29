@@ -24,6 +24,9 @@ $url = 'https://www.cloudme.com/v1/';
 $user_cloudme = getenv('CLOUDME_USER');
 $password_cloudme = getenv('CLOUDME_PASSWORD');
 
+error_log($mu->get_encrypt_string($user_cloudme));
+error_log($mu->get_encrypt_string($password_cloudme));
+
 $action = 'login';
 $body = '';
 
