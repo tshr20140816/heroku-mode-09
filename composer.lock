@@ -1536,6 +1536,7 @@
         "ext-pcntl": "*",
         "ext-xmlrpc": "*",
         "ext-imagick": "*",
+        "ext-soap": "*",
         "ext-imap": "*"
     },
     "platform-dev": []
