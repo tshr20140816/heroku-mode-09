@@ -41,8 +41,8 @@ function func2019329($mu_)
     
     // return;
     
-    $file_name_ = '/tmp/dummy2.txt';
-    file_put_contents($file_name_, 'DUMMY');
+    $file_name_ = '/tmp/dummy1.txt';
+    file_put_contents($file_name_, 'DUMMY1');
     
     $file_size = filesize($file_name_);
     $fh = fopen($file_name_, 'r');
