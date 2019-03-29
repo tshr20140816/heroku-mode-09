@@ -21,6 +21,11 @@ $html = <<< __HEREDOC__
 __HEREDOC__;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $options = [CURLOPT_HEADER => true, CURLOPT_NOBODY => true,];
+    $url = $_POST['url'];
+    $res = $mu->get_contents($url, $options);
+    error_log($res);
+    
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
         CURLOPT_HTTPHEADER => [
