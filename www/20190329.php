@@ -34,6 +34,12 @@ function func2019329($mu_)
     //$rc = preg_match_all('/getcontentlength>(.+?)</s', $res, $matches);
     error_log(print_r($matches, true));
     
+    $size = 0;
+    foreach ($matches[1] as $item) {
+        $size += $item;
+    }
+    error_log($size);
+    
     /*
     $ftp_link_id = ftp_connect('ftp.4shared.com');
     $rc = ftp_login($ftp_link_id, $user_4shared, $password_4shared);
