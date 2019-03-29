@@ -23,7 +23,7 @@ error_log($res);
 $user_cloudme = getenv('CLOUDME_USER');
 $password_cloudme = getenv('CLOUDME_PASSWORD');
 
-$url = "https://webdav.cloudme.com/${user_cloudme}";
+$url = "https://webdav.cloudme.com/${user_cloudme}/xios/";
 
 $options = [
     CURLOPT_HTTPAUTH => CURLAUTH_ANY,
@@ -33,7 +33,7 @@ $options = [
     CURLOPT_COOKIEFILE => $cookie,
 ];
 
-// $res = $mu->get_contents($url, $options);
+$res = $mu->get_contents($url, $options);
 
 error_log($res);
 
@@ -54,7 +54,7 @@ $options = [
     CURLOPT_COOKIEJAR => $cookie,
     CURLOPT_COOKIEFILE => $cookie,
 ];
-$res = $mu->get_contents($url, $options);
+// $res = $mu->get_contents($url, $options);
 
 fclose($fh);
 @unlink($cookie);
