@@ -7,6 +7,8 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $rc = apcu_clear_cache();
 $mu = new MyUtils();
 
+check_cloudme_usage($mu, '/tmp/dummy');
+
 function check_cloudme_usage($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
@@ -34,7 +36,9 @@ __HEREDOC__;
                               ],
     ];
     $res = $mu_->get_contents($url, $options);
+    error_log($res);
     $rc = preg_match('/<system>home<\/system><currentSize>(.+?)<\/currentSize><quotaLimit>(.+?)<\/quotaLimit>/s', $res, $match);
+    error_log(print_r($match, true));
     $size = number_format($match[1]);
     $percentage = substr($match[1] / $match[2] * 100, 0, 5);
     error_log($log_prefix . "CloudMe usage : ${size}Byte ${percentage}%");
