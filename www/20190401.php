@@ -20,9 +20,9 @@ function check_cloudme_usage($mu_, $file_name_blog_)
  SOAP-ENV:encodingStyle=""
  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"
  xmlns:xsd="http://www.w3.org/1999/XMLSchema">
-<SOAP-ENV:Body>
-<login></login>
-</SOAP-ENV:Body>
+  <SOAP-ENV:Body>
+    <login></login>
+  </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
 __HEREDOC__;
     $url = 'https://www.cloudme.com/v1/';
@@ -30,7 +30,7 @@ __HEREDOC__;
         CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
         CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
         CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => $post_data,
+        CURLOPT_POSTFIELDS => $soap_text,
         CURLOPT_HTTPHEADER => ['SOAPAction: login',
                                'Content-Type: text/xml; charset=utf-8',
                               ],
