@@ -20,9 +20,9 @@ function check_cloudme_usage($mu_, $file_name_blog_)
  SOAP-ENV:encodingStyle=""
  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"
  xmlns:xsd="http://www.w3.org/1999/XMLSchema">
-  <SOAP-ENV:Body>
-    <login></login>
-  </SOAP-ENV:Body>
+<SOAP-ENV:Body>
+<login></login>
+</SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
 __HEREDOC__;
     $url = 'https://www.cloudme.com/v1/';
