@@ -13,6 +13,7 @@ function func_20190401($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    /*
     $user_zoho = getenv('ZOHO_USER');
     $password_zoho = getenv('ZOHO_PASSWORD');
     $url = 'https://accounts.zoho.com/apiauthtoken/nb/create';
@@ -33,4 +34,21 @@ function func_20190401($mu_, $file_name_blog_)
     error_log($res);
     $rc = preg_match('/AUTHTOKEN=(.+)/', $res, $match);
     error_log(print_r($match, true));
+    */
+    
+    $authtoken_zoho = getenv('ZOHO_AUTHTOKEN');
+    
+    $url = 'https://apidocs.zoho.com/files/v1/upload?scope=docsapi&authtoken=' . $authtoken_zoho;
+    
+    $post_data = ['filename' => 'dummy.txt',
+                  'content' => 'DUMMY',
+                 ];
+    
+    $res = $mu_->get_contents(
+        $url,
+        [CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
+        ]
+    );
+    error_log($res);
 }
