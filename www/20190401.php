@@ -31,4 +31,6 @@ function func_20190401($mu_, $file_name_blog_)
     );
     
     error_log($res);
+    $rc = preg_match('/AUTHTOKEN=(.+)/', $res, $match);
+    error_log(print_r($match, true));
 }
