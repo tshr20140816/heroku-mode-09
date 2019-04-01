@@ -13,18 +13,20 @@ function func_20190331($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $authtoken_zoho = getenv('ZOHO_AUTHTOKEN');
+    $user_cloudapp = getenv('CLOUDAPP_USER');
+    $user_cloudpassword = getenv('CLOUDAPP_PASSWORD');
     
-    $url = 'https://apidocs.zoho.com/files/v1/upload?scope=docsapi&authtoken=' . $authtoken_zoho;
+    $url = 'http://my.cl.ly/register';
     
-    $post_data = ['filename' => 'dummy.txt',
-                  'content' => 'DUMMY',
-                 ];
+    $post_data = ['user' => ['email' => $user_cloudapp,
+                             'password' => $user_cloudpassword,
+                             'accept_tos' => true,
+                            ],];
     
     $res = $mu_->get_contents(
         $url,
         [CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => http_build_query($post_data),
+        CURLOPT_POSTFIELDS => json_encode($post_data),
         ]
     );
     error_log($res);
