@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $url = $_POST['url'];
     $res = $mu->get_contents($url, $options);
     error_log($res);
-    $rc = preg_match('/Content-Type: .+/', $res, $match);
+    $rc = preg_match('/content-type: .+/i', $res, $match);
     header($match[0]);
     
     $options = [
