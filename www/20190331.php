@@ -16,7 +16,7 @@ function func_20190331($mu_, $file_name_blog_)
     $user_cloudapp = getenv('CLOUDAPP_USER');
     $user_cloudpassword = getenv('CLOUDAPP_PASSWORD');
     
-    $url = 'http://my.cl.ly/register';
+    $url = 'https://my.cl.ly/register';
     
     $post_data = ['user' => ['email' => $user_cloudapp,
                              'password' => $user_cloudpassword,
