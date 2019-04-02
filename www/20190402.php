@@ -23,12 +23,10 @@ function get_task_f12($mu_, $file_name_blog_)
             continue;
         }
 
-        /*
-        $timestamp = strtotime($item->strDateTime);
+        $timestamp = strtotime(substr($item->strDateTime, 0, 10));
         if ($timestamp < time()) {
             continue;
         }
-        */
 
         $title = substr($item->strDateTime, 11, 5) . ' ' .  $item->subTitle . ' ⠴⬬⠶⠷⬬⠝ ⚑⚐⚑⚐';
 
