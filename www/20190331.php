@@ -13,7 +13,7 @@ function func_20190331($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    file_put_contents('/tmp/dummy4.txt', 'DUMMY');
+    file_put_contents('/tmp/dummy1.txt', 'DUMMY');
     
     $user_cloudapp = getenv('CLOUDAPP_USER');
     $user_cloudpassword = getenv('CLOUDAPP_PASSWORD');
@@ -50,7 +50,7 @@ function func_20190331($mu_, $file_name_blog_)
                   'signature' => $json->params->signature,
                   'success_action_redirect' => $json->params->success_action_redirect,
                   'acl' => $json->params->acl,
-                  'file' => new CURLFile('/tmp/dummy4.txt', 'text/plain', 'dummy4.txt'),
+                  'file' => new CURLFile('/tmp/dummy1.txt', 'text/plain', 'dummy1.txt'),
                  ];
     
     $res = $mu_->get_contents(
