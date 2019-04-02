@@ -18,7 +18,7 @@ function func_20190331($mu_, $file_name_blog_)
     $user_cloudapp = getenv('CLOUDAPP_USER');
     $user_cloudpassword = getenv('CLOUDAPP_PASSWORD');
     
-    $url = 'http://my.cl.ly/items?per_page=1000&page=2';
+    $url = 'http://my.cl.ly/items?per_page=1000&page=1';
         
     $res = $mu_->get_contents(
         $url,
@@ -28,6 +28,8 @@ function func_20190331($mu_, $file_name_blog_)
         ]
     );
     error_log(print_r(json_decode($res), true));
+    
+    return;
     
     $url = 'http://my.cl.ly/account';
     $url = 'http://my.cl.ly/account/stats';
