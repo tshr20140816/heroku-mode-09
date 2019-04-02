@@ -18,6 +18,7 @@ function get_task_f12($mu_, $file_name_blog_)
     // error_log($res);
 
     foreach (json_decode($res)->schedule as $item) {
+        /*
         if ($item->liveFlag == '0') {
             continue;
         }
@@ -26,6 +27,7 @@ function get_task_f12($mu_, $file_name_blog_)
         if ($timestamp < time()) {
             continue;
         }
+        */
 
         $title = substr($item->strDateTime, 11, 5) . ' ' .  $item->subTitle . ' ⠴⬬⠶⠷⬬⠝ ⚑⚐⚑⚐';
 
