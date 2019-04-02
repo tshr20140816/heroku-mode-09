@@ -13,6 +13,8 @@ function func_20190331($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    file_put_contents('/tmp/dummy.txt', 'DUMMY');
+    
     $user_cloudapp = getenv('CLOUDAPP_USER');
     $user_cloudpassword = getenv('CLOUDAPP_PASSWORD');
     
@@ -28,4 +30,28 @@ function func_20190331($mu_, $file_name_blog_)
         ]
     );
     error_log(print_r(json_decode($res), true));
+    $json = json_decode($res);
+    
+    $url = $json->url;
+    $post_data = ['AWSAccessKeyId' => $json['params']->AWSAccessKeyId,
+                  'key' => $json['params']->key,
+                  'policy' => $json['params']->policy,
+                  'signature' => $json['params']->signature,
+                  'success_action_redirect' => $json['params']->success_action_redirect,
+                  'acl' => $json['params']->acl,
+                  'file' => new CURLFile('/tmp/dummy.txt', 'text/plain', 'dummy.txt'),
+                 ];
+    
+    $res = $mu_->get_contents(
+        $url,
+        [CURLOPT_POST => true,
+         CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+         CURLOPT_USERPWD => "${user_cloudapp}:${user_cloudpassword}",
+         CURLOPT_HTTPHEADER => ['Accept: application/json',],
+         CURLOPT_POSTFIELDS => $post_data,
+        ]);
+    
+    error_log(print_r(json_decode($res), true));
+        
+    unlink('/tmp/dummy.txt');
 }
