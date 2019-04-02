@@ -29,6 +29,18 @@ function func_20190331($mu_, $file_name_blog_)
     );
     error_log(print_r(json_decode($res), true));
     
+    $url = json_decode($res)[0]->href;
+        
+    $res = $mu_->get_contents(
+        $url,
+        [CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+         CURLOPT_USERPWD => "${user_cloudapp}:${user_cloudpassword}",
+         CURLOPT_HTTPHEADER => ['Accept: application/json',],
+         CURLOPT_CUSTOMREQUEST => 'DELETE',
+        ]
+    );
+    error_log(print_r(json_decode($res), true));
+    
     return;
     
     $url = 'http://my.cl.ly/account';
