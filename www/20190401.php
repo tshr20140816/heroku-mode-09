@@ -38,7 +38,7 @@ function func_20190401($mu_, $file_name_blog_)
     
     $authtoken_zoho = getenv('ZOHO_AUTHTOKEN');
     
-    $url = 'https://apidocs.zoho.com/files/v1/upload?scope=docsapi&authtoken=' . $authtoken_zoho;
+    $url = 'https://apidocs.zoho.com/files/v1/upload?authtoken=' . $authtoken_zoho . '&scope=docsapi';
     
     file_put_contents('/tmp/dummy.txt', 'DUMMY');
     
