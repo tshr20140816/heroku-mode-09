@@ -961,7 +961,6 @@ __HEREDOC__;
                 break;
             }
             foreach ($json as $item) {
-
                 if ($item->file_name == $base_name) {
                     $url_target = $item->href;
                     break 2;
