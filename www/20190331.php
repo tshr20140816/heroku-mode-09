@@ -31,24 +31,14 @@ function func_20190331($mu_, $file_name_blog_)
     );
     error_log(print_r(json_decode($res), true));
     $json = json_decode($res);
-    
-    $params = $json['params'];
-    error_log(print_r($params, true));
-    
-    error_log($params->AWSAccessKeyId);
-    error_log($json['params']->key);
-    error_log($json['params']->policy);
-    error_log($json['params']->signature);
-    error_log($json['params']->success_action_redirect);
-    error_log($json['params']->acl);
-    
+        
     $url = $json->url;
-    $post_data = ['AWSAccessKeyId' => $json['params']->AWSAccessKeyId,
-                  'key' => $json['params']->key,
-                  'policy' => $json['params']->policy,
-                  'signature' => $json['params']->signature,
-                  'success_action_redirect' => $json['params']->success_action_redirect,
-                  'acl' => $json['params']->acl,
+    $post_data = ['AWSAccessKeyId' => $json->params->AWSAccessKeyId,
+                  'key' => $json->params->key,
+                  'policy' => $json->params->policy,
+                  'signature' => $json->params->signature,
+                  'success_action_redirect' => $json->params->success_action_redirect,
+                  'acl' => $json->params->acl,
                   'file' => new CURLFile('/tmp/dummy.txt', 'text/plain', 'dummy.txt'),
                  ];
     
