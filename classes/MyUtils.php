@@ -909,6 +909,8 @@ __HEREDOC__;
 
         $res = bzcompress($data_, 9);
 
+        $base_name = pathinfo($file_name_)['basename'];
+
         $user_hidrive = $this->get_env('HIDRIVE_USER', true);
         $password_hidrive = $this->get_env('HIDRIVE_PASSWORD', true);
 
@@ -929,18 +931,58 @@ __HEREDOC__;
         $user_4shared = $this->get_env('4SHARED_USER', true);
         $password_4shared = $this->get_env('4SHARED_PASSWORD', true);
 
+        $user_cloudapp = $this->get_env('CLOUDAPP_USER', true);
+        $password_cloudapp = $this->get_env('CLOUDAPP_PASSWORD', true);
+
         $method = 'aes-256-cbc';
         $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
         $iv = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
         $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $iv);
 
         $res = base64_encode($res);
-        error_log($log_prefix . pathinfo($file_name_)['basename'] . ' size : ' . strlen($res));
+        error_log($log_prefix . $base_name . ' size : ' . strlen($res));
         file_put_contents($file_name_, $res);
+
+        $url_target = '';
+        $page = 0;
+        for (;;) {
+            $page++;
+            $url = 'http://my.cl.ly/items?per_page=100&page=' . $page;
+
+            $options = [
+                CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+                CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
+                CURLOPT_HTTPHEADER => ['Accept: application/json',],
+            ];
+
+            $res = $this->get_contents($url, $options);
+            $json = json_decode($res);
+            if (count($json) === 0) {
+                break;
+            }
+            foreach ($json as $item) {
+
+                if ($item->file_name == $base_name) {
+                    $url_target = $item->href;
+                    break 2;
+                }
+            }
+        }
 
         $urls = [];
 
-        $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/" . pathinfo($file_name_)['basename'];
+        if ($url_target != '') {
+            $options = [
+                CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+                CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
+                CURLOPT_HTTPHEADER => ['Accept: application/json',],
+                CURLOPT_CUSTOMREQUEST => 'DELETE',
+            ];
+            // $res = $this->get_contents($url, $options);
+            $urls[$url_target] = $options;
+        }
+
+        $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
@@ -950,7 +992,7 @@ __HEREDOC__;
         // $res = $this->get_contents($url, $options);
         $urls[$url] = $options;
 
-        $url = 'https://webdav.pcloud.com/' . pathinfo($file_name_)['basename'];
+        $url = 'https://webdav.pcloud.com/' . $base_name;
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_pcloud}:${password_pcloud}",
@@ -960,7 +1002,7 @@ __HEREDOC__;
         // $res = $this->get_contents($url, $options);
         $urls[$url] = $options;
 
-        $url = "https://${node_teracloud}.teracloud.jp/dav/" . pathinfo($file_name_)['basename'];
+        $url = "https://${node_teracloud}.teracloud.jp/dav/${base_name}";
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
@@ -970,7 +1012,7 @@ __HEREDOC__;
         // $res = $this->get_contents($url, $options);
         $urls[$url] = $options;
 
-        $url = 'https://webdav.opendrive.com/' . pathinfo($file_name_)['basename'];
+        $url = 'https://webdav.opendrive.com/' . $base_name;
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_opendrive}:${password_opendrive}",
@@ -980,7 +1022,7 @@ __HEREDOC__;
         // $res = $this->get_contents($url, $options);
         $urls[$url] = $options;
 
-        $url = "https://webdav.cloudme.com/${user_cloudme}/xios/" . pathinfo($file_name_)['basename'];
+        $url = "https://webdav.cloudme.com/${user_cloudme}/xios/${base_name}";
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
             CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
@@ -990,7 +1032,7 @@ __HEREDOC__;
         // $res = $this->get_contents($url, $options);
         $urls[$url] = $options;
 
-        $url = 'https://webdav.4shared.com/' . pathinfo($file_name_)['basename'];
+        $url = 'https://webdav.4shared.com/' . $base_name;
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_4shared}:${password_4shared}",
@@ -1005,7 +1047,7 @@ __HEREDOC__;
         $file_size = filesize($file_name_);
         $fh = fopen($file_name_, 'r');
 
-        $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/" . pathinfo($file_name_)['basename'];
+        $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
@@ -1016,7 +1058,7 @@ __HEREDOC__;
         ];
         $res = $this->get_contents($url, $options);
 
-        $url = 'https://webdav.pcloud.com/' . pathinfo($file_name_)['basename'];
+        $url = 'https://webdav.pcloud.com/' . $base_name;
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_pcloud}:${password_pcloud}",
@@ -1027,7 +1069,7 @@ __HEREDOC__;
         ];
         $res = $this->get_contents($url, $options);
 
-        $url = "https://${node_teracloud}.teracloud.jp/dav/" . pathinfo($file_name_)['basename'];
+        $url = "https://${node_teracloud}.teracloud.jp/dav/${base_name}";
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
@@ -1038,7 +1080,7 @@ __HEREDOC__;
         ];
         $res = $this->get_contents($url, $options);
 
-        $url = 'https://webdav.opendrive.com/' . pathinfo($file_name_)['basename'];
+        $url = 'https://webdav.opendrive.com/' . $base_name;
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_opendrive}:${password_opendrive}",
@@ -1049,7 +1091,7 @@ __HEREDOC__;
         ];
         $res = $this->get_contents($url, $options);
 
-        $url = "https://webdav.cloudme.com/${user_cloudme}/xios/" . pathinfo($file_name_)['basename'];
+        $url = "https://webdav.cloudme.com/${user_cloudme}/xios/${base_name}";
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
             CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
@@ -1060,7 +1102,7 @@ __HEREDOC__;
         ];
         $res = $this->get_contents($url, $options);
 
-        $url = 'https://webdav.4shared.com/' . pathinfo($file_name_)['basename'];
+        $url = 'https://webdav.4shared.com/' . $base_name;
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_4shared}:${password_4shared}",
@@ -1072,6 +1114,41 @@ __HEREDOC__;
         $res = $this->get_contents($url, $options);
 
         fclose($fh);
+
+        $url = 'http://my.cl.ly/items/new';
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+            CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
+            CURLOPT_HTTPHEADER => ['Accept: application/json',],
+        ];
+        $res = $this->get_contents($url, $options);
+        $json = json_decode($res);
+
+        $post_data = [
+            'AWSAccessKeyId' => $json->params->AWSAccessKeyId,
+            'key' => $json->params->key,
+            'policy' => $json->params->policy,
+            'signature' => $json->params->signature,
+            'success_action_redirect' => $json->params->success_action_redirect,
+            'acl' => $json->params->acl,
+            'file' => new CURLFile($file_name_, 'text/plain', $base_name),
+        ];
+        $options = [
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $post_data,
+            CURLOPT_HEADER => true,
+            CURLOPT_FOLLOWLOCATION => false,
+        ];
+        $res = $this->get_contents($json->url, $options);
+        $rc = preg_match('/Location: (.+)/i', $res, $match);
+
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+            CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
+            CURLOPT_HTTPHEADER => ['Accept: application/json',],
+            CURLOPT_HEADER => true,
+        ];
+        $res = $this->get_contents(trim($match[1]), $options);
 
         unlink($file_name_);
 
