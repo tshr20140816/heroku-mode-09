@@ -32,7 +32,10 @@ function func_20190331($mu_, $file_name_blog_)
     error_log(print_r(json_decode($res), true));
     $json = json_decode($res);
     
-    error_log($json['params']->AWSAccessKeyId);
+    $params = $json['params'];
+    error_log(print_r($params, true));
+    
+    error_log($params->AWSAccessKeyId);
     error_log($json['params']->key);
     error_log($json['params']->policy);
     error_log($json['params']->signature);
