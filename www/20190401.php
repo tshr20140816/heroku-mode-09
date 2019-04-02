@@ -13,7 +13,6 @@ function func_20190401($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $url = 'https://otn.fujitv.co.jp/json/basic_data/918200222.json';
     /*
     $user_zoho = getenv('ZOHO_USER');
     $password_zoho = getenv('ZOHO_PASSWORD');
