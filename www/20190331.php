@@ -16,11 +16,12 @@ function func_20190331($mu_, $file_name_blog_)
     $url = 'https://amefootlive.jp/live';
     $res = $mu_->get_contents($url);
     
-    // error_log($res);
+    error_log($res);
     
-    $pattern = '/' . '<header class="entry-header">.+?<div .+?>(.+?)<.+?<a href="(.+?)"'
+    return;
+    $pattern = '/' . '<header class="entry-header">.+?<div .+?>(.+?)<.+?<a href="(.+?)"';
     
-    $rc = preg_match_all('//s', explode('<h1>ライブ予定</h1>', $res)[1], $matches);
+    $rc = preg_match_all($pattern, explode('<h1>ライブ予定</h1>', $res)[1], $matches);
     
     error_log(print_r($matches, true));
 }
