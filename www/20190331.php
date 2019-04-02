@@ -18,6 +18,17 @@ function func_20190331($mu_, $file_name_blog_)
     $user_cloudapp = getenv('CLOUDAPP_USER');
     $user_cloudpassword = getenv('CLOUDAPP_PASSWORD');
     
+    $url = 'http://my.cl.ly/items';
+        
+    $res = $mu_->get_contents(
+        $url,
+        [CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+         CURLOPT_USERPWD => "${user_cloudapp}:${user_cloudpassword}",
+         CURLOPT_HTTPHEADER => ['Accept: application/json',],
+        ]
+    );
+    error_log(print_r(json_decode($res), true));
+    
     $url = 'http://my.cl.ly/account';
     $url = 'http://my.cl.ly/account/stats';
     $url = 'http://my.cl.ly/items/new';
