@@ -86,7 +86,7 @@ $pdo = null;
 
 //
 
-$url = 'http://otn.fujitv.co.jp/b_hp/918200222.html';
+$url = 'https://otn.fujitv.co.jp/json/basic_data/918200222.json';
 $urls_is_cache[$url] = null;
 
 //
