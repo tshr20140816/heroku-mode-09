@@ -13,7 +13,9 @@ function func_20190331($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    file_put_contents('/tmp/dummy2.txt', 'DUMMY');
+    file_put_contents('/tmp/dummy3.txt', 'DUMMY');
+    
+    $cookie = tempnam("/tmp", md5(microtime(true)));
     
     $user_cloudapp = getenv('CLOUDAPP_USER');
     $user_cloudpassword = getenv('CLOUDAPP_PASSWORD');
@@ -27,6 +29,8 @@ function func_20190331($mu_, $file_name_blog_)
         [CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
          CURLOPT_USERPWD => "${user_cloudapp}:${user_cloudpassword}",
          CURLOPT_HTTPHEADER => ['Accept: application/json',],
+         CURLOPT_COOKIEJAR => $cookie,
+         CURLOPT_COOKIEFILE => $cookie,
         ]
     );
     error_log(print_r(json_decode($res), true));
@@ -39,7 +43,7 @@ function func_20190331($mu_, $file_name_blog_)
                   'signature' => $json->params->signature,
                   'success_action_redirect' => $json->params->success_action_redirect,
                   'acl' => $json->params->acl,
-                  'file' => new CURLFile('/tmp/dummy2.txt', 'text/plain', 'dummy2.txt'),
+                  'file' => new CURLFile('/tmp/dummy3.txt', 'text/plain', 'dummy3.txt'),
                  ];
     
     $res = $mu_->get_contents(
@@ -47,9 +51,11 @@ function func_20190331($mu_, $file_name_blog_)
         [CURLOPT_POST => true,
          CURLOPT_POSTFIELDS => $post_data,
          CURLOPT_HEADER => true,
+         CURLOPT_COOKIEJAR => $cookie,
+         CURLOPT_COOKIEFILE => $cookie,
         ]);
     
     error_log($res);
         
-    unlink('/tmp/dummy2.txt');
+    unlink('/tmp/dummy3.txt');
 }
