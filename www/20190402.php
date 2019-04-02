@@ -16,14 +16,19 @@ function get_task_f12($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url);
     
     // error_log($res);
-    $json = json_decode($res);
-    
-    $data = $json->schedule;
-    
-    foreach ($data as $item) {
+
+    foreach (json_decode($res)->schedule as $item) {
         if ($item->liveFlag == '0') {
             continue;
         }
-        error_log(print_r($item, true));
+
+        $timestamp = strtotime($item->strDateTime);
+        if ($timestamp < time()) {
+            continue;
+        }
+
+        $title = substr($item->strDateTime, 11, 5) . ' ' .  $item->subTitle . ' ⠴⬬⠶⠷⬬⠝ ⚑⚐⚑⚐';
+
+        error_log($title);
     }
 }
