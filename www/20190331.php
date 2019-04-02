@@ -15,11 +15,8 @@ function func_20190331($mu_, $file_name_blog_)
     
     file_put_contents('/tmp/dummy1.txt', 'DUMMY');
     
-    $user_cloudapp = getenv('CLOUDAPP_USER');
-    $user_cloudpassword = getenv('CLOUDAPP_PASSWORD');
-    
-    error_log($mu_->get_encrypt_string($user_cloudapp));
-    error_log($mu_->get_encrypt_string($user_cloudpassword));
+    $user_cloudapp = $mu_->get_env('CLOUDAPP_USER', true);
+    $user_cloudpassword = $mu_->get_env('CLOUDAPP_PASSWORD', true);
     
     $url = 'http://my.cl.ly/items?per_page=1000&page=1';
         
