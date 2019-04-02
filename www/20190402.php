@@ -11,6 +11,10 @@ get_task_f12($mu, '/tmp/dummy');
 
 function get_task_f12($mu_, $file_name_blog_)
 {
+    $list_add_task = [];
+    $add_task_template = '{"title":"__TITLE__","duedate":"__DUEDATE__","context":"__CONTEXT__","tag":"F1","folder":"'
+      . $folder_id_label . '"}';
+    
     $url = 'https://otn.fujitv.co.jp/json/basic_data/918200222.json';
     
     $res = $mu_->get_contents($url);
