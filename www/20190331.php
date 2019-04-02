@@ -18,6 +18,7 @@ function func_20190331($mu_, $file_name_blog_)
     
     $url = 'http://my.cl.ly/account';
     $url = 'http://my.cl.ly/account/stats';
+    $url = 'http://my.cl.ly/items/new';
         
     $res = $mu_->get_contents(
         $url,
