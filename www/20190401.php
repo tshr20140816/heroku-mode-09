@@ -42,12 +42,9 @@ function func_20190401($mu_, $file_name_blog_)
     
     file_put_contents('/tmp/dummy.txt', 'DUMMY');
     
-    /*
     $post_data = ['filename' => 'dummy.txt',
-                  //'content' => '@/tmp/dummy.txt',
-                  'content' => 'AAA',
+                  'content' =>  CURLFile('/tmp/dummy.txt', 'text/plain'),
                  ];
-    */
     
     $res = $mu_->get_contents(
         $url,
