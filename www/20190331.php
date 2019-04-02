@@ -16,17 +16,12 @@ function func_20190331($mu_, $file_name_blog_)
     $user_cloudapp = getenv('CLOUDAPP_USER');
     $user_cloudpassword = getenv('CLOUDAPP_PASSWORD');
     
-    $url = 'https://my.cl.ly/register';
-    
-    $post_data = ['user' => ['email' => $user_cloudapp,
-                             'password' => $user_cloudpassword,
-                             'accept_tos' => true,
-                            ],];
-    
+    $url = 'https://my.cl.ly/account';
+        
     $res = $mu_->get_contents(
         $url,
-        [CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => json_encode($post_data),
+        [CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+         CURLOPT_USERPWD => "${user_cloudapp}:${user_cloudpassword}",
         ]
     );
     error_log($res);
