@@ -52,7 +52,7 @@ function func_20190331($mu_, $file_name_blog_)
     
     error_log($res);
     
-    $rc = preg_match('/location: .+/i', $res, $match);
+    $rc = preg_match('/Location: .+/i', $res, $match);
     error_log(print_r($match, true));
     
     $url = $match[0];
