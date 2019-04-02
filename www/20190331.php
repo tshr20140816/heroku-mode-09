@@ -22,6 +22,7 @@ function func_20190331($mu_, $file_name_blog_)
         $url,
         [CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
          CURLOPT_USERPWD => "${user_cloudapp}:${user_cloudpassword}",
+         CURLOPT_HTTPHEADER => ['Accept: application/json',],
         ]
     );
     error_log($res);
