@@ -18,7 +18,6 @@ function get_task_f12($mu_, $file_name_blog_)
     // error_log($res);
 
     foreach (json_decode($res)->schedule as $item) {
-
         if ($item->liveFlag == '0') {
             continue;
         }
@@ -30,6 +29,13 @@ function get_task_f12($mu_, $file_name_blog_)
 
         $title = substr($item->strDateTime, 11, 5) . ' ' .  $item->subTitle . ' ⠴⬬⠶⠷⬬⠝ ⚑⚐⚑⚐';
 
-        error_log($title);
+        $tmp = str_replace('__TITLE__', $title, $add_task_template);
+        $tmp = str_replace('__DUEDATE__', $timestamp, $tmp);
+        $list_add_task[] = str_replace('__CONTEXT__', $list_context_id[date('w', $timestamp)], $tmp);
     }
+
+    $count_task = count($list_add_task);
+    file_put_contents($file_name_blog_, "F1 Task Add : ${count_task}\n", FILE_APPEND);
+    error_log($log_prefix . 'Tasks F1 : ' . print_r($list_add_task, true));
+    // return $list_add_task;
 }
