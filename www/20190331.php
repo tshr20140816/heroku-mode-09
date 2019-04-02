@@ -52,10 +52,10 @@ function func_20190331($mu_, $file_name_blog_)
     
     error_log($res);
     
-    $rc = preg_match('/Location: .+/i', $res, $match);
+    $rc = preg_match('/Location: (.+)/i', $res, $match);
     error_log(print_r($match, true));
     
-    $url = $match[0];
+    $url = $match[1];
     $res = $mu_->get_contents(
         $url,
         [CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
