@@ -43,14 +43,15 @@ function func_20190401($mu_, $file_name_blog_)
     file_put_contents('/tmp/dummy.txt', 'DUMMY');
     
     $post_data = ['filename' => 'dummy.txt',
-                  'content' => '@/tmp/dummy.txt',
+                  //'content' => '@/tmp/dummy.txt',
+                  'content' => 'AAA',
                  ];
     
     $res = $mu_->get_contents(
         $url,
         [CURLOPT_POST => true,
-        //CURLOPT_POSTFIELDS => http_build_query($post_data),
-        CURLOPT_POSTFIELDS => $post_data,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
+        //CURLOPT_POSTFIELDS => $post_data,
         ]
     );
     error_log($res);
