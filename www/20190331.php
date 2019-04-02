@@ -16,7 +16,7 @@ function func_20190331($mu_, $file_name_blog_)
     $user_cloudapp = getenv('CLOUDAPP_USER');
     $user_cloudpassword = getenv('CLOUDAPP_PASSWORD');
     
-    $url = 'http://my.cl.ly/account';
+    $url = 'http://cl.ly/account';
         
     $res = $mu_->get_contents(
         $url,
