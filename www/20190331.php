@@ -51,4 +51,18 @@ function func_20190331($mu_, $file_name_blog_)
         ]);
     
     error_log($res);
+    
+    //Location: https://my.cl.ly/items/s3?
+    
+    $rc = preg_match('/Location:.+/i', $res, $match);
+    
+    $url = $match[0];
+    $res = $mu_->get_contents(
+        $url,
+        [CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+         CURLOPT_USERPWD => "${user_cloudapp}:${user_cloudpassword}",
+         CURLOPT_HTTPHEADER => ['Accept: application/json',],
+        ]
+    );
+    error_log(print_r(json_decode($res), true));
 }
