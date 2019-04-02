@@ -27,5 +27,5 @@ function func_20190331($mu_, $file_name_blog_)
          CURLOPT_HTTPHEADER => ['Accept: application/json',],
         ]
     );
-    error_log($res);
+    error_log(print_r(json_decode($res), true));
 }
