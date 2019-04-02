@@ -40,8 +40,10 @@ function func_20190401($mu_, $file_name_blog_)
     
     $url = 'https://apidocs.zoho.com/files/v1/upload?scope=docsapi&authtoken=' . $authtoken_zoho;
     
+    file_put_contents('/tmp/dummy.txt', 'DUMMY');
+    
     $post_data = ['filename' => 'dummy.txt',
-                  'content' => 'DUMMY',
+                  'content' => '@/tmp/dummy.txt',
                  ];
     
     $res = $mu_->get_contents(
