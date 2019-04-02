@@ -22,5 +22,5 @@ function func_20190331($mu_, $file_name_blog_)
     
     $rc = preg_match_all('//s', explode('<h1>ライブ予定</h1>', $res)[1], $matches);
     
-    
+    error_log(print_r($matches, true));
 }
