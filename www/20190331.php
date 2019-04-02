@@ -32,6 +32,13 @@ function func_20190331($mu_, $file_name_blog_)
     error_log(print_r(json_decode($res), true));
     $json = json_decode($res);
     
+    error_log($json['params']->AWSAccessKeyId);
+    error_log($json['params']->key);
+    error_log($json['params']->policy);
+    error_log($json['params']->signature);
+    error_log($json['params']->success_action_redirect);
+    error_log($json['params']->acl);
+    
     $url = $json->url;
     $post_data = ['AWSAccessKeyId' => $json['params']->AWSAccessKeyId,
                   'key' => $json['params']->key,
