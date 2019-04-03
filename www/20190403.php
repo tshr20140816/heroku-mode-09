@@ -14,6 +14,7 @@ function func_20190403($mu_, $file_name_blog_)
     $password_cloudapp = $mu_->get_env('CLOUDAPP_PASSWORD', true);
     
     $size = 0;
+    $view_counter = 0;
     for (;;) {
         $page++;
         $url = 'http://my.cl.ly/items?per_page=100&page=' . $page;
@@ -29,7 +30,9 @@ function func_20190403($mu_, $file_name_blog_)
         }
         foreach ($json as $item) {
             $size += $item->content_length;
+            $view_counter += $item->view_counter;
         }
     }
     error_log($size);
+    error_log($view_counter);
 }
