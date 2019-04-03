@@ -6,9 +6,9 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-func_20190403($mu, '/tmp/dummy');
+check_cloudapp_usage($mu, '/tmp/dummy');
 
-function func_20190403($mu_, $file_name_blog_)
+function check_cloudapp_usage($mu_, $file_name_blog_)
 {
     $user_cloudapp = $mu_->get_env('CLOUDAPP_USER', true);
     $password_cloudapp = $mu_->get_env('CLOUDAPP_PASSWORD', true);
@@ -33,6 +33,8 @@ function func_20190403($mu_, $file_name_blog_)
             $view_counter += $item->view_counter;
         }
     }
-    error_log($size);
-    error_log($view_counter);
+    
+    $size = number_format($size);
+    error_log($log_prefix . "CloudApp usage : ${size}Byte ${view_counter}View");
+    file_put_contents($file_name_blog_, "\nCloudApp usage : ${size}Byte ${view_counter}View\n\n", FILE_APPEND);
 }
