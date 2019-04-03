@@ -10,8 +10,8 @@ func_20190403($mu, '/tmp/dummy');
 
 function func_20190403($mu_, $file_name_blog_)
 {
-    $user_cloudapp = $this->get_env('CLOUDAPP_USER', true);
-    $password_cloudapp = $this->get_env('CLOUDAPP_PASSWORD', true);
+    $user_cloudapp = $mu_->get_env('CLOUDAPP_USER', true);
+    $password_cloudapp = $mu_->get_env('CLOUDAPP_PASSWORD', true);
     
     for (;;) {
         $page++;
