@@ -13,6 +13,15 @@ function func_20190401($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    $authtoken_zoho = getenv('ZOHO_AUTHTOKEN');
+    
+    error_log($mu_->get_encrypt_string());
+}
+
+function func_20190401_b($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
     /*
     $user_zoho = getenv('ZOHO_USER');
     $password_zoho = getenv('ZOHO_PASSWORD');
