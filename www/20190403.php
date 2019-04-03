@@ -10,6 +10,9 @@ func_20190403($mu, '/tmp/dummy');
 
 function func_20190403($mu_, $file_name_blog_)
 {
+    $user_cloudapp = $this->get_env('CLOUDAPP_USER', true);
+    $password_cloudapp = $this->get_env('CLOUDAPP_PASSWORD', true);
+    
     for (;;) {
         $page++;
         $url = 'http://my.cl.ly/items?per_page=100&page=' . $page;
@@ -18,16 +21,13 @@ function func_20190403($mu_, $file_name_blog_)
             CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
             CURLOPT_HTTPHEADER => ['Accept: application/json',],
         ];
-        $res = $this->get_contents($url, $options);
+        $res = $mu_->get_contents($url, $options);
         $json = json_decode($res);
         if (count($json) === 0) {
             break;
         }
         foreach ($json as $item) {
-            if ($item->file_name == $base_name) {
-                $url_target = $item->href;
-                break 2;
-            }
+            error_log(print_r($item, true));
         }
     }
 }
