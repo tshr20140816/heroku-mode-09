@@ -431,7 +431,7 @@ function get_task_amefootlive($mu_, $file_name_blog_)
         if ($timestamp < time()) {
             continue;
         }
-        $title = $match[3] . ':' . $match[4] . ' amefootlive ' . $match[5];
+        $title = $match[1] . '/' . $match[2] . ' ' . $match[3] . ':' . $match[4] . ' amefootlive ' . $match[5];
 
         $tmp = str_replace('__TITLE__', $title, $add_task_template);
         $tmp = str_replace('__DUEDATE__', $timestamp, $tmp);
@@ -471,7 +471,8 @@ function get_task_f1($mu_, $file_name_blog_)
             continue;
         }
 
-        $title = substr($item->strDateTime, 11, 5) . ' ' .  $item->subTitle . ' ⠴⬬⠶⠷⬬⠝ ⚑⚐⚑⚐';
+        $title = str_replace('-', '/', substr($item->strDateTime, 5, 5))  . ' ';
+        $title .= substr($item->strDateTime, 11, 5) . ' ' .  $item->subTitle . ' ⠴⬬⠶⠷⬬⠝ ⚑⚐⚑⚐';
 
         $tmp = str_replace('__TITLE__', $title, $add_task_template);
         $tmp = str_replace('__DUEDATE__', $timestamp, $tmp);
