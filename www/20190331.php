@@ -21,4 +21,10 @@ function func_20190331($mu_, $file_name_blog_)
     $rc = preg_match_all($pattern, explode('<h1>ライブ予定</h1>', $res)[1], $matches, PREG_SET_ORDER);
     
     error_log(print_r($matches, true));
+    
+    foreach ($matches as $match) {
+        array_shift($match);
+        $match[0] = trim($match[0]);
+        error_log(print_r($match, true));
+    }
 }
