@@ -409,13 +409,13 @@ function get_task_amefootlive($mu_, $file_name_blog_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     // Get Folders
-    $folder_id_label = $mu_->get_folder_id('LABEL');
+    $folder_id_private = $mu_->get_folder_id('PRIVATE');
     // Get Contexts
     $list_context_id = $mu_->get_contexts();
 
     $list_add_task = [];
     $add_task_template = '{"title":"__TITLE__","duedate":"__DUEDATE__","context":"__CONTEXT__","tag":"AMEFOOT","folder":"'
-      . $folder_id_label . '"}';
+      . $folder_id_private . '"}';
 
     $url = 'https://amefootlive.jp/live';
     $res = $mu_->get_contents($url, null, true);
@@ -450,13 +450,13 @@ function get_task_f1($mu_, $file_name_blog_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     // Get Folders
-    $folder_id_label = $mu_->get_folder_id('LABEL');
+    $folder_id_private = $mu_->get_folder_id('PRIVATE');
     // Get Contexts
     $list_context_id = $mu_->get_contexts();
 
     $list_add_task = [];
     $add_task_template = '{"title":"__TITLE__","duedate":"__DUEDATE__","context":"__CONTEXT__","tag":"F1","folder":"'
-      . $folder_id_label . '"}';
+      . $folder_id_private . '"}';
 
     $url = 'https://otn.fujitv.co.jp/json/basic_data/918200222.json';
     $res = $mu_->get_contents($url, null, true);
