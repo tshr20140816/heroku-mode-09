@@ -36,7 +36,7 @@ function func_20190331($mu_, $file_name_blog_)
         if ($timestamp < time()) {
             continue;
         }
-        $title = $match[3] . ':' . $match[4] . ' ' . $match[5];
+        $title = $match[3] . ':' . $match[4] . ' 関西アメフト ' . $match[5];
         
         $tmp = str_replace('__TITLE__', $title, $add_task_template);
         $tmp = str_replace('__DUEDATE__', $timestamp, $tmp);
