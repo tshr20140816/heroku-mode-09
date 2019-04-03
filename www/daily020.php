@@ -58,6 +58,9 @@ check_cloudme_usage($mu, $file_name_blog);
 // 4shared usage
 check_4shared_usage($mu, $file_name_blog);
 
+// CloudApp usage
+check_cloudapp_usage($mu, $file_name_blog);
+
 // apache version check
 check_version_apache($mu, $file_name_blog);
 
@@ -708,6 +711,37 @@ function backup_opml2($mu_, $file_name_blog_)
     $file_size = number_format($file_size);
 
     file_put_contents($file_name_blog_, "\nOPML2 backup size : ${file_size}Byte\nFeed count : ${feed_count}\n", FILE_APPEND);
+}
+
+function check_cloudapp_usage($mu_, $file_name_blog_)
+{
+    $user_cloudapp = $mu_->get_env('CLOUDAPP_USER', true);
+    $password_cloudapp = $mu_->get_env('CLOUDAPP_PASSWORD', true);
+
+    $size = 0;
+    $view_counter = 0;
+    for (;;) {
+        $page++;
+        $url = 'http://my.cl.ly/items?per_page=100&page=' . $page;
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+            CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
+            CURLOPT_HTTPHEADER => ['Accept: application/json',],
+        ];
+        $res = $mu_->get_contents($url, $options);
+        $json = json_decode($res);
+        if (count($json) === 0) {
+            break;
+        }
+        foreach ($json as $item) {
+            $size += $item->content_length;
+            $view_counter += $item->view_counter;
+        }
+    }
+
+    $size = number_format($size);
+    error_log($log_prefix . "CloudApp usage : ${size}Byte ${view_counter}View");
+    file_put_contents($file_name_blog_, "\nCloudApp usage : ${size}Byte ${view_counter}View\n\n", FILE_APPEND);
 }
 
 function check_4shared_usage($mu_, $file_name_blog_)
