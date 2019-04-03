@@ -32,7 +32,7 @@ function func_20190331($mu_, $file_name_blog_)
         array_shift($match);
         // error_log(print_r($match, true));
         
-        $timestamp = strtotime($match[0] . '-' . $match[1] . '-' . $match[2]));
+        $timestamp = strtotime($match[0] . '-' . $match[1] . '-' . $match[2]);
         if ($timestamp < time()) {
             continue;
         }
