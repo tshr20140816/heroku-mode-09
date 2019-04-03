@@ -71,7 +71,7 @@ function func_20190401($mu_, $file_name_blog_)
         */
         $urls[$url] = $options;
     }
-    $list_contents = $mu->get_contents_multi($urls);
+    $list_contents = $mu_->get_contents_multi($urls);
     
     error_log(print_r($list_contents, true));
     /*
