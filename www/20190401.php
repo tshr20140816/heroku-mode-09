@@ -60,14 +60,20 @@ function func_20190401($mu_, $file_name_blog_)
     //error_log($res);
     error_log(print_r(json_decode($res), true));
     
+    $urls = [];
     $options = [CURLOPT_HEADER => true, CURLOPT_NOBODY => true,];
     foreach (json_decode($res)->FILES as $item) {
         $docid = $item->DOCID;
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
+        /*
         $res = $mu_->get_contents($url, $options);
         error_log($res);
+        */
+        $urls[$url] = $options;
     }
+    $list_contents = $mu->get_contents_multi($urls);
     
+    error_log(print_r($list_contents, true));
     /*
     $url = "https://apidocs.zoho.com/files/v1/folders?authtoken=${authtoken_zoho}&scope=docsapi";
     $res = $mu_->get_contents($url);
