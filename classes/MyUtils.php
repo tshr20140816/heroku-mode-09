@@ -739,7 +739,7 @@ __HEREDOC__;
         return $res;
     }
 
-    public function get_contents_multi($urls_, $urls_is_cache_ = null, $max_host_connection_ = 0)
+    public function get_contents_multi($urls_, $urls_is_cache_ = null, $multi_options_ = null)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -780,9 +780,17 @@ __HEREDOC__;
         }
 
         $mh = curl_multi_init();
+        /*
         curl_multi_setopt($mh, CURLMOPT_PIPELINING, 3);
-        if ($max_host_connection_ != 0) {
-            curl_multi_setopt($mh, CURLMOPT_MAX_HOST_CONNECTIONS, $max_host_connection_);
+        curl_multi_setopt($mh, CURLMOPT_MAX_HOST_CONNECTIONS, 1);
+        */
+        if (is_null($multi_options_) === false) {
+            foreach ($multi_options_ as $key => $value) {
+                $rc = curl_multi_setopt($mh, $key, $value);
+                if ($rc === false) {
+                    error_log($log_prefix . "curl_multi_setopt : ${key} ${value}");
+                }
+            }
         }
 
         foreach ($urls_ as $url => $options_add) {
