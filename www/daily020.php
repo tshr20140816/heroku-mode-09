@@ -167,6 +167,15 @@ $url = 'http://calendar-service.net/cal?start_year=' . $start_yyyy
     . '&year_style=normal&month_style=numeric&wday_style=ja_full&format=csv&holiday_only=1&zero_padding=1';
 $urls_is_cache[$url] = null;
 
+for ($j = 0; $j < 4; $j++) {
+    $yyyy = date('Y', strtotime('+' . $j . ' years'));
+    $url = 'http://calendar-service.net/cal?start_year=' . $yyyy
+        . '&start_mon=1&end_year=' . $yyyy . '&end_mon=12'
+        . '&year_style=normal&month_style=numeric&wday_style=ja_full&format=csv&holiday_only=1&zero_padding=1';
+    // $res = $mu->get_contents($url, null, true);
+    $urls_is_cache[$url] = null;
+}
+
 //
 
 $timestamp = strtotime('+1 day');
@@ -237,18 +246,6 @@ for ($yyyy = (int)date('Y'); $yyyy < (int)date('Y') + 2; $yyyy++) {
         CURLOPT_POSTFIELDS => http_build_query($post_data),
         ];
     $res = $mu->get_contents('http://www.calc-site.com/calendars/solar_year', $options, true);
-}
-
-//
-
-for ($j = 0; $j < 4; $j++) {
-    $yyyy = date('Y', strtotime('+' . $j . ' years'));
-
-    $url = 'http://calendar-service.net/cal?start_year=' . $yyyy
-        . '&start_mon=1&end_year=' . $yyyy . '&end_mon=12'
-        . '&year_style=normal&month_style=numeric&wday_style=ja_full&format=csv&holiday_only=1&zero_padding=1';
-
-    $res = $mu->get_contents($url, null, true);
 }
 
 //
