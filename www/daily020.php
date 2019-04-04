@@ -205,6 +205,15 @@ for ($i = 0; $i < 8; $i++) {
     $urls_is_cache[$url] = $options;
 }
 
+for ($yyyy = (int)date('Y'); $yyyy < (int)date('Y') + 2; $yyyy++) {
+    $post_data = ['from_year' => $yyyy];
+    $options = [
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
+        ];
+    $res = $mu->get_contents('http://www.calc-site.com/calendars/solar_year', $options, true);
+}
+
 //
 
 $urls[$mu->get_env('URL_TTRSS_1')] = [
@@ -240,23 +249,6 @@ for ($j = 0; $j < 4; $j++) {
         . '&year_style=normal&month_style=numeric&wday_style=ja_full&format=csv&holiday_only=1&zero_padding=1';
 
     $res = $mu->get_contents($url, null, true);
-}
-
-//
-
-$yyyy = (int)date('Y');
-for ($j = 0; $j < 2; $j++) {
-    $post_data = ['from_year' => $yyyy];
-
-    $res = $mu->get_contents(
-        'http://www.calc-site.com/calendars/solar_year',
-        [CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => http_build_query($post_data),
-        ],
-        true
-    );
-
-    $yyyy++;
 }
 
 //
