@@ -16,9 +16,9 @@ for ($i = 11; $i > -1; $i--) {
 }
 
 // multi
-$list_contents = $mu->get_contents_multi($urls);
+$list_contents = $mu->get_contents_multi($urls, null, 1);
 
-error_log(print_r($list_contents, true));
+// error_log(print_r($list_contents, true));
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
