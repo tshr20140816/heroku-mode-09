@@ -15,8 +15,13 @@ for ($i = 11; $i > -1; $i--) {
     $urls[$url] = null;
 }
 
+$multi_options = [
+    CURLMOPT_PIPELINING => 3,
+    CURLMOPT_MAX_HOST_CONNECTIONS = 2,
+];
+
 // multi
-$list_contents = $mu->get_contents_multi($urls, null, 2);
+$list_contents = $mu->get_contents_multi($urls, null, $multi_options);
 
 // error_log(print_r($list_contents, true));
 
