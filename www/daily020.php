@@ -186,6 +186,18 @@ $urls_is_cache[$url] = null;
 
 //
 
+$area_id = $mu->get_env('AREA_ID');
+for ($i = 0; $i < 4; $i++) {
+    $timestamp = strtotime(date('Y-m-01') . " +${i} month");
+    $yyyy = date('Y', $timestamp);
+    $mm = date('m', $timestamp);
+    $url = "https://eco.mtk.nao.ac.jp/koyomi/dni/${yyyy}/s${area_id}${mm}.html";
+    // $res = $mu->get_contents($url, null, true);
+    $urls_is_cache[$url] = null;
+}
+
+//
+
 $yyyy = date('Y');
 $ymd = date('Ymd', strtotime('+9 hours'));
 for ($i = 3; $i < 10; $i++) {
@@ -246,16 +258,6 @@ for ($yyyy = (int)date('Y'); $yyyy < (int)date('Y') + 2; $yyyy++) {
         CURLOPT_POSTFIELDS => http_build_query($post_data),
         ];
     $res = $mu->get_contents('http://www.calc-site.com/calendars/solar_year', $options, true);
-}
-
-//
-
-$area_id = $mu->get_env('AREA_ID');
-for ($j = 0; $j < 4; $j++) {
-    $timestamp = strtotime(date('Y-m-01') . " +${j} month");
-    $yyyy = date('Y', $timestamp);
-    $mm = date('m', $timestamp);
-    $res = $mu->get_contents("https://eco.mtk.nao.ac.jp/koyomi/dni/${yyyy}/s${area_id}${mm}.html", null, true);
 }
 
 //
