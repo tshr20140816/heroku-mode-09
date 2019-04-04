@@ -188,6 +188,7 @@ $multi_options = [
     CURLMOPT_MAX_HOST_CONNECTIONS => 1,
 ];
 $list_contents = $mu->get_contents_multi($urls, $urls_is_cache, $multi_options);
+$list_contents = $mu->get_contents_multi(null, $urls_is_cache, $multi_options);
 
 //
 
