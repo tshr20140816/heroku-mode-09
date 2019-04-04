@@ -17,7 +17,7 @@ for ($i = 11; $i > -1; $i--) {
 
 $multi_options = [
     CURLMOPT_PIPELINING => 3,
-    CURLMOPT_MAX_HOST_CONNECTIONS => 2,
+    CURLMOPT_MAX_HOST_CONNECTIONS => 1,
 ];
 
 // multi
