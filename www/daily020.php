@@ -104,9 +104,10 @@ $urls_is_cache[$url] = null;
 
 //
 
-$yyyy = date('Y');
-$url = "https://e-moon.net/calendar_list/calendar_moon_${yyyy}/";
-$urls_is_cache[$url] = null;
+for ($yyyy = (int)date('Y'); $yyyy < (int)date('Y') + 2; $yyyy++) {
+    $url = "https://e-moon.net/calendar_list/calendar_moon_${yyyy}/";
+    $urls_is_cache[$url] = null;
+}
 
 //
 
@@ -176,35 +177,13 @@ $urls_is_cache[$url] = null;
 
 //
 
-$urls[$mu->get_env('URL_TTRSS_1')] = [
-    CURLOPT_TIMEOUT => 3,
-    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-    CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
-];
-
-// multi
-$multi_options = [
-    CURLMOPT_PIPELINING => 3,
-    CURLMOPT_MAX_HOST_CONNECTIONS => 1,
-];
-$list_contents = $mu->get_contents_multi($urls, $urls_is_cache, $multi_options);
-$list_contents = $mu->get_contents_multi(null, $urls_is_cache, $multi_options);
-
-//
-
 $yyyy = date('Y');
 $ymd = date('Ymd', strtotime('+9 hours'));
 for ($i = 3; $i < 10; $i++) {
     $url = "https://elevensports.jp/schedule/farm/${yyyy}/" . str_pad($i, 2, '0', STR_PAD_LEFT) . "?${suffix}";
-    $res = $mu->get_contents($url, null, true);
+    // $res = $mu->get_contents($url, null, true);
+    $urls_is_cache[$url] = null;
 }
-
-//
-
-$yyyy = date('Y');
-$yyyy++;
-$url = "https://e-moon.net/calendar_list/calendar_moon_${yyyy}/";
-$res = $mu->get_contents($url, null, true);
 
 //
 
@@ -222,8 +201,34 @@ $options = [
 
 for ($i = 0; $i < 8; $i++) {
     $url = $mu->get_env('URL_BUS_0' . ($i + 1)) . '&' . $suffix;
-    $res = $mu->get_contents($url, $options, true);
+    // $res = $mu->get_contents($url, $options, true);
+    $urls_is_cache[$url] = $options;
 }
+
+//
+
+$urls[$mu->get_env('URL_TTRSS_1')] = [
+    CURLOPT_TIMEOUT => 3,
+    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+    CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
+];
+
+// multi
+$multi_options = [
+    CURLMOPT_PIPELINING => 3,
+    CURLMOPT_MAX_HOST_CONNECTIONS => 1,
+];
+$list_contents = $mu->get_contents_multi($urls, $urls_is_cache, $multi_options);
+$list_contents = $mu->get_contents_multi(null, $urls_is_cache, $multi_options);
+
+//
+
+/*
+$yyyy = date('Y');
+$yyyy++;
+$url = "https://e-moon.net/calendar_list/calendar_moon_${yyyy}/";
+$res = $mu->get_contents($url, null, true);
+*/
 
 //
 
