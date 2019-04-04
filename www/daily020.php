@@ -183,7 +183,11 @@ $urls[$mu->get_env('URL_TTRSS_1')] = [
 ];
 
 // multi
-$list_contents = $mu->get_contents_multi($urls, $urls_is_cache);
+$multi_options = [
+    CURLMOPT_PIPELINING => 3,
+    CURLMOPT_MAX_HOST_CONNECTIONS => 1,
+];
+$list_contents = $mu->get_contents_multi($urls, $urls_is_cache, $multi_options);
 
 //
 
