@@ -16,7 +16,7 @@ for ($i = 11; $i > -1; $i--) {
 }
 
 // multi
-$list_contents = $mu->get_contents_multi($urls, null, 1);
+$list_contents = $mu->get_contents_multi($urls, null, 2);
 
 // error_log(print_r($list_contents, true));
 
