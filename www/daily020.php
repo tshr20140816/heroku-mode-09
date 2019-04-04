@@ -205,15 +205,6 @@ for ($i = 0; $i < 8; $i++) {
     $urls_is_cache[$url] = $options;
 }
 
-for ($yyyy = (int)date('Y'); $yyyy < (int)date('Y') + 2; $yyyy++) {
-    $post_data = ['from_year' => $yyyy];
-    $options = [
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => http_build_query($post_data),
-        ];
-    $res = $mu->get_contents('http://www.calc-site.com/calendars/solar_year', $options, true);
-}
-
 //
 
 $urls[$mu->get_env('URL_TTRSS_1')] = [
@@ -238,6 +229,15 @@ $yyyy++;
 $url = "https://e-moon.net/calendar_list/calendar_moon_${yyyy}/";
 $res = $mu->get_contents($url, null, true);
 */
+
+for ($yyyy = (int)date('Y'); $yyyy < (int)date('Y') + 2; $yyyy++) {
+    $post_data = ['from_year' => $yyyy];
+    $options = [
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
+        ];
+    $res = $mu->get_contents('http://www.calc-site.com/calendars/solar_year', $options, true);
+}
 
 //
 
