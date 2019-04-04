@@ -15,7 +15,7 @@ function func_20190401($mu_, $file_name_blog_)
     
     $authtoken_zoho = getenv('ZOHO_AUTHTOKEN');
     
-    error_log($mu_->get_encrypt_string());
+    error_log($mu_->get_encrypt_string($authtoken_zoho));
 }
 
 function func_20190401_b($mu_, $file_name_blog_)
