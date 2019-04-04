@@ -7,7 +7,7 @@ $requesturi = $_SERVER['REQUEST_URI'];
 $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
-
+$mu = new MyUtils();
 //
 
 $suffix = '4nocache' . date('Ymd', strtotime('+9 hours'));
