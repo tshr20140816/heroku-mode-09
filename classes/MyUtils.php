@@ -739,7 +739,7 @@ __HEREDOC__;
         return $res;
     }
 
-    public function get_contents_multi($urls_, $urls_is_cache_ = null)
+    public function get_contents_multi($urls_, $urls_is_cache_ = null, $max_host_connection_ = 0)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -780,8 +780,10 @@ __HEREDOC__;
         }
 
         $mh = curl_multi_init();
-        // curl_multi_setopt($mh, CURLMOPT_PIPELINING, 3);
-        curl_multi_setopt($mh, CURLMOPT_MAX_HOST_CONNECTIONS, 1);
+        curl_multi_setopt($mh, CURLMOPT_PIPELINING, 3);
+        if ($max_host_connection_ != 0) {
+            curl_multi_setopt($mh, CURLMOPT_MAX_HOST_CONNECTIONS, $max_host_connection_);
+        }
 
         foreach ($urls_ as $url => $options_add) {
             error_log($log_prefix . 'CURL MULTI Add $url : ' . $url);
