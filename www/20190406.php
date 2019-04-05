@@ -79,6 +79,7 @@ function get_youtube_play_count($mu_)
                 $playlist[$url2] = $data;
             }
             $urls = [];
+            $list_contents = [];
         }        
     }
     
