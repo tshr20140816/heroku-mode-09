@@ -764,6 +764,7 @@ __HEREDOC__;
         $statement->execute();
         $results = $statement->fetchAll();
 
+        $cache_data = [];
         foreach ($results as $result) {
             $cache_data[$result['url_base64']] = $result['content_compress_base64'];
         }
@@ -780,10 +781,6 @@ __HEREDOC__;
         }
 
         $mh = curl_multi_init();
-        /*
-        curl_multi_setopt($mh, CURLMOPT_PIPELINING, 3);
-        curl_multi_setopt($mh, CURLMOPT_MAX_HOST_CONNECTIONS, 1);
-        */
         if (is_null($multi_options_) === false) {
             foreach ($multi_options_ as $key => $value) {
                 $rc = curl_multi_setopt($mh, $key, $value);
