@@ -61,7 +61,7 @@ function get_youtube_play_count($mu_)
     */
     $multi_options = [
         CURLMOPT_PIPELINING => 3,
-        CURLMOPT_MAX_HOST_CONNECTIONS => 1,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 10,
     ];
     foreach (array_keys($playlist) as $url) {
         $urls[$url] = null;
