@@ -249,7 +249,7 @@ $multi_options = [
     CURLMOPT_MAX_HOST_CONNECTIONS => 1,
 ];
 $list_contents = $mu->get_contents_multi($urls, $urls_is_cache, $multi_options);
-error_log('memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
+error_log($pid . ' memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
 if (count($list_contents) !== (count($urls) + count($urls_is_cache))) {
     $list_contents = [];
     for ($i = 0; $i < 3; $i++) {
