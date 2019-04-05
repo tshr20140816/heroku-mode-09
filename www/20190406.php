@@ -102,6 +102,7 @@ function get_youtube_play_count($mu_)
         $data['count'] = $count;
         $playlist[$url] = $data;
     }
+    $list_contents = null;
     
     error_log($log_prefix . print_r($playlist, true));
     
