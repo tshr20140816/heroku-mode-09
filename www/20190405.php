@@ -18,7 +18,7 @@ $options = [CURLOPT_HTTPHEADER => ['Range: bytes=2000000-'],
 $res = $mu->get_contents($url, $options);
 
 // error_log($res);
-error_log(substr($res, 0, 512));
+error_log(substr($res, 0, 1024));
 
 $tmp = explode('window["ytInitialData"] = ', $res);
 error_log(strlen($tmp[0]));
