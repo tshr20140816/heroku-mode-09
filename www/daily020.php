@@ -250,17 +250,15 @@ $multi_options = [
 ];
 $list_contents = $mu->get_contents_multi($urls, $urls_is_cache, $multi_options);
 if (count($list_contents) !== (count($urls) + count($urls_is_cache))) {
-    $list_contents = $mu->get_contents_multi(null, $urls_is_cache, $multi_options);
+    for ($i = 0; $i < 3; $i++) {
+        $list_contents = $mu->get_contents_multi(null, $urls_is_cache, $multi_options);
+        if (count($list_contents) === count($urls_is_cache)) {
+            break;
+        }
+    }
 }
 
 //
-
-/*
-$yyyy = date('Y');
-$yyyy++;
-$url = "https://e-moon.net/calendar_list/calendar_moon_${yyyy}/";
-$res = $mu->get_contents($url, null, true);
-*/
 
 for ($yyyy = (int)date('Y'); $yyyy < (int)date('Y') + 2; $yyyy++) {
     $post_data = ['from_year' => $yyyy];
