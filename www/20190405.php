@@ -10,7 +10,14 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
 $url = getenv('URL_YOUTUBE');
-$res = $mu->get_contents($url);
+
+$options = [CURLOPT_HTTPHEADER => ['Range: bytes=2000000-'],
+            CURLOPT_HEADER => true,
+           ];
+
+$res = $mu->get_contents($url, $options);
+
+error_log($res);
 
 $tmp = explode('window["ytInitialData"] = ', $res);
 error_log(strlen($tmp[0]));
