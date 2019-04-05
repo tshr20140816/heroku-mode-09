@@ -65,7 +65,7 @@ function get_youtube_play_count($mu_)
     ];
     foreach (array_keys($playlist) as $url) {
         $urls[$url] = null;
-        if (count($urls) === 5) {
+        if (count($urls) === 10) {
             $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
             foreach (array_keys($list_contents) as $url2) {
                 $tmp = explode('window["ytInitialData"] = ', $list_contents[$url2]);
@@ -91,7 +91,7 @@ function get_youtube_play_count($mu_)
     }
     $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
     foreach (array_keys($list_contents) as $url) {
-        $tmp = explode('window["ytInitialData"] = ', $list_contents[$url2]);
+        $tmp = explode('window["ytInitialData"] = ', $list_contents[$url]);
         $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
         $json = json_decode(trim(trim($tmp[0]), ';'));
         $count = $json->contents->twoColumnWatchNextResults->results->results->contents[0]->videoPrimaryInfoRenderer->viewCount;
