@@ -218,12 +218,21 @@ $options = [
         'DNT: 1',
         'Upgrade-Insecure-Requests: 1',
         ],
-];
+    ];
 
 for ($i = 0; $i < 8; $i++) {
     $url = $mu->get_env('URL_BUS_0' . ($i + 1)) . '&' . $suffix;
     // $res = $mu->get_contents($url, $options, true);
     $urls_is_cache[$url] = $options;
+}
+
+//
+
+$sub_address = $mu->get_env('SUB_ADDRESS');
+for ($i = 11; $i > -1; $i--) {
+    $url = 'https://feed43.com/' . $sub_address . ($i * 5 + 11) . '-' . ($i * 5 + 15) . '.xml';
+    // $res = $mu->get_contents($url, null, true);
+    $urls_is_cache[$url] = null;
 }
 
 //
@@ -240,7 +249,9 @@ $multi_options = [
     CURLMOPT_MAX_HOST_CONNECTIONS => 1,
 ];
 $list_contents = $mu->get_contents_multi($urls, $urls_is_cache, $multi_options);
-$list_contents = $mu->get_contents_multi(null, $urls_is_cache, $multi_options);
+if (count($list_contents) !== (count($urls) + count($urls_is_cache)) {
+    $list_contents = $mu->get_contents_multi(null, $urls_is_cache, $multi_options);
+}
 
 //
 
@@ -258,14 +269,6 @@ for ($yyyy = (int)date('Y'); $yyyy < (int)date('Y') + 2; $yyyy++) {
         CURLOPT_POSTFIELDS => http_build_query($post_data),
         ];
     $res = $mu->get_contents('http://www.calc-site.com/calendars/solar_year', $options, true);
-}
-
-//
-
-$sub_address = $mu->get_env('SUB_ADDRESS');
-for ($i = 11; $i > -1; $i--) {
-    $url = 'https://feed43.com/' . $sub_address . ($i * 5 + 11) . '-' . ($i * 5 + 15) . '.xml';
-    $res = $mu->get_contents($url, null, true);
 }
 
 file_put_contents('/tmp/' . basename(__FILE__) . '.txt', time());
