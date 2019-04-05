@@ -77,7 +77,7 @@ function get_youtube_play_count($mu_)
             $data['count'] = $count;
             $playlist[$url] = $data;
         }
-        error_log('memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
+        error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
         $list_contents = [];
     }
 
