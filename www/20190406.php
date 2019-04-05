@@ -56,7 +56,7 @@ function get_youtube_play_count($mu_)
                 continue;
             }
             $urls[$url] = null;
-            if (count($urls) === 10) {
+            if (count($urls) === $multi_options[CURLMOPT_MAX_HOST_CONNECTIONS]) {
                 break;
             }        
         }
