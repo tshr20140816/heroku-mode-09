@@ -45,9 +45,53 @@ function get_youtube_play_count($mu_)
         $playlist[$url] = $data;
     }
     
+    /*
     foreach (array_keys($playlist) as $url) {
         $res = $mu_->get_contents($url);
         $tmp = explode('window["ytInitialData"] = ', $res);
+        $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
+        $json = json_decode(trim(trim($tmp[0]), ';'));
+        $count = $json->contents->twoColumnWatchNextResults->results->results->contents[0]->videoPrimaryInfoRenderer->viewCount;
+        $count = trim($count->videoViewCountRenderer->viewCount->simpleText);
+        $count = explode(' ', $count)[0];
+        $data = $playlist[$url];
+        $data['count'] = $count;
+        $playlist[$url] = $data;
+    }
+    */
+    $multi_options = [
+        CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 1,
+    ];
+    foreach (array_keys($playlist) as $url) {
+        $urls[$url] = null;
+        if (count($urls) === 5) {
+            $list_contents = $mu->get_contents_multi($urls, null, $multi_options);
+            foreach (array_keys($list_contents) as $url2) {
+                $tmp = explode('window["ytInitialData"] = ', $list_contents[$url2]);
+                $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
+                $json = json_decode(trim(trim($tmp[0]), ';'));
+                $count = $json->contents->twoColumnWatchNextResults->results->results->contents[0]->videoPrimaryInfoRenderer->viewCount;
+                $count = trim($count->videoViewCountRenderer->viewCount->simpleText);
+                $count = explode(' ', $count)[0];
+                $data = $playlist[$url2];
+                $data['count'] = $count;
+                $playlist[$url2] = $data;
+            }
+            $urls = [];
+        }        
+    }
+    
+    $urls = [];
+    foreach (array_keys($playlist) as $url) {
+        if (array_key_exists('count', $playlist[$url])) {
+            continue;
+        }
+        $urls[$url] = null;
+    }
+    $list_contents = $mu->get_contents_multi($urls, null, $multi_options);
+    foreach (array_keys($list_contents) as $url) {
+        $tmp = explode('window["ytInitialData"] = ', $list_contents[$url2]);
         $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
         $json = json_decode(trim(trim($tmp[0]), ';'));
         $count = $json->contents->twoColumnWatchNextResults->results->results->contents[0]->videoPrimaryInfoRenderer->viewCount;
