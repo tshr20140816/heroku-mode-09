@@ -16,14 +16,14 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 function get_youtube_play_count($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
+
     $url = getenv('URL_YOUTUBE');
-    
+
     $res = $mu_->get_contents($url);
-    
+
     $tmp = explode('window["ytInitialData"] = ', $res);
     $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
-    
+
     $playlist = [];
     $json = json_decode(trim(trim($tmp[0]), ';'));
     foreach ($json->contents->twoColumnWatchNextResults->playlist->playlist->contents as $item) {
@@ -44,26 +44,48 @@ function get_youtube_play_count($mu_)
         $data['time'] = $time;
         $playlist[$url] = $data;
     }
-    
-    foreach (array_keys($playlist) as $url) {
-        $res = $mu_->get_contents($url);
-        $tmp = explode('window["ytInitialData"] = ', $res);
-        $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
-        $json = json_decode(trim(trim($tmp[0]), ';'));
-        $count = $json->contents->twoColumnWatchNextResults->results->results->contents[0]->videoPrimaryInfoRenderer->viewCount;
-        $count = trim($count->videoViewCountRenderer->viewCount->simpleText);
-        $count = explode(' ', $count)[0];
-        $data = $playlist[$url];
-        $data['count'] = $count;
-        $playlist[$url] = $data;
+
+    $multi_options = [
+        CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 10,
+    ];
+    for (;;) {
+        $urls = [];
+        foreach (array_keys($playlist) as $url) {
+            if (array_key_exists('count', $playlist[$url])) {
+                continue;
+            }
+            $urls[$url] = null;
+            if (count($urls) === $multi_options[CURLMOPT_MAX_HOST_CONNECTIONS]) {
+                break;
+            }        
+        }
+
+        if (count($urls) === 0) {
+            break;
+        }
+
+        $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
+        foreach (array_keys($list_contents) as $url) {
+            $tmp = explode('window["ytInitialData"] = ', $list_contents[$url]);
+            $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
+            $json = json_decode(trim(trim($tmp[0]), ';'));
+            $count = $json->contents->twoColumnWatchNextResults->results->results->contents[0]->videoPrimaryInfoRenderer;
+            $count = trim($count->viewCount->videoViewCountRenderer->viewCount->simpleText);
+            $count = explode(' ', $count)[0];
+            $data = $playlist[$url];
+            $data['count'] = $count;
+            $playlist[$url] = $data;
+        }
+        $list_contents = [];
     }
-    
+
     error_log($log_prefix . print_r($playlist, true));
-    
+
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
     $url = "http://blog.livedoor.jp/${livedoor_id}/search?q=Play+Count";
     $res = $mu_->get_contents($url);
-    
+
     $rc = preg_match('/<div class="article-body-inner">(.+?)<\/div>/s', $res, $match);
     $dic_previous_count = [];
     foreach (explode('<br />', str_replace("\n", '', trim($match[1]))) as $item) {
@@ -74,7 +96,7 @@ function get_youtube_play_count($mu_)
         $tmp = explode(' ', $tmp, 4);
         $dic_previous_count[strrev($tmp[3])] = strrev($tmp[0]);
     }
-    
+
     $content = '';
     foreach (array_keys($playlist) as $url) {
         $data = $playlist[$url];
@@ -87,4 +109,3 @@ function get_youtube_play_count($mu_)
     error_log($log_prefix . $content);
     $mu_->post_blog_wordpress('Play Count', $content);
 }
-
