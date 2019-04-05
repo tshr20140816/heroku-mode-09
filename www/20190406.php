@@ -60,11 +60,11 @@ function get_youtube_play_count($mu_)
                 break;
             }        
         }
-        
+
         if (count($urls) === 0) {
             break;
         }
-        
+
         $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
         foreach (array_keys($list_contents) as $url) {
             $tmp = explode('window["ytInitialData"] = ', $list_contents[$url]);
@@ -85,7 +85,7 @@ function get_youtube_play_count($mu_)
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
     $url = "http://blog.livedoor.jp/${livedoor_id}/search?q=Play+Count";
     $res = $mu_->get_contents($url);
-    
+
     $rc = preg_match('/<div class="article-body-inner">(.+?)<\/div>/s', $res, $match);
     $dic_previous_count = [];
     foreach (explode('<br />', str_replace("\n", '', trim($match[1]))) as $item) {
