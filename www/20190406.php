@@ -66,7 +66,7 @@ function get_youtube_play_count($mu_)
     foreach (array_keys($playlist) as $url) {
         $urls[$url] = null;
         if (count($urls) === 5) {
-            $list_contents = $mu->get_contents_multi($urls, null, $multi_options);
+            $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
             foreach (array_keys($list_contents) as $url2) {
                 $tmp = explode('window["ytInitialData"] = ', $list_contents[$url2]);
                 $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
@@ -89,7 +89,7 @@ function get_youtube_play_count($mu_)
         }
         $urls[$url] = null;
     }
-    $list_contents = $mu->get_contents_multi($urls, null, $multi_options);
+    $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
     foreach (array_keys($list_contents) as $url) {
         $tmp = explode('window["ytInitialData"] = ', $list_contents[$url2]);
         $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
