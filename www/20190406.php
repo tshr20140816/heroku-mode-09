@@ -65,7 +65,7 @@ function get_youtube_play_count($mu_)
     ];
     foreach (array_keys($playlist) as $url) {
         $urls[$url] = null;
-        if (count($urls) === 10) {
+        if (count($urls) === 20) {
             $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
             foreach (array_keys($list_contents) as $url2) {
                 $tmp = explode('window["ytInitialData"] = ', $list_contents[$url2]);
