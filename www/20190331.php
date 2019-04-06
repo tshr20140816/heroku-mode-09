@@ -49,10 +49,11 @@ __HEREDOC__;
     // error_log($log_prefix . $res);
     $tmp = explode('ytInitialPlayerConfig = ', $res);
     error_log($log_prefix . strlen($tmp[1]));
+    error_log($tmp[1]);
     $tmp = explode('setTimeout(function() {', $tmp[1]);
     error_log($log_prefix . strlen($tmp[0]));
     
-    error_log(trim(trim($tmp[0]), ';'));
+    //error_log(trim(trim($tmp[0]), ';'));
     
     $json = json_decode(trim(trim($tmp[0]), ';'));
     error_log($log_prefix . strlen($json));
