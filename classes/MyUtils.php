@@ -952,6 +952,8 @@ __HEREDOC__;
         error_log($log_prefix . $base_name . ' size : ' . strlen($res));
         file_put_contents($file_name_, $res);
 
+        $urls = [];
+
         // CloudApp
 
         $url_target = '';
@@ -978,8 +980,6 @@ __HEREDOC__;
                 }
             }
         }
-
-        $urls = [];
 
         if ($url_target != '') {
             $options = [
