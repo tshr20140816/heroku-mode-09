@@ -44,13 +44,15 @@ function func_20190406($mu_)
         CURLMOPT_PIPELINING => 3,
         CURLMOPT_MAX_HOST_CONNECTIONS => 10,
     ];
+    $options = [CURLOPT_USERAGENT => 'Mozilla/5.0 (Linux; Android 9; Pixel 3 Build/PQ1A.181105.013) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36']);
+
     for (;;) {
         $urls = [];
         foreach (array_keys($playlist) as $url) {
             if (array_key_exists('count', $playlist[$url])) {
                 continue;
             }
-            $urls[$url] = null;
+            $urls[str_replace('https://www.', 'https://m.', $url)] = $options;
             if (count($urls) === $multi_options[CURLMOPT_MAX_HOST_CONNECTIONS]) {
                 break;
             }        
