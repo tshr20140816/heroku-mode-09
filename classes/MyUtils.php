@@ -906,6 +906,7 @@ __HEREDOC__;
 
         error_log($log_prefix . 'urls : ' . print_r(array_keys($results), true));
         error_log("${log_prefix}Total Time : [${total_time}]");
+        error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
 
         return $results;
     }
