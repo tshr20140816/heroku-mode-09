@@ -54,6 +54,7 @@ __HEREDOC__;
     
     // error_log(print_r($json, true));
     
-    $json = json_decode($json->player_response);
-    error_log(print_r($json, true));
+    error_log($json->player_response);
+    //$json = json_decode($json->player_response);
+    //error_log(print_r($json, true));
 }
