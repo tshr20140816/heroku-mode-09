@@ -808,6 +808,10 @@ __HEREDOC__;
                         CURLOPT_TCP_FASTOPEN => true,
                         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2TLS,
             ];
+
+            if (is_null($options_add) === false && array_key_exists(CURLOPT_USERAGENT, $options_add)) {
+                unset($options[CURLOPT_USERAGENT]);
+            }
             foreach ($options as $key => $value) {
                 $rc = curl_setopt($ch, $key, $value);
                 if ($rc == false) {
