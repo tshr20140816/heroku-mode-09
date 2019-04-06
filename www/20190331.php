@@ -12,6 +12,7 @@ function func_20190331($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    /*
     $user_cloudme = $mu_->get_env('CLOUDME_USER', true);
     $password_cloudme = $mu_->get_env('CLOUDME_PASSWORD', true);
     
@@ -40,10 +41,16 @@ __HEREDOC__;
     $res = $mu_->get_contents($url, $options);
 
     error_log($log_prefix . $res);
-        
+    */
     $url = 'https://m.youtube.com/watch?v=TwzRhp1Y4eU';
     $res = $mu_->get_contents($url, [CURLOPT_HEADER => true, CURLOPT_USERAGENT => 'Mozilla/5.0 (Linux; Android 9; Pixel 3 Build/PQ1A.181105.013) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36']);
     
     error_log($log_prefix . strlen($res));
-    error_log($log_prefix . $res);
+    // error_log($log_prefix . $res);
+    $tmp = explode('ytInitialPlayerConfig = ', $res);
+    $tmp = explode(';history.scrollRestoration = ', $tmp[1]);
+    
+    $json = json_decode(trim($tmp[0]));
+    
+    error_log(print_r($json, true));
 }
