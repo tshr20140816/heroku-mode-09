@@ -949,7 +949,7 @@ __HEREDOC__;
         $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $iv);
 
         $res = base64_encode($res);
-        error_log($log_prefix . $base_name . ' size : ' . strlen($res));
+        error_log($log_prefix . $base_name . ' size : ' . number_format(strlen($res)));
         file_put_contents($file_name_, $res);
 
         $urls = [];
