@@ -22,6 +22,7 @@ function get_youtube_play_count($mu_)
 
     $tmp = explode('window["ytInitialData"] = ', $res);
     $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
+    $res = '';
 
     $playlist = [];
     $json = json_decode(trim(trim($tmp[0]), ';'));
