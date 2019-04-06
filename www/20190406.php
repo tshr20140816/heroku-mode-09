@@ -64,12 +64,12 @@ function func_20190406($mu_)
 
         $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
         foreach (array_keys($list_contents) as $url_org) {
-            $url = str_replace('https://m.', 'https://www.', $url_org);
-            $tmp = explode('ytInitialPlayerConfig = ', $list_contents[$url]);
+            $tmp = explode('ytInitialPlayerConfig = ', $list_contents[$url_org]);
             $tmp = explode('setTimeout(function() {', $tmp[2]);
             $json = json_decode(trim(trim($tmp[0]), ';'));
             $json = json_decode($json->args->player_response);
             
+            $url = str_replace('https://m.', 'https://www.', $url_org);
             $data = $playlist[$url];
             $data['count'] = $json->videoDetails->viewCount;
             $playlist[$url] = $data;
