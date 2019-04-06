@@ -948,7 +948,7 @@ __HEREDOC__;
         $user_cloudapp = $this->get_env('CLOUDAPP_USER', true);
         $password_cloudapp = $this->get_env('CLOUDAPP_PASSWORD', true);
 
-        $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
+        $authtoken_zoho = $this->get_env('ZOHO_AUTHTOKEN', true);
 
         $res = bzcompress($data_, 9);
         $method = 'aes-256-cbc';
