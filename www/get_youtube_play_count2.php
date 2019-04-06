@@ -9,11 +9,11 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$rc = get_youtube_play_count($mu);
+$rc = get_youtube_play_count2($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function get_youtube_play_count($mu_)
+function get_youtube_play_count2($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
