@@ -941,6 +941,8 @@ __HEREDOC__;
         $user_cloudapp = $this->get_env('CLOUDAPP_USER', true);
         $password_cloudapp = $this->get_env('CLOUDAPP_PASSWORD', true);
 
+        $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
+
         $method = 'aes-256-cbc';
         $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
         $iv = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
@@ -949,6 +951,8 @@ __HEREDOC__;
         $res = base64_encode($res);
         error_log($log_prefix . $base_name . ' size : ' . strlen($res));
         file_put_contents($file_name_, $res);
+
+        // CloudApp
 
         $url_target = '';
         $page = 0;
@@ -984,9 +988,27 @@ __HEREDOC__;
                 CURLOPT_HTTPHEADER => ['Accept: application/json',],
                 CURLOPT_CUSTOMREQUEST => 'DELETE',
             ];
-            // $res = $this->get_contents($url, $options);
             $urls[$url_target] = $options;
         }
+
+        // Zoho
+
+        $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
+        $res = $this->get_contents($url);
+
+        foreach (json_decode($res)->FILES as $item) {
+            if ($item->DOCNAME == $base_name) {
+                $url = "https://apidocs.zoho.com/files/v1/delete?authtoken=${authtoken_zoho}&scope=docsapi";
+                $post_data = ['docid' => $item->DOCID,];
+                $options = [CURLOPT_POST => true,
+                            CURLOPT_POSTFIELDS => http_build_query($post_data),
+                           ];
+                $urls[$url] = $options;
+                break;
+            }
+        }        
+
+        // HiDrive
 
         $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
         $options = [
@@ -995,7 +1017,6 @@ __HEREDOC__;
             CURLOPT_CUSTOMREQUEST => 'DELETE',
             CURLOPT_HEADER => true,
         ];
-        // $res = $this->get_contents($url, $options);
         $urls[$url] = $options;
 
         $url = 'https://webdav.pcloud.com/' . $base_name;
@@ -1005,7 +1026,6 @@ __HEREDOC__;
             CURLOPT_CUSTOMREQUEST => 'DELETE',
             CURLOPT_HEADER => true,
         ];
-        // $res = $this->get_contents($url, $options);
         $urls[$url] = $options;
 
         $url = "https://${node_teracloud}.teracloud.jp/dav/${base_name}";
@@ -1015,7 +1035,6 @@ __HEREDOC__;
             CURLOPT_CUSTOMREQUEST => 'DELETE',
             CURLOPT_HEADER => true,
         ];
-        // $res = $this->get_contents($url, $options);
         $urls[$url] = $options;
 
         $url = 'https://webdav.opendrive.com/' . $base_name;
@@ -1025,7 +1044,6 @@ __HEREDOC__;
             CURLOPT_CUSTOMREQUEST => 'DELETE',
             CURLOPT_HEADER => true,
         ];
-        // $res = $this->get_contents($url, $options);
         $urls[$url] = $options;
 
         $url = "https://webdav.cloudme.com/${user_cloudme}/xios/${base_name}";
@@ -1035,7 +1053,6 @@ __HEREDOC__;
             CURLOPT_CUSTOMREQUEST => 'DELETE',
             CURLOPT_HEADER => true,
         ];
-        // $res = $this->get_contents($url, $options);
         $urls[$url] = $options;
 
         $url = 'https://webdav.4shared.com/' . $base_name;
@@ -1045,7 +1062,6 @@ __HEREDOC__;
             CURLOPT_CUSTOMREQUEST => 'DELETE',
             CURLOPT_HEADER => true,
         ];
-        // $res = $this->get_contents($url, $options);
         $urls[$url] = $options;
 
         $rc = $this->get_contents_multi($urls);
@@ -1123,6 +1139,8 @@ __HEREDOC__;
 
         fclose($fh);
 
+        // CloudApp
+
         $url = 'http://my.cl.ly/items/new';
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
@@ -1158,6 +1176,17 @@ __HEREDOC__;
         ];
         $res = $this->get_contents(trim($match[1]), $options);
 
+        // Zoho
+        
+        $url = "https://apidocs.zoho.com/files/v1/upload?authtoken=${authtoken_zoho}&scope=docsapi";
+        $post_data = ['filename' => $base_name,
+                      'content' => new CURLFile($file_name_, 'text/plain'),
+                     ];
+        $options = [CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => $post_data,
+                   ];
+        $res = $this->get_contents($url, $options);
+        
         unlink($file_name_);
 
         return $file_size;
