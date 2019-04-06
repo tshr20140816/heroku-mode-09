@@ -71,7 +71,7 @@ function func_20190406($mu_)
             $json = json_decode($json->args->player_response);
             
             $data = $playlist[$url];
-            $data['count'] = $json->videoDetails->viewCount
+            $data['count'] = $json->videoDetails->viewCount;
             $playlist[$url] = $data;
         }
         error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
