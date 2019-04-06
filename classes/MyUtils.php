@@ -682,6 +682,10 @@ __HEREDOC__;
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2TLS,
         ];
+        
+        if (is_null($options_) === false && array_key_exists(CURLOPT_USERAGENT, $options_) {
+            unset($options[CURLOPT_USERAGENT]);
+        }
 
         $time_start = 0;
         $time_finish = 0;
