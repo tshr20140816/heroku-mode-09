@@ -1006,7 +1006,7 @@ __HEREDOC__;
                 $urls[$url] = $options;
                 break;
             }
-        }        
+        }
 
         // HiDrive
 
@@ -1177,7 +1177,7 @@ __HEREDOC__;
         $res = $this->get_contents(trim($match[1]), $options);
 
         // Zoho
-        
+
         $url = "https://apidocs.zoho.com/files/v1/upload?authtoken=${authtoken_zoho}&scope=docsapi";
         $post_data = ['filename' => $base_name,
                       'content' => new CURLFile($file_name_, 'text/plain'),
@@ -1186,7 +1186,7 @@ __HEREDOC__;
                     CURLOPT_POSTFIELDS => $post_data,
                    ];
         $res = $this->get_contents($url, $options);
-        
+
         unlink($file_name_);
 
         return $file_size;
