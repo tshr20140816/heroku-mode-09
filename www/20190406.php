@@ -63,15 +63,15 @@ function func_20190406($mu_)
         }
 
         $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
-        foreach (array_keys($list_contents) as $url) {
-            $tmp = explode('window["ytInitialData"] = ', $list_contents[$url]);
-            $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
+        foreach (array_keys($list_contents) as $url_org) {
+            $url = str_replace('https://m.', 'https://www.', $url_org);
+            $tmp = explode('ytInitialPlayerConfig = ', $list_contents[$url]);
+            $tmp = explode('setTimeout(function() {', $tmp[2]);
             $json = json_decode(trim(trim($tmp[0]), ';'));
-            $count = $json->contents->twoColumnWatchNextResults->results->results->contents[0]->videoPrimaryInfoRenderer;
-            $count = trim($count->viewCount->videoViewCountRenderer->viewCount->simpleText);
-            $count = explode(' ', $count)[0];
+            $json = json_decode($json->args->player_response);
+            
             $data = $playlist[$url];
-            $data['count'] = $count;
+            $data['count'] = $json->videoDetails->viewCount
             $playlist[$url] = $data;
         }
         error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
