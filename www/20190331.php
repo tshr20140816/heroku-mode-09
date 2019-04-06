@@ -45,5 +45,5 @@ __HEREDOC__;
     $res = $mu_->get_contents($url, [CURLOPT_HEADER => true, CURLOPT_USERAGENT => 'Mozilla/5.0 (Linux; Android 9; Pixel 3 Build/PQ1A.181105.013) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36']);
     
     error_log($log_prefix . strlen($res));
-    error_log($log_prefix . substr($res, 0, 1024));
+    error_log($log_prefix . $res);
 }
