@@ -109,5 +109,5 @@ function get_youtube_play_count($mu_)
         }
     }
     error_log($log_prefix . $content);
-    // $mu_->post_blog_wordpress('Play Count', $content);
+    $mu_->post_blog_wordpress('Play Count', $content);
 }
