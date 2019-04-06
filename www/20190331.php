@@ -40,4 +40,9 @@ __HEREDOC__;
     $res = $mu_->get_contents($url, $options);
 
     error_log($log_prefix . $res);
+    
+    $url = 'https://m.youtube.com/watch?v=TwzRhp1Y4eU';
+    $res = $mu_->get_contents($url, [CURLOPT_HEADER => true]);
+    
+    error_log(strlen($res));
 }
