@@ -8,6 +8,8 @@ $mu = new MyUtils();
 
 func_20190406($mu);
 
+error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
 function func_20190406($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
@@ -42,7 +44,7 @@ function func_20190406($mu_)
 
     $multi_options = [
         CURLMOPT_PIPELINING => 3,
-        CURLMOPT_MAX_HOST_CONNECTIONS => 10,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 30,
     ];
     $options = [CURLOPT_USERAGENT => 'Mozilla/5.0 (Linux; Android 9; Pixel 3 Build/PQ1A.181105.013) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36'];
 
