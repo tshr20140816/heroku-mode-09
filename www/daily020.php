@@ -61,6 +61,9 @@ check_4shared_usage($mu, $file_name_blog);
 // CloudApp usage
 check_cloudapp_usage($mu, $file_name_blog);
 
+// Zoho usage
+check_zoho_usage($mu, $file_name_blog);
+
 // apache version check
 check_version_apache($mu, $file_name_blog);
 
@@ -727,7 +730,7 @@ function check_zoho_usage($mu_, $file_name_blog_)
 
     $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
     $res = $mu_->get_contents($url);
-    
+
     $urls = [];
     $options = [CURLOPT_HEADER => true,
                 CURLOPT_NOBODY => true,
@@ -738,10 +741,19 @@ function check_zoho_usage($mu_, $file_name_blog_)
         $urls[$url] = $options;
     }
     $list_contents = $mu_->get_contents_multi($urls);
-    
+    error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
+
+    $size = 0;
     foreach ($list_contents as $res) {
-        
+        $rc = preg_match('/Content-Length: (\d+)/', $res, $match);
+        $size += (int)$match[1];
     }
+
+    $percentage = substr($size / (5 * 1024 * 1024 * 1024) * 100, 0, 5);
+    $size = number_format($size);
+
+    error_log($log_prefix . "Zoho usage : ${size}Byte ${percentage}%");
+    file_put_contents($file_name_blog_, "\nZoho usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
 }
 
 function check_cloudapp_usage($mu_, $file_name_blog_)
