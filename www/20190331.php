@@ -45,4 +45,5 @@ __HEREDOC__;
     $res = $mu_->get_contents($url, [CURLOPT_HEADER => true]);
     
     error_log(strlen($res));
+    error_log(substr($res, 0, 1024));
 }
