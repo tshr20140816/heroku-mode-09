@@ -915,8 +915,6 @@ __HEREDOC__;
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-        $res = bzcompress($data_, 9);
-
         $base_name = pathinfo($file_name_)['basename'];
 
         $user_hidrive = $this->get_env('HIDRIVE_USER', true);
@@ -944,6 +942,7 @@ __HEREDOC__;
 
         $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
 
+        $res = bzcompress($data_, 9);
         $method = 'aes-256-cbc';
         $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
         $iv = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
