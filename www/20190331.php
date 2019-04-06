@@ -41,9 +41,14 @@ __HEREDOC__;
 
     error_log($log_prefix . $res);
     
+    $dom = DOMDocument::loadXML($res);
+    $dom->encoding = 'UTF-8';
+    $dom->formatOutput = true;
+    error_log($log_prefix . $dom->saveXML());
+    
     $url = 'https://m.youtube.com/watch?v=TwzRhp1Y4eU';
     $res = $mu_->get_contents($url, [CURLOPT_HEADER => true]);
     
-    error_log(strlen($res));
-    error_log(substr($res, 0, 1024));
+    error_log($log_prefix . strlen($res));
+    error_log($log_prefix . substr($res, 0, 1024));
 }
