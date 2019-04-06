@@ -719,8 +719,35 @@ function backup_opml2($mu_, $file_name_blog_)
     file_put_contents($file_name_blog_, "\nOPML2 backup size : ${file_size}Byte\nFeed count : ${feed_count}\n", FILE_APPEND);
 }
 
+function check_zoho_usage($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
+
+    $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
+    $res = $mu_->get_contents($url);
+    
+    $urls = [];
+    $options = [CURLOPT_HEADER => true,
+                CURLOPT_NOBODY => true,
+               ];
+    foreach (json_decode($res)->FILES as $item) {
+        $docid = $item->DOCID;
+        $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
+        $urls[$url] = $options;
+    }
+    $list_contents = $mu_->get_contents_multi($urls);
+    
+    foreach ($list_contents as $res) {
+        
+    }
+}
+
 function check_cloudapp_usage($mu_, $file_name_blog_)
 {
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
     $user_cloudapp = $mu_->get_env('CLOUDAPP_USER', true);
     $password_cloudapp = $mu_->get_env('CLOUDAPP_PASSWORD', true);
 
