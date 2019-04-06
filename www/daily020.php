@@ -740,7 +740,12 @@ function check_zoho_usage($mu_, $file_name_blog_)
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
         $urls[$url] = $options;
     }
-    $list_contents = $mu_->get_contents_multi($urls);
+
+    $multi_options = [
+        CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 10,
+    ];
+    $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
     error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
 
     $size = 0;
