@@ -1002,6 +1002,7 @@ __HEREDOC__;
                 $post_data = ['docid' => $item->DOCID,];
                 $options = [CURLOPT_POST => true,
                             CURLOPT_POSTFIELDS => http_build_query($post_data),
+                            CURLOPT_HEADER => true,
                            ];
                 $urls[$url] = $options;
                 break;
@@ -1184,6 +1185,7 @@ __HEREDOC__;
                      ];
         $options = [CURLOPT_POST => true,
                     CURLOPT_POSTFIELDS => $post_data,
+                    CURLOPT_HEADER => true,
                    ];
         $res = $this->get_contents($url, $options);
 
