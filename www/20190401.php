@@ -7,7 +7,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190401($mu, '/tmp/dummy');
+func_20190401_b($mu, '/tmp/dummy');
 
 function func_20190401($mu_, $file_name_blog_)
 {
@@ -22,7 +22,6 @@ function func_20190401_b($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    /*
     $user_zoho = getenv('ZOHO_USER');
     $password_zoho = getenv('ZOHO_PASSWORD');
     $url = 'https://accounts.zoho.com/apiauthtoken/nb/create';
@@ -43,7 +42,8 @@ function func_20190401_b($mu_, $file_name_blog_)
     error_log($res);
     $rc = preg_match('/AUTHTOKEN=(.+)/', $res, $match);
     error_log(print_r($match, true));
-    */
+    
+    return;
     
     $authtoken_zoho = getenv('ZOHO_AUTHTOKEN');
     
