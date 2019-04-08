@@ -17,7 +17,25 @@ function get_youtube_play_count($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $url = getenv('URL_YOUTUBE');
-
+    $url = str_replace('https://www.', 'https://m.', $url);
+    $options = [CURLOPT_USERAGENT => 'Mozilla/5.0 (Linux; Android 9; Pixel 3 Build/PQ1A.181105.013) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36'];
+    $res = $mu_->get_contents($url, $options);
+    
+    $tmp = explode('<div id="initial-data"><!-- ', $res);
+    $tmp = explode(' -->', $tmp[1]);
+    
+    $json = json_decode($tmp[0]);
+    $playlist = [];
+    foreach ($json->contents->singleColumnWatchNextResults->playlist->playlist->contents as $item) {
+        $title = $item->playlistPanelVideoRenderer->title->runs[0]->text;
+        $time = $item->playlistPanelVideoRenderer->lengthText->runs[0]->text;
+        $url = 'https://www.youtube.com/watch?v=' . $item->playlistPanelVideoRenderer->videoId;
+        
+        $data['title'] = $title;
+        // $data['time'] = $time;
+        $playlist[$url] = $data;
+    }
+    /*
     $res = $mu_->get_contents($url);
 
     $tmp = explode('window["ytInitialData"] = ', $res);
@@ -46,12 +64,12 @@ function get_youtube_play_count($mu_)
         $playlist[$url] = $data;
     }
     $json = '';
-
+    */
+    
     $multi_options = [
         CURLMOPT_PIPELINING => 3,
         CURLMOPT_MAX_HOST_CONNECTIONS => 100,
     ];
-    $options = [CURLOPT_USERAGENT => 'Mozilla/5.0 (Linux; Android 9; Pixel 3 Build/PQ1A.181105.013) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36'];
 
     for (;;) {
         $urls = [];
@@ -112,5 +130,5 @@ function get_youtube_play_count($mu_)
         }
     }
     error_log($log_prefix . $content);
-    $mu_->post_blog_wordpress('Play Count', $content);
+    // $mu_->post_blog_wordpress('Play Count', $content);
 }
