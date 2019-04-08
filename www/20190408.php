@@ -23,10 +23,18 @@ function func_20190408($mu_, $file_name_blog_)
     $tmp = explode(' -->', $tmp[1]);
     
     $json = json_decode($tmp[0]);
-    
-    // error_log(print_r($json, true));
+    $playlist = [];
+    $res = '';
+    $tmp = '';
     foreach ($json->contents->singleColumnWatchNextResults->playlist->playlist->contents as $item) {
-        error_log(print_r($item, true));
-        break;
+        // error_log(print_r($item, true));
+        $title = $item->playlistPanelVideoRenderer->title->runs[0]->text;
+        $time = $item->playlistPanelVideoRenderer->lengthText->runs[0]->text;
+        $url = 'https://www.youtube.com/watch?v=' . $item->playlistPanelVideoRenderer->videoId;
+        
+        $data['title'] = $title;
+        // $data['time'] = $time;
+        $playlist[$url] = $data;
     }
+    error_log(print_r($playlist, true));
 }
