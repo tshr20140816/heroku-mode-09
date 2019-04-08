@@ -35,36 +35,6 @@ function get_youtube_play_count($mu_)
         // $data['time'] = $time;
         $playlist[$url] = $data;
     }
-    /*
-    $res = $mu_->get_contents($url);
-
-    $tmp = explode('window["ytInitialData"] = ', $res);
-    $tmp = explode('window["ytInitialPlayerResponse"]', $tmp[1]);
-
-    $playlist = [];
-    $json = json_decode(trim(trim($tmp[0]), ';'));
-    $res = '';
-    $tmp = '';
-    foreach ($json->contents->twoColumnWatchNextResults->playlist->playlist->contents as $item) {
-        $title = $item->playlistPanelVideoRenderer->title->simpleText;
-        $thumbnail = $item->playlistPanelVideoRenderer->thumbnail->thumbnails[0]->url;
-        $url = $item->playlistPanelVideoRenderer->navigationEndpoint->commandMetadata->webCommandMetadata->url;
-        $url = 'https://www.youtube.com' . $url;
-        foreach (explode('&', parse_url($url, PHP_URL_QUERY)) as $param) {
-            if (explode('=', $param)[0] = 'v') {
-                $url = explode('?', $url)[0] . '?' . $param;
-                break;
-            }
-        }
-        $time = $item->playlistPanelVideoRenderer->lengthText->simpleText;
-        $thumbnail = explode('?', $thumbnail)[0];
-        $data['title'] = $title;
-        $data['thumbnail'] = $thumbnail;
-        $data['time'] = $time;
-        $playlist[$url] = $data;
-    }
-    $json = '';
-    */
     
     $multi_options = [
         CURLMOPT_PIPELINING => 3,
@@ -99,7 +69,6 @@ function get_youtube_play_count($mu_)
             $data['count'] = number_format($json->videoDetails->viewCount);
             $playlist[$url] = $data;
         }
-        error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
         $list_contents = [];
     }
 
@@ -130,5 +99,5 @@ function get_youtube_play_count($mu_)
         }
     }
     error_log($log_prefix . $content);
-    // $mu_->post_blog_wordpress('Play Count', $content);
+    $mu_->post_blog_wordpress('Play Count', $content);
 }
