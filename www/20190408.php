@@ -14,14 +14,14 @@ function func_20190408($mu_, $file_name_blog_)
     
     $url = 'https://baseball.yahoo.co.jp/npb/schedule/?date=20190406';
     
-    $options = [CURLOPT_HEADER => true,];
-    $res = $mu_->get_contents($url, $options);
+    // $options = [CURLOPT_HEADER => true,];
+    // $res = $mu_->get_contents($url, $options);
+    $res = $mu_->get_contents($url);
 
-    // error_log($log_prefix . $res);
-    //
-    $pattern = '<table border="0" cellspacing="0" cellpadding="0" class="teams">(.+?)';
-    $pattern .= '<table border="0" cellspacing="0" cellpadding="0" class="score">(.+?)<\/table>(.+?)<\/table>';
-    $rc = preg_match_all('/' . $pattern . '/s', $res, $matches);
+    $pattern = '<table border="0" cellspacing="0" cellpadding="0" class="teams">.+?';
+    $pattern .= '<table border="0" cellspacing="0" cellpadding="0" class="score">.+?';
+    $pattern .= '<a href="https://baseball.yahoo.co.jp/npb/game/(\d+)/".+?<\/table>.+?<\/table>';
+    $rc = preg_match_all('/' . $pattern . '/s', $res, $matches,  PREG_SET_ORDER);
     
     error_log(print_r($matches, true));
 }
