@@ -17,6 +17,6 @@ function func_20190408($mu_, $file_name_blog_)
     $url = str_replace('https://www.', 'https://m.', $url);
     $options = [CURLOPT_USERAGENT => 'Mozilla/5.0 (Linux; Android 9; Pixel 3 Build/PQ1A.181105.013) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36'];
 
-    $res = $mu_->get_contents($url);
+    $res = $mu_->get_contents($url, $options);
     error_log($res);
 }
