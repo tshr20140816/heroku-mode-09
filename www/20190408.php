@@ -38,7 +38,7 @@ function func_20190408($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url);
     //error_log($res);
     
-    $rc = preg_match('/.+(<tr.*?>.+?野間 峻祥.+?)<\/tr>/s', $res, $match);
+    $rc = preg_match('/.+<tr.*?>(.+?)野間 峻祥(.+?)<\/tr>/s', $res, $match);
     error_log(print_r($match, true));
     
 }
