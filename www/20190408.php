@@ -21,7 +21,7 @@ function func_20190408($mu_, $file_name_blog_)
     //
     $pattern = '<table border="0" cellspacing="0" cellpadding="0" class="teams">(.+?)';
     $pattern .= '<table border="0" cellspacing="0" cellpadding="0" class="score">(.+?)<\/table>(.+?)<\/table>';
-    $rc = preg_match('/' . $pattern . '/s', $res, $matches);
+    $rc = preg_match_all('/' . $pattern . '/s', $res, $matches);
     
     error_log(print_r($matches, true));
 }
