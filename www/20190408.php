@@ -30,6 +30,7 @@ function func_20190408($mu_)
     if (strpos($base_record, date('Y/m/d', $timestamp)) > 0) {
         return;
     }
+    error_log(date('Y/m/d', $timestamp);
     
     $ymd = date('Ymd', $timestamp);
     $url = 'https://baseball.yahoo.co.jp/npb/schedule/?date=' . $ymd;
