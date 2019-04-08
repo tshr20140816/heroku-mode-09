@@ -24,7 +24,7 @@ function func_20190408($mu_, $file_name_blog_)
     $name = '野間 峻祥';
     $title = 'NOMA Takayoshi';
     // $timestamp = mktime(0, 0, 0, 4, 3, 2019);
-    $timestamp = strtotime(substr($base_record, 0, 10));
+    $timestamp = strtotime(substr($base_record, 0, 10)) + 60 * 60 * 24;
     
     if (strpos($base_record, date('Y/m/d', $timestamp)) > 0) {
         return;
