@@ -17,5 +17,8 @@ function func_20190408($mu_, $file_name_blog_)
     $options = [CURLOPT_HEADER => true,];
     $res = $mu_->get_contents($url, $options);
 
-    error_log($log_prefix . $res);
+    // error_log($log_prefix . $res);
+    $rc = preg_match('/<table border="0" cellspacing="0" cellpadding="0" class="teams">(.+?)<\/table>/s', $res, $matches);
+    
+    error_log(print_r($matches, true));
 }
