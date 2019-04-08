@@ -20,8 +20,8 @@ function func_20190408($mu_, $file_name_blog_)
 
     $pattern = '<table border="0" cellspacing="0" cellpadding="0" class="teams">.+?';
     $pattern .= '<table border="0" cellspacing="0" cellpadding="0" class="score">.+?';
-    $pattern .= '<a href="https://baseball.yahoo.co.jp/npb/game/(\d+)/".+?<\/table>.+?<\/table>';
-    $rc = preg_match_all('/' . $pattern . '/s', $res, $matches,  PREG_SET_ORDER);
+    $pattern .= '<a href="https:\/\/baseball.yahoo.co.jp\/npb\/game\/(\d+)\/".+?<\/table>.+?<\/table>';
+    $rc = preg_match_all('/' . $pattern . '/s', $res, $matches, PREG_SET_ORDER);
     
     error_log(print_r($matches, true));
 }
