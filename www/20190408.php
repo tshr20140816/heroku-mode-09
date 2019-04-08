@@ -43,7 +43,7 @@ function func_20190408($mu_)
 
     $url = '';
     foreach ($matches as $match) {
-        if (strpos($match[0], '広島') > 0) {
+        if (strpos($match[0], '広島') >= 0) {
             $url = 'https://baseball.yahoo.co.jp/npb/game/' . $match[1] . '/stats';
             break;
         }
@@ -57,10 +57,10 @@ function func_20190408($mu_)
     $tmp = explode('</table>', $res);
 
     foreach ($tmp as $data) {
-        if (strpos($data, $name) > 0) {
+        if (strpos($data, $name) >= 0) {
             $rc = preg_match_all('/<tr.*?>(.+?)<\/tr>/s', $data, $matches);
             foreach ($matches[1] as $item) {
-                if (strpos($item, $name) > 0) {
+                if (strpos($item, $name) >= 0) {
                     $tmp = str_replace("\n", '', $item);
                     $tmp = preg_replace('/<.+?>/s', ' ', $tmp);
                     $tmp = str_replace($name, '', $tmp);
