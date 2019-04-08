@@ -38,7 +38,17 @@ function func_20190408($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url);
     //error_log($res);
     
-    $rc = preg_match('/(<tr.*?>).+?野間 峻祥.+?<\/tr>/s', $res, $match);
-    error_log(print_r($match, true));
+    $tmp = explode('</table>', $res);
     
+    foreach ($tmp as $data) {
+        if (strpos($data, '野間 峻祥') > 0) {
+            $rc = preg_match_all('/<tr.*?>(.+?)<\/tr>/s', $data, $matches, PREG_SET_ORDER);
+            foreach ($matches[1] as $item) {
+                if (strpos($item, '野間 峻祥') > 0) {
+                    error_log($item);
+                    break 2;
+                }
+            }
+        }
+    }    
 }
