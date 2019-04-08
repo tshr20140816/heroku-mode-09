@@ -12,7 +12,7 @@ function func_20190408($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $url = 'https://baseball.yahoo.co.jp/npb/schedule/?date=20190406';
+    $url = 'https://baseball.yahoo.co.jp/npb/schedule/?date=20190329';
     
     // $options = [CURLOPT_HEADER => true,];
     // $res = $mu_->get_contents($url, $options);
