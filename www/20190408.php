@@ -13,6 +13,7 @@ function func_20190408($mu_, $file_name_blog_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $name = '野間 峻祥';
+    $title = 'NOMA Takayoshi';
     $timestamp = mktime(0, 0, 0, 3, 29, 2019);
     $ymd = date('Ymd', $timestamp);
     $url = 'https://baseball.yahoo.co.jp/npb/schedule/?date=' . $ymd;
