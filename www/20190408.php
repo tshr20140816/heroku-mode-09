@@ -18,14 +18,12 @@ function func_20190408($mu_, $file_name_blog_)
     
     $rc = preg_match('/<div class="article-body-inner">(.+?)<\/div>/s', $res, $match);
     // error_log(print_r($match, true));
-    error_log(trim($match[1]));
-    $base_record = trim($match[1]);
-    
-    return;
+    $base_record = trim(strp_tags($match[1]));
+    error_log($base_record);
     
     $name = '野間 峻祥';
     $title = 'NOMA Takayoshi';
-    $timestamp = mktime(0, 0, 0, 3, 30, 2019);
+    $timestamp = mktime(0, 0, 0, 3, 31, 2019);
     $ymd = date('Ymd', $timestamp);
     $url = 'https://baseball.yahoo.co.jp/npb/schedule/?date=' . $ymd;
     
@@ -64,7 +62,7 @@ function func_20190408($mu_, $file_name_blog_)
                     $tmp = str_replace($name, '', $tmp);
                     $tmp = date('Y/m/d', $timestamp) . ' ' . trim(preg_replace('/ +/', ' ', $tmp));
                     error_log($tmp . "\n" . $base_record);
-                    $mu_->post_blog_wordpress($title, $tmp . "\n" . $base_record);
+                    // $mu_->post_blog_wordpress($title, $tmp . "\n" . $base_record);
                     break 2;
                 }
             }
