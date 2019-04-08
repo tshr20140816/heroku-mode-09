@@ -46,7 +46,7 @@ function func_20190408($mu_, $file_name_blog_)
             foreach ($matches[1] as $item) {
                 if (strpos($item, '野間 峻祥') > 0) {
                     //error_log(strip_tags($item));
-                    $tmp = str_replace("\r\n", '', $item);
+                    $tmp = str_replace("\n", '', $item);
                     $tmp = preg_replace('/<.+?>/s', ',', $tmp);
                     error_log($tmp);
                     break 2;
