@@ -18,7 +18,7 @@ function func_20190408($mu_, $file_name_blog_)
     
     $rc = preg_match('/<div class="article-body-inner">(.+?)<\/div>/s', $res, $match);
     // error_log(print_r($match, true));
-    $base_record = trim(strp_tags($match[1]));
+    $base_record = trim(strip_tags($match[1]));
     error_log($base_record);
     
     $name = '野間 峻祥';
