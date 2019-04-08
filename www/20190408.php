@@ -12,6 +12,7 @@ function func_20190408($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $name = '野間 峻祥';
     $timestamp = mktime(0, 0, 0, 3, 29, 2019);
     $ymd = date('Ymd', $timestamp);
     $url = 'https://baseball.yahoo.co.jp/npb/schedule/?date=' . $ymd;
@@ -41,13 +42,14 @@ function func_20190408($mu_, $file_name_blog_)
     $tmp = explode('</table>', $res);
     
     foreach ($tmp as $data) {
-        if (strpos($data, '野間 峻祥') > 0) {
+        if (strpos($data, $name) > 0) {
             $rc = preg_match_all('/<tr.*?>(.+?)<\/tr>/s', $data, $matches);
             foreach ($matches[1] as $item) {
-                if (strpos($item, '野間 峻祥') > 0) {
+                if (strpos($item, $name) > 0) {
                     //error_log(strip_tags($item));
                     $tmp = str_replace("\n", '', $item);
                     $tmp = preg_replace('/<.+?>/s', ' ', $tmp);
+                    $tmp = str_replace($name, '', $tmp);
                     $tmp = date('Y/m/d', $timestamp) . ' ' . trim(preg_replace('/ +/', ' ', $tmp));
                     error_log($tmp);
                     break 2;
