@@ -27,7 +27,7 @@ function func_20190408($mu_, $file_name_blog_)
     $url = '';
     foreach ($matches as $match) {
         if (strpos($match[0], '広島') > 0) {
-            $url = 'https://baseball.yahoo.co.jp/npb/game/' . $match[1] . '/';
+            $url = 'https://baseball.yahoo.co.jp/npb/game/' . $match[1] . '/stats';
             break;
         }
     }
