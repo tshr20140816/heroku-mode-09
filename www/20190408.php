@@ -17,14 +17,12 @@ function func_20190408($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url);
     
     $rc = preg_match('/<div class="article-body-inner">(.+?)<\/div>/s', $res, $match);
-    // error_log(print_r($match, true));
     $base_record = trim(strip_tags($match[1]));
-    error_log($base_record);
+    error_log($log_prefix . $base_record);
     
     $name = '野間 峻祥';
     $title = 'NOMA Takayoshi';
-    // $timestamp = mktime(0, 0, 0, 4, 3, 2019);
-    $timestamp = strtotime(substr($base_record, 0, 10)) + 60 * 60 * 24;
+    $timestamp = strtotime('-1 day')
     
     if (strpos($base_record, date('Y/m/d', $timestamp)) > 0) {
         return;
@@ -39,8 +37,7 @@ function func_20190408($mu_, $file_name_blog_)
     $pattern .= '<table border="0" cellspacing="0" cellpadding="0" class="score">.+?';
     $pattern .= '<a href="https:\/\/baseball.yahoo.co.jp\/npb\/game\/(\d+)\/".+?<\/table>.+?<\/table>';
     $rc = preg_match_all('/' . $pattern . '/s', $res, $matches, PREG_SET_ORDER);
-    
-    // error_log(print_r($matches, true));
+
     $url = '';
     foreach ($matches as $match) {
         if (strpos($match[0], '広島') > 0) {
@@ -48,27 +45,26 @@ function func_20190408($mu_, $file_name_blog_)
             break;
         }
     }
-    
+
     if ($url == '') {
         return;
     }
     $res = $mu_->get_contents($url);
-    //error_log($res);
-    
+
     $tmp = explode('</table>', $res);
-    
+
     foreach ($tmp as $data) {
         if (strpos($data, $name) > 0) {
             $rc = preg_match_all('/<tr.*?>(.+?)<\/tr>/s', $data, $matches);
             foreach ($matches[1] as $item) {
                 if (strpos($item, $name) > 0) {
-                    //error_log(strip_tags($item));
                     $tmp = str_replace("\n", '', $item);
                     $tmp = preg_replace('/<.+?>/s', ' ', $tmp);
                     $tmp = str_replace($name, '', $tmp);
                     $tmp = date('Y/m/d', $timestamp) . ' ' . trim(preg_replace('/ +/', ' ', $tmp));
-                    error_log($tmp . "\n" . $base_record);
-                    $mu_->post_blog_wordpress($title, $tmp . "\n" . $base_record);
+                    $description = $tmp . "\n" . $base_record;
+                    error_log($log_prefix . $description);
+                    $mu_->post_blog_wordpress($title, $description);
                     break 2;
                 }
             }
