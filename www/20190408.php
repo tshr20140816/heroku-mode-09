@@ -7,11 +7,11 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190408($mu, '/tmp/dummy');
+func_20190408($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_20190408($mu_, $file_name_blog_)
+function func_20190408($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
