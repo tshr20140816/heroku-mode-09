@@ -6,9 +6,9 @@ $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
-check_zoho_usage($mu, '/tmp/dummy');
+check_zoho_usage20190408($mu, '/tmp/dummy');
 
-function check_zoho_usage($mu_, $file_name_blog_)
+function check_zoho_usage20190408($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
