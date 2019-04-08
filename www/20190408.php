@@ -53,7 +53,7 @@ function func_20190408($mu_, $file_name_blog_)
                     $tmp = str_replace($name, '', $tmp);
                     $tmp = date('Y/m/d', $timestamp) . ' ' . trim(preg_replace('/ +/', ' ', $tmp));
                     error_log($tmp);
-                    $mu_->post_blog_wordpress($title, $tmp);
+                    // $mu_->post_blog_wordpress($title, $tmp);
                     break 2;
                 }
             }
