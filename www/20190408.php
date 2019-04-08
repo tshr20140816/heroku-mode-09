@@ -27,10 +27,9 @@ function func_20190408($mu_)
     $title = 'NOMA Takayoshi';
     $timestamp = strtotime('-1 day');
     
-    if (strpos($base_record, date('Y/m/d', $timestamp)) > 0) {
+    if (strpos($base_record, date('Y/m/d', $timestamp)) >= 0) {
         return;
     }
-    error_log(date('Y/m/d', $timestamp));
     
     $ymd = date('Ymd', $timestamp);
     $url = 'https://baseball.yahoo.co.jp/npb/schedule/?date=' . $ymd;
