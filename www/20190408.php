@@ -12,6 +12,15 @@ function func_20190408($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
+    $url = "http://blog.livedoor.jp/${livedoor_id}/search?q=NOMA+Takayoshi";
+    $res = $mu_->get_contents($url);
+    
+    $rc = preg_match('/<div class="article-body-inner">(.+?)<\/div>/s', $res, $match);
+    error_log(print_r($match, true));
+    
+    return;
+    
     $name = '野間 峻祥';
     $title = 'NOMA Takayoshi';
     $timestamp = mktime(0, 0, 0, 3, 29, 2019);
