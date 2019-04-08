@@ -25,7 +25,7 @@ function func_20190408($mu_)
     
     $name = '野間 峻祥';
     $title = 'NOMA Takayoshi';
-    $timestamp = strtotime('-1 day')
+    $timestamp = strtotime('-1 day');
     
     if (strpos($base_record, date('Y/m/d', $timestamp)) > 0) {
         return;
