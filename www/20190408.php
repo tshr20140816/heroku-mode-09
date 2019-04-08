@@ -17,7 +17,8 @@ function func_20190408($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url);
     
     $rc = preg_match('/<div class="article-body-inner">(.+?)<\/div>/s', $res, $match);
-    error_log(print_r($match, true));
+    // error_log(print_r($match, true));
+    error_log(trim($match[1]));
     
     return;
     
