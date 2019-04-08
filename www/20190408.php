@@ -14,7 +14,7 @@ function func_20190408($mu_, $file_name_blog_)
     
     $url = 'https://baseball.yahoo.co.jp/npb/schedule/?date=20190406';
     
-    $options = [CURLOPT_HEADER = true,];
+    $options = [CURLOPT_HEADER => true,];
     $res = $mu_->get_contents($url, $options);
 
     error_log($log_prefix . $res);
