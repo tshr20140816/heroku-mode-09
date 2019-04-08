@@ -42,6 +42,7 @@ function func_20190408($mu_, $file_name_blog_)
     
     foreach ($tmp as $data) {
         if (strpos($data, '野間 峻祥') > 0) {
+            error_log($data);
             $rc = preg_match_all('/<tr.*?>(.+?)<\/tr>/s', $data, $matches, PREG_SET_ORDER);
             foreach ($matches[1] as $item) {
                 if (strpos($item, '野間 峻祥') > 0) {
