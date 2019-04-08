@@ -18,7 +18,10 @@ function func_20190408($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url, $options);
 
     // error_log($log_prefix . $res);
-    $rc = preg_match('/<table border="0" cellspacing="0" cellpadding="0" class="teams">(.+?)<\/table>/s', $res, $matches);
+    //
+    $pattern = '<table border="0" cellspacing="0" cellpadding="0" class="teams">(.+?)';
+    $pattern .= '<table border="0" cellspacing="0" cellpadding="0" class="score">(.+?)<\/table>(.+?)<\/table>';
+    $rc = preg_match('/' . $pattern . '/s', $res, $matches);
     
     error_log(print_r($matches, true));
 }
