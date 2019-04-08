@@ -21,6 +21,8 @@ function func_20190408($mu_, $file_name_blog_)
     error_log(trim($match[1]));
     $base_record = trim($match[1]);
     
+    return;
+    
     $name = '野間 峻祥';
     $title = 'NOMA Takayoshi';
     $timestamp = mktime(0, 0, 0, 3, 30, 2019);
