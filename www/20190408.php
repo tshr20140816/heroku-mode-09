@@ -11,11 +11,11 @@ func_20190408($mu, '/tmp/dummy');
 function func_20190408($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $timestamp = mktime(0, 0, 0, 29, 3, 2017);
+    $ymd = date('Ymd', $timestamp);
+    $url = 'https://baseball.yahoo.co.jp/npb/schedule/?date=' . $ymd;
     
-    $url = 'https://baseball.yahoo.co.jp/npb/schedule/?date=20190329';
-    
-    // $options = [CURLOPT_HEADER => true,];
-    // $res = $mu_->get_contents($url, $options);
     $res = $mu_->get_contents($url);
 
     $pattern = '<table border="0" cellspacing="0" cellpadding="0" class="teams">.+?';
@@ -48,7 +48,7 @@ function func_20190408($mu_, $file_name_blog_)
                     //error_log(strip_tags($item));
                     $tmp = str_replace("\n", '', $item);
                     $tmp = preg_replace('/<.+?>/s', ' ', $tmp);
-                    $tmp = preg_replace('/ +/', ' ', $tmp);
+                    $tmp = date('Y/m/d', $timestamp) . trim(preg_replace('/ +/', ' ', $tmp));
                     error_log($tmp);
                     break 2;
                 }
