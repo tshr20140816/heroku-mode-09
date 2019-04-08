@@ -23,7 +23,8 @@ function func_20190408($mu_, $file_name_blog_)
     
     $name = '野間 峻祥';
     $title = 'NOMA Takayoshi';
-    $timestamp = mktime(0, 0, 0, 4, 3, 2019);
+    // $timestamp = mktime(0, 0, 0, 4, 3, 2019);
+    $timestamp = strtotime(substr($base_record, 0, 10));
     
     if (strpos($base_record, date('Y/m/d', $timestamp)) > 0) {
         return;
@@ -67,7 +68,7 @@ function func_20190408($mu_, $file_name_blog_)
                     $tmp = str_replace($name, '', $tmp);
                     $tmp = date('Y/m/d', $timestamp) . ' ' . trim(preg_replace('/ +/', ' ', $tmp));
                     error_log($tmp . "\n" . $base_record);
-                    $mu_->post_blog_wordpress($title, $tmp . "\n" . $base_record);
+                    // $mu_->post_blog_wordpress($title, $tmp . "\n" . $base_record);
                     break 2;
                 }
             }
