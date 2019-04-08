@@ -24,5 +24,9 @@ function func_20190408($mu_, $file_name_blog_)
     
     $json = json_decode($tmp[0]);
     
-    error_log(print_r($json, true));
+    // error_log(print_r($json, true));
+    foreach ($json->contents->singleColumnWatchNextResults->playlist->playlist->contents as $item) {
+        error_log(print_r($item, true));
+        break;
+    }
 }
