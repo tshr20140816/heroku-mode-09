@@ -70,7 +70,12 @@ function func_20190409($mu_)
     $json = json_decode($res);
     error_log(print_r($json, true));
     $url = $json->output->url;
-    $res = $mu_->get_contents($url);
+    
+    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+               ];    
+    
+    $res = $mu_->get_contents($url, $options);
     
     // header('Content-Type: image/png');
     // echo $res;
