@@ -34,7 +34,7 @@ function func_20190409($mu_)
         error_log($matches[1][$record_count - $i - 1]);
         error_log($matches[2][$record_count - $i - 1]);
         $labels[] = substr($matches[1][$record_count - $i - 1], 5);
-        $data[] = $matches[2][$record_count - $i - 1];
+        $data[] = $matches[2][$record_count - $i - 1] * 1000;
     }
     
     $data = ['type' => 'line',
