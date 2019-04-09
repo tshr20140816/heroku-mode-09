@@ -23,4 +23,14 @@ function func_20190409($mu_)
     $base_record = trim(strip_tags($match[1]));
     error_log($log_prefix . $base_record);
     
+    $data = ['type' => 'line',
+             'data' => ['labels' => ['03/29', '03/30', '03/31'],
+                        'datasets' => [['label' => 'avg',
+                                        'data' => [0.5, 0.5, ,0.545],
+                                       ],
+                                      ],
+                       ],
+            ];
+    $url = 'https://quickchart.io/chart?width=500&height=300&c=' . json_decode($data);
+    echo $mu_->get_contents($url);
 }
