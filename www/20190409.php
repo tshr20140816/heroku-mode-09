@@ -68,7 +68,7 @@ function func_20190409($mu_)
     $res = $mu_->get_contents($url, $options);    
     
     error_log($res);
-    $rc = preg_match('/Location: (.+)/', $res, $match);
+    $rc = preg_match('/Location: (.+)/i', $res, $match);
     
     $res = $mu_->get_contents(trim($match[1]));
     header('Content-Type: image/png');
