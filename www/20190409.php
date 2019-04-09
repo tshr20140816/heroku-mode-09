@@ -29,9 +29,10 @@ function func_20190409($mu_)
                                         'data' => [0.5, 0.5, 0.545],
                                        ],
                                       ],
+                        'fill' => false,
                        ],
             ];
-    $url = 'https://quickchart.io/chart?width=500&height=300&c=' . json_encode($data);
+    $url = 'https://quickchart.io/chart?width=300&height=100&c=' . json_encode($data);
     header('Content-Type: image/png');
     echo $mu_->get_contents($url);
 }
