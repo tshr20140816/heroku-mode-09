@@ -57,8 +57,10 @@ function func_20190409($mu_)
     $res = $mu_->get_contents($url);
     
     $url = 'https://tinypng.com/web/api';
-    $options = [CURLOPT_POST => true,
+    $url = 'https://api.tinify.com/shrink';
+    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                 CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+                CURLOPT_POST => true,
                 CURLOPT_BINARYTRANSFER => true,
                 CURLOPT_POSTFIELDS => $res,
                ];
