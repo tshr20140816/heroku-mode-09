@@ -7,11 +7,11 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190408($mu);
+get_results_noma($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_20190408($mu_)
+function get_results_noma($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -67,7 +67,7 @@ function func_20190408($mu_)
                     $tmp = date('Y/m/d', $timestamp) . ' ' . trim(preg_replace('/ +/', ' ', $tmp));
                     $description = $tmp . "\n" . $base_record;
                     error_log($log_prefix . $description);
-                    // $mu_->post_blog_wordpress($title, $description);
+                    $mu_->post_blog_wordpress($title, $description);
                     break 2;
                 }
             }
