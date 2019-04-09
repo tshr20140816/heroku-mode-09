@@ -86,5 +86,5 @@ function func_20190409($mu_)
 
     // error_log(base64_encode($res));
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
-    $mu_->post_blog_hatena('TEST', $description);
+    // $mu_->post_blog_hatena('TEST', $description);
 }
