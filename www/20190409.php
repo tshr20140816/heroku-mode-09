@@ -64,17 +64,16 @@ function func_20190409($mu_)
                 CURLOPT_BINARYTRANSFER => true,
                 CURLOPT_POSTFIELDS => $res,
                ];
-    $res = $mu_->get_contents($url, $options);    
+    $res = $mu_->get_contents($url, $options);
     
-    error_log(print_r(json_decode($res), true));
-    /*
-    $rc = preg_match('/Location: (.+)/i', $res, $match);
+    $json = json_decode($res);
+    error_log(print_r($json, true));
+    $url = $json->output->url;
+    $res = $mu_->get_contents($url);
     
-    $res = $mu_->get_contents(trim($match[1]));
     header('Content-Type: image/png');
     echo $res;
-    */
-    
+        
     // error_log(base64_encode($res));
     // $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     // $mu_->post_blog_hatena('TEST', $description);
