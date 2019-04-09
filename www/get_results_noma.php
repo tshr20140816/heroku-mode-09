@@ -18,22 +18,22 @@ function get_results_noma($mu_)
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
     $url = "http://blog.livedoor.jp/${livedoor_id}/search?q=NOMA+Takayoshi+" . date('Y');
     $res = $mu_->get_contents($url);
-    
+
     $rc = preg_match('/<div class="article-body-inner">(.+?)<\/div>/s', $res, $match);
     $base_record = trim(strip_tags($match[1]));
     error_log($log_prefix . $base_record);
-    
+
     $name = '野間 峻祥';
     $title = 'NOMA Takayoshi';
     $timestamp = strtotime('-1 day');
-    
+
     if (strpos($base_record, date('Y/m/d', $timestamp)) >= 0) {
         return;
     }
-    
+
     $ymd = date('Ymd', $timestamp);
     $url = 'https://baseball.yahoo.co.jp/npb/schedule/?date=' . $ymd;
-    
+
     $res = $mu_->get_contents($url);
 
     $pattern = '<table border="0" cellspacing="0" cellpadding="0" class="teams">.+?';
@@ -54,9 +54,8 @@ function get_results_noma($mu_)
     }
     $res = $mu_->get_contents($url);
 
-    $tmp = explode('</table>', $res);
-
-    foreach ($tmp as $data) {
+    $description = '';
+    foreach (explode('</table>', $res) as $data) {
         if (strpos($data, $name) >= 0) {
             $rc = preg_match_all('/<tr.*?>(.+?)<\/tr>/s', $data, $matches);
             foreach ($matches[1] as $item) {
@@ -73,4 +72,64 @@ function get_results_noma($mu_)
             }
         }
     }
+
+    if ($description === '' ) {
+        return;
+    }
+
+    $rc = preg_match_all('/(.+?) .+? (.+?) .+/', $description, $matches);
+    $record_count = count($matches[0]);
+    $labels = [];
+    $data = [];
+    for ($i = 0; $i < $record_count; $i++) {
+        error_log($log_prefix . $matches[1][$record_count - $i - 1] . ' ' . $matches[2][$record_count - $i - 1]);
+        $labels[] = substr($matches[1][$record_count - $i - 1], 5);
+        $data[] = $matches[2][$record_count - $i - 1] * 1000;
+    }
+
+    $data = ['type' => 'line',
+             'data' => ['labels' => $labels,
+                        'datasets' => [['data' => $data,
+                                        'fill' => false,
+                                       ],
+                                      ],
+                       ],
+             'options' => ['legend' => ['display' => false,
+                                       ],
+                           'animation' => ['duration' => 0,
+                                          ],
+                           'hover' => ['animationDuration' => 0,
+                                      ],
+                           'responsiveAnimationDuration' => 0,
+                          ],
+            ];
+    $url = 'https://quickchart.io/chart?c=' . json_encode($data);
+    $res = $mu_->get_contents($url);
+
+    $url = 'https://api.tinify.com/shrink';
+    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+                CURLOPT_POST => true,
+                CURLOPT_BINARYTRANSFER => true,
+                CURLOPT_POSTFIELDS => $res,
+                CURLOPT_HEADER => true,
+               ];
+    $res = $mu_->get_contents($url, $options);
+
+    $tmp = preg_split('/^\r\n/m', $res, 2);
+
+    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
+    error_log($log_prefix . 'Compression count :' . $match[1]);
+    $json = json_decode($tmp[1]);
+    error_log($log_prefix . print_r($json, true));
+
+    $url = $json->output->url;
+    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+               ];
+
+    $res = $mu_->get_contents($url, $options);
+    $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
+
+    $mu_->post_blog_hatena('Batting Average', $description);
 }
