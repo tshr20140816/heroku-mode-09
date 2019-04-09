@@ -46,6 +46,11 @@ function func_20190409($mu_)
                        ],
              'options' => ['legend' => ['display' => false,
                                        ],
+                           'animation' => ['duration' => 0,
+                                          ],
+                           'hover' => ['animationDuration' => 0,
+                                      ],
+                           'responsiveAnimationDuration' => 0,
                           ],
             ];
     $url = 'https://quickchart.io/chart?width=300&height=100&c=' . json_encode($data);
