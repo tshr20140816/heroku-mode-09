@@ -39,8 +39,7 @@ function func_20190409($mu_)
     
     $data = ['type' => 'line',
              'data' => ['labels' => $labels,
-                        'datasets' => [['label' => 'avg',
-                                        'data' => $data,
+                        'datasets' => [['data' => $data,
                                         'fill' => false,
                                        ],
                                       ],
