@@ -62,6 +62,6 @@ function func_20190409($mu_)
     
     header('Content-Type: image/png');
     $im = imagecreatefrompng($url);
-    imagepng($im, null, 9);
+    imagepng($im, null, 6);
     imagedestroy($im);
 }
