@@ -20,9 +20,14 @@ function func_20190409($mu_)
     $res = $mu_->get_contents($url);
     
     $rc = preg_match('/<div class="article-body-inner">(.+?)<\/div>/s', $res, $match);
-    $base_record = trim(strip_tags($match[1]));
-    error_log($log_prefix . $base_record);
+    $records = trim(strip_tags($match[1]));
+    error_log($log_prefix . $records);
     
+    $rc = preg_match_all('/(.+?) .+? (.+?).+/', $records, $matches);
+    
+    error_log(print_r($matches, true));
+    
+    /*
     $data = ['type' => 'line',
              'data' => ['labels' => ['03/29', '03/30', '03/31'],
                         'datasets' => [['label' => 'avg',
@@ -35,4 +40,5 @@ function func_20190409($mu_)
     $url = 'https://quickchart.io/chart?width=300&height=100&c=' . json_encode($data);
     header('Content-Type: image/png');
     echo $mu_->get_contents($url);
+    */
 }
