@@ -71,6 +71,8 @@ function func_20190409($mu_)
     $tmp = preg_split('/^\r\n/m', $res, 2);
     
     error_log($tmp[0]);
+    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
+    error_log(print_r($match, true));
     $json = json_decode($tmp[1]);
     error_log(print_r($json, true));
     $url = $json->output->url;
