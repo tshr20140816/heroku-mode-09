@@ -62,7 +62,7 @@ function func_20190409($mu_)
                 CURLOPT_BINARYTRANSFER => true,
                 CURLOPT_POSTFIELDS => $res,
                ];
-    $res = $mu_->get_contents($url);    
+    $res = $mu_->get_contents($url, $options);    
     
     header('Content-Type: image/png');
     echo $res;
