@@ -16,7 +16,7 @@ function func_20190408($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
-    $url = "http://blog.livedoor.jp/${livedoor_id}/search?q=NOMA+Takayoshi";
+    $url = "http://blog.livedoor.jp/${livedoor_id}/search?q=NOMA+Takayoshi+" . date('Y');
     $res = $mu_->get_contents($url);
     
     $rc = preg_match('/<div class="article-body-inner">(.+?)<\/div>/s', $res, $match);
