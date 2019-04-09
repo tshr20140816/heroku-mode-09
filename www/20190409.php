@@ -15,6 +15,8 @@ function func_20190409($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    // $url = 'https://tinypng.com/web/api';
+    
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
     $url = "http://blog.livedoor.jp/${livedoor_id}/search?q=NOMA+Takayoshi";
     $res = $mu_->get_contents($url);
