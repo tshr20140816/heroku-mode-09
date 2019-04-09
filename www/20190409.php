@@ -83,11 +83,11 @@ function func_20190409($mu_)
     
     $res = $mu_->get_contents($url, $options);
     
-    // header('Content-Type: image/png');
-    // echo $res;
-
     // error_log(base64_encode($res));
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     // $mu_->post_blog_hatena('TEST', $description);
     $mu_->post_blog_wordpress('Batting Average', $description, true);
+    
+    header('Content-Type: image/png');
+    echo $res;    
 }
