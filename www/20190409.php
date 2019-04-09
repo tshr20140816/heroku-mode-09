@@ -64,10 +64,14 @@ function func_20190409($mu_)
                 CURLOPT_POST => true,
                 CURLOPT_BINARYTRANSFER => true,
                 CURLOPT_POSTFIELDS => $res,
+                CURLOPT_HEADER => true,
                ];
     $res = $mu_->get_contents($url, $options);
     
-    $json = json_decode($res);
+    $tmp = preg_split('/^\r\n/m', $res, 2);
+    
+    error_log($tmp[0]);
+    $json = json_decode($tmp[1]);
     error_log(print_r($json, true));
     $url = $json->output->url;
     
