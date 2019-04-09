@@ -361,7 +361,7 @@ __HEREDOC__;
         return $target_;
     }
 
-    public function post_blog_wordpress($title_, $description_ = null)
+    public function post_blog_wordpress($title_, $description_ = null, $is_only_ = false)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -444,8 +444,10 @@ __HEREDOC__;
         }
         */
 
-        $this->post_blog_hatena($title_, $description_);
-        $this->post_blog_livedoor($title_, $description_);
+        if ($is_only_ === false) {
+            $this->post_blog_hatena($title_, $description_);
+            $this->post_blog_livedoor($title_, $description_);
+        }
     }
 
     public function post_blog_fc2($title_, $description_ = null)
