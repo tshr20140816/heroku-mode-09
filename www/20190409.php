@@ -23,7 +23,7 @@ function func_20190409($mu_)
     $records = trim(strip_tags($match[1]));
     error_log($log_prefix . $records);
     
-    $rc = preg_match_all('/(.+?) .+? (.+?).+/', $records, $matches);
+    $rc = preg_match_all('/(.+?) .+? (.+?) .+/', $records, $matches);
     
     error_log(print_r($matches, true));
     
