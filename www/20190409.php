@@ -63,9 +63,14 @@ function func_20190409($mu_)
                 CURLOPT_POST => true,
                 CURLOPT_BINARYTRANSFER => true,
                 CURLOPT_POSTFIELDS => $res,
+                CURLOPT_HEADER => true,
                ];
     $res = $mu_->get_contents($url, $options);    
     
+    error_log($res);
+    $rc = preg_match('/Location: (.+)/', $res, $match);
+    
+    $res = $mu_->get_contents(trim($match[1]));
     header('Content-Type: image/png');
     echo $res;
     
