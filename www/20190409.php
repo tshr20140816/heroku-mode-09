@@ -67,7 +67,7 @@ function func_20190409($mu_)
                ];
     $res = $mu_->get_contents($url, $options);    
     
-    error_log($res);
+    error_log(print_r($json_decode($res), true));
     $rc = preg_match('/Location: (.+)/i', $res, $match);
     
     $res = $mu_->get_contents(trim($match[1]));
