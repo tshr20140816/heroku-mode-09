@@ -63,16 +63,17 @@ function func_20190409($mu_)
                 CURLOPT_POST => true,
                 CURLOPT_BINARYTRANSFER => true,
                 CURLOPT_POSTFIELDS => $res,
-                CURLOPT_HEADER => true,
                ];
     $res = $mu_->get_contents($url, $options);    
     
     error_log(print_r(json_decode($res), true));
+    /*
     $rc = preg_match('/Location: (.+)/i', $res, $match);
     
     $res = $mu_->get_contents(trim($match[1]));
     header('Content-Type: image/png');
     echo $res;
+    */
     
     // error_log(base64_encode($res));
     // $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
