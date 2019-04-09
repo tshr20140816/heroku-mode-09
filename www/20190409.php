@@ -52,7 +52,6 @@ function func_20190409($mu_)
                            'responsiveAnimationDuration' => 0,
                           ],
             ];
-    // $url = 'https://quickchart.io/chart?width=300&height=100&c=' . json_encode($data);
     $url = 'https://quickchart.io/chart?c=' . json_encode($data);
     $res = $mu_->get_contents($url);
     
@@ -71,17 +70,10 @@ function func_20190409($mu_)
     $url = $json->output->url;
     $res = $mu_->get_contents($url);
     
-    header('Content-Type: image/png');
-    echo $res;
-        
+    // header('Content-Type: image/png');
+    // echo $res;
+
     // error_log(base64_encode($res));
-    // $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
-    // $mu_->post_blog_hatena('TEST', $description);
-    
-    /*
-    header('Content-Type: image/png');
-    $im = imagecreatefrompng($url);
-    imagepng($im, null, 6);
-    imagedestroy($im);
-    */
+    $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
+    $mu_->post_blog_hatena('TEST', $description);
 }
