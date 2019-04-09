@@ -28,16 +28,19 @@ function func_20190409($mu_)
     error_log(print_r($matches, true));
     
     $record_count = count($matches[0]);
+    $labels = [];
+    $data = [];
     for ($i = 0; $i < $record_count; $i++) {
         error_log($matches[1][$record_count - $i - 1]);
         error_log($matches[2][$record_count - $i - 1]);
+        $labels[] = substr($matches[1][$record_count - $i - 1], 5);
+        $data[] = $matches[2][$record_count - $i - 1];
     }
     
-    /*
     $data = ['type' => 'line',
-             'data' => ['labels' => ['03/29', '03/30', '03/31'],
+             'data' => ['labels' => $labels,
                         'datasets' => [['label' => 'avg',
-                                        'data' => [500, 500, 545],
+                                        'data' => $data,
                                         'fill' => false,
                                        ],
                                       ],
@@ -46,5 +49,4 @@ function func_20190409($mu_)
     $url = 'https://quickchart.io/chart?width=300&height=100&c=' . json_encode($data);
     header('Content-Type: image/png');
     echo $mu_->get_contents($url);
-    */
 }
