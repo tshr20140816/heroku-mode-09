@@ -31,8 +31,7 @@ function func_20190409($mu_)
     $labels = [];
     $data = [];
     for ($i = 0; $i < $record_count; $i++) {
-        error_log($matches[1][$record_count - $i - 1]);
-        error_log($matches[2][$record_count - $i - 1]);
+        error_log($matches[1][$record_count - $i - 1] . ' ' . $matches[2][$record_count - $i - 1]);
         $labels[] = substr($matches[1][$record_count - $i - 1], 5);
         $data[] = $matches[2][$record_count - $i - 1] * 1000;
     }
@@ -58,7 +57,8 @@ function func_20190409($mu_)
     $res = $mu_->get_contents($url);
     
     $url = 'https://tinypng.com/web/api';
-    $options = [CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+    $options = [CURLOPT_POST => true,
+                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
                 CURLOPT_BINARYTRANSFER => true,
                 CURLOPT_POSTFIELDS => $res,
                ];
