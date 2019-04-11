@@ -28,8 +28,7 @@ function get_results_noma($mu_)
     $timestamp = strtotime('-1 day');
     $timestamp = strtotime('-2 day');
 
-    if (strpos($base_record, date('Y/m/d', $timestamp)) >= 0) {
-        error_log(strpos($base_record, date('Y/m/d', $timestamp)));
+    if (strpos($base_record, date('Y/m/d', $timestamp)) != false) {
         return;
     }
 
