@@ -28,12 +28,6 @@ function func_20190412($mu_, $file_name_blog_)
     $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
     $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
     
-    exec("gpg --batch --passphrase-fd 0 --symmetric ${file_name} <<< testpasswordabc99");
-    $res = file_get_contents($file_name . '.gpg');
-    error_log($log_prefix . strlen(base64_encode($res)));
-    
-    return;
-    
     // $res = bzcompress($data_, 9);
     exec("xz -9 ${file_name}");
     $res = file_get_contents($file_name . '.xz');
