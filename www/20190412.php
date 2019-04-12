@@ -28,7 +28,7 @@ function func_20190412($mu_, $file_name_blog_)
     $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
     $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
     
-    exec("gpg --batch --passphrase-fd 0 --symmetric ${file_name} <<< " . base64_encode($user_hidrive) . base64_encode($password_hidrive));
+    exec("gpg --batch --passphrase-fd 0 --symmetric ${file_name} <<< testpasswordabc99");
     $res = file_get_contents($file_name . '.gpg');
     error_log($log_prefix . strlen(base64_encode($res)));
     
