@@ -45,7 +45,7 @@ __HEREDOC__;
         CURLOPT_HTTPHEADER => ['Expect:',],
     ];
     
-    // $res = $mu_->get_contents($url, $options);
+    $res = $mu_->get_contents($url, $options);
     
-    // error_log($log_prefix . 'RESULT : ' . $res);
+    error_log($log_prefix . 'RESULT : ' . $res);
 }
