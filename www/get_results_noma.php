@@ -114,7 +114,7 @@ function get_results_noma($mu_)
         imagesavealpha($im2, true);
         imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
         @unlink('/tmp/average.png');
-        imagepng($im2, '/tmp/average.png');
+        imagepng($im2, '/tmp/average.png', 9);
         imagedestroy($im2);
         $res = file_get_contents('/tmp/average.png');
     }
