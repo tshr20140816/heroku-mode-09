@@ -66,7 +66,7 @@ function func_20190415($mu_)
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
     imagedestroy($im1);
     
-    imagepng($im2, '/tmp/average.png');
+    imagepng($im2, '/tmp/average.png', 9);
     imagedestroy($im2);
     
     $url = 'https://api.tinify.com/shrink';
