@@ -59,6 +59,7 @@ function func_20190415($mu_)
     */
     
     $im1 = imagecreatefromstring($res);
+    error_log(imagesx($im1) . ' ' . imagesy($im1));
     $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
     imagealphablending($im2, false);
     imagesavealpha($im2, true);
