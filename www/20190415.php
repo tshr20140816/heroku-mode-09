@@ -49,7 +49,7 @@ function func_20190415($mu_)
                            'responsiveAnimationDuration' => 0,
                           ],
             ];
-    $url = 'https://quickchart.io/chart?c=' . json_encode($data);
+    $url = 'https://quickchart.io/chart?width=1200&height=720&c=' . json_encode($data);
     $res = $mu_->get_contents($url);
 
     /*
