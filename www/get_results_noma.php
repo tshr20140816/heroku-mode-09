@@ -134,6 +134,7 @@ function get_results_noma($mu_)
 
     $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
     error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
+    $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
     $json = json_decode($tmp[1]);
     error_log($log_prefix . print_r($json, true));
 
