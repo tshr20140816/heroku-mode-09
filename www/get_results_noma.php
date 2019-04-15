@@ -67,7 +67,7 @@ function get_results_noma($mu_)
                     $tmp = date('Y/m/d', $timestamp) . ' ' . trim(preg_replace('/ +/', ' ', $tmp));
                     $description = $tmp . "\n" . $base_record;
                     error_log($log_prefix . $description);
-                    $mu_->post_blog_wordpress($title, $description);
+                    // $mu_->post_blog_wordpress($title, $description);
                     break 2;
                 }
             }
@@ -133,5 +133,5 @@ function get_results_noma($mu_)
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
     // error_log($log_prefix . $description);
-    $mu_->post_blog_hatena('Batting Average', $description);
+    // $mu_->post_blog_hatena('Batting Average', $description);
 }
