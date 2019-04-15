@@ -59,24 +59,22 @@ function func_20190415($mu_)
     */
     
     $im1 = imagecreatefromstring($res);
-    error_log(imagesx($im1) . ' ' . imagesy($im1));
+    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
     $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
     imagealphablending($im2, false);
     imagesavealpha($im2, true);
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
     imagedestroy($im1);
     
-    header('Content-Type: image/png');
-    imagepng($im2);
+    imagepng($im2, '/tmp/average.png');
     imagedestroy($im2);
-    return;
     
     $url = 'https://api.tinify.com/shrink';
     $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                 CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
                 CURLOPT_POST => true,
                 CURLOPT_BINARYTRANSFER => true,
-                CURLOPT_POSTFIELDS => $res,
+                CURLOPT_POSTFIELDS => file_get_contents('/tmp/average.png'),
                 CURLOPT_HEADER => true,
                ];
     $res = $mu_->get_contents($url, $options);
@@ -94,8 +92,11 @@ function func_20190415($mu_)
                ];
 
     $res = $mu_->get_contents($url, $options);
-    $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
+    
+    header('Content-Type: image/png');
+    echo $res;
+    // $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
     // error_log($log_prefix . $description);
-    $mu_->post_blog_hatena('Batting Average', $description);
+    // $mu_->post_blog_hatena('Batting Average', $description);
 }
