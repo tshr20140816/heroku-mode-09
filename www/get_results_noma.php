@@ -103,9 +103,23 @@ function get_results_noma($mu_)
                            'responsiveAnimationDuration' => 0,
                           ],
             ];
-    $url = 'https://quickchart.io/chart?c=' . json_encode($data);
+    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
     $res = $mu_->get_contents($url);
 
+    $im1 = imagecreatefromstring($res);
+    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
+    if (imagesx($im1) !== 600) {
+        $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
+        imagealphablending($im2, false);
+        imagesavealpha($im2, true);
+        imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
+        @unlink('/tmp/average.png');
+        imagepng($im2, '/tmp/average.png');
+        imagedestroy($im2);
+        $res = file_get_contents('/tmp/average.png');
+    }
+    imagedestroy($im1);
+    
     $url = 'https://api.tinify.com/shrink';
     $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                 CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
