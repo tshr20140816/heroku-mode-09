@@ -70,11 +70,6 @@ function func_20190415($mu_)
     imagedestroy($im2);
     
     $url = 'https://api.tinify.com/shrink';
-    $options = [CURLOPT_HEADER => true,
-               ];
-    $res = $mu_->get_contents($url, $options);
-    error_log($log_prefix . $res);
-    return;
     $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                 CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
                 CURLOPT_POST => true,
