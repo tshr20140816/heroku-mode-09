@@ -52,17 +52,20 @@ function func_20190415($mu_)
     $url = 'https://quickchart.io/chart?c=' . json_encode($data);
     $res = $mu_->get_contents($url);
 
+    /*
     header('Content-Type: image/png');
     echo $res;
     return;
+    */
     
     $im1 = imagecreatefromstring($res);
     $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
+    imagealphablending($im2, false);
+    imagesavealpha($im2, true);
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
     imagedestroy($im1);
     
     header('Content-Type: image/png');
-    // echo $res;
     imagepng($im2);
     imagedestroy($im2);
     return;
