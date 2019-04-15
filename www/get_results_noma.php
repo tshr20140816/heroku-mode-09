@@ -120,7 +120,7 @@ function get_results_noma($mu_)
     $tmp = preg_split('/^\r\n/m', $res, 2);
 
     $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
-    error_log($log_prefix . 'Compression count :' . $match[1]);
+    error_log($log_prefix . 'Compression count : ' . $match[1]);
     $json = json_decode($tmp[1]);
     error_log($log_prefix . print_r($json, true));
 
