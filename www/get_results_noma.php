@@ -86,7 +86,7 @@ function get_results_noma($mu_)
         $labels[] = substr($matches[1][$record_count - $i - 1], 5);
         $data[] = $matches[2][$record_count - $i - 1] * 1000;
     }
-    
+
     $data = ['type' => 'line',
              'data' => ['labels' => $labels,
                         'datasets' => [['data' => $data,
@@ -119,7 +119,7 @@ function get_results_noma($mu_)
         $res = file_get_contents('/tmp/average.png');
     }
     imagedestroy($im1);
-    
+
     $url = 'https://api.tinify.com/shrink';
     $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                 CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
