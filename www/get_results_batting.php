@@ -23,8 +23,8 @@ function get_results_noma($mu_)
     $base_record = trim(strip_tags($match[1]));
     error_log($log_prefix . $base_record);
 
-    $name = '野間 峻祥';
-    $title = 'NOMA Takayoshi';
+    $name = getenv('TARGET_NAME');
+    $title = getenv('TARGET_NAME_TITLE');
     $timestamp = strtotime('-13 hours');
 
     if (strpos($base_record, date('Y/m/d', $timestamp)) != false) {
