@@ -88,6 +88,8 @@ function get_results_noma($mu_)
         $data[] = $matches[2][$record_count - $i - 1] * 1000;
     }
 
+    return;
+    
     $data = ['type' => 'line',
              'data' => ['labels' => $labels,
                         'datasets' => [['data' => $data,
