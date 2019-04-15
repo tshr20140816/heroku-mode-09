@@ -26,7 +26,7 @@ function get_results_noma($mu_)
     $name = '野間 峻祥';
     $title = 'NOMA Takayoshi';
     $timestamp = strtotime('-1 day');
-    $timestamp = strtotime('-2 day');
+    $timestamp = mktime(0, 0, 0, 9, 4, 2019);
 
     if (strpos($base_record, date('Y/m/d', $timestamp)) != false) {
         return;
@@ -67,7 +67,7 @@ function get_results_noma($mu_)
                     $tmp = date('Y/m/d', $timestamp) . ' ' . trim(preg_replace('/ +/', ' ', $tmp));
                     $description = $tmp . "\n" . $base_record;
                     error_log($log_prefix . $description);
-                    $mu_->post_blog_wordpress($title, $description);
+                    // $mu_->post_blog_wordpress($title, $description);
                     break 2;
                 }
             }
@@ -132,5 +132,6 @@ function get_results_noma($mu_)
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
-    $mu_->post_blog_hatena('Batting Average', $description);
+    // error_log($log_prefix . $description);
+    // $mu_->post_blog_hatena('Batting Average', $description);
 }
