@@ -41,10 +41,11 @@ function get_results_noma($mu_)
     $pattern .= '<table border="0" cellspacing="0" cellpadding="0" class="score">.+?';
     $pattern .= '<a href="https:\/\/baseball.yahoo.co.jp\/npb\/game\/(\d+)\/".+?<\/table>.+?<\/table>';
     $rc = preg_match_all('/' . $pattern . '/s', $res, $matches, PREG_SET_ORDER);
-
+    error_log(print_r($matches, true));
+    
     $url = '';
     foreach ($matches as $match) {
-        if (strpos($match[0], '広島') >= 0) {
+        if (strpos($match[0], '広島') != false) {
             $url = 'https://baseball.yahoo.co.jp/npb/game/' . $match[1] . '/stats';
             break;
         }
