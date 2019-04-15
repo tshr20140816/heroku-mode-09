@@ -41,8 +41,7 @@ function get_results_noma($mu_)
     $pattern .= '<table border="0" cellspacing="0" cellpadding="0" class="score">.+?';
     $pattern .= '<a href="https:\/\/baseball.yahoo.co.jp\/npb\/game\/(\d+)\/".+?<\/table>.+?<\/table>';
     $rc = preg_match_all('/' . $pattern . '/s', $res, $matches, PREG_SET_ORDER);
-    // error_log(print_r($matches, true));
-    
+
     $url = '';
     foreach ($matches as $match) {
         if (strpos($match[0], '広島') != false) {
@@ -68,7 +67,7 @@ function get_results_noma($mu_)
                     $tmp = date('Y/m/d', $timestamp) . ' ' . trim(preg_replace('/ +/', ' ', $tmp));
                     $description = $tmp . "\n" . $base_record;
                     error_log($log_prefix . $description);
-                    // $mu_->post_blog_wordpress($title, $description);
+                    $mu_->post_blog_wordpress($title, $description);
                     break 2;
                 }
             }
@@ -88,8 +87,6 @@ function get_results_noma($mu_)
         $labels[] = substr($matches[1][$record_count - $i - 1], 5);
         $data[] = $matches[2][$record_count - $i - 1] * 1000;
     }
-
-    return;
     
     $data = ['type' => 'line',
              'data' => ['labels' => $labels,
@@ -136,5 +133,5 @@ function get_results_noma($mu_)
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
     // error_log($log_prefix . $description);
-    // $mu_->post_blog_hatena('Batting Average', $description);
+    $mu_->post_blog_hatena('Batting Average', $description);
 }
