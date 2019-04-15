@@ -25,8 +25,7 @@ function get_results_noma($mu_)
 
     $name = '野間 峻祥';
     $title = 'NOMA Takayoshi';
-    $timestamp = strtotime('-1 day');
-    $timestamp = mktime(0, 0, 0, 4, 13, 2019);
+    $timestamp = strtotime('-13 hours');
 
     if (strpos($base_record, date('Y/m/d', $timestamp)) != false) {
         return;
