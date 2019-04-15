@@ -23,34 +23,7 @@ function func_20190415($mu_)
     $base_record = trim(strip_tags($match[1]));
     error_log($log_prefix . $base_record);
 
-    return;
-    
-    $res = $mu_->get_contents($url);
-
-    $description = '';
-    foreach (explode('</table>', $res) as $data) {
-        if (strpos($data, $name) != false) {
-            $rc = preg_match_all('/<tr.*?>(.+?)<\/tr>/s', $data, $matches);
-            foreach ($matches[1] as $item) {
-                if (strpos($item, $name) != false) {
-                    $tmp = str_replace("\n", '', $item);
-                    $tmp = preg_replace('/<.+?>/s', ' ', $tmp);
-                    $tmp = str_replace($name, '', $tmp);
-                    $tmp = date('Y/m/d', $timestamp) . ' ' . trim(preg_replace('/ +/', ' ', $tmp));
-                    $description = $tmp . "\n" . $base_record;
-                    error_log($log_prefix . $description);
-                    $mu_->post_blog_wordpress($title, $description);
-                    break 2;
-                }
-            }
-        }
-    }
-
-    if ($description === '' ) {
-        return;
-    }
-
-    $rc = preg_match_all('/(.+?) .+? (.+?) .+/', $description, $matches);
+    $rc = preg_match_all('/(.+?) .+? (.+?) .+/', $base_record, $matches);
     $record_count = count($matches[0]);
     $labels = [];
     $data = [];
@@ -79,6 +52,10 @@ function func_20190415($mu_)
     $url = 'https://quickchart.io/chart?c=' . json_encode($data);
     $res = $mu_->get_contents($url);
 
+    header('Content-Type: image/png');
+    echo $res;
+    return;
+    
     $url = 'https://api.tinify.com/shrink';
     $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                 CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
