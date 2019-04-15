@@ -32,6 +32,7 @@ __HEREDOC__;
     
     error_log($logprefix . strlen($xml));
     error_log($logprefix . strlen(gzencode($xml, 9)));
+    $xml_compress = gzencode($xml, 9);
     
     $url = "https://blog.hatena.ne.jp/${hatena_id}/${hatena_blog_id}/atom/entry";
     
@@ -39,10 +40,13 @@ __HEREDOC__;
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
         CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => $xml,
+        CURLOPT_POSTFIELDS => $xml_compress,
         CURLOPT_BINARYTRANSFER => true,
         CURLOPT_HEADER => true,
-        CURLOPT_HTTPHEADER => ['Expect:',],
+        CURLOPT_HTTPHEADER => ['Expect:',
+                               'Content-Encoding: gzip',
+                               'Content-Length: ' . strlen($xml_compress),
+                              ],
     ];
     
     $res = $mu_->get_contents($url, $options);
