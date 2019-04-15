@@ -40,13 +40,13 @@ __HEREDOC__;
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
         CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => $xml_compress,
         CURLOPT_BINARYTRANSFER => true,
         CURLOPT_HEADER => true,
         CURLOPT_HTTPHEADER => ['Expect:',
                                'Content-Encoding: gzip',
                                'Content-Length: ' . strlen($xml_compress),
                               ],
+        CURLOPT_POSTFIELDS => $xml_compress,
     ];
     
     $res = $mu_->get_contents($url, $options);
