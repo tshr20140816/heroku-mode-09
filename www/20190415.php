@@ -7,11 +7,11 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-get_results_noma($mu);
+func_20190415($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function get_results_noma($mu_)
+function func_20190415($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -23,35 +23,8 @@ function get_results_noma($mu_)
     $base_record = trim(strip_tags($match[1]));
     error_log($log_prefix . $base_record);
 
-    $name = '野間 峻祥';
-    $title = 'NOMA Takayoshi';
-    $timestamp = strtotime('-13 hours');
-
-    if (strpos($base_record, date('Y/m/d', $timestamp)) != false) {
-        return;
-    }
-
-    $ymd = date('Ymd', $timestamp);
-    $url = 'https://baseball.yahoo.co.jp/npb/schedule/?date=' . $ymd;
-
-    $res = $mu_->get_contents($url);
-
-    $pattern = '<table border="0" cellspacing="0" cellpadding="0" class="teams">.+?';
-    $pattern .= '<table border="0" cellspacing="0" cellpadding="0" class="score">.+?';
-    $pattern .= '<a href="https:\/\/baseball.yahoo.co.jp\/npb\/game\/(\d+)\/".+?<\/table>.+?<\/table>';
-    $rc = preg_match_all('/' . $pattern . '/s', $res, $matches, PREG_SET_ORDER);
-
-    $url = '';
-    foreach ($matches as $match) {
-        if (strpos($match[0], '広島') != false) {
-            $url = 'https://baseball.yahoo.co.jp/npb/game/' . $match[1] . '/stats';
-            break;
-        }
-    }
-
-    if ($url == '') {
-        return;
-    }
+    return;
+    
     $res = $mu_->get_contents($url);
 
     $description = '';
