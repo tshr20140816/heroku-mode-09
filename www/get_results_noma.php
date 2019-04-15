@@ -41,7 +41,7 @@ function get_results_noma($mu_)
     $pattern .= '<table border="0" cellspacing="0" cellpadding="0" class="score">.+?';
     $pattern .= '<a href="https:\/\/baseball.yahoo.co.jp\/npb\/game\/(\d+)\/".+?<\/table>.+?<\/table>';
     $rc = preg_match_all('/' . $pattern . '/s', $res, $matches, PREG_SET_ORDER);
-    error_log(print_r($matches, true));
+    // error_log(print_r($matches, true));
     
     $url = '';
     foreach ($matches as $match) {
@@ -58,10 +58,10 @@ function get_results_noma($mu_)
 
     $description = '';
     foreach (explode('</table>', $res) as $data) {
-        if (strpos($data, $name) >= 0) {
+        if (strpos($data, $name) != false) {
             $rc = preg_match_all('/<tr.*?>(.+?)<\/tr>/s', $data, $matches);
             foreach ($matches[1] as $item) {
-                if (strpos($item, $name) >= 0) {
+                if (strpos($item, $name) != false) {
                     $tmp = str_replace("\n", '', $item);
                     $tmp = preg_replace('/<.+?>/s', ' ', $tmp);
                     $tmp = str_replace($name, '', $tmp);
