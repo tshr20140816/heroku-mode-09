@@ -49,7 +49,7 @@ function func_20190415($mu_)
                            'responsiveAnimationDuration' => 0,
                           ],
             ];
-    $url = 'https://quickchart.io/chart?width=1200&height=720&c=' . json_encode($data);
+    $url = 'https://quickchart.io/chart?width=900&height=540&c=' . json_encode($data);
     $res = $mu_->get_contents($url);
 
     /*
@@ -60,10 +60,10 @@ function func_20190415($mu_)
     
     $im1 = imagecreatefromstring($res);
     error_log(imagesx($im1) . ' ' . imagesy($im1));
-    $im2 = imagecreatetruecolor(imagesx($im1) / 4, imagesy($im1) / 4);
+    $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
     imagealphablending($im2, false);
     imagesavealpha($im2, true);
-    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 4, imagesy($im1) / 4, imagesx($im1), imagesy($im1));
+    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
     imagedestroy($im1);
     
     header('Content-Type: image/png');
