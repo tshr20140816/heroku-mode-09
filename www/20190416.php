@@ -15,17 +15,22 @@ function func_20190416($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $data2 = [550, 538, 526, 526, 504, 492, 480, 480, 444, 433, 423, 412, 402, 390];
+    $dy = ($data2[0] - end($data2)) / count($data2);
     for ($i = 0; $i < (int)date('t'); $i++) {
         $labels[] = $i + 1;
         $data[] = ((int)date('t') - $i) * 24;
+        $data3[] = (int)($data2[0] - $dy * $i);
     }
-    $data2 = [550, 538, 526, 526, 504, 492, 480, 480, 444, 433, 423, 412, 402, 390];
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
                               'datasets' => [['data' => $data,
                                               'fill' => false,
                                              ],
                                              ['data' => $data2,
+                                              'fill' => false,
+                                             ],
+                                             ['data' => $data3,
                                               'fill' => false,
                                              ],
                                             ],
