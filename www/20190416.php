@@ -56,6 +56,7 @@ function func_20190416($mu_)
     imagealphablending($im2, false);
     imagesavealpha($im2, true);
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 4, imagesy($im1) / 4, imagesx($im1), imagesy($im1));
+    header('Content-Type: image/png');
     imagepng($im2, null, 9);
     imagedestroy($im2);
 }
