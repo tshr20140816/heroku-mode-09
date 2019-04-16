@@ -38,9 +38,9 @@ function func_20190416($mu_)
                                             ],
                                  'responsiveAnimationDuration' => 0,
                                  'plugins' => ['datalabels' => ['display' => true,
+                                                                'fontSize' => 6,
                                                                ],
                                               ],
-                                 'defaultFontSize' => 6,
                                 ],
                   ];
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($chart_data);
