@@ -38,6 +38,7 @@ function func_20190416($mu_)
                                             ],
                                  'responsiveAnimationDuration' => 0,
                                  'plugins' => ['datalabels' => ['display' => true,
+                                                                'align' => 'bottom',
                                                                ],
                                               ],
                                 ],
