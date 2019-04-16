@@ -19,9 +19,13 @@ function func_20190416($mu_)
         $labels[] = $i + 1;
         $data[] = ((int)date('t') - $i) * 24;
     }
+    $data2 = [550, 538, 526, 526, 504, 492, 480, 480, 444, 433, 423, 412, 402, 390];
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
                               'datasets' => [['data' => $data,
+                                              'fill' => false,
+                                             ],
+                                             ['data' => $data2,
                                               'fill' => false,
                                              ],
                                             ],
