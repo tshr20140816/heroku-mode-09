@@ -33,7 +33,7 @@ function func_20190416($mu_)
                                               'fill' => false,
                                               'pointStyle' => 'cross',
                                               'borderColor' => 'green',
-                                              'borderWidth' => 2,
+                                              'borderWidth' => 4,
                                              ],
                                              ['data' => $data3,
                                               'fill' => false,
