@@ -42,10 +42,12 @@ function func_20190416($mu_)
                                  'hover' => ['animationDuration' => 0,
                                             ],
                                  'responsiveAnimationDuration' => 0,
+                                 /*
                                  'plugins' => ['datalabels' => ['display' => true,
                                                                 'align' => 'bottom',
                                                                ],
                                               ],
+                                 */
                                 ],
                   ];
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
