@@ -37,6 +37,9 @@ function func_20190416($mu_)
                                  'hover' => ['animationDuration' => 0,
                                             ],
                                  'responsiveAnimationDuration' => 0,
+                                 'plugins' => ['datalabels' => ['display' => true,
+                                                               ],
+                                              ],
                                 ],
                   ];
     $url = 'https://quickchart.io/chart?c=' . json_encode($chart_data);
