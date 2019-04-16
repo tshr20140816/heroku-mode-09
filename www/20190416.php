@@ -21,7 +21,7 @@ function func_20190416($mu_)
     }
     $data2 = [550, 538, 526, 526, 504, 492, 480, 480, 444, 433, 423, 412, 402, 390];
     $chart_data = ['type' => 'line',
-                   'defaultFontSize' => 9,
+                   'defaultFontSize' => 6,
                    'data' => ['labels' => $labels,
                               'datasets' => [['data' => $data,
                                               'fill' => false,
