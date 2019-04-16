@@ -38,12 +38,11 @@ function func_20190416($mu_)
                                             ],
                                  'responsiveAnimationDuration' => 0,
                                  'plugins' => ['datalabels' => ['display' => true,
-                                                                'fontSize' => 6,
                                                                ],
                                               ],
                                 ],
                   ];
-    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($chart_data);
+    $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
     $res = $mu_->get_contents($url);
     
     header('Content-Type: image/png');
