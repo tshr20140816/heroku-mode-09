@@ -32,6 +32,7 @@ function func_20190416($mu_)
                                              ],
                                              ['data' => $data3,
                                               'fill' => false,
+                                              'borderDash' => [5, 5],
                                              ],
                                             ],
                              ],
