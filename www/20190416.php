@@ -46,6 +46,16 @@ function func_20190416($mu_)
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
     $res = $mu_->get_contents($url);
     
+    /*
     header('Content-Type: image/png');
     echo $res;
+    */
+    $im1 = imagecreatefromstring($res);
+    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
+    $im2 = imagecreatetruecolor(imagesx($im1) / 4, imagesy($im1) / 4);
+    imagealphablending($im2, false);
+    imagesavealpha($im2, true);
+    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 4, imagesy($im1) / 4, imagesx($im1), imagesy($im1));
+    imagepng($im2, null, 9);
+    imagedestroy($im2);
 }
