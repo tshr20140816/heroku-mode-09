@@ -34,7 +34,7 @@ function func_20190416($mu_)
                                               'fill' => false,
                                               'pointStyle' => 'line',
                                               // 'borderColor' => '#ff0000',
-                                              'borderColor' => 'rgba(255, 0, 0, 0.9)',
+                                              // 'borderColor' => 'rgba(255, 0, 0, 1)',
                                              ],
                                             ],
                              ],
