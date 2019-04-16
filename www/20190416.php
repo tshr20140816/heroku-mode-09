@@ -15,7 +15,7 @@ function func_20190416($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    for ($i = 0; $i < 0; (int)date('t')) {
+    for ($i = 0; $i < (int)date('t'); $i++) {
         $labels[] = $i + 1;
         $data[] = ((int)date('t') - $i) * 24;
     }
