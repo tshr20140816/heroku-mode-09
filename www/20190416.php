@@ -77,7 +77,7 @@ function func_20190416($mu_)
     imagealphablending($im2, false);
     imagesavealpha($im2, true);
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
-    header('Content-Type: image/png');
+    // header('Content-Type: image/png');
     // imagepng($im2, null, 9);
     $file = tempnam("/tmp", md5(microtime(true)));
     imagepng($im2, $file, 9);
