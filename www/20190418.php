@@ -25,13 +25,14 @@ function func_20190418($mu_, $file_name_blog_)
     $urls = [];
     foreach ($matches[1] as $item) {
         $url = 'https://' . $host_name . $item;
-        $urls[$url] = null;
-        // $res = $mu_->get_contents($url);
+        // $urls[$url] = null;
+        $res = $mu_->get_contents($url);
         // error_log($res);
-        // $rc = substr_count($res, '<item>');
-        // error_log($rc . ' ' . $url);
+        $rc = substr_count($res, '<item>');
+        error_log($rc . ' ' . $url);
     }
     
+    /*
     $multi_options = [
         CURLMOPT_PIPELINING => 3,
         CURLMOPT_MAX_HOST_CONNECTIONS => 1,
@@ -50,5 +51,6 @@ function func_20190418($mu_, $file_name_blog_)
             break;
         }
     }
+    */
     
 }
