@@ -33,8 +33,8 @@ function func_20190418($mu_, $file_name_blog_)
     }
     
     $multi_options = [
-        CURLMOPT_PIPELINING => 3,
-        CURLMOPT_MAX_HOST_CONNECTIONS => 4,
+        CURLMOPT_PIPELINING => 0,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 1,
     ];
     for ($i = 0; $i < 10; $i++) {
         $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
