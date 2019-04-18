@@ -595,14 +595,14 @@ function get_task_farm($mu_, $file_name_blog_)
             if (mb_strpos($item, '広島') === false) {
                 continue;
             }
-            $rc = preg_match('/<.+?>(\d+)\/(\d+).+?>' . str_repeat('.*?<.+?>(.+?)<.+?>', 5) . '/s', $item, $match);
+            $rc = preg_match('/<td.+?>(\d+)\/(\d+).+?<td>(.+?)<.+?">(.+?)<.+?">(.+?)<.+?<td>(.+?)</s', $item, $match);
 
             $timestamp = strtotime($yyyy . '/' . $match[1] . '/' . $match[2]);
             if ($timestamp < time()) {
                 continue;
             }
 
-            $title = $match[1] . '/' . $match[2] . ' ' . $match[3] . ' ファーム中継 ' . $match[4] . ' v ' . $match[6] . ' ' . $match[7];
+            $title = $match[1] . '/' . $match[2] . ' ' . $match[3] . ' ファーム中継 ' . $match[4] . ' v ' . $match[5] . ' ' . $match[6];
             $hash = date('Ymd', $timestamp) . hash('sha512', $title);
 
             $list_add_task[$hash] = '{"title":"' . $title
