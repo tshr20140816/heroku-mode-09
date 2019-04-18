@@ -15,10 +15,12 @@ function func_20190418($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    /*
     $folder_id_private = $mu_->get_folder_id('PRIVATE');
     $list_context_id = $mu_->get_contexts();
     $list_add_task = [];
-
+    */
+    
     $yyyy = date('Y');
     $ymd = date('Ymd', strtotime('+9 hours'));
     for ($i = 3; $i < 10; $i++) {
@@ -38,6 +40,7 @@ function func_20190418($mu_, $file_name_blog_)
                 continue;
             }
 
+            error_log(print_r($match, true));
             $title = $match[1] . '/' . $match[2] . ' ' . $match[3] . ' ファーム中継 ' . $match[4] . ' v ' . $match[6] . ' ' . $match[7];
             $hash = date('Ymd', $timestamp) . hash('sha512', $title);
 
