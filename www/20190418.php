@@ -42,7 +42,7 @@ function func_20190418($mu_, $file_name_blog_)
             if (strlen($content) < 10) {
                 continue;
             }
-            $rc = substr_count($res, '<item>');
+            $rc = substr_count($content, '<item>');
             error_log($rc . ' ' .$url);
             unset($urls[$url]);
         }
