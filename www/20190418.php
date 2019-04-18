@@ -20,7 +20,7 @@ function func_20190418($mu_, $file_name_blog_)
     
     // error_log($res);
     $rc = preg_match_all('/<a class="title" href="(.+?)">/s', $res, $matches);
-    // error_log(print_r($matches, true));
+    error_log(print_r($matches, true));
     
     error_log(parse_url($url, PHP_URL_HOST));
 }
