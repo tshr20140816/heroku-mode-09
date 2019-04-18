@@ -16,11 +16,15 @@ function func_20190418($mu_, $file_name_blog_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
     $url = getenv('TEST_URL_01');
+    $host_name = parse_url($url, PHP_URL_HOST);
     $res = $mu_->get_contents($url, null, true);
     
     // error_log($res);
     $rc = preg_match_all('/<a class="title" href="(.+?)">/s', $res, $matches);
-    error_log(print_r($matches, true));
-    
-    error_log(parse_url($url, PHP_URL_HOST));
+    // error_log(print_r($matches, true));
+    foreach ($matches[1] as $item) {
+        $res = $mu_->get_contents('https://' . $host_name . $item);
+        error_log($res);
+        break;
+    }
 }
