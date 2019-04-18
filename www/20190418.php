@@ -27,6 +27,7 @@ function func_20190418($mu_, $file_name_blog_)
             if (mb_strpos($item, '広島') === false) {
                 continue;
             }
+            error_log($item);
             $rc = preg_match('/<td.+?>(\d+)\/(\d+).+?><td>(.+?)<.+?">(.+)<.+?">(.+?)<.+?<td>(.+?)</s', $item, $match);
             error_log(print_r($match, true));
 
