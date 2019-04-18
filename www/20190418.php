@@ -27,6 +27,6 @@ function func_20190418($mu_, $file_name_blog_)
         $res = $mu_->get_contents($url);
         // error_log($res);
         $rc = substr_count($res, '<item>');
-        error_log($url . ' ' . $rc);
+        error_log($rc . ' ' . $url);
     }
 }
