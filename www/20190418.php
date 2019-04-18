@@ -18,5 +18,7 @@ function func_20190418($mu_, $file_name_blog_)
     $url = getenv('TEST_URL_01');
     $res = $mu_->get_contents($url, null, true);
     
-    error_log($res);
+    // error_log($res);
+    $rc = preg_match_all('/<a class="title" href="(.+?)">/s', $res, $matches);
+    error_log(print_r($matches, true));
 }
