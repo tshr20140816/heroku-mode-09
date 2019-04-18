@@ -23,8 +23,10 @@ function func_20190418($mu_, $file_name_blog_)
     $rc = preg_match_all('/<a class="title" href="(.+?)">/s', $res, $matches);
     // error_log(print_r($matches, true));
     foreach ($matches[1] as $item) {
-        $res = $mu_->get_contents('https://' . $host_name . $item);
-        error_log($res);
-        break;
+        $url = 'https://' . $host_name . $item;
+        $res = $mu_->get_contents($url);
+        // error_log($res);
+        $rc = substr_count($res, '<item>');
+        error_log($url . ' ' . $rc);
     }
 }
