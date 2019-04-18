@@ -36,5 +36,19 @@ function func_20190418($mu_, $file_name_blog_)
         CURLMOPT_PIPELINING => 3,
         CURLMOPT_MAX_HOST_CONNECTIONS => 1,
     ];
-    $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
+    for ($i = 0; $i < 10; $i++) {
+        $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
+        foreach ($list_contents as $url => $content) {
+            if (strlen($content) < 10) {
+                continue;
+            }
+            $rc = substr_count($res, '<item>');
+            error_log($rc . ' ' .$url);
+            unset($urls[$url]);
+        }
+        if (count($urls) === 0) {
+            break;
+        }
+    }
+    
 }
