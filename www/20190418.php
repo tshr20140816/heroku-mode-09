@@ -14,12 +14,6 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 function func_20190418($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-
-    /*
-    $folder_id_private = $mu_->get_folder_id('PRIVATE');
-    $list_context_id = $mu_->get_contexts();
-    $list_add_task = [];
-    */
     
     $yyyy = date('Y');
     $ymd = date('Ymd', strtotime('+9 hours'));
@@ -33,7 +27,6 @@ function func_20190418($mu_, $file_name_blog_)
             if (mb_strpos($item, '広島') === false) {
                 continue;
             }
-            $rc = preg_match('/<td.+?>(\d+)\/(\d+).+?><td>(.+?)<.+?">(.+)<.+?">(.+?)<.+?<td>(.+?)</s', $item, $match);
 
             $timestamp = strtotime($yyyy . '/' . $match[1] . '/' . $match[2]);
             if ($timestamp < time()) {
