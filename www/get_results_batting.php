@@ -16,7 +16,8 @@ function get_results_noma($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
-    $url = "http://blog.livedoor.jp/${livedoor_id}/search?q=NOMA+Takayoshi+" . date('Y');
+    $title = getenv('TARGET_NAME_TITLE');
+    $url = "http://blog.livedoor.jp/${livedoor_id}/search?q=" . str_replace(' ', '+', $title) . '+' . date('Y');
     $res = $mu_->get_contents($url);
 
     $rc = preg_match('/<div class="article-body-inner">(.+?)<\/div>/s', $res, $match);
@@ -24,8 +25,8 @@ function get_results_noma($mu_)
     error_log($log_prefix . $base_record);
 
     $name = getenv('TARGET_NAME');
-    $title = getenv('TARGET_NAME_TITLE');
     $timestamp = strtotime('-13 hours');
+    $timestamp = mktime(0, 0, 0, 4, 15, 2019);
 
     if (strpos($base_record, date('Y/m/d', $timestamp)) != false) {
         return;
