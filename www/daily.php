@@ -614,7 +614,7 @@ function get_task_farm($mu_, $file_name_blog_)
     $count_task = count($list_add_task);
 
     file_put_contents($file_name_blog_, "Farm Task Add : ${count_task}\n", FILE_APPEND);
-    error_log($log_prefix . 'Tasks Firm : ' . print_r($list_add_task, true));
+    error_log($log_prefix . 'Tasks Farm : ' . print_r($list_add_task, true));
     return $list_add_task;
 }
 
