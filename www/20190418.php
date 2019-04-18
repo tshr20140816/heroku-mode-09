@@ -28,13 +28,13 @@ function func_20190418($mu_, $file_name_blog_)
                 continue;
             }
             $rc = preg_match('/<td.+?>(\d+)\/(\d+).+?><td>(.+?)<.+?">(.+)<.+?">(.+?)<.+?<td>(.+?)</s', $item, $match);
+            error_log(print_r($match, true));
 
             $timestamp = strtotime($yyyy . '/' . $match[1] . '/' . $match[2]);
             if ($timestamp < time()) {
                 continue;
             }
 
-            error_log(print_r($match, true));
             $title = $match[1] . '/' . $match[2] . ' ' . $match[3] . ' ファーム中継 ' . $match[4] . ' v ' . $match[5] . ' ' . $match[6];
             $hash = date('Ymd', $timestamp) . hash('sha512', $title);
 
