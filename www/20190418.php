@@ -28,7 +28,7 @@ function func_20190418($mu_, $file_name_blog_)
                 continue;
             }
             error_log($item);
-            $rc = preg_match('/<td.+?>(\d+)\/(\d+).+?><td>(.+?)<.+?">(.+)<.+?">(.+?)<.+?<td>(.+?)</s', $item, $match);
+            $rc = preg_match('/<td.+?>(\d+)\/(\d+).+?<td>(.+?)<.+?">(.+)<.+?">(.+?)<.+?<td>(.+?)</s', $item, $match);
             error_log(print_r($match, true));
 
             $timestamp = strtotime($yyyy . '/' . $match[1] . '/' . $match[2]);
