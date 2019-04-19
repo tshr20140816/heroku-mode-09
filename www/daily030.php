@@ -47,9 +47,9 @@ __HEREDOC__;
 
 if (count($urls) != 0) {
     $description = htmlspecialchars(nl2br(implode("\n", $urls)));
-    $guid = hash('sha256', $description);
-    $link = getenv('TEST_URL_01');
     $title = date('Y/m/d H:i:s', strtotime('+9 hours'));
+    $guid = hash('sha256', $title . $description);
+    $link = getenv('TEST_URL_01');
     $xml_text = str_replace('__DESCRIPTION__', $description, $xml_text);
     $xml_text = str_replace('__GUID__', $guid, $xml_text);
     $xml_text = str_replace('__LINK__', $link, $xml_text);
