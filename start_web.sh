@@ -42,6 +42,7 @@ dig -t txt _netblocks.google.com | grep ^[^\;] > /tmp/_netblocks.google.com.txt
 
 pushd www
 mv ical.php ${ICS_ADDRESS}.php
+mv rss.php ${RSS_ADDRESS}.php
 popd
 
 set +x
