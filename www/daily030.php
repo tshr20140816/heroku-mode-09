@@ -59,7 +59,7 @@ if (count($urls) != 0) {
 error_log(print_r($urls, true));
 error_log($xml_text);
 
-$pdo = $mu_->get_pdo();
+$pdo = $mu->get_pdo();
 
 $sql = 'DELETE FROM t_rss WHERE rss_id = 1';
 $statement = $pdo->prepare($sql);
