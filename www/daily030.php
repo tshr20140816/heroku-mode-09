@@ -26,6 +26,24 @@ foreach ($matches[1] as $item) {
     }
 }
 
+$xml_text = <<< __HEREDOC__
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>quota</title>
+    <link>__LINK_HEADER__</link>
+    <description>none</description>
+    <language>ja</language>
+    <item>
+       <guid isPermaLink="false">__GUID__</guid>
+       <pubDate>__PUBDATE__</pubDate>
+       <title>__TITLE__</title>
+       <link>__LINK__</link><description>__DESCRIPTION__</description>
+    </item>
+  </channel>
+</rss>
+__HEREDOC__;
+
 error_log(print_r($urls, true));
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
