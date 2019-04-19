@@ -30,20 +30,33 @@ $xml_text = <<< __HEREDOC__
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>quota</title>
-    <link>__LINK_HEADER__</link>
+    <title>feed43</title>
+    <link>__LINK__</link>
     <description>none</description>
     <language>ja</language>
     <item>
        <guid isPermaLink="false">__GUID__</guid>
-       <pubDate>__PUBDATE__</pubDate>
+       <pubDate/>
        <title>__TITLE__</title>
-       <link>__LINK__</link><description>__DESCRIPTION__</description>
+       <link>__LINK__</link>
+       <description>__DESCRIPTION__</description>
     </item>
   </channel>
 </rss>
 __HEREDOC__;
 
+if (count($urls) != 0) {
+    $description = htmlspecialchars(nl2br(implode("\n", $urls)));
+    $guid = hash('sha256', $description);
+    $link = getenv('TEST_URL_01');
+    $title = date('Y/m/d H:i:s', strtotime('+9 hours'));
+    $xml_text = str_replace('__DESCRIPTION__', $description, $xml_text);
+    $xml_text = str_replace('__GUID__', $guid, $xml_text);
+    $xml_text = str_replace('__LINK__', $link, $xml_text);
+    $xml_text = str_replace('__TITLE__', $title, $xml_text);
+}
+
 error_log(print_r($urls, true));
+error_log($xml_text);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
