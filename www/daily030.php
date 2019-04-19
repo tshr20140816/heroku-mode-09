@@ -9,7 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$url = getenv('TEST_URL_01');
+$url = getenv('FEED43_URL');
 $host_name = parse_url($url, PHP_URL_HOST);
 $res = $mu->get_contents($url, null, true);
 
@@ -49,7 +49,7 @@ if (count($urls) != 0) {
     $description = htmlspecialchars(nl2br(implode("\n", $urls)));
     $title = date('Y/m/d H:i:s', strtotime('+9 hours'));
     $guid = hash('sha256', $title . $description);
-    $link = getenv('TEST_URL_01');
+    $link = getenv('FEED43_URL');
     $xml_text = str_replace('__DESCRIPTION__', $description, $xml_text);
     $xml_text = str_replace('__GUID__', $guid, $xml_text);
     $xml_text = str_replace('__LINK__', $link, $xml_text);
@@ -58,5 +58,19 @@ if (count($urls) != 0) {
 
 error_log(print_r($urls, true));
 error_log($xml_text);
+
+$pdo = $mu_->get_pdo();
+
+$sql = 'DELETE FROM t_rss WHERE rss_id = 1';
+$statement = $pdo->prepare($sql);
+$rc = $statement->execute();
+error_log($pid . ' DELETE $rc : ' . $rc);
+
+$sql = 'INSERT INTO t_rss (rss_id, rss_data) VALUES (1, :b_rss_data)';
+$statement = $pdo->prepare($sql);
+$rc = $statement->execute([':b_rss_data' => base64_encode(gzencode($xml_text, 9))]);
+error_log($pid . ' INSERT $rc : ' . $rc);
+
+$pdo = null;
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
