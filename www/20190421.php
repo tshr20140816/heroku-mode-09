@@ -14,4 +14,8 @@ $tmp = explode('<h2>', $res, 3);
 
 $rc = preg_match_all('/<li>(.+?)<\/li>/s', explode('<h2>', $res, 3)[1], $matches);
 
-error_log(print_r($matches, true));
+// error_log(print_r($matches, true));
+
+foreach ($matches[1] as $item) {
+    error_log(trim(strip_tags($item)));
+}
