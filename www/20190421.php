@@ -8,4 +8,6 @@ $url = 'https://ja.wikipedia.org/wiki/Wikipedia:%E4%BB%8A%E6%97%A5%E3%81%AF%E4%B
 
 $res = $mu->get_contents($url);
 
-error_log($res);
+$tmp = explode('<h2>', $res, 3);
+
+error_log($tmp[1]);
