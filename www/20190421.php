@@ -1,5 +1,6 @@
 <?php
 
+/*
 $ftp_link_id = ftp_connect(getenv('FC2_FTP_SERVER'));
 
 $rc = ftp_login($ftp_link_id, getenv('FC2_FTP_ID'), getenv('FC2_FTP_PASSWORD'));
@@ -13,3 +14,8 @@ error_log(print_r($rc, true));
 
 $rc = ftp_close($ftp_link_id);
 error_log('ftp_close : ' . $rc);
+*/
+
+error_log(getenv('FC2_FTP_SERVER'));
+error_log(getenv('FC2_FTP_ID'));
+error_log(getenv('FC2_FTP_PASSWORD'));
