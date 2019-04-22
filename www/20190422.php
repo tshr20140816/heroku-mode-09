@@ -111,9 +111,9 @@ __HEREDOC__;
 
             if ($use_date > $last_use_date) {
                 if (strpos($item, 'チャージ') != false) {
-                    $balance -= $amount;
-                } else {
                     $balance += $amount;
+                } else {
+                    $balance -= $amount;
                 }
                 if ($last_use_date_new < $use_date) {
                     $last_use_date_new = $use_date;
