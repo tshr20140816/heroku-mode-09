@@ -1,5 +1,7 @@
 <?php
 
+include(dirname(__FILE__) . '/../classes/MyUtils.php');
+
 /*
 $ftp_link_id = ftp_connect(getenv('FC2_FTP_SERVER'));
 
