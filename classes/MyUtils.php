@@ -592,7 +592,7 @@ __HEREDOC__;
         }
     }
 
-    public function upload_fc2(file_name_) {
+    public function upload_fc2($file_name_) {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
         $ftp_link_id = ftp_connect(getenv('FC2_FTP_SERVER'));
@@ -606,7 +606,7 @@ __HEREDOC__;
         $rc = ftp_nlist($ftp_link_id, '.');
         error_log(print_r($rc, true));
 
-        $rc = ftp_put($ftp_link_id, pathinfo($file_name_)['basename'], file_name_, FTP_ASCII);
+        $rc = ftp_put($ftp_link_id, pathinfo($file_name_)['basename'], $file_name_, FTP_ASCII);
         error_log('ftp_put : ' . $rc);
 
         $rc = ftp_close($ftp_link_id);
