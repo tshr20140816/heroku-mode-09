@@ -2,23 +2,10 @@
 
 include(dirname(__FILE__) . '/../classes/MyUtils.php');
 
-/*
-$ftp_link_id = ftp_connect(getenv('FC2_FTP_SERVER'));
-
-$rc = ftp_login($ftp_link_id, getenv('FC2_FTP_ID'), getenv('FC2_FTP_PASSWORD'));
-error_log('ftp_login : ' . $rc);
-
-$rc = ftp_pasv($ftp_link_id, true);
-error_log('ftp_pasv : ' . $rc);
-
-$rc = ftp_nlist($ftp_link_id, '.');
-error_log(print_r($rc, true));
-
-$rc = ftp_close($ftp_link_id);
-error_log('ftp_close : ' . $rc);
-*/
 $mu = new MyUtils();
 
-error_log($mu->get_encrypt_string(getenv('FC2_FTP_SERVER')));
-error_log($mu->get_encrypt_string(getenv('FC2_FTP_ID')));
-error_log($mu->get_encrypt_string(getenv('FC2_FTP_PASSWORD')));
+$url = 'https://ja.wikipedia.org/wiki/Wikipedia:%E4%BB%8A%E6%97%A5%E3%81%AF%E4%BD%95%E3%81%AE%E6%97%A5';
+
+$res = $mu->get_contents($url);
+
+error_log($res);
