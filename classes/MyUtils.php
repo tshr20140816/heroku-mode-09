@@ -592,6 +592,27 @@ __HEREDOC__;
         }
     }
 
+    public function upload_fc2(file_name_) {
+        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+        $ftp_link_id = ftp_connect(getenv('FC2_FTP_SERVER'));
+
+        $rc = ftp_login($ftp_link_id, getenv('FC2_FTP_ID'), getenv('FC2_FTP_PASSWORD'));
+        error_log('ftp_login : ' . $rc);
+
+        $rc = ftp_pasv($ftp_link_id, true);
+        error_log('ftp_pasv : ' . $rc);
+
+        $rc = ftp_nlist($ftp_link_id, '.');
+        error_log(print_r($rc, true));
+
+        $rc = ftp_put($ftp_link_id, pathinfo($file_name_)['basename'], file_name_, FTP_ASCII);
+        error_log('ftp_put : ' . $rc);
+
+        $rc = ftp_close($ftp_link_id);
+        error_log('ftp_close : ' . $rc);
+    }
+
     public function get_contents($url_, $options_ = null, $is_cache_search = false)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
