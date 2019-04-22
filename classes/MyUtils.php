@@ -595,9 +595,9 @@ __HEREDOC__;
     public function upload_fc2($file_name_) {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-        $ftp_link_id = ftp_connect(getenv('FC2_FTP_SERVER'));
+        $ftp_link_id = ftp_connect(this->get_env('FC2_FTP_SERVER', true));
 
-        $rc = ftp_login($ftp_link_id, getenv('FC2_FTP_ID'), getenv('FC2_FTP_PASSWORD'));
+        $rc = ftp_login($ftp_link_id, this->get_env('FC2_FTP_ID', true), this->get_env('FC2_FTP_PASSWORD', true));
         error_log('ftp_login : ' . $rc);
 
         $rc = ftp_pasv($ftp_link_id, true);
