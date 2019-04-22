@@ -444,10 +444,14 @@ __HEREDOC__;
             $use_date = mktime(0, 0, 0, $tmp[1], $tmp[2], $tmp[0]);
 
             $rc = preg_match('/利用金額<.+?><.+?>(.+?)円/s', $item, $match);
-            $amount = (int)trim($match[1]);
+            $amount = (int)str_replace(',', '', trim($match[1]));
 
             if ($use_date > $last_use_date) {
-                $balance -= $amount;
+                if (strpos($item, 'チャージ') != false) {
+                    $balance += $amount;
+                } else {
+                    $balance -= $amount;
+                }
                 if ($last_use_date_new < $use_date) {
                     $last_use_date_new = $use_date;
                 }
