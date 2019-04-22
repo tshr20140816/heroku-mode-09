@@ -26,7 +26,7 @@ function get_results_noma($mu_)
 
     $name = getenv('TARGET_NAME');
     $timestamp = strtotime('-13 hours');
-    $timestamp = mktime(0, 0, 0, 4, 19, 2019);
+    $timestamp = mktime(0, 0, 0, 4, 20, 2019);
 
     if (strpos($base_record, date('Y/m/d', $timestamp)) != false) {
         return;
