@@ -136,6 +136,7 @@ INSERT INTO t_waon_history
 __HEREDOC__;
 
     $statement = $pdo->prepare($sql);
+    /*
     $rc = $statement->execute(
         [':b_check_time' => date('Y/m/d H:i:s', strtotime('+9 hours')),
          ':b_balance' => $balance,
@@ -143,6 +144,7 @@ __HEREDOC__;
         ]);
     error_log($log_prefix . print_r($statement->errorInfo(), true));
     error_log($log_prefix . 'INSERT $rc : ' . $rc);
+    */
     $pdo = null;
 
     unlink($cookie);
