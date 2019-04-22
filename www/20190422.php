@@ -2,7 +2,6 @@
 
 $xml_text = <<< __HEREDOC__
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="/res/preview.xsl"?>
 <rss version="2.0">
 <channel>
 <title>TEST</title>
