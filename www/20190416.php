@@ -117,13 +117,13 @@ function func_20190416($mu_)
     $res = $mu_->get_contents($url, $options);
     
     $tmp = preg_split('/^\r\n/m', $res, 2);
-    
+
     $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
     error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
     $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
     $json = json_decode($tmp[1]);
     error_log($log_prefix . print_r($json, true));
-    
+
     $url = $json->output->url;
     $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                 CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
@@ -131,9 +131,34 @@ function func_20190416($mu_)
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     $description = '<![CDATA[' . $description . ']]>';
-    
-    $mu_->post_blog_livedoor('TEST', $description);
-    
+
+    // $mu_->post_blog_livedoor('TEST', $description);
+
     // header('Content-Type: image/png');
     // echo $res;
+
+    $xml_text = <<< __HEREDOC__
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+<title>Batting Average</title>
+<link>http://dummy.local/</link>
+<description>Batting Average</description>
+<item>
+<guid isPermaLink="false">__HASH__</guid>
+<pubDate />
+<title>Batting Average</title>
+<link>http://dummy.local/</link>
+<description>__DESCRIPTION__</description>
+</item>
+</channel>
+</rss>
+__HEREDOC__;
+
+    $xml_text = str_replace('__DESCRIPTION__', $description, $xml_text);
+    $xml_text = str_replace('__HASH__', hash('sha256', $description), $xml_text);
+    $file_name = '/tmp/' . getenv('FC2_RSS_02') . '.xml';
+    file_put_contents($file_name, $xml_text);
+    $mu_->upload_fc2($file_name);
+    unlink($file_name);
 }
