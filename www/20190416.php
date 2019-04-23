@@ -25,7 +25,6 @@ function func_20190416($mu_)
     $rc = preg_match('/<div class="upeemfeprvpub">(.+?)</', $res, $match);
     error_log(print_r(explode(' ', $match[1]), true));
 
-    // $data2 = [550, 538, 526, 526, 504, 492, 480, 480, 444, 433, 423, 412, 402, 390, 390];
     foreach (explode(' ', $match[1]) as $item) {
         $data2[] = (int)($item / 60);
     }
@@ -82,12 +81,6 @@ function func_20190416($mu_)
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
     $res = $mu_->get_contents($url);
     
-    /*
-    header('Content-Type: image/png');
-    echo $res;
-    return;
-    */
-    
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
     $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
@@ -95,11 +88,6 @@ function func_20190416($mu_)
     imagesavealpha($im2, true);
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
     
-    /*
-    header('Content-Type: image/png');
-    imagepng($im2, null, 9);
-    return;
-    */
     $file = tempnam("/tmp", md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
@@ -131,11 +119,6 @@ function func_20190416($mu_)
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     $description = '<![CDATA[' . $description . ']]>';
-
-    // $mu_->post_blog_livedoor('TEST', $description);
-
-    // header('Content-Type: image/png');
-    // echo $res;
 
     $xml_text = <<< __HEREDOC__
 <?xml version="1.0" encoding="utf-8"?>
