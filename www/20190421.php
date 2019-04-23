@@ -10,17 +10,17 @@ $res = $mu->get_contents($url);
 
 $tmp = explode('<h2>', $res, 3);
 
-// error_log($tmp[1]);
-
 $rc = preg_match_all('/<li>(.+?)<\/li>/s', explode('<h2>', $res, 3)[1], $matches);
 
-// error_log(print_r($matches, true));
+$html = <<< __HEREDOC__
+<html><head><title>test</title></head><body>__BODY__</body></html>
+__HEREDOC__;
 
-$s = trim(strip_tags($matches[1][rand(0, count($matches[1]) - 1)]));
-error_log($s);
+$html = str_replace('__BODY__', trim(strip_tags($matches[1][rand(0, count($matches[1]) - 1)])), $html);
 
-/*
-foreach ($matches[1] as $item) {
-    error_log(trim(strip_tags($item)));
-}
-*/
+error_log($html);
+
+$file_name = '/tmp/index.html';
+file_put_contents($file_name, $html);
+
+$mu->upload_fc2($file_name);
