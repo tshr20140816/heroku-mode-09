@@ -129,9 +129,10 @@ function func_20190416($mu_)
                ];
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
+    $description = '<![CDATA[' . $description . ']]>';
     
-    // $mu_->post_blog_livedoor('TEST', $description);
+    $mu_->post_blog_livedoor('TEST', $description);
     
-    header('Content-Type: image/png');
-    echo $res;
+    // header('Content-Type: image/png');
+    // echo $res;
 }
