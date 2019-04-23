@@ -33,12 +33,12 @@ function func_20190416($mu_)
     $dy = ($data2[0] - end($data2)) / count($data2) + 1;
     for ($i = 0; $i < (int)date('t'); $i++) {
         $labels[] = $i + 1;
-        $data[] = ((int)date('t') - $i) * 24;
+        $data1[] = ((int)date('t') - $i) * 24;
         $data3[] = (int)($data2[0] - $dy * $i);
     }
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
-                              'datasets' => [['data' => $data,
+                              'datasets' => [['data' => $data1,
                                               'fill' => false,
                                               'pointStyle' => 'line',
                                               'borderColor' => 'black',
@@ -81,18 +81,23 @@ function func_20190416($mu_)
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
     $res = $mu_->get_contents($url);
     
+    /*
     header('Content-Type: image/png');
     echo $res;
     return;
-
+    */
+    
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
     $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
     imagealphablending($im2, false);
     imagesavealpha($im2, true);
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
-    // header('Content-Type: image/png');
-    // imagepng($im2, null, 9);
+    
+    header('Content-Type: image/png');
+    imagepng($im2, null, 9);
+    return;
+    
     $file = tempnam("/tmp", md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
