@@ -156,13 +156,13 @@ function get_results_noma($mu_)
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
 <channel>
-<title>TEST</title>
+<title>Batting Average</title>
 <link>http://dummy.local/</link>
-<description>TEST</description>
+<description>Batting Average</description>
 <item>
-<guid isPermaLink="false">c54003dace593bbfc9ed818053c3e2d4</guid>
-<pubDate>Fri, 12 Apr 2019 09:29:40 GMT</pubDate>
-<title>TEST_TITLE</title>
+<guid isPermaLink="false">__HASH__</guid>
+<pubDate />
+<title>Batting Average</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
@@ -170,8 +170,10 @@ function get_results_noma($mu_)
 </rss>
 __HEREDOC__;
     
+    $xml_text = str_replace('__DESCRIPTION__', $description, $xml_text);
+    $xml_text = str_replace('__HASH__', hash('sha256', $description), $xml_text);
     $file_name = '/tmp/' . getenv('FC2_RSS_01') . '.xml';
-    file_put_contents($file_name, str_replace('__DESCRIPTION__', $description, $xml_text));
+    file_put_contents($file_name, $xml_text);
     $mu_->upload_fc2($file_name);
     unlink($file_name);
 }
