@@ -10,6 +10,14 @@ $mu = new MyUtils();
 
 get_youtube_play_count($mu);
 
+$url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/daily040.php';
+$options = [
+    CURLOPT_TIMEOUT => 3,
+    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+    CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
+];
+$mu->get_contents($url, $options);
+
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
 function get_youtube_play_count($mu_)
