@@ -94,10 +94,11 @@ function func_20190416($mu_)
     imagesavealpha($im2, true);
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
     
+    /*
     header('Content-Type: image/png');
     imagepng($im2, null, 9);
     return;
-    
+    */
     $file = tempnam("/tmp", md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
@@ -129,5 +130,8 @@ function func_20190416($mu_)
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     
-    $mu_->post_blog_livedoor('TEST', $description);
+    // $mu_->post_blog_livedoor('TEST', $description);
+    
+    header('Content-Type: image/png');
+    echo $res;
 }
