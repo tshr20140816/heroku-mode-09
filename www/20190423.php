@@ -12,5 +12,9 @@ function func_20190423($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $mu_->post_blog_hatena('TEST', '<div class="0123456789abcdefghijklmnopqrstuvwxyz+/=">TEST</div>');
+    // $mu_->post_blog_hatena('TEST', '<div class="0123456789abcdefghijklmnopqrstuvwxyz+/=">TEST</div>');
+    // $title = 'toddledo quota';
+    $title = 'upeemfeprvpub';
+    $description = '<div class="upeemfeprvpub">11163 33000 32293 31560 31560 30260 29577 28858 28858 28858 26680 26015 25392 24742 24121 23431 23431 22006 21356 20649 19927 19303 18661</div>';
+    $mu_->post_blog_hatena($title, $description);
 }
