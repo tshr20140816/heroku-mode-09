@@ -67,10 +67,10 @@ function func_20190416($mu_)
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
     $res = $mu_->get_contents($url);
     
-    /*
     header('Content-Type: image/png');
     echo $res;
-    */
+    return;
+
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
     $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
