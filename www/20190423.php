@@ -18,7 +18,7 @@ function func_20190423($mu_)
     
     // error_log($res);
     //<rect class="day" width="8" height="8" x="-41" y="10" fill="#c6e48b" data-count="24" data-date="2019-04-22"/>
-    $rc = preg_match('/<rect class="day" .+?data-count="(.+?)".+?' . date('Y-m-d') .'/', $res, $match);
+    $rc = preg_match('/<rect class="day" .+?data-count="(.+?)".+?' . date('Y-m-d', strtotime('-15 hours')) .'/', $res, $match);
     
     error_log(print_r($match, true));
 }
