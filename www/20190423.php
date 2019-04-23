@@ -21,5 +21,8 @@ function func_20190423($mu_)
     */
     
     $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
-    error_log($hatena_blog_id);
+    $url = 'https://' . $hatena_blog_id . '/search?q=upeemfeprvpub';
+    $res = $mu_->get_contents($url);
+    
+    error_log($res);
 }
