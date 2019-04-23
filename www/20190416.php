@@ -27,7 +27,7 @@ function func_20190416($mu_)
 
     // $data2 = [550, 538, 526, 526, 504, 492, 480, 480, 444, 433, 423, 412, 402, 390, 390];
     $data2 = explode(' ', $match[1]);
-    $data2 = array_shift($data2);
+    array_shift($data2);
     $dy = ($data2[0] - end($data2)) / count($data2) + 1;
     for ($i = 0; $i < (int)date('t'); $i++) {
         $labels[] = $i + 1;
