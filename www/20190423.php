@@ -25,7 +25,7 @@ function func_20190423($mu_)
     $res = $mu_->get_contents($url);
     
     //error_log($res);
-    $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $match);
+    $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
     
     $res = $mu_->get_contents($match[1]);
     error_log($res);
