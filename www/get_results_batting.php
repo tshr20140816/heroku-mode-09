@@ -150,5 +150,21 @@ function get_results_noma($mu_)
     // error_log($log_prefix . $description);
     $mu_->post_blog_hatena('Batting Average', $description);
     
-    
+    $xml_text = <<< __HEREDOC__
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+<title>TEST</title>
+<link>http://dummy.local/</link>
+<description>TEST</description>
+<item>
+<guid isPermaLink="false">c54003dace593bbfc9ed818053c3e2d4</guid>
+<pubDate>Fri, 12 Apr 2019 09:29:40 GMT</pubDate>
+<title>TEST_TITLE</title>
+<link>http://dummy.local/</link>
+<description><![CDATA[<img src="data:image/png;base64,__BASE64__" />]]></description>
+</item>
+</channel>
+</rss>
+__HEREDOC__;    
 }
