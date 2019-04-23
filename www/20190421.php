@@ -16,6 +16,11 @@ $rc = preg_match_all('/<li>(.+?)<\/li>/s', explode('<h2>', $res, 3)[1], $matches
 
 // error_log(print_r($matches, true));
 
+$s = trim(strip_tags($matches[1][rand(0, count($matches[1]) - 1)]));
+error_log($s);
+
+/*
 foreach ($matches[1] as $item) {
     error_log(trim(strip_tags($item)));
 }
+*/
