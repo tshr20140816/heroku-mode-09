@@ -79,6 +79,9 @@ check_version_postgresql($mu, $file_name_blog);
 // Ruby version check
 check_version_ruby($mu, $file_name_blog);
 
+// fc2 page update
+update_page_fc2($mu);
+
 //
 
 $suffix = '4nocache' . date('Ymd', strtotime('+9 hours'));
@@ -814,7 +817,7 @@ function check_4shared_usage($mu_, $file_name_blog_)
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${user_4shared}:${password_4shared}",
         CURLOPT_HEADER => true,
-        CURLOPT_CUSTOMREQUEST => 'PROPFIND',        
+        CURLOPT_CUSTOMREQUEST => 'PROPFIND',
     ];
     $res = $mu_->get_contents($url, $options);
 
@@ -824,7 +827,7 @@ function check_4shared_usage($mu_, $file_name_blog_)
     foreach ($matches[1] as $item) {
         $size += $item;
     }
-    
+
     $percentage = substr($size / (15 * 1024 * 1024 * 1024) * 100, 0, 5);
     $size = number_format($size);
 
@@ -970,7 +973,7 @@ function check_hidrive_usage($mu_, $file_name_blog_)
     foreach ($matches[1] as $item) {
         $size += $item;
     }
-    
+
     $percentage = substr($size / (5 * 1024 * 1024 * 1024) * 100, 0, 5);
     $size = number_format($size);
 
@@ -1156,3 +1159,23 @@ function check_version_ruby($mu_, $file_name_blog_)
     file_put_contents($file_name_blog_, $content, FILE_APPEND);
 }
 
+function update_page_fc2($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $url = 'https://ja.wikipedia.org/wiki/Wikipedia:%E4%BB%8A%E6%97%A5%E3%81%AF%E4%BD%95%E3%81%AE%E6%97%A5';
+    $res = $mu_->get_contents($url);
+    $tmp = explode('<h2>', $res, 3);
+    $rc = preg_match_all('/<li>(.+?)<\/li>/s', explode('<h2>', $res, 3)[1], $matches);
+
+    $html = <<< __HEREDOC__
+<html><head><title>test</title></head><body>__BODY__</body></html>
+__HEREDOC__;
+
+    $html = str_replace('__BODY__', trim(strip_tags($matches[1][rand(0, count($matches[1]) - 1)])), $html);
+    error_log($log_prefix . $html);
+
+    $file_name = '/tmp/index.html';
+    file_put_contents($file_name, $html);
+    $mu_->upload_fc2($file_name);
+}
