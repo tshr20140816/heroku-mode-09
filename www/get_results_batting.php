@@ -150,6 +150,8 @@ function get_results_noma($mu_)
     // error_log($log_prefix . $description);
     $mu_->post_blog_hatena('Batting Average', $description);
     
+    $description = '<![CDATA[' . $description . ']]>';
+    
     $xml_text = <<< __HEREDOC__
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
@@ -162,9 +164,14 @@ function get_results_noma($mu_)
 <pubDate>Fri, 12 Apr 2019 09:29:40 GMT</pubDate>
 <title>TEST_TITLE</title>
 <link>http://dummy.local/</link>
-<description><![CDATA[<img src="data:image/png;base64,__BASE64__" />]]></description>
+<description>__DESCRIPTION__</description>
 </item>
 </channel>
 </rss>
-__HEREDOC__;    
+__HEREDOC__;
+    
+    $file_name = '/tmp/' . getenv('FC2_RSS_01') . '.xml';
+    file_put_contents($file_name, str_replace('__DESCRIPTION__', $description, $xml_text));
+    $mu_->upload_fc2($file_name);
+    unlink($file_name);
 }
