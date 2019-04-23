@@ -11,4 +11,10 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 function func_20190423($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $url = getenv('URL_100');
+    
+    $res = $mu_->get_contents($url);
+    
+    error_log($res);
 }
