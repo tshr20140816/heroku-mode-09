@@ -348,6 +348,22 @@ function get_quota($mu_, $file_name_blog_)
     error_log($log_prefix . '$dyno_quota : ' . $dyno_quota);
 
     $quota = $dyno_quota - $dyno_used;
+    
+    $description = '';
+    if ((int)date('j', strtotime('+9hours')) != 1) {
+        $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
+        $url = 'https://' . $hatena_blog_id . '/search?q=upeemfeprvpub';
+        $res = $mu_->get_contents($url);
+        
+        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
+        $res = $mu_->get_contents($match[1]);
+        
+        $rc = preg_match('/<div class="upeemfeprvpub">(.+?)</', $res, $match);
+        $description = $match[1];
+    }
+    $description = '<div class="upeemfeprvpub">' . trim($description . " ${quota}") . '</div>';
+    $mu_->post_blog_hatena('upeemfeprvpub', $description);
+    
     $quota = floor($quota / 86400) . 'd ' . ($quota / 3600 % 24) . 'h ' . ($quota / 60 % 60) . 'm';
 
     file_put_contents($file_name_blog_, "\nQuota : ${quota}\n", FILE_APPEND);
