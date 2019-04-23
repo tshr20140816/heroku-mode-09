@@ -1,5 +1,7 @@
 <?php
+
 include(dirname(__FILE__) . '/../classes/MyUtils.php');
+
 $pid = getmypid();
 $requesturi = $_SERVER['REQUEST_URI'];
 $time_start = microtime(true);
@@ -7,26 +9,29 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190416($mu);
+make_usage_graph($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_20190416($mu_)
+function make_usage_graph($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
     $url = 'https://' . $hatena_blog_id . '/search?q=upeemfeprvpub';
     $res = $mu_->get_contents($url);
-    
+
     $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
-    
+
     $res = $mu_->get_contents($match[1]);
     $rc = preg_match('/<div class="upeemfeprvpub">(.+?)</', $res, $match);
-    error_log(print_r(explode(' ', $match[1]), true));
 
+    $data2 = [];
     foreach (explode(' ', $match[1]) as $item) {
         $data2[] = (int)($item / 60);
+    }
+    if (count($data2) < 3) {
+        return;
     }
     array_shift($data2);
     $data2[0] = 550;
@@ -80,20 +85,20 @@ function func_20190416($mu_)
                   ];
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
     $res = $mu_->get_contents($url);
-    
+
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
     $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
     imagealphablending($im2, false);
     imagesavealpha($im2, true);
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
-    
+
     $file = tempnam("/tmp", md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
     $res = file_get_contents($file);
     unlink($file);
-    
+
     $url = 'https://api.tinify.com/shrink';
     $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                 CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
@@ -103,7 +108,7 @@ function func_20190416($mu_)
                 CURLOPT_HEADER => true,
                ];
     $res = $mu_->get_contents($url, $options);
-    
+
     $tmp = preg_split('/^\r\n/m', $res, 2);
 
     $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
@@ -117,8 +122,7 @@ function func_20190416($mu_)
                 CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
                ];
     $res = $mu_->get_contents($url, $options);
-    $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
-    $description = '<![CDATA[' . $description . ']]>';
+    $description = '<![CDATA[<img src="data:image/png;base64,' . base64_encode($res) . '" />]]>';
 
     $xml_text = <<< __HEREDOC__
 <?xml version="1.0" encoding="utf-8"?>
@@ -140,8 +144,8 @@ __HEREDOC__;
 
     $xml_text = str_replace('__DESCRIPTION__', $description, $xml_text);
     $xml_text = str_replace('__HASH__', hash('sha256', $description), $xml_text);
-    $file_name = '/tmp/' . getenv('FC2_RSS_02') . '.xml';
-    file_put_contents($file_name, $xml_text);
-    $mu_->upload_fc2($file_name);
-    unlink($file_name);
+    $file = '/tmp/' . getenv('FC2_RSS_02') . '.xml';
+    file_put_contents($file, $xml_text);
+    $mu_->upload_fc2($file);
+    unlink($file);
 }
