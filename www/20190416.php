@@ -141,13 +141,13 @@ function func_20190416($mu_)
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
 <channel>
-<title>Batting Average</title>
+<title>toodledo usage</title>
 <link>http://dummy.local/</link>
-<description>Batting Average</description>
+<description>toodledo usage</description>
 <item>
 <guid isPermaLink="false">__HASH__</guid>
 <pubDate />
-<title>Batting Average</title>
+<title>toodledo usage</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
