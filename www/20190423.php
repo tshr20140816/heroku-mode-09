@@ -24,9 +24,11 @@ function func_20190423($mu_)
     $url = 'https://' . $hatena_blog_id . '/search?q=upeemfeprvpub';
     $res = $mu_->get_contents($url);
     
-    //error_log($res);
+    // error_log($res);
     $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
     
     $res = $mu_->get_contents($match[1]);
-    error_log($res);
+    // error_log($res);
+    $rc = preg_match('/<div class="upeemfeprvpub">(.+?)</', $res, $match);
+    error_log(print_r(explode(' ', $match[1]), true));
 }
