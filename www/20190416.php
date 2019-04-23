@@ -30,6 +30,7 @@ function func_20190416($mu_)
         $data2[] = (int)($item / 60);
     }
     array_shift($data2);
+    $data2[0] = 550;
     $dy = ($data2[0] - end($data2)) / count($data2) + 1;
     for ($i = 0; $i < (int)date('t'); $i++) {
         $labels[] = $i + 1;
