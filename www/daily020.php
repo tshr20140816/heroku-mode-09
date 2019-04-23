@@ -64,6 +64,9 @@ check_cloudapp_usage($mu, $file_name_blog);
 // Zoho usage
 check_zoho_usage($mu, $file_name_blog);
 
+// github contribution count
+count_github_contribution($mu, $file_name_blog);
+
 // apache version check
 check_version_apache($mu, $file_name_blog);
 
@@ -1157,6 +1160,20 @@ function check_version_ruby($mu_, $file_name_blog_)
 
     $content = "\nRuby Version\ncurrent : ${version_current}\nsupport : ${version_support}";
     file_put_contents($file_name_blog_, $content, FILE_APPEND);
+}
+
+function count_github_contribution($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $res = $mu_->get_contents('https://github.com/tshr20140816');
+
+    $rc = preg_match('/<rect class="day" .+?data-count="(.+?)".+?' . date('Y-m-d', strtotime('-15 hours')) .'/', $res, $match);
+
+    $count = $match[1];
+
+    error_log($log_prefix . "github count : ${count}");
+    file_put_contents($file_name_blog_, "\ngithub count : ${count}\n\n", FILE_APPEND);
 }
 
 function update_page_fc2($mu_)
