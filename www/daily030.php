@@ -9,7 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$url = getenv('FEED43_URL');
+$url = $mu->get_env('URL_FEED43');
 $host_name = parse_url($url, PHP_URL_HOST);
 $res = $mu->get_contents($url, null, true);
 
