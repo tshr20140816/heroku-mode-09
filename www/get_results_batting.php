@@ -76,7 +76,7 @@ function get_results_batting($mu_)
         }
     }
 
-    if ($description === '' ) {
+    if ($description === '') {
         return;
     }
 
