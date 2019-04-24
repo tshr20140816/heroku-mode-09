@@ -16,7 +16,7 @@ function get_results_noma($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
-    $title = getenv('TARGET_NAME_TITLE');
+    $title = $mu_->get_env('TARGET_NAME_TITLE');
     $url = "http://blog.livedoor.jp/${livedoor_id}/search?q=" . str_replace(' ', '+', $title) . '+' . date('Y');
     $res = $mu_->get_contents($url);
 
@@ -24,7 +24,7 @@ function get_results_noma($mu_)
     $base_record = trim(strip_tags($match[1]));
     error_log($log_prefix . $base_record);
 
-    $name = getenv('TARGET_NAME');
+    $name = $mu_->get_env('TARGET_NAME');
     $timestamp = strtotime('-13 hours');
     // $timestamp = mktime(0, 0, 0, 4, 21, 2019);
 
