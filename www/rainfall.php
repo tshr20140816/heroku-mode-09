@@ -81,9 +81,10 @@ if ($count !== 0) {
 
 $time_finish = microtime(true);
 if ($count === 0) {
-    $mu->post_blog_wordpress($requesturi . ' [' . substr(($time_finish - $time_start), 0, 6) . 's]',
-                             $mu->to_big_size(file_get_contents($file_name_blog)),
-                             true);
+    $title = $requesturi . ' [' . substr(($time_finish - $time_start), 0, 6) . 's]';
+    $description = $mu->to_big_size(file_get_contents($file_name_blog));
+    $mu->post_blog_wordpress($title, $description, true);
+    $mu->post_blog_livedoor($title, $description);
     unlink($file_name_blog);
 }
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
