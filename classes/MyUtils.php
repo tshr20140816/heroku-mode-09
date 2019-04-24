@@ -582,8 +582,8 @@ __HEREDOC__;
         $res = $this->get_contents($url, $options + [CURLOPT_POSTFIELDS => $json,]);
         $data = json_decode($res);
         foreach ($data->content as $feed) {
-            error_log($log_prefix . $feed->feed_url);
-            error_log($log_prefix . $feed->id);
+            error_log($log_prefix . 'feed_url : ' . $feed->feed_url);
+            error_log($log_prefix . 'feed_id : ' . $feed->id);
             if ($url_feed == $feed->feed_url) {
                 $json = '{"sid":"' . $session_id . '","op":"updateFeed","feed_id":' . $feed->id . '}';
                 $res = $this->get_contents($url, $options + [CURLOPT_POSTFIELDS => $json,]);
