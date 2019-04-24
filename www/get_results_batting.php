@@ -172,7 +172,7 @@ function get_results_batting($mu_)
 </channel>
 </rss>
 __HEREDOC__;
-    
+
     $xml_text = str_replace('__DESCRIPTION__', $description, $xml_text);
     $xml_text = str_replace('__HASH__', hash('sha256', $description), $xml_text);
     $file_name = '/tmp/' . getenv('FC2_RSS_01') . '.xml';
