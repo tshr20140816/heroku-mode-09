@@ -149,6 +149,7 @@ function get_results_noma($mu_)
 
     // error_log($log_prefix . $description);
     $mu_->post_blog_hatena('Batting Average', $description);
+    $mu_->post_blog_fc2('Batting Average', $description);
     
     $description = '<![CDATA[' . $description . ']]>';
     
