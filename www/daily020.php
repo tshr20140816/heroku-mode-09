@@ -361,7 +361,7 @@ function get_quota($mu_, $file_name_blog_)
         $rc = preg_match('/<div class="upeemfeprvpub">(.+?)</', $res, $match);
         $description = $match[1];
     }
-    $description = '<div class="upeemfeprvpub">' . trim($description . " ${quota}") . '</div>';
+    $description = '<div class="upeemfeprvpub">' . trim($description . ' ' . (int)($quota / 60)) . '</div>';
     $mu_->post_blog_hatena('upeemfeprvpub', $description);
     
     $quota = floor($quota / 86400) . 'd ' . ($quota / 3600 % 24) . 'h ' . ($quota / 60 % 60) . 'm';
