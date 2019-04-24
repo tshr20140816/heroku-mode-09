@@ -122,7 +122,7 @@ function make_usage_graph($mu_)
                 CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
                ];
     $res = $mu_->get_contents($url, $options);
-    $mu_->post_blog_fc2('TEST', '<img src="data:image/png;base64,' . base64_encode($res) . '" />');
+    $mu_->post_blog_fc2('toodledo', '<img src="data:image/png;base64,' . base64_encode($res) . '" />');
     $description = '<![CDATA[<img src="data:image/png;base64,' . base64_encode($res) . '" />]]>';
 
     $xml_text = <<< __HEREDOC__
