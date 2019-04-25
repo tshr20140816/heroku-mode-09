@@ -11,18 +11,14 @@ $mu = new MyUtils();
 
 func_20190425($mu_, '/tmp/dummy');
 
-function func_20190425($mu_, $file_name_blog_)
+function func_20190425($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $api_key = base64_decode(getenv('HEROKU_API_KEY'));
-    $url = 'https://api.heroku.com/account';
-
-    $res = $mu_->get_contents(
-        $url,
-        [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version=3',
-                                "Authorization: Bearer ${api_key}",
-                               ]],
-        true
-    );
+    if (getenv('HEROKU_API_KEY_' . $target_ == '') {
+        $api_key = base64_decode(getenv('HEROKU_API_KEY'));
+    } else {
+        $api_key = base64_decode(getenv('HEROKU_API_KEY_' . $target_));
+    }
+    error_log($log_prefix . 'A : ' . $api_key);
 }
