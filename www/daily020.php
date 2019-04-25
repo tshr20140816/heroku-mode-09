@@ -25,6 +25,9 @@ $file_name_blog = '/tmp/blog.txt';
 // quota
 get_quota($mu, $file_name_blog);
 
+// quota
+get_quota($mu, $file_name_blog, 'TTRSS');
+
 // WAON balance check
 check_waon_balance($mu, $file_name_blog);
 
