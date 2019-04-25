@@ -15,10 +15,9 @@ function func_20190425($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    if (getenv('HEROKU_API_KEY_' . $target_) == '') {
-        $api_key = base64_decode(getenv('HEROKU_API_KEY'));
-    } else {
-        $api_key = base64_decode(getenv('HEROKU_API_KEY_' . $target_));
+    $keyword = strtolower($target_);
+    for ($i = 0; $i < strlen($keyword); $i++) {
+        $keyword[$i] = chr(ord($keyword[$i]) + 1);
     }
-    error_log($log_prefix . 'A : ' . $api_key);
+    error_log($keyword);
 }
