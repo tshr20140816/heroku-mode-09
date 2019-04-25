@@ -15,7 +15,7 @@ function func_20190425($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    if (getenv('HEROKU_API_KEY_' . $target_ == '') {
+    if (getenv('HEROKU_API_KEY_' . $target_) == '') {
         $api_key = base64_decode(getenv('HEROKU_API_KEY'));
     } else {
         $api_key = base64_decode(getenv('HEROKU_API_KEY_' . $target_));
