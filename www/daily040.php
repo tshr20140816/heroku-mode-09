@@ -9,25 +9,51 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-make_usage_graph($mu);
+$file_name_rss_items = '/tmp/rss_items.txt';
+@unlink($file_name_rss_items);
+
+make_usage_graph($mu, $file_name_rss_items, 'TOODLEDO');
+// make_usage_graph($mu, $file_name_rss_items, 'TTRSS');
+
+$xml_text = <<< __HEREDOC__
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+<title>heroku usage</title>
+<link>http://dummy.local/</link>
+<description>toodledo usage</description>
+__ITEMS__
+</channel>
+</rss>
+__HEREDOC__;
+
+$file = '/tmp/' . getenv('FC2_RSS_02') . '.xml';
+file_put_contents($file, str_replace('__ITEMS__', file_get_contents($file_name_rss_items), $xml_text));
+$mu->upload_fc2($file);
+unlink($file);
 
 $time_finish = microtime(true);
 $mu->post_blog_wordpress("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]');
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function make_usage_graph($mu_)
+function make_usage_graph($mu_, $file_name_rss_items_, $target_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $keyword = strtolower($target_);
+    for ($i = 0; $i < strlen($keyword); $i++) {
+        $keyword[$i] = chr(ord($keyword[$i]) + 1);
+    }
+
     $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
-    $url = 'https://' . $hatena_blog_id . '/search?q=uppemfeprvpub';
+    $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword . 'rvpub';
     $res = $mu_->get_contents($url);
 
     $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
 
     $res = $mu_->get_contents($match[1]);
-    $rc = preg_match('/<div class="uppemfeprvpub">(.+?)</', $res, $match);
+    $rc = preg_match('/<div class="' . $keyword . 'rvpub">(.+?)</', $res, $match);
 
     $data2 = [];
     foreach (explode(' ', $match[1]) as $item) {
@@ -129,26 +155,21 @@ function make_usage_graph($mu_)
     $mu_->post_blog_fc2('toodledo', $description);
     $description = '<![CDATA[' . $description . ']]>';
 
-    $xml_text = <<< __HEREDOC__
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0">
-<channel>
-<title>toodledo usage</title>
-<link>http://dummy.local/</link>
-<description>toodledo usage</description>
+    $rss_item_text = <<< __HEREDOC__
 <item>
 <guid isPermaLink="false">__HASH__</guid>
 <pubDate />
-<title>toodledo usage</title>
+<title>__TITLE__</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
-</channel>
-</rss>
 __HEREDOC__;
 
-    $xml_text = str_replace('__DESCRIPTION__', $description, $xml_text);
-    $xml_text = str_replace('__HASH__', hash('sha256', $description), $xml_text);
+    $rss_item_text = str_replace('__TITLE__', strtolower($target_) . ' quota', $rss_item_text);
+    $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
+    $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
+    file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
+
     $file = '/tmp/' . getenv('FC2_RSS_02') . '.xml';
     file_put_contents($file, $xml_text);
     $mu_->upload_fc2($file);
