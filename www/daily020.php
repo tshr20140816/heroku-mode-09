@@ -329,8 +329,7 @@ function get_quota($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
         $url,
         [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version=3',
                                 "Authorization: Bearer ${api_key}",
-                               ]],
-        true
+                               ]]
     );
 
     $data = json_decode($res, true);
