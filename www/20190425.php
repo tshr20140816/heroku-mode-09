@@ -9,7 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190425($mu_, '/tmp/dummy');
+func_20190425($mu, '/tmp/dummy');
 
 function func_20190425($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
 {
