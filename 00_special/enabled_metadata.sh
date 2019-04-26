@@ -8,6 +8,6 @@ if [ ! -v APP_NAME ]; then
 fi
 
 ./heroku labs:enable runtime-dyno-metadata -a ${APP_NAME}
-./heroku pg:backups schedule DATABASE_URL --at '04:50 Asia/Tokyo' -a ${APP_NAME}
+./heroku pg:backups schedule DATABASE_URL --at '04:00 Asia/Tokyo' -a ${APP_NAME}
 
 echo "please deploy."
