@@ -163,7 +163,7 @@ $urls_is_cache[$url] = null;
 //
 
 $options = [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version=3',
-                                   'Authorization: Bearer ' . base64_decode(getenv('HEROKU_API_KEY')),
+                                   'Authorization: Bearer ' . getenv('HEROKU_API_KEY'),
                                    ]];
 $url = 'https://api.heroku.com/account';
 $urls_is_cache[$url] = $options;
@@ -319,7 +319,7 @@ function get_quota($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     if (getenv('HEROKU_API_KEY_' . $target_) == '') {
-        $api_key = base64_decode(getenv('HEROKU_API_KEY'));
+        $api_key = getenv('HEROKU_API_KEY');
     } else {
         $api_key = base64_decode(getenv('HEROKU_API_KEY_' . $target_));
     }
