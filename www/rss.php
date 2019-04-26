@@ -29,8 +29,6 @@ if ($rss_data != '') {
     echo gzdecode(base64_decode($rss_data));
 }
 
-$time_finish = microtime(true);
-// $mu->post_blog_wordpress('/rss.php ' . substr(($time_finish - $time_start), 0, 6) . 's');
-error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
+error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
 exit();
