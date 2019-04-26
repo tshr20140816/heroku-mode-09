@@ -36,6 +36,14 @@ unlink($file_name_rss_items);
 $time_finish = microtime(true);
 $mu->post_blog_wordpress("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]');
 
+$url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/get_results_batting.php';
+$options = [
+    CURLOPT_TIMEOUT => 3,
+    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+    CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
+];
+$mu->get_contents($url, $options);
+
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
 function make_usage_graph($mu_, $file_name_rss_items_, $target_)
