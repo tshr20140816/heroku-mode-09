@@ -21,7 +21,7 @@ function make_usage_graph($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
-    $url = 'https://' . $hatena_blog_id . '/search?q=upeemfeprvpub';
+    $url = 'https://' . $hatena_blog_id . '/search?q=uppemfeprvpub';
     $res = $mu_->get_contents($url);
 
     $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
