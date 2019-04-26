@@ -31,6 +31,7 @@ $file = '/tmp/' . getenv('FC2_RSS_02') . '.xml';
 file_put_contents($file, str_replace('__ITEMS__', file_get_contents($file_name_rss_items), $xml_text));
 $mu->upload_fc2($file);
 unlink($file);
+unlink($file_name_rss_items);
 
 $time_finish = microtime(true);
 $mu->post_blog_wordpress("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]');
@@ -169,9 +170,4 @@ __HEREDOC__;
     $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
-
-    $file = '/tmp/' . getenv('FC2_RSS_02') . '.xml';
-    file_put_contents($file, $xml_text);
-    $mu_->upload_fc2($file);
-    unlink($file);
 }
