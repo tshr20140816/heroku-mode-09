@@ -27,7 +27,7 @@ function make_usage_graph($mu_)
     $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
 
     $res = $mu_->get_contents($match[1]);
-    $rc = preg_match('/<div class="upeemfeprvpub">(.+?)</', $res, $match);
+    $rc = preg_match('/<div class="uppemfeprvpub">(.+?)</', $res, $match);
 
     $data2 = [];
     foreach (explode(' ', $match[1]) as $item) {
