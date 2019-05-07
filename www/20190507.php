@@ -23,7 +23,7 @@ function func_20190507($mu_)
     $color_index['横浜'] = 'blue';
     $color_index['中日'] = 'dodgerblue';
     $color_index['阪神'] = 'yellow';
-    $color_index['西部'] = 'red';
+    $color_index['西武'] = 'black';
     $color_index['ソフトバンク'] = 'black';
     $color_index['日本ハム'] = 'black';
     $color_index['オリックス'] = 'black';
