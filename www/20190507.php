@@ -38,9 +38,8 @@ function func_20190507($mu_)
         $base_data[] = '{x:' . $matches[1][$i * 13 + 7] . ',y:' . $matches[1][$i * 13 + 8] . '}';
     }
     error_log(print_r($list_team, true));
-    error_log(print_r($base_data, true));
     
-    $data = '{"type":"scatter","data":{"datasets":[' . implode(',' . $base_data) .']}}';
+    $data = '{"type":"scatter","data":{"datasets":[' . implode(',', $base_data) .']}}';
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . $data;
     $res = $mu_->get_contents($url);
     
