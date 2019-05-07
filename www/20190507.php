@@ -21,5 +21,9 @@ function func_20190507($mu_)
     $res = $mu_->get_contents($url);
     
     $tmp = explode('<table class="NpbPlSt yjM">', $res);
-    error_log($tmp[1]);
+    // error_log($tmp[1]);
+    
+    $rc = preg_match_all('/<td>(.+?)</', $tmp[1] . $tmp[2], $matches);
+    
+    error_log(print_r($matches, true));
 }
