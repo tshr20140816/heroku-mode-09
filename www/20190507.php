@@ -32,10 +32,16 @@ function func_20190507($mu_)
     
     // error_log(print_r($matches, true));
     
+    $min_value = 9999;
+    for ($i = 0; $i < 12; $i++) {
+        if ($min_value > (int)$matches[1][$i * 13 + 8]) {
+            $min_value = (int)$matches[1][$i * 13 + 8];
+        }
+    }
     for ($i = 0; $i < 12; $i++) {
         $tmp1 = null;
         $tmp1->x = $matches[1][$i * 13 + 7];
-        $tmp1->y = $matches[1][$i * 13 + 8];
+        $tmp1->y = $matches[1][$i * 13 + 8] - $min_value;
         $tmp1->r = 10;
         $tmp2 = [];
         $tmp2[] = $tmp1;
