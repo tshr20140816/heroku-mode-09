@@ -68,6 +68,7 @@ function func_20190507($mu_)
 
     $data = ['type' => 'bubble',
              'data' => ['datasets' => $datasets],
+             'options' => ['legend' => ['position' => 'bottom',]],
             ];
     $url = 'https://quickchart.io/chart?width=645&height=344&c=' . json_encode($data);
     $res = $mu_->get_contents($url);
