@@ -23,15 +23,18 @@ function func_20190507($mu_)
     $tmp = explode('<table class="NpbPlSt yjM">', $res);
     // error_log($tmp[1]);
     
+    $rc = preg_match_all('/title="(.+?)"/', $tmp[1] . $tmp[2], $matches);
+    
+    // error_log(print_r($matches, true));
+    $list_team = $matches[1];
+    
     $rc = preg_match_all('/<td>(.+?)</', $tmp[1] . $tmp[2], $matches);
     
     // error_log(print_r($matches, true));
     
     for ($i = 0; $i < 12; $i++) {
-        error_log($matches[1][$i * 13 + 7]);
+        // error_log($matches[1][$i * 13 + 7]);
+        $list_team[$i] = $list_team[$i] . ',' . $matches[1][$i * 13 + 7] . ',' . $matches[1][$i * 13 + 8];
     }
-    
-    $rc = preg_match_all('/title="(.+?)"/', $tmp[1] . $tmp[2], $matches);
-    
-    error_log(print_r($matches, true));
+    error_log(print_r($list_team, true));
 }
