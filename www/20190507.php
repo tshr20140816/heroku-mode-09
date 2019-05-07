@@ -33,9 +33,6 @@ function func_20190507($mu_)
     // error_log(print_r($matches, true));
     
     for ($i = 0; $i < 12; $i++) {
-        // error_log($matches[1][$i * 13 + 7]);
-        // $list_team[$i] = $list_team[$i] . ',' . $matches[1][$i * 13 + 7] . ',' . $matches[1][$i * 13 + 8];
-        // $base_data[] = '{x:' . $matches[1][$i * 13 + 7] . ',y:' . $matches[1][$i * 13 + 8] . '}';
         $tmp1 = null;
         $tmp1->x = $matches[1][$i * 13 + 7];
         $tmp1->y = $matches[1][$i * 13 + 8];
@@ -50,6 +47,8 @@ function func_20190507($mu_)
 
     $data = ['type' => 'scatter',
              'data' => ['datasets' => $datasets],
+             'options' => ['color' => ['red', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black'],
+                          ],
             ];
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
     $res = $mu_->get_contents($url);
