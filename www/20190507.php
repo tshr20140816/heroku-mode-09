@@ -36,9 +36,9 @@ function func_20190507($mu_)
         // error_log($matches[1][$i * 13 + 7]);
         $list_team[$i] = $list_team[$i] . ',' . $matches[1][$i * 13 + 7] . ',' . $matches[1][$i * 13 + 8];
         // $base_data[] = '{x:' . $matches[1][$i * 13 + 7] . ',y:' . $matches[1][$i * 13 + 8] . '}';
-        $tmp1 = [];
-        $tmp1['x'] = $matches[1][$i * 13 + 7];
-        $tmp1['y'] = $matches[1][$i * 13 + 8];
+        $tmp1 = null;
+        $tmp1->x = $matches[1][$i * 13 + 7];
+        $tmp1->y = $matches[1][$i * 13 + 8];
         $tmp2 = [];
         $tmp2['label'] = $list_team[$i];
         $tmp2['data'] = $tmp1;
