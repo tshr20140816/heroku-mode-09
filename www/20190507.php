@@ -57,5 +57,5 @@ function func_20190507($mu_)
     header('Content-Type: image/png');
     echo $res;
     
-    error_log(print_r(json_decode('{"type":"scatter","data":{"datasets":[{"label":"A","data":[{"x":160,"y":116}]},{"label":"B","data":[{"x":171,"y":146}]}]}}'), true));
+    // error_log(print_r(json_decode('{"type":"scatter","data":{"datasets":[{"label":"A","data":[{"x":160,"y":116}]},{"label":"B","data":[{"x":171,"y":146}]}]}}'), true));
 }
