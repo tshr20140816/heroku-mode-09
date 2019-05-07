@@ -40,7 +40,7 @@ function func_20190507($mu_)
     error_log(print_r($list_team, true));
     
     $data = ['type' => 'scatter',
-             'data' => ['datasets' => [['data' => implode(',', $data),
+             'data' => ['datasets' => [['data' => $data,
                                        ],
                                       ],
                        ],
