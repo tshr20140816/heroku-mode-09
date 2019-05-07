@@ -66,12 +66,14 @@ function func_20190507($mu_)
     }
     error_log(print_r($datasets, true));
 
+    $scales = null;
+    $scales->yAxes = ['display' => false,];
     $data = ['type' => 'bubble',
              'data' => ['datasets' => $datasets],
              'options' => ['legend' => ['position' => 'bottom',
                                         'labels' => ['fontSize' => 10,],
                                        ],
-                           'scales' => ['yAxes' => ['display' => false,],],
+                           'scales' => $scales,
                           ],
             ];
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
