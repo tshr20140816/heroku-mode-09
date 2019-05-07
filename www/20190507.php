@@ -36,17 +36,17 @@ function func_20190507($mu_)
         $tmp1 = null;
         $tmp1->x = $matches[1][$i * 13 + 7];
         $tmp1->y = $matches[1][$i * 13 + 8];
+        $tmp1->r = 10;
         $tmp2 = [];
         $tmp2[] = $tmp1;
         $tmp3 = null;
         $tmp3->label = $list_team[$i];
         $tmp3->data = $tmp2;
-        $tmp3->borderWidth = 20;
         $datasets[] = $tmp3;
     }
     error_log(print_r($datasets, true));
 
-    $data = ['type' => 'scatter',
+    $data = ['type' => 'bubble',
              'data' => ['datasets' => $datasets],
             ];
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
