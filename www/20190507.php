@@ -67,7 +67,7 @@ function func_20190507($mu_)
     error_log(print_r($datasets, true));
 
     $scales = null;
-    $scales->yAxes = ['display' => false,];
+    $scales->yAxes[] = ['display' => false,];
     $data = ['type' => 'bubble',
              'data' => ['datasets' => $datasets],
              'options' => ['legend' => ['position' => 'bottom',
