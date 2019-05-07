@@ -35,16 +35,30 @@ function func_20190507($mu_)
     for ($i = 0; $i < 12; $i++) {
         // error_log($matches[1][$i * 13 + 7]);
         $list_team[$i] = $list_team[$i] . ',' . $matches[1][$i * 13 + 7] . ',' . $matches[1][$i * 13 + 8];
-        $base_data[] = '{x:' . $matches[1][$i * 13 + 7] . ',y:' . $matches[1][$i * 13 + 8] . '}';
+        // $base_data[] = '{x:' . $matches[1][$i * 13 + 7] . ',y:' . $matches[1][$i * 13 + 8] . '}';
+        $tmp1 = [];
+        $tmp1['x'] = $matches[1][$i * 13 + 7];
+        $tmp1['y'] = $matches[1][$i * 13 + 8];
+        $tmp2 = [];
+        $tmp2['label'] = $list_team[$i];
+        $tmp2['data'] = $tmp1;
+        $datasets[] = $tmp2;
     }
-    error_log(print_r($list_team, true));
+    error_log(print_r($datasets, true));
     
+    /*
     $data = '{"type":"scatter","data":{"datasets":[{"data":[' . implode(',', $base_data) .']}]}}';
-    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . $data;
+    
+
+    $data = ['type' => 'line',
+             'data' => $data,
+            ];
+    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
     $res = $mu_->get_contents($url);
     
     header('Content-Type: image/png');
     echo $res;
     
     error_log(print_r(json_decode('{"type":"scatter","data":{"datasets":[{"label":"A","data":[{"x":160,"y":116}]},{"label":"B","data":[{"x":171,"y":146}]}]}}'), true));
+    */
 }
