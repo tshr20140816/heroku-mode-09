@@ -70,7 +70,7 @@ function func_20190507($mu_)
              'data' => ['datasets' => $datasets],
              'options' => ['legend' => ['position' => 'bottom',
                                         'labels' => ['fontSize' => 10,],
-                                       ]
+                                       ],
                           ],
             ];
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
