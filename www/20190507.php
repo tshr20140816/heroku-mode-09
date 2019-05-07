@@ -39,7 +39,7 @@ function func_20190507($mu_)
     }
     error_log(print_r($list_team, true));
     
-    $data = '{"type":"scatter","data":{"datasets":["data":' . implode(',', $base_data) .']}}';
+    $data = '{"type":"scatter","data":{"datasets":[{"data":[' . implode(',', $base_data) .']}]}}';
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . $data;
     $res = $mu_->get_contents($url);
     
