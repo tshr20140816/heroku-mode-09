@@ -28,7 +28,7 @@ function func_20190507($mu_)
     $color_index['日本ハム'] = 'black';
     $color_index['オリックス'] = 'black';
     $color_index['ロッテ'] = 'black';
-    $color_index['楽天'] = 'black';
+    $color_index['楽天'] = 'darkred';
     
     $url = 'https://baseball.yahoo.co.jp/npb/standings/';
     $res = $mu_->get_contents($url);
