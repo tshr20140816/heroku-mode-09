@@ -30,4 +30,8 @@ function func_20190507($mu_)
     for ($i = 0; $i < 12; $i++) {
         error_log($matches[1][$i * 13 + 7]);
     }
+    
+    $rc = preg_match_all('/title="(.+?)"/', $tmp[1] . $tmp[2], $matches);
+    
+    error_log(print_r($matches, true));
 }
