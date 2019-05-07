@@ -43,14 +43,13 @@ function func_20190507($mu_)
         $tmp3->label = $list_team[$i];
         $tmp3->data = $tmp2;
         $tmp3->backgroundColor = $i % 2 == 0 ? 'black' : 'red';
+        $tmp3->fontSize = 8;
         $datasets[] = $tmp3;
     }
     error_log(print_r($datasets, true));
 
     $data = ['type' => 'bubble',
              'data' => ['datasets' => $datasets],
-             'options' => ['defaultFontSize' => 8,
-                          ]
             ];
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
     $res = $mu_->get_contents($url);
