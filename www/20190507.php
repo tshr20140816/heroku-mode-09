@@ -42,6 +42,7 @@ function func_20190507($mu_)
         $tmp3 = null;
         $tmp3->label = $list_team[$i];
         $tmp3->data = $tmp2;
+        $tmp3->color = 'black';
         $datasets[] = $tmp3;
     }
     error_log(print_r($datasets, true));
