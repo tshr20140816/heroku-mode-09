@@ -48,7 +48,7 @@ function func_20190507($mu_)
     }
     error_log(print_r($datasets, true));
 
-    $data = ['type' => 'line',
+    $data = ['type' => 'scatter',
              'data' => ['datasets' => $datasets],
             ];
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
