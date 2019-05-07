@@ -40,9 +40,11 @@ function func_20190507($mu_)
         $tmp1->x = $matches[1][$i * 13 + 7];
         $tmp1->y = $matches[1][$i * 13 + 8];
         $tmp2 = [];
-        $tmp2['label'] = $list_team[$i];
-        $tmp2['data'] = $tmp1;
-        $datasets[] = $tmp2;
+        $tmp2[] = $tmp1;
+        $tmp3 = null;
+        $tmp3->label = $list_team[$i];
+        $tmp3->data = $tmp2;
+        $datasets[] = $tmp3;
     }
     error_log(print_r($datasets, true));
     
