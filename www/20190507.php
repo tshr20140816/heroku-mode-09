@@ -17,4 +17,9 @@ function func_20190507($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $url = 'https://baseball.yahoo.co.jp/npb/standings/';
+    $res = $mu_->get_contents($url);
+    
+    $tmp = explode('<table class="NpbPlSt yjM">', $res);
+    error_log($tmp[1]);
 }
