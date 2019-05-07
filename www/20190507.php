@@ -41,14 +41,13 @@ function func_20190507($mu_)
         $tmp3 = null;
         $tmp3->label = $list_team[$i];
         $tmp3->data = $tmp2;
+        $tmp3->borderWidth = 20;
         $datasets[] = $tmp3;
     }
     error_log(print_r($datasets, true));
 
     $data = ['type' => 'scatter',
              'data' => ['datasets' => $datasets],
-             'options' => ['color' => ['red', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black'],
-                          ],
             ];
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
     $res = $mu_->get_contents($url);
