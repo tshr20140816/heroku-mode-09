@@ -25,8 +25,8 @@ function func_20190507($mu_)
     $color_index['阪神'] = 'yellow,black';
     $color_index['西武'] = 'navy,navy';
     $color_index['ソフトバンク'] = 'gold,black';
-    $color_index['日本ハム'] = 'steelblue,darkgray';
-    $color_index['オリックス'] = 'darkslategray,sandybrown';
+    $color_index['日本ハム'] = 'darkgray,steelblue';
+    $color_index['オリックス'] = 'sandybrown,darkslategray';
     $color_index['ロッテ'] = 'black,silver';
     $color_index['楽天'] = 'darkred,orange';
     
