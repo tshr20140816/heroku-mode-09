@@ -22,7 +22,7 @@ function func_20190507($mu_)
     $color_index['巨人'] = 'black,orange';
     $color_index['ＤｅＮＡ'] = 'blue,blue';
     $color_index['中日'] = 'dodgerblue,dodgerblue';
-    $color_index['阪神'] = 'yellow,black';
+    $color_index['阪神'] = 'yellow,yellow';
     $color_index['西武'] = 'navy,navy';
     $color_index['ソフトバンク'] = 'gold,black';
     $color_index['日本ハム'] = 'darkgray,steelblue';
