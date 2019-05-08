@@ -58,14 +58,14 @@ function func_20190507($mu_)
     $loss_avg = round($loss_sum / 12);
     $gain_avg = round($gain_sum / 12);
     for ($i = 0; $i < 12; $i++) {
-        $tmp1 = null;
+        $tmp1 = new stdClass();
         $tmp1->x = $matches[1][$i * 13 + 7];
         // $tmp1->y = $matches[1][$i * 13 + 8] - $loss_min_value;
         $tmp1->y = $matches[1][$i * 13 + 8];
         $tmp1->r = 7;
         $tmp2 = [];
         $tmp2[] = $tmp1;
-        $tmp3 = null;
+        $tmp3 = new stdClass();
         $tmp3->label = $list_team[$i];
         $tmp3->data = $tmp2;
         $tmp3->backgroundColor = explode(',', $color_index[$list_team[$i]])[0];
@@ -75,7 +75,7 @@ function func_20190507($mu_)
     }
     error_log(print_r($datasets, true));
 
-    $scales = null;
+    $scales = new stdClass();
     $scales->xAxes[] = ['display' => true,
                         'scaleLabel' => ['display' => true,
                                          'labelString' => '得点',
