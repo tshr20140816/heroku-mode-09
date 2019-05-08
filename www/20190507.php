@@ -79,12 +79,14 @@ function func_20190507($mu_)
     $scales->xAxes[] = ['display' => true,
                         'scaleLabel' => ['display' => true,
                                          'labelString' => '得点',
+                                         'fontColor' => 'black',
                                         ],
                        ];
     $scales->yAxes[] = ['display' => true,
                         'bottom' => $loss_min_value,
                         'scaleLabel' => ['display' => true,
                                          'labelString' => '失点',
+                                         'fontColor' => 'black',
                                         ],
                        ];
     $data = ['type' => 'bubble',
