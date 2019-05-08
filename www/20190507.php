@@ -110,6 +110,9 @@ function func_20190507($mu_)
                                                               ],
                                                              ],
                                            ],
+                           'animation' => ['duration' => 0,],
+                           'hover' => ['animationDuration' => 0,],
+                           'responsiveAnimationDuration' => 0,
                           ],
             ];
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
