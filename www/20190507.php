@@ -34,16 +34,12 @@ function func_20190507($mu_)
     $res = $mu_->get_contents($url);
     
     $tmp = explode('<table class="NpbPlSt yjM">', $res);
-    // error_log($tmp[1]);
     
     $rc = preg_match_all('/title="(.+?)"/', $tmp[1] . $tmp[2], $matches);
     
-    // error_log(print_r($matches, true));
     $list_team = $matches[1];
     
     $rc = preg_match_all('/<td>(.+?)</', $tmp[1] . $tmp[2], $matches);
-    
-    // error_log(print_r($matches, true));
     
     $loss_sum = 0;
     $gain_sum = 0;
@@ -60,7 +56,6 @@ function func_20190507($mu_)
     for ($i = 0; $i < 12; $i++) {
         $tmp1 = new stdClass();
         $tmp1->x = $matches[1][$i * 13 + 7];
-        // $tmp1->y = $matches[1][$i * 13 + 8] - $loss_min_value;
         $tmp1->y = $matches[1][$i * 13 + 8];
         $tmp1->r = 7;
         $tmp2 = [];
@@ -73,7 +68,7 @@ function func_20190507($mu_)
         $tmp3->borderColor = explode(',', $color_index[$list_team[$i]])[1];
         $datasets[] = $tmp3;
     }
-    error_log(print_r($datasets, true));
+    // error_log($log_prefix . print_r($datasets, true));
 
     $scales = new stdClass();
     $scales->xAxes[] = ['display' => true,
@@ -107,7 +102,6 @@ function func_20190507($mu_)
                                                               ['type' => 'line',
                                                                'mode' => 'horizontal',
                                                                'scaleID' => 'y-axis-0',
-                                                               // 'value' => $loss_avg - $loss_min_value,
                                                                'value' => $loss_avg,
                                                                'borderColor' => 'black',
                                                                'borderWidth' => 1,
@@ -121,9 +115,6 @@ function func_20190507($mu_)
             ];
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
     $res = $mu_->get_contents($url);
-    
-    // header('Content-Type: image/png');
-    // echo $res;
     
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
