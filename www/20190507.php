@@ -76,11 +76,15 @@ function func_20190507($mu_)
     error_log(print_r($datasets, true));
 
     $scales = null;
-    $scales->xAxes[] = ['display' => false,];
+    $scales->xAxes[] = ['display' => true,
+                        'scaleLabel' => ['display' => true,
+                                         'labelString' => '得点',
+                                        ],
+                       ];
     $scales->yAxes[] = ['display' => true,
                         'bottom' => $loss_min_value,
                         'scaleLabel' => ['display' => true,
-                                         'labelString' => 'loss',
+                                         'labelString' => '失点',
                                         ],
                        ];
     $data = ['type' => 'bubble',
