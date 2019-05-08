@@ -17,18 +17,18 @@ function func_20190507($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $color_index['広島'] = 'red';
-    $color_index['ヤクルト'] = 'cyan';
-    $color_index['巨人'] = 'orange';
-    $color_index['ＤｅＮＡ'] = 'blue';
-    $color_index['中日'] = 'dodgerblue';
-    $color_index['阪神'] = 'yellow';
-    $color_index['西武'] = 'black';
-    $color_index['ソフトバンク'] = 'black';
-    $color_index['日本ハム'] = 'black';
-    $color_index['オリックス'] = 'black';
-    $color_index['ロッテ'] = 'black';
-    $color_index['楽天'] = 'darkred';
+    $color_index['広島'] = 'red,red';
+    $color_index['ヤクルト'] = 'cyan,yellowgreen';
+    $color_index['巨人'] = 'orange,black';
+    $color_index['ＤｅＮＡ'] = 'blue,blue';
+    $color_index['中日'] = 'dodgerblue,dodgerblue';
+    $color_index['阪神'] = 'yellow,black';
+    $color_index['西武'] = 'navy,navy';
+    $color_index['ソフトバンク'] = 'gold,black';
+    $color_index['日本ハム'] = 'steelblue,darkgray';
+    $color_index['オリックス'] = 'darkslategray,sandybrown';
+    $color_index['ロッテ'] = 'black,silver';
+    $color_index['楽天'] = 'darkred,orange';
     
     $url = 'https://baseball.yahoo.co.jp/npb/standings/';
     $res = $mu_->get_contents($url);
@@ -61,9 +61,9 @@ function func_20190507($mu_)
         $tmp3 = null;
         $tmp3->label = $list_team[$i];
         $tmp3->data = $tmp2;
-        $tmp3->backgroundColor = $color_index[$list_team[$i]];
+        $tmp3->backgroundColor = explode(',', $color_index[$list_team[$i]])[0];
         $tmp3->borderWidth = 3;
-        $tmp3->borderColor = 'black';
+        $tmp3->borderColor = explode(',', $color_index[$list_team[$i]])[1];
         $datasets[] = $tmp3;
     }
     error_log(print_r($datasets, true));
