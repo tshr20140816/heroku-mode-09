@@ -76,7 +76,7 @@ function func_20190507($mu_)
 
     $scales = null;
     $scales->xAxes[] = ['display' => false,];
-    $scales->yAxes[] = ['display' => false,
+    $scales->yAxes[] = ['display' => true,
                         'scaleLabel' => ['display' => true,
                                          'labelString' => 'loss',
                                         ],
