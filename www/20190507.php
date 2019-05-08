@@ -55,8 +55,8 @@ function func_20190507($mu_)
             $loss_min_value = (int)$matches[1][$i * 13 + 8];
         }
     }
-    $loss_avg = $loss_sum / 12;
-    $gain_avg = $gain_sum / 12;
+    $loss_avg = round($loss_sum / 12);
+    $gain_avg = round($gain_sum / 12);
     for ($i = 0; $i < 12; $i++) {
         $tmp1 = null;
         $tmp1->x = $matches[1][$i * 13 + 7];
@@ -89,6 +89,7 @@ function func_20190507($mu_)
                                                                'value' => $gain_avg,
                                                                'borderColor' => 'black',
                                                                'borderWidth' => 1,
+                                                               'label' => ['content' => 'TEST_A',],
                                                               ],
                                                               ['type' => 'line',
                                                                'mode' => 'horizontal',
@@ -96,6 +97,7 @@ function func_20190507($mu_)
                                                                'value' => $loss_avg - $loss_min_value,
                                                                'borderColor' => 'black',
                                                                'borderWidth' => 1,
+                                                               'label' => ['content' => 'TEST_B',],
                                                               ],
                                                              ],
                                            ],
