@@ -60,7 +60,8 @@ function func_20190507($mu_)
     for ($i = 0; $i < 12; $i++) {
         $tmp1 = null;
         $tmp1->x = $matches[1][$i * 13 + 7];
-        $tmp1->y = $matches[1][$i * 13 + 8] - $loss_min_value;
+        // $tmp1->y = $matches[1][$i * 13 + 8] - $loss_min_value;
+        $tmp1->y = $matches[1][$i * 13 + 8];
         $tmp1->r = 7;
         $tmp2 = [];
         $tmp2[] = $tmp1;
@@ -77,6 +78,7 @@ function func_20190507($mu_)
     $scales = null;
     $scales->xAxes[] = ['display' => false,];
     $scales->yAxes[] = ['display' => true,
+                        'bottom' => $loss_min_value,
                         'scaleLabel' => ['display' => true,
                                          'labelString' => 'loss',
                                         ],
@@ -97,7 +99,8 @@ function func_20190507($mu_)
                                                               ['type' => 'line',
                                                                'mode' => 'horizontal',
                                                                'scaleID' => 'y-axis-0',
-                                                               'value' => $loss_avg - $loss_min_value,
+                                                               // 'value' => $loss_avg - $loss_min_value,
+                                                               'value' => $loss_avg,
                                                                'borderColor' => 'black',
                                                                'borderWidth' => 1,
                                                               ],
