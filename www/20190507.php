@@ -76,7 +76,11 @@ function func_20190507($mu_)
 
     $scales = null;
     $scales->xAxes[] = ['display' => false,];
-    $scales->yAxes[] = ['display' => false,];
+    $scales->yAxes[] = ['display' => false,
+                        'scaleLabel' => ['display' => true,
+                                         'labelString' => 'loss',
+                                        ],
+                       ];
     $data = ['type' => 'bubble',
              'data' => ['datasets' => $datasets],
              'options' => ['legend' => ['position' => 'bottom',
