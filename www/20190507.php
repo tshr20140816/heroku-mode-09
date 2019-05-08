@@ -45,16 +45,22 @@ function func_20190507($mu_)
     
     // error_log(print_r($matches, true));
     
-    $min_value = 9999;
+    $loss_sum = 0;
+    $gain_sum = 0;
+    $loss_min_value = 9999;
     for ($i = 0; $i < 12; $i++) {
-        if ($min_value > (int)$matches[1][$i * 13 + 8]) {
-            $min_value = (int)$matches[1][$i * 13 + 8];
+        $gain_sum += (int)$matches[1][$i * 13 + 7];
+        $loss_sum += (int)$matches[1][$i * 13 + 8];
+        if ($loss_min_value > (int)$matches[1][$i * 13 + 8]) {
+            $loss_min_value = (int)$matches[1][$i * 13 + 8];
         }
     }
+    $loss_avg = $loss_sum / 12;
+    $gain_avg = $gain_sum / 12;
     for ($i = 0; $i < 12; $i++) {
         $tmp1 = null;
         $tmp1->x = $matches[1][$i * 13 + 7];
-        $tmp1->y = $matches[1][$i * 13 + 8] - $min_value;
+        $tmp1->y = $matches[1][$i * 13 + 8] - $loss_min_value;
         $tmp1->r = 7;
         $tmp2 = [];
         $tmp2[] = $tmp1;
