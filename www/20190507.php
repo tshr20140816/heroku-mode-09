@@ -83,6 +83,13 @@ function func_20190507($mu_)
                                         'labels' => ['fontSize' => 10,],
                                        ],
                            'scales' => $scales,
+                           'annotation' => ['annotations' => [['type' => 'line',
+                                                               'mode' => 'vertical',
+                                                               'scaleID' => 'x-axis-0',
+                                                               'value' => $gain_avg,
+                                                              ],
+                                                             ],
+                                           ],
                           ],
             ];
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
