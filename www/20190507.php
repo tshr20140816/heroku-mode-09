@@ -55,15 +55,15 @@ function func_20190507($mu_)
         $tmp1 = null;
         $tmp1->x = $matches[1][$i * 13 + 7];
         $tmp1->y = $matches[1][$i * 13 + 8] - $min_value;
-        $tmp1->r = 10;
+        $tmp1->r = 5;
         $tmp2 = [];
         $tmp2[] = $tmp1;
         $tmp3 = null;
         $tmp3->label = $list_team[$i];
         $tmp3->data = $tmp2;
         $tmp3->backgroundColor = $color_index[$list_team[$i]];
-        $tmp3->borderWidth = 10;
-        $tmp3->borderColor = 'green';
+        $tmp3->borderWidth = 5;
+        $tmp3->borderColor = 'black';
         $datasets[] = $tmp3;
     }
     error_log(print_r($datasets, true));
