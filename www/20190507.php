@@ -118,6 +118,46 @@ function func_20190507($mu_)
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
     $res = $mu_->get_contents($url);
     
+    // header('Content-Type: image/png');
+    // echo $res;
+    
+    $im1 = imagecreatefromstring($res);
+    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
+    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
+    imagealphablending($im2, false);
+    imagesavealpha($im2, true);
+    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
+    
+    $file = tempnam("/tmp", md5(microtime(true)));
+    imagepng($im2, $file, 9);
+    imagedestroy($im2);
+    $res = file_get_contents($file);
+    unlink($file);
+    
+    $url = 'https://api.tinify.com/shrink';
+    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+                CURLOPT_POST => true,
+                CURLOPT_BINARYTRANSFER => true,
+                CURLOPT_POSTFIELDS => $res,
+                CURLOPT_HEADER => true,
+               ];
+    $res = $mu_->get_contents($url, $options);
+    
+    $tmp = preg_split('/^\r\n/m', $res, 2);
+    
+    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
+    error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
+    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
+    $json = json_decode($tmp[1]);
+    error_log($log_prefix . print_r($json, true));
+
+    $url = $json->output->url;
+    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+               ];
+    $res = $mu_->get_contents($url, $options);
+    
     header('Content-Type: image/png');
     echo $res;
 }
