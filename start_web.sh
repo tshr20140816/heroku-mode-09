@@ -34,7 +34,7 @@ if [ $(date +%-M) -lt 10 ]; then
   composer update > /dev/null 2>&1 &
 fi
 
-cat /proc/cpuinfo | grep "model name" | head -n 1 >/tmp/cpu_model_name
+cat /proc/cpuinfo | grep "model name" | head -n 1 > /tmp/cpu_model_name
 
 export USER_AGENT=$(curl https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/useragent.txt)
 
