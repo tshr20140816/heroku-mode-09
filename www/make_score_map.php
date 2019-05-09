@@ -29,18 +29,18 @@ function make_score_map($mu_)
     $color_index['オリックス'] = 'sandybrown,darkslategray';
     $color_index['ロッテ'] = 'black,silver';
     $color_index['楽天'] = 'darkred,orange';
-    
+
     $url = 'https://baseball.yahoo.co.jp/npb/standings/';
     $res = $mu_->get_contents($url);
-    
+
     $tmp = explode('<table class="NpbPlSt yjM">', $res);
-    
+
     $rc = preg_match_all('/title="(.+?)"/', $tmp[1] . $tmp[2], $matches);
-    
+
     $list_team = $matches[1];
-    
+
     $rc = preg_match_all('/<td>(.+?)</', $tmp[1] . $tmp[2], $matches);
-    
+
     $loss_sum = 0;
     $gain_sum = 0;
     $loss_min_value = 9999;
@@ -115,20 +115,20 @@ function make_score_map($mu_)
             ];
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
     $res = $mu_->get_contents($url);
-    
+
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
     $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
     imagealphablending($im2, false);
     imagesavealpha($im2, true);
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
-    
+
     $file = tempnam("/tmp", md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
     $res = file_get_contents($file);
     unlink($file);
-    
+
     $url = 'https://api.tinify.com/shrink';
     $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                 CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
@@ -138,12 +138,12 @@ function make_score_map($mu_)
                 CURLOPT_HEADER => true,
                ];
     $res = $mu_->get_contents($url, $options);
-    
+
     $tmp = preg_split('/^\r\n/m', $res, 2);
-    
+
     $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
     error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
-    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
+    $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
     $json = json_decode($tmp[1]);
     error_log($log_prefix . print_r($json, true));
 
@@ -152,7 +152,35 @@ function make_score_map($mu_)
                 CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
                ];
     $res = $mu_->get_contents($url, $options);
-    
-    header('Content-Type: image/png');
-    echo $res;
+    $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
+
+    $mu_->post_blog_hatena('Score Map', $description);
+    $mu_->post_blog_fc2('Score Map', $description);
+
+    $description = '<![CDATA[' . $description . ']]>';
+
+    $xml_text = <<< __HEREDOC__
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+<title>Score Map</title>
+<link>http://dummy.local/</link>
+<description>Score Map</description>
+<item>
+<guid isPermaLink="false">__HASH__</guid>
+<pubDate />
+<title>Score Map</title>
+<link>http://dummy.local/</link>
+<description>__DESCRIPTION__</description>
+</item>
+</channel>
+</rss>
+__HEREDOC__;
+
+    $xml_text = str_replace('__DESCRIPTION__', $description, $xml_text);
+    $xml_text = str_replace('__HASH__', hash('sha256', $description), $xml_text);
+    $file_name = '/tmp/' . getenv('FC2_RSS_03') . '.xml';
+    file_put_contents($file_name, $xml_text);
+    $mu_->upload_fc2($file_name);
+    unlink($file_name);
 }
