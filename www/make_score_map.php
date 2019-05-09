@@ -11,6 +11,9 @@ $mu = new MyUtils();
 
 make_score_map($mu);
 
+$time_finish = microtime(true);
+$mu->post_blog_wordpress("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]');
+
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
 function make_score_map($mu_)
