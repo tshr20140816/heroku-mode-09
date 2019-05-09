@@ -575,8 +575,15 @@ __HEREDOC__;
         $data = json_decode($res);
         $session_id = $data->content->session_id;
 
+        $urls = [];
+
         $livedoor_id = $this->get_env('LIVEDOOR_ID', true);
-        $url_feed = "http://blog.livedoor.jp/${livedoor_id}/atom.xml";
+        $urls[] = "http://blog.livedoor.jp/${livedoor_id}/atom.xml";
+
+        $fc2_fqdn = $this->get_env('FC2_FTP_SERVER', true);
+        $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_01') . '.xml';
+        $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_02') . '.xml';
+        $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_03') . '.xml';
 
         $json = '{"sid":"' . $session_id . '","op":"getFeeds","cat_id":-3}';
         $res = $this->get_contents($url, $options + [CURLOPT_POSTFIELDS => $json,]);
@@ -584,7 +591,7 @@ __HEREDOC__;
         foreach ($data->content as $feed) {
             error_log($log_prefix . 'feed_url : ' . $feed->feed_url);
             error_log($log_prefix . 'feed_id : ' . $feed->id);
-            if ($url_feed == $feed->feed_url) {
+            if (in_array($feed->feed_url, $urls)) {
                 $json = '{"sid":"' . $session_id . '","op":"updateFeed","feed_id":' . $feed->id . '}';
                 $res = $this->get_contents($url, $options + [CURLOPT_POSTFIELDS => $json,]);
                 error_log($log_prefix . print_r(json_decode($res), true));
