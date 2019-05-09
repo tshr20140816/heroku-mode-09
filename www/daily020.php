@@ -354,7 +354,7 @@ function get_quota($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
     error_log($log_prefix . '$dyno_quota : ' . $dyno_quota);
 
     $quota = $dyno_quota - $dyno_used;
-    
+
     $keyword = strtolower($target_);
     for ($i = 0; $i < strlen($keyword); $i++) {
         $keyword[$i] = chr(ord($keyword[$i]) + 1);
@@ -366,16 +366,16 @@ function get_quota($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
         $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
         $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword;
         $res = $mu_->get_contents($url);
-        
+
         $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
         $res = $mu_->get_contents($match[1]);
-        
+
         $rc = preg_match('/<div class="' . $keyword . '">(.+?)</', $res, $match);
         $description = $match[1];
     }
     $description = '<div class="' . $keyword . '">' . trim($description . ' ' . (int)($quota / 60)) . '</div>';
     $mu_->post_blog_hatena($keyword, $description);
-    
+
     $quota = floor($quota / 86400) . 'd ' . ($quota / 3600 % 24) . 'h ' . ($quota / 60 % 60) . 'm';
 
     file_put_contents($file_name_blog_, "\nQuota " . strtolower($target_) . " : ${quota}\n", FILE_APPEND);
@@ -557,6 +557,22 @@ __HEREDOC__;
         $record_count = number_format($record_count);
     }
     $pdo = null;
+
+    $keyword = 'uppemfepsfdpsedpvou';
+    $description = '';
+    if ((int)date('j', strtotime('+9hours')) != 1) {
+        $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
+        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword;
+        $res = $mu_->get_contents($url);
+
+        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
+        $res = $mu_->get_contents($match[1]);
+
+        $rc = preg_match('/<div class="' . $keyword . '">(.+?)</', $res, $match);
+        $description = $match[1];
+    }
+    $description = '<div class="' . $keyword . '">' . trim($description . ' ' . $record_count) . '</div>';
+    $mu_->post_blog_hatena($keyword, $description);
 
     file_put_contents($file_name_blog_, "\nDatabase backup size : ${file_size}Byte\nRecord count : ${record_count}\n", FILE_APPEND);
 }
