@@ -163,9 +163,9 @@ function get_results_batting($mu_)
     // error_log($log_prefix . $description);
     $mu_->post_blog_hatena('Batting Average', $description);
     $mu_->post_blog_fc2('Batting Average', $description);
-    
+
     $description = '<![CDATA[' . $description . ']]>';
-    
+
     $xml_text = <<< __HEREDOC__
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
