@@ -560,7 +560,8 @@ __HEREDOC__;
 
     $keyword = 'uppemfepsfdpsedpvou';
     $description = '';
-    if ((int)date('j', strtotime('+9hours')) != 1) {
+    $j = (int)date('j', strtotime('+9hours'));
+    if ($j != 1) {
         $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
         $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword;
         $res = $mu_->get_contents($url);
@@ -571,7 +572,7 @@ __HEREDOC__;
         $rc = preg_match('/<div class="' . $keyword . '">(.+?)</', $res, $match);
         $description = $match[1];
     }
-    $description = '<div class="' . $keyword . '">' . trim($description . ' ' . $record_count) . '</div>';
+    $description = '<div class="' . $keyword . '">' . trim("${description} ${j},${record_count}") . '</div>';
     $mu_->post_blog_hatena($keyword, $description);
 
     file_put_contents($file_name_blog_, "\nDatabase backup size : ${file_size}Byte\nRecord count : ${record_count}\n", FILE_APPEND);
