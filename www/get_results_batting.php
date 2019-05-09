@@ -14,7 +14,7 @@ get_results_batting($mu);
 $time_finish = microtime(true);
 $mu->post_blog_wordpress("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]');
 
-$url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/get_results_batting.php';
+$url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/make_score_map.php';
 $options = [
     CURLOPT_TIMEOUT => 3,
     CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
