@@ -85,6 +85,9 @@ check_version_postgresql($mu, $file_name_blog);
 // Ruby version check
 check_version_ruby($mu, $file_name_blog);
 
+// CPU info
+check_cpu_info($mu, $file_name_blog);
+
 // fc2 page update
 update_page_fc2($mu);
 
@@ -1203,7 +1206,19 @@ function check_version_ruby($mu_, $file_name_blog_)
     $rc = preg_match('/ruby "(.+?)"/', $res, $match);
     $version_current = $match[1];
 
-    $content = "\nRuby Version\ncurrent : ${version_current}\nsupport : ${version_support}";
+    $content = "\nRuby Version\ncurrent : ${version_current}\nsupport : ${version_support}\n";
+    file_put_contents($file_name_blog_, $content, FILE_APPEND);
+}
+
+function check_cpu_info($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $res = file_get_contents('/proc/cpuinfo');
+
+    $rc = preg_match('/model name.*?:\s*(.+)/', $res, $match);
+
+    $content = "\nCPU : " . $match[1];
     file_put_contents($file_name_blog_, $content, FILE_APPEND);
 }
 
