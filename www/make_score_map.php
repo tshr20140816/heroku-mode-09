@@ -9,11 +9,11 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190507($mu);
+make_score_map($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_20190507($mu_)
+function make_score_map($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
