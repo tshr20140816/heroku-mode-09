@@ -1,5 +1,5 @@
 <?php
 
-$res = get_file_contents('/proc/cpuinfo');
+$res = file_get_contents('/proc/cpuinfo');
 
 error_log($res);
