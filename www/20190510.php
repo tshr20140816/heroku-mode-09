@@ -70,8 +70,10 @@ function func_20190510($mu_)
             $loss_min_value = $loss;
         }
     }
+
     $loss_avg = round($loss_sum / 12);
     $gain_avg = round($gain_sum / 12);
+
     for ($i = 0; $i < 12; $i++) {
         $tmp1 = new stdClass();
         $tmp1->x = $matches[1][$i * 13 + 7];
@@ -132,7 +134,30 @@ function func_20190510($mu_)
                            'responsiveAnimationDuration' => 0,
                           ],
             ];
-    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
+
+    $data2 = [];
+    $tmp1 = new stdClass();
+    $tmp1->x = $gain_min_value;
+    $tmp1->y = $gain_min_value;
+    $data2[] = $tmp1;
+    $tmp1 = new stdClass();
+    $tmp1->x = $gain_max_value;
+    $tmp1->y = $gain_max_value;
+    $data2[] = $tmp1;
+    
+    $data2 = ['type' => 'scatter',
+              'data' => ['datasets' => [['data' => $data2,
+                                         'borderColor' => 'black',
+                                         'showLine' => true,
+                                        ],
+                                       ],
+                        ],
+             'options' => ['legend' => ['display' => false,
+                                       ],
+                          ],
+             ];
+
+    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data) . ',' . json_encode($data2);
     $res = $mu_->get_contents($url);
 
     header('Content-Type: image/png');
