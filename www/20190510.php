@@ -106,8 +106,7 @@ function func_20190510($mu_)
                    'borderColor' => 'black',
                    'borderWidth' => 1,
                    'fill' => false,
-                   'pointStyle' => 'line',
-                   'pointBorderWidth' => 1,
+                   'pointRadius' => 0,
                   ];
     
     // error_log($log_prefix . print_r($datasets, true));
