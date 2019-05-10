@@ -89,6 +89,23 @@ function func_20190510($mu_)
         $tmp3->borderColor = explode(',', $color_index[$list_team[$i]])[1];
         $datasets[] = $tmp3;
     }
+    
+    $data2 = [];
+    $tmp1 = new stdClass();
+    $tmp1->x = $gain_min_value;
+    $tmp1->y = $gain_min_value;
+    $data2[] = $tmp1;
+    $tmp1 = new stdClass();
+    $tmp1->x = $gain_max_value;
+    $tmp1->y = $gain_max_value;
+    $data2[] = $tmp1;
+    
+    $datasets[] = ['data' => $data2,
+                   'borderColor' => 'black',
+                   'type' => 'scatter',
+                   'showLine' => true,
+                  ];
+    
     // error_log($log_prefix . print_r($datasets, true));
 
     $scales = new stdClass();
@@ -135,21 +152,7 @@ function func_20190510($mu_)
                           ],
             ];
 
-    for ($i = 0; $i < 200; $i++) {
-        $data2[] = $i;
-    }
-    $data2 = ['type' => 'line',
-              'data' => ['datasets' => [['data' => $data2,
-                                         'borderColor' => 'black',
-                                        ],
-                                       ],
-                        ],
-             'options' => ['legend' => ['display' => false,
-                                       ],
-                          ],
-             ];
-
-    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data) . ',' . json_encode($data2);
+    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
     $res = $mu_->get_contents($url);
 
     header('Content-Type: image/png');
