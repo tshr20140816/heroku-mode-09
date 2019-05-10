@@ -44,14 +44,30 @@ function make_score_map($mu_)
 
     $rc = preg_match_all('/<td>(.+?)</', $tmp[1] . $tmp[2], $matches);
 
-    $loss_sum = 0;
     $gain_sum = 0;
+    $gain_min_value = 9999;
+    $gain_max_value = 0;
+    $loss_sum = 0;
     $loss_min_value = 9999;
+    $loss_max_value = 0;
     for ($i = 0; $i < 12; $i++) {
-        $gain_sum += (int)$matches[1][$i * 13 + 7];
-        $loss_sum += (int)$matches[1][$i * 13 + 8];
-        if ($loss_min_value > (int)$matches[1][$i * 13 + 8]) {
-            $loss_min_value = (int)$matches[1][$i * 13 + 8];
+        $gain = (int)$matches[1][$i * 13 + 7];
+        $loss = (int)$matches[1][$i * 13 + 8];
+
+        $gain_sum += $gain;
+        if ($gain_max_value < $gain) {
+            $gain_max_value = $gain;
+        }
+        if ($gain_min_value > $gain) {
+            $gain_min_value = $gain;
+        }
+
+        $loss_sum += $loss;
+        if ($loss_max_value < $loss) {
+            $loss_max_value = $loss;
+        }
+        if ($loss_min_value > $loss) {
+            $loss_min_value = $loss;
         }
     }
     $loss_avg = round($loss_sum / 12);
@@ -71,6 +87,26 @@ function make_score_map($mu_)
         $tmp3->borderColor = explode(',', $color_index[$list_team[$i]])[1];
         $datasets[] = $tmp3;
     }
+    
+    $data2 = [];
+    $tmp1 = new stdClass();
+    $tmp1->x = floor(($gain_min_value > $loss_min_value ? $gain_min_value : $loss_min_value) / 10) * 10;
+    $tmp1->y = $tmp1->x;
+    $data2[] = $tmp1;
+    $tmp1 = new stdClass();
+    $tmp1->x = ceil(($gain_max_value > $loss_max_value ? $loss_max_value : $gain_max_value) / 10) * 10;
+    $tmp1->y = $tmp1->x;
+    $data2[] = $tmp1;
+
+    $datasets[] = ['type' => 'scatter',
+                   'data' => $data2,
+                   'showLine' => true,
+                   'borderColor' => 'black',
+                   'borderWidth' => 1,
+                   'fill' => false,
+                   'pointRadius' => 0,
+                  ];
+    
     // error_log($log_prefix . print_r($datasets, true));
 
     $scales = new stdClass();
