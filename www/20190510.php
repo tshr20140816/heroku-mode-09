@@ -135,20 +135,9 @@ function func_20190510($mu_)
                           ],
             ];
 
-    $data2 = [];
-    $tmp1 = new stdClass();
-    $tmp1->x = $gain_min_value;
-    $tmp1->y = $gain_min_value;
-    $data2[] = $tmp1;
-    $tmp1 = new stdClass();
-    $tmp1->x = $gain_max_value;
-    $tmp1->y = $gain_max_value;
-    $data2[] = $tmp1;
-    
-    $data2 = ['type' => 'scatter',
-              'data' => ['datasets' => [['data' => $data2,
+    $data2 = ['type' => 'line',
+              'data' => ['datasets' => [['data' => [100,110,120],
                                          'borderColor' => 'black',
-                                         'showLine' => true,
                                         ],
                                        ],
                         ],
