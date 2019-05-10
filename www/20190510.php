@@ -92,19 +92,21 @@ function func_20190510($mu_)
     
     $data2 = [];
     $tmp1 = new stdClass();
-    $tmp1->x = $gain_min_value > $loss_min_value ? $gain_min_value : $loss_min_value;
+    $tmp1->x = floor(($gain_min_value > $loss_min_value ? $gain_min_value : $loss_min_value) / 10) * 10;
     $tmp1->y = $tmp1->x;
     $data2[] = $tmp1;
     $tmp1 = new stdClass();
-    $tmp1->x = $gain_max_value > $loss_max_value ? $loss_max_value : $gain_max_value;
+    $tmp1->x = ceil(($gain_max_value > $loss_max_value ? $loss_max_value : $gain_max_value) / 10) * 10;
     $tmp1->y = $tmp1->x;
     $data2[] = $tmp1;
     
-    $datasets[] = ['data' => $data2,
-                   'borderColor' => 'black',
-                   'type' => 'scatter',
+    $datasets[] = ['type' => 'scatter',
+                   'data' => $data2,
                    'showLine' => true,
+                   'borderColor' => 'black',
+                   'borderWidth' => 1,
                    'fill' => false,
+                   'pointStyle' => 'line',
                   ];
     
     // error_log($log_prefix . print_r($datasets, true));
