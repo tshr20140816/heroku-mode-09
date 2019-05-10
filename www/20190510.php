@@ -97,7 +97,6 @@ function func_20190510($mu_)
                                         ],
                        ];
     $scales->yAxes[] = ['display' => true,
-                        'top' => $loss_max_value + 100,
                         'bottom' => $loss_min_value,
                         'scaleLabel' => ['display' => true,
                                          'labelString' => '失点',
