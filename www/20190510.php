@@ -135,8 +135,11 @@ function func_20190510($mu_)
                           ],
             ];
 
+    for ($i = 0; $i < 200; $i++) {
+        $data2[] = $i;
+    }
     $data2 = ['type' => 'line',
-              'data' => ['datasets' => [['data' => [100,110,120],
+              'data' => ['datasets' => [['data' => $data2,
                                          'borderColor' => 'black',
                                         ],
                                        ],
