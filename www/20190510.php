@@ -44,14 +44,30 @@ function func_20190510($mu_)
 
     $rc = preg_match_all('/<td>(.+?)</', $tmp[1] . $tmp[2], $matches);
 
-    $loss_sum = 0;
     $gain_sum = 0;
+    $gain_min_value = 9999;
+    $gain_max_value = 0;
+    $loss_sum = 0;
     $loss_min_value = 9999;
+    $loss_max_value = 0;
     for ($i = 0; $i < 12; $i++) {
-        $gain_sum += (int)$matches[1][$i * 13 + 7];
-        $loss_sum += (int)$matches[1][$i * 13 + 8];
-        if ($loss_min_value > (int)$matches[1][$i * 13 + 8]) {
-            $loss_min_value = (int)$matches[1][$i * 13 + 8];
+        $gain = (int)$matches[1][$i * 13 + 7];
+        $loss = (int)$matches[1][$i * 13 + 8];
+
+        $gain_sum += $gain;
+        if ($gain_max_value < $gain) {
+            $gain_max_value = $gain;
+        }
+        if ($gain_min_value > $gain) {
+            $gain_min_value = $gain;
+        }
+
+        $loss_sum += $loss;
+        if ($loss_max_value < $loss) {
+            $loss_max_value = $loss;
+        }
+        if ($loss_min_value > $loss) {
+            $loss_min_value = $loss;
         }
     }
     $loss_avg = round($loss_sum / 12);
@@ -81,6 +97,7 @@ function func_20190510($mu_)
                                         ],
                        ];
     $scales->yAxes[] = ['display' => true,
+                        'top' => $loss_max_value,
                         'bottom' => $loss_min_value,
                         'scaleLabel' => ['display' => true,
                                          'labelString' => '失点',
