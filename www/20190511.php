@@ -97,7 +97,6 @@ function func_20190511($mu_)
     $tmp1->y = $tmp1->x;
     $data2[] = $tmp1;
 
-    /*
     $datasets[] = ['type' => 'scatter',
                    'data' => $data2,
                    'showLine' => true,
@@ -106,8 +105,9 @@ function func_20190511($mu_)
                    'fill' => false,
                    'pointRadius' => 0,
                    'label' => '',
+                   'backgroundColor' => 'white',
                   ];
-    */
+
     // error_log($log_prefix . print_r($datasets, true));
 
     $scales = new stdClass();
