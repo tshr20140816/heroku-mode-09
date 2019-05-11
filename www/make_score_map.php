@@ -154,15 +154,15 @@ function make_score_map($mu_)
                            'responsiveAnimationDuration' => 0,
                           ],
             ];
-    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
+    $url = 'https://quickchart.io/chart?width=600&height=345&c=' . json_encode($data);
     $res = $mu_->get_contents($url);
 
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
-    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
+    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2 - 25);
     imagealphablending($im2, false);
     imagesavealpha($im2, true);
-    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
+    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2 - 25, imagesx($im1), imagesy($im1) - 50);
 
     $file = tempnam("/tmp", md5(microtime(true)));
     imagepng($im2, $file, 9);
