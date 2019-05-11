@@ -105,7 +105,6 @@ function func_20190511($mu_)
                    'fill' => false,
                    'pointRadius' => 0,
                    'label' => '',
-                   'backgroundColor' => 'white',
                   ];
 
     // error_log($log_prefix . print_r($datasets, true));
