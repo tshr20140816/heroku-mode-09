@@ -105,7 +105,7 @@ function func_20190511($mu_)
                    'fill' => false,
                    'pointRadius' => 0,
                    'label' => '',
-                   'options' => ['legend' => ['display' => false,],],
+                   'legend' => ['hidden' => true,],
                   ];
     
     // error_log($log_prefix . print_r($datasets, true));
