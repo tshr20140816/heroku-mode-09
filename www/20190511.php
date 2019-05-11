@@ -97,7 +97,6 @@ function func_20190511($mu_)
     $tmp1->y = $tmp1->x;
     $data2[] = $tmp1;
 
-    /*
     $datasets[] = ['type' => 'scatter',
                    'data' => $data2,
                    'showLine' => true,
@@ -108,7 +107,7 @@ function func_20190511($mu_)
                    'label' => '',
                    'backgroundColor' => 'white',
                   ];
-*/
+
     // error_log($log_prefix . print_r($datasets, true));
 
     $scales = new stdClass();
@@ -154,7 +153,7 @@ function func_20190511($mu_)
                            'responsiveAnimationDuration' => 0,
                           ],
             ];
-    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
+    $url = 'https://quickchart.io/chart?width=600&height=340&c=' . json_encode($data);
     $res = $mu_->get_contents($url);
 
     header('Content-Type: image/png');
