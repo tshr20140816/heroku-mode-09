@@ -104,6 +104,7 @@ function func_20190511($mu_)
                    'borderWidth' => 1,
                    'fill' => false,
                    'pointRadius' => 0,
+                   'label' => '',
                    'options' => ['legend' => ['display' => false,],],
                   ];
     
