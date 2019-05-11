@@ -104,6 +104,7 @@ function func_20190511($mu_)
                    'borderWidth' => 1,
                    'fill' => false,
                    'pointRadius' => 0,
+                   'legend' => ['display' => false,],
                   ];
     
     // error_log($log_prefix . print_r($datasets, true));
