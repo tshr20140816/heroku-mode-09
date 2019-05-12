@@ -19,154 +19,98 @@ function func_20190511($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $color_index['広島'] = 'red,red';
-    $color_index['ヤクルト'] = 'cyan,yellowgreen';
-    $color_index['巨人'] = 'black,orange';
-    $color_index['ＤｅＮＡ'] = 'blue,blue';
-    $color_index['中日'] = 'dodgerblue,dodgerblue';
-    $color_index['阪神'] = 'yellow,yellow';
-    $color_index['西武'] = 'navy,navy';
-    $color_index['ソフトバンク'] = 'gold,black';
-    $color_index['日本ハム'] = 'darkgray,steelblue';
-    $color_index['オリックス'] = 'sandybrown,darkslategray';
-    $color_index['ロッテ'] = 'black,silver';
-    $color_index['楽天'] = 'darkred,orange';
-
-    $url = 'https://baseball.yahoo.co.jp/npb/standings/';
+    $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
+    $title = $mu_->get_env('TARGET_NAME_TITLE');
+    $url = "http://blog.livedoor.jp/${livedoor_id}/search?q=" . str_replace(' ', '+', $title) . '+' . date('Y');
     $res = $mu_->get_contents($url);
 
-    $tmp = explode('<table class="NpbPlSt yjM">', $res);
+    $rc = preg_match('/<div class="article-body-inner">(.+?)<\/div>/s', $res, $match);
+    $base_record = trim(strip_tags($match[1]));
+    error_log($log_prefix . $base_record);
 
-    $rc = preg_match_all('/title="(.+?)"/', $tmp[1] . $tmp[2], $matches);
+    $name = $mu_->get_env('TARGET_NAME');
+    $timestamp = strtotime('-13 hours');
+    // $timestamp = mktime(0, 0, 0, 4, 21, 2019);
 
-    $list_team = $matches[1];
+    if (strpos($base_record, date('Y/m/d', $timestamp)) != false) {
+        return;
+    }
 
-    $rc = preg_match_all('/<td>(.+?)</', $tmp[1] . $tmp[2], $matches);
+    $ymd = date('Ymd', $timestamp);
+    $url = 'https://baseball.yahoo.co.jp/npb/schedule/?date=' . $ymd;
 
-    $gain_sum = 0;
-    $gain_min_value = 9999;
-    $gain_max_value = 0;
-    $loss_sum = 0;
-    $loss_min_value = 9999;
-    $loss_max_value = 0;
-    for ($i = 0; $i < 12; $i++) {
-        $gain = (int)$matches[1][$i * 13 + 7];
-        $loss = (int)$matches[1][$i * 13 + 8];
+    $res = $mu_->get_contents($url);
 
-        $gain_sum += $gain;
-        if ($gain_max_value < $gain) {
-            $gain_max_value = $gain;
-        }
-        if ($gain_min_value > $gain) {
-            $gain_min_value = $gain;
-        }
+    $pattern = '<table border="0" cellspacing="0" cellpadding="0" class="teams">.+?';
+    $pattern .= '<table border="0" cellspacing="0" cellpadding="0" class="score">.+?';
+    $pattern .= '<a href="https:\/\/baseball.yahoo.co.jp\/npb\/game\/(\d+)\/".+?<\/table>.+?<\/table>';
+    $rc = preg_match_all('/' . $pattern . '/s', $res, $matches, PREG_SET_ORDER);
 
-        $loss_sum += $loss;
-        if ($loss_max_value < $loss) {
-            $loss_max_value = $loss;
-        }
-        if ($loss_min_value > $loss) {
-            $loss_min_value = $loss;
+    $url = '';
+    foreach ($matches as $match) {
+        if (strpos($match[0], '広島') != false) {
+            $url = 'https://baseball.yahoo.co.jp/npb/game/' . $match[1] . '/stats';
+            break;
         }
     }
-    $loss_avg = round($loss_sum / 12);
-    $gain_avg = round($gain_sum / 12);
-    for ($i = 0; $i < 12; $i++) {
-        $tmp1 = new stdClass();
-        $tmp1->x = $matches[1][$i * 13 + 7];
-        $tmp1->y = $matches[1][$i * 13 + 8];
-        $tmp1->r = 7;
-        $tmp2 = [];
-        $tmp2[] = $tmp1;
-        $tmp3 = new stdClass();
-        $tmp3->label = $list_team[$i];
-        $tmp3->data = $tmp2;
-        $tmp3->backgroundColor = explode(',', $color_index[$list_team[$i]])[0];
-        $tmp3->borderWidth = 3;
-        $tmp3->borderColor = explode(',', $color_index[$list_team[$i]])[1];
-        $datasets[] = $tmp3;
+
+    if ($url == '') {
+        return;
     }
-    
-    $data2 = [];
-    $tmp1 = new stdClass();
-    $tmp1->x = floor(($gain_min_value > $loss_min_value ? $gain_min_value : $loss_min_value) / 10) * 10;
-    $tmp1->y = $tmp1->x;
-    $data2[] = $tmp1;
-    $tmp1 = new stdClass();
-    $tmp1->x = ceil(($gain_max_value > $loss_max_value ? $loss_max_value : $gain_max_value) / 10) * 10;
-    $tmp1->y = $tmp1->x;
-    $data2[] = $tmp1;
+    $res = $mu_->get_contents($url);
 
-    $datasets[] = ['type' => 'scatter',
-                   'data' => $data2,
-                   'showLine' => true,
-                   'borderColor' => 'black',
-                   'borderWidth' => 1,
-                   'fill' => false,
-                   'pointRadius' => 0,
-                   'label' => '',
-                  ];
+    $description = '';
+    foreach (explode('</table>', $res) as $data) {
+        if (strpos($data, $name) != false) {
+            $rc = preg_match_all('/<tr.*?>(.+?)<\/tr>/s', $data, $matches);
+            foreach ($matches[1] as $item) {
+                if (strpos($item, $name) != false) {
+                    $tmp = str_replace("\n", '', $item);
+                    $tmp = preg_replace('/<.+?>/s', ' ', $tmp);
+                    $tmp = str_replace($name, '', $tmp);
+                    $tmp = date('Y/m/d', $timestamp) . ' ' . trim(preg_replace('/ +/', ' ', $tmp));
+                    $description = $tmp . "\n" . $base_record;
+                    error_log($log_prefix . $description);
+                    $mu_->post_blog_wordpress($title, $description);
+                    break 2;
+                }
+            }
+        }
+    }
 
-    // error_log($log_prefix . print_r($datasets, true));
+    if ($description === '') {
+        return;
+    }
 
-    $scales = new stdClass();
-    $scales->xAxes[] = ['display' => true,
-                        'scaleLabel' => ['display' => true,
-                                         'labelString' => '得点',
-                                         'fontColor' => 'black',
-                                        ],
-                       ];
-    $scales->yAxes[] = ['display' => true,
-                        'bottom' => $loss_min_value,
-                        'scaleLabel' => ['display' => true,
-                                         'labelString' => '失点',
-                                         'fontColor' => 'black',
-                                        ],
-                       ];
-    $data = ['type' => 'bubble',
-             'data' => ['datasets' => $datasets],
-             'options' => ['legend' => ['position' => 'bottom',
-                                        'labels' => ['fontSize' => 10,
-                                                     'fontColor' => 'black',
-                                                    ],
+    $rc = preg_match_all('/(.+?) .+? (.+?) .+/', $description, $matches);
+    $record_count = count($matches[0]);
+    $labels = [];
+    $data = [];
+    for ($i = 0; $i < $record_count; $i++) {
+        error_log($log_prefix . $matches[1][$record_count - $i - 1] . ' ' . $matches[2][$record_count - $i - 1]);
+        $labels[] = substr($matches[1][$record_count - $i - 1], 5);
+        $data[] = $matches[2][$record_count - $i - 1] * 1000;
+    }
+
+    $data = ['type' => 'line',
+             'data' => ['labels' => $labels,
+                        'datasets' => [['data' => $data,
+                                        'fill' => false,
                                        ],
-                           'scales' => $scales,
-                           'annotation' => ['annotations' => [['type' => 'line',
-                                                               'mode' => 'vertical',
-                                                               'scaleID' => 'x-axis-0',
-                                                               'value' => $gain_avg,
-                                                               'borderColor' => 'black',
-                                                               'borderWidth' => 1,
-                                                              ],
-                                                              ['type' => 'line',
-                                                               'mode' => 'horizontal',
-                                                               'scaleID' => 'y-axis-0',
-                                                               'value' => $loss_avg,
-                                                               'borderColor' => 'black',
-                                                               'borderWidth' => 1,
-                                                              ],
-                                                             ],
-                                           ],
-                           'animation' => ['duration' => 0,],
-                           'hover' => ['animationDuration' => 0,],
+                                      ],
+                       ],
+             'options' => ['legend' => ['display' => false,
+                                       ],
+                           'animation' => ['duration' => 0,
+                                          ],
+                           'hover' => ['animationDuration' => 0,
+                                      ],
                            'responsiveAnimationDuration' => 0,
                           ],
             ];
-    $url = 'https://quickchart.io/chart?width=600&height=345&c=' . json_encode($data);
+    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
     $res = $mu_->get_contents($url);
 
-    $im1 = imagecreatefromstring($res);
-    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
-    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2 - 25);
-    imagealphablending($im2, false);
-    imagesavealpha($im2, true);
-    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2 - 25, imagesx($im1), imagesy($im1) - 50);
-    $file = tempnam("/tmp", md5(microtime(true)));
-    imagepng($im2, $file, 9);
-    imagedestroy($im2);
-    $res = file_get_contents($file);
-    unlink($file);
-    
     header('Content-Type: image/png');
     echo $res;
 }
