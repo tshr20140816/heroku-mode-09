@@ -754,8 +754,18 @@ __HEREDOC__;
                 $dic_http_status[$http_code] = 1;
             }
             apcu_store('HTTP_STATUS', $dic_http_status);
+            /*
             if ($http_code == '200' || $http_code == '201' || $http_code == '207' || $http_code == '303') {
                 break;
+            }
+            */
+            switch ($http_code) {
+                case '200':
+                case '201':
+                case '207':
+                case '302':
+                case '303':
+                    break;
             }
 
             error_log($log_prefix . '$res : ' . $res);
