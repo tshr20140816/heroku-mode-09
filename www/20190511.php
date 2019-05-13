@@ -49,18 +49,16 @@ function func_20190511a($mu_)
     // error_log($log_prefix . $res); 
     
     $url = 'https://my.solarwinds.cloud/v1/login';
-
-    $post_data = 'email=' . rawurlencode(getenv('TEST_ID'))
-        . '&loginQueryParams=' . rawurlencode(urldecode($query))
-        . '&password=' . rawurlencode(getenv('TEST_PASSWORD'));
     
-    error_log($log_prefix . rawurlencode(urldecode($query)));
+    $json = ['email' => rawurlencode(getenv('TEST_ID')),
+             'loginQueryParams' => $query,
+             'password' => rawurlencode(getenv('TEST_PASSWORD')),
     
     $options = [
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
         CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => $post_data,
+        CURLOPT_POSTFIELDS => json_encode($json),
     ];
     
     $res = $mu_->get_contents($url, $options);   
