@@ -76,7 +76,8 @@ function func_20190511a($mu_)
     ];
     
     $res = $mu_->get_contents($url, $options);
-    error_log($log_prefix . $res);
+    // error_log($log_prefix . $res);
+    error_log(print_r($res, true));
 }
 
 function func_20190511b($mu_)
