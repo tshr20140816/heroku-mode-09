@@ -31,11 +31,17 @@ function func_20190511a($mu_)
     $url = getenv('TEST_URL');
     $res = $mu_->get_contents($url, $options);
     
-    error_log($log_prefix . $res);
+    // error_log($log_prefix . $res);
     
     $rc = preg_match('/location: (.+)/i', $res, $match);
     
-    error_log($log_prefix . $match[1]);
+    // error_log($log_prefix . $match[1]);
+    
+    $url = $matche[1];
+    $query = parse_url($url, PHP_URL_QUERY);
+    
+    $res = $mu_->get_contents($url, $options);   
+    error_log($log_prefix . $res); 
 }
 
 function func_20190511b($mu_)
