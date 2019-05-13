@@ -765,7 +765,7 @@ __HEREDOC__;
                 case '207':
                 case '302':
                 case '303':
-                    break;
+                    break 2;
             }
 
             error_log($log_prefix . '$res : ' . $res);
