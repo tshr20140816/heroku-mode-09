@@ -53,6 +53,7 @@ function func_20190511a($mu_)
     $json = ['email' => rawurlencode(getenv('TEST_ID')),
              'loginQueryParams' => $query,
              'password' => rawurlencode(getenv('TEST_PASSWORD')),
+            ];
     
     $options = [
         CURLOPT_COOKIEJAR => $cookie,
