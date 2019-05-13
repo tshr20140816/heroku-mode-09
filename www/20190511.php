@@ -19,6 +19,9 @@ function func_20190511a($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    error_log($mu_->get_encrypt_string('TEST_ID'));
+    error_log($mu_->get_encrypt_string('TEST_PASSWORD'));
+    
     $cookie = tempnam("/tmp", md5(microtime(true)));
     
     $options = [
