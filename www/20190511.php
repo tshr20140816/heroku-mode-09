@@ -75,7 +75,8 @@ function func_20190511a($mu_)
         CURLOPT_COOKIEFILE => $cookie,
     ];
     
-    $res = $mu_->get_contents($url, $options);   
+    $res = $mu_->get_contents($url, $options);
+    error_log($log_prefix . $res);
 }
 
 function func_20190511b($mu_)
