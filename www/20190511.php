@@ -32,6 +32,10 @@ function func_20190511a($mu_)
     $res = $mu_->get_contents($url, $options);
     
     error_log($log_prefix . $res);
+    
+    $rc = preg_match('/location: (.+)/i', $res, $match);
+    
+    error_log($log_prefix . $match[1]);
 }
 
 function func_20190511b($mu_)
