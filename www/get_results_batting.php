@@ -95,11 +95,19 @@ function get_results_batting($mu_)
     $record_count = count($matches[0]);
     $labels = [];
     $data = [];
+    $min_value = 1000;
     for ($i = 0; $i < $record_count; $i++) {
         error_log($log_prefix . $matches[1][$record_count - $i - 1] . ' ' . $matches[2][$record_count - $i - 1]);
         $labels[] = substr($matches[1][$record_count - $i - 1], 5);
         $data[] = $matches[2][$record_count - $i - 1] * 1000;
+        if ($min_value > $data[$i]) {
+            $min_value = $data[$i];
+        }
     }
+
+    $scales->yAxes[] = ['display' => true,
+                        'bottom' => $min_value,
+                       ];
 
     $data = ['type' => 'line',
              'data' => ['labels' => $labels,
@@ -115,6 +123,7 @@ function get_results_batting($mu_)
                            'hover' => ['animationDuration' => 0,
                                       ],
                            'responsiveAnimationDuration' => 0,
+                           'scales' => $scales,
                           ],
             ];
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
