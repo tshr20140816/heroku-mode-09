@@ -59,6 +59,7 @@ function func_20190511a($mu_)
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
         CURLOPT_POST => true,
+        CURLOPT_HTTPHEADER => ['content-type: application/json'],
         CURLOPT_POSTFIELDS => json_encode($json),
     ];
     
