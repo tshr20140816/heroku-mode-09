@@ -24,7 +24,6 @@ function func_20190511a($mu_)
     $options = [
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
-        CURLOPT_FOLLOWLOCATION => false,
         CURLOPT_HEADER => true,
     ];
     
