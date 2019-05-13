@@ -50,9 +50,9 @@ function func_20190511a($mu_)
     
     $url = 'https://my.solarwinds.cloud/v1/login';
     
-    $json = ['email' => rawurlencode(getenv('TEST_ID')),
+    $json = ['email' => getenv('TEST_ID'),
              'loginQueryParams' => $query,
-             'password' => rawurlencode(getenv('TEST_PASSWORD')),
+             'password' => getenv('TEST_PASSWORD'),
             ];
     
     $options = [
