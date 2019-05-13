@@ -55,6 +55,7 @@ function func_20190511a($mu_)
         'loginQueryParams' => urldecode($query),
         'password' => getenv('TEST_PASSWORD'),
         ];
+    error_log($log_prefix . urldecode($query)); 
     
     $options = [
         CURLOPT_COOKIEJAR => $cookie,
@@ -63,8 +64,8 @@ function func_20190511a($mu_)
         CURLOPT_POSTFIELDS => http_build_query($post_data),
     ];
     
-    $res = $mu_->get_contents($url, $options);   
-    error_log($log_prefix . $res); 
+    // $res = $mu_->get_contents($url, $options);   
+    // error_log($log_prefix . $res); 
 }
 
 function func_20190511b($mu_)
