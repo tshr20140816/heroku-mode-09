@@ -31,7 +31,7 @@ function func_20190511a($mu_)
     $url = getenv('TEST_URL');
     $res = $mu_->get_contents($url, $options);
     
-    error_log($res);
+    error_log($log_prefix . $res);
 }
 
 function func_20190511b($mu_)
