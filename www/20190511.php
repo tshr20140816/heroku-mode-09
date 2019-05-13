@@ -19,8 +19,15 @@ function func_20190511a($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    $cookie = tempnam("/tmp", md5(microtime(true)));
+    
+    $options = [
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+    ];
+    
     $url = getenv('TEST_URL');
-    $res = $mu_->get_contents($url);
+    $res = $mu_->get_contents($url, $options);
     
     error_log($res);
 }
