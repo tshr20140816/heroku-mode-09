@@ -51,7 +51,7 @@ function func_20190511a($mu_)
     $url = 'https://my.solarwinds.cloud/v1/login';
 
     $post_data = 'email=' . rawurlencode(getenv('TEST_ID'))
-        . '&loginQueryParams' => rawurlencode(urldecode($query))
+        . '&loginQueryParams=' . rawurlencode(urldecode($query))
         . '&password=' . rawurlencode(getenv('TEST_PASSWORD'));
     
     error_log($log_prefix . rawurlencode(urldecode($query)));
