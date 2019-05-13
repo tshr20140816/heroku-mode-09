@@ -22,31 +22,19 @@ function func_20190511a($mu_)
     $cookie = tempnam("/tmp", md5(microtime(true)));
     
     $options = [
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
+        // CURLOPT_COOKIEJAR => $cookie,
+        // CURLOPT_COOKIEFILE => $cookie,
         CURLOPT_FOLLOWLOCATION => false,
         CURLOPT_HEADER => true,
     ];
     
     $url = getenv('TEST_URL');
     $res = $mu_->get_contents($url, $options);
-    
-    // error_log($log_prefix . $res);
-    
+
     $rc = preg_match('/location: (.+)/i', $res, $match);
-    
-    // error_log($log_prefix . $match[1]);
-    
+
     $url = trim($match[1]);
     $query = parse_url($url, PHP_URL_QUERY);
-    
-    $options = [
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
-    ];
-    
-    // $res = $mu_->get_contents($url, $options);   
-    // error_log($log_prefix . $res); 
     
     $url = 'https://my.solarwinds.cloud/v1/login';
     
@@ -56,23 +44,20 @@ function func_20190511a($mu_)
             ];
     
     $options = [
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
+        // CURLOPT_COOKIEJAR => $cookie,
+        // CURLOPT_COOKIEFILE => $cookie,
         CURLOPT_POST => true,
         CURLOPT_HTTPHEADER => ['content-type: application/json'],
         CURLOPT_POSTFIELDS => json_encode($json),
     ];
     
-    $res = $mu_->get_contents($url, $options);   
-    error_log($log_prefix . $res);
-    
-    $res = json_decode($res);
-    
-    $url = $res->redirectUrl;
+    $res = $mu_->get_contents($url, $options);
+
+    $url = json_decode($res)->redirectUrl;
     
     $options = [
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
+        // CURLOPT_COOKIEJAR => $cookie,
+        // CURLOPT_COOKIEFILE => $cookie,
     ];
     
     $res = $mu_->get_contents($url, $options);
