@@ -37,7 +37,7 @@ function func_20190511a($mu_)
     
     error_log($log_prefix . $match[1]);
     
-    $url = $matche[1];
+    $url = trim($matche[1]);
     $query = parse_url($url, PHP_URL_QUERY);
     
     $options = [
