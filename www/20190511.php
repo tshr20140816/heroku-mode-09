@@ -25,6 +25,7 @@ function func_20190511a($mu_)
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
         CURLOPT_FOLLOWLOCATION => false,
+        CURLOPT_HEADER => true,
     ];
     
     $url = getenv('TEST_URL');
