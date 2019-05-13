@@ -86,14 +86,18 @@ function func_20190511($mu_)
     $record_count = count($matches[0]);
     $labels = [];
     $data = [];
+    $min_value = 1001;
     for ($i = 0; $i < $record_count; $i++) {
         error_log($log_prefix . $matches[1][$record_count - $i - 1] . ' ' . $matches[2][$record_count - $i - 1]);
         $labels[] = substr($matches[1][$record_count - $i - 1], 5);
         $data[] = $matches[2][$record_count - $i - 1] * 1000;
+        if ($min_value > $data[$i]) {
+            $min_value = $data[$i];
+        }
     }
 
     $scales->yAxes[] = ['display' => true,
-                        'bottom' => 200,
+                        'bottom' => $min_value,
                        ];
     
     $data = ['type' => 'line',
