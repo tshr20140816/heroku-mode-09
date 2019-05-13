@@ -52,7 +52,7 @@ function func_20190511a($mu_)
 
     $post_data = [
         'email' => getenv('TEST_ID'),
-        'loginQueryParams' => $query,
+        'loginQueryParams' => urldecode($query),
         'password' => getenv('TEST_PASSWORD'),
         ];
     
