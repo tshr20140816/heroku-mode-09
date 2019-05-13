@@ -35,7 +35,7 @@ function func_20190511a($mu_)
     
     $rc = preg_match('/location: (.+)/i', $res, $match);
     
-    error_log($log_prefix . $match[1]);
+    // error_log($log_prefix . $match[1]);
     
     $url = trim($match[1]);
     $query = parse_url($url, PHP_URL_QUERY);
@@ -43,6 +43,24 @@ function func_20190511a($mu_)
     $options = [
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
+    ];
+    
+    $res = $mu_->get_contents($url, $options);   
+    // error_log($log_prefix . $res); 
+    
+    $url = 'https://my.solarwinds.cloud/v1/login';
+
+    $post_data = [
+        'email' => getenv('TEST_ID'),
+        'loginQueryParams' => urlencode($query),
+        'password' => getenv('TEST_PASSWORD'),
+        ];
+    
+    $options = [
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
     ];
     
     $res = $mu_->get_contents($url, $options);   
