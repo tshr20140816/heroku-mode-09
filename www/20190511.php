@@ -92,6 +92,10 @@ function func_20190511($mu_)
         $data[] = $matches[2][$record_count - $i - 1] * 1000;
     }
 
+    $scales->yAxes[] = ['display' => true,
+                        'bottom' => 200,
+                       ];
+    
     $data = ['type' => 'line',
              'data' => ['labels' => $labels,
                         'datasets' => [['data' => $data,
@@ -106,6 +110,7 @@ function func_20190511($mu_)
                            'hover' => ['animationDuration' => 0,
                                       ],
                            'responsiveAnimationDuration' => 0,
+                           'scales' => $scales,
                           ],
             ];
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
