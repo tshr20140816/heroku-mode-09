@@ -22,8 +22,8 @@ function func_20190511a($mu_)
     $cookie = tempnam("/tmp", md5(microtime(true)));
     
     $options = [
-        // CURLOPT_COOKIEJAR => $cookie,
-        // CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
         CURLOPT_FOLLOWLOCATION => false,
         CURLOPT_HEADER => true,
     ];
@@ -44,8 +44,8 @@ function func_20190511a($mu_)
             ];
     
     $options = [
-        // CURLOPT_COOKIEJAR => $cookie,
-        // CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
         CURLOPT_POST => true,
         CURLOPT_HTTPHEADER => ['content-type: application/json'],
         CURLOPT_POSTFIELDS => json_encode($json),
@@ -56,8 +56,8 @@ function func_20190511a($mu_)
     $url = json_decode($res)->redirectUrl;
     
     $options = [
-        // CURLOPT_COOKIEJAR => $cookie,
-        // CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
     ];
     
     $res = $mu_->get_contents($url, $options);
