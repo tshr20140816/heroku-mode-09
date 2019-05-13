@@ -64,7 +64,18 @@ function func_20190511a($mu_)
     ];
     
     $res = $mu_->get_contents($url, $options);   
-    error_log($log_prefix . $res); 
+    error_log($log_prefix . $res);
+    
+    $res = json_decode($res);
+    
+    $url = $res['redirectUrl'];
+    
+    $options = [
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+    ];
+    
+    $res = $mu_->get_contents($url, $options);   
 }
 
 function func_20190511b($mu_)
