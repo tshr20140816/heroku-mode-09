@@ -19,9 +19,6 @@ function func_20190511a($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    error_log($mu_->get_encrypt_string(getenv('TEST_ID')));
-    error_log($mu_->get_encrypt_string(getenv('TEST_PASSWORD')));
-    
     $cookie = tempnam("/tmp", md5(microtime(true)));
     
     $options = [
@@ -31,7 +28,7 @@ function func_20190511a($mu_)
         CURLOPT_HEADER => true,
     ];
     
-    $url = getenv('TEST_URL');
+    $url = $mu_->get_env('URL_LOGGLY_USAGE');
     $res = $mu_->get_contents($url, $options);
 
     $rc = preg_match('/location: (.+)/i', $res, $match);
@@ -41,9 +38,9 @@ function func_20190511a($mu_)
     
     $url = 'https://my.solarwinds.cloud/v1/login';
     
-    $json = ['email' => getenv('TEST_ID'),
+    $json = ['email' => $mu_->get_env('LOGGLY_ID', true),
              'loginQueryParams' => $query,
-             'password' => getenv('TEST_PASSWORD'),
+             'password' => $mu_->get_env('LOGGLY_PASSWORD', true),
             ];
     
     $options = [
