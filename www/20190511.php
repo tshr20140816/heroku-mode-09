@@ -37,7 +37,7 @@ function func_20190511a($mu_)
     
     error_log($log_prefix . $match[1]);
     
-    $url = trim($matche[1]);
+    $url = trim($match[1]);
     $query = parse_url($url, PHP_URL_QUERY);
     
     $options = [
@@ -45,7 +45,6 @@ function func_20190511a($mu_)
         CURLOPT_COOKIEFILE => $cookie,
     ];
     
-    error_log($log_prefix . ' url: ' . $url);
     $res = $mu_->get_contents($url, $options);   
     error_log($log_prefix . $res); 
 }
