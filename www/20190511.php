@@ -35,10 +35,15 @@ function func_20190511a($mu_)
     
     $rc = preg_match('/location: (.+)/i', $res, $match);
     
-    // error_log($log_prefix . $match[1]);
+    error_log($log_prefix . $match[1]);
     
     $url = $matche[1];
     $query = parse_url($url, PHP_URL_QUERY);
+    
+    $options = [
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+    ];
     
     $res = $mu_->get_contents($url, $options);   
     error_log($log_prefix . $res); 
