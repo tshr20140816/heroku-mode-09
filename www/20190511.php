@@ -68,7 +68,7 @@ function func_20190511a($mu_)
     
     $res = json_decode($res);
     
-    $url = $res['redirectUrl'];
+    $url = $res->redirectUrl;
     
     $options = [
         CURLOPT_COOKIEJAR => $cookie,
