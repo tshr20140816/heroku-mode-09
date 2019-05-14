@@ -78,7 +78,7 @@ function func_20190511a($mu_)
                                         'borderColor' => 'black',
                                         'borderWidth' => 1,
                                         'backgroundColor' => 'black',
-                                        'pointStyle' => 'star',
+                                        'pointRadius' => '1',
                                        ],
                                       ],
                        ],
