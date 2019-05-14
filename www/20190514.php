@@ -36,7 +36,7 @@ function func_20190514($mu_)
     $url = 'https://my.solarwinds.cloud/v1/login';
 
     $json = ['email' => $mu_->get_env('LOGGLY_ID', true),
-             'loginQueryParams' => parse_url(trim($match[1]), PHP_URL_QUERY);
+             'loginQueryParams' => parse_url(trim($match[1]), PHP_URL_QUERY),
              'password' => $mu_->get_env('LOGGLY_PASSWORD', true),
             ];
 
