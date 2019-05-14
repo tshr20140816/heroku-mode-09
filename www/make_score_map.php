@@ -207,7 +207,7 @@ function make_score_map($mu_, $file_name_rss_items_)
 
     $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
     error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
-    $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
+    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
     $json = json_decode($tmp[1]);
     error_log($log_prefix . print_r($json, true));
 
@@ -218,8 +218,8 @@ function make_score_map($mu_, $file_name_rss_items_)
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
-    // $mu_->post_blog_hatena('Score Map', $description);
-    // $mu_->post_blog_fc2('Score Map', $description);
+    $mu_->post_blog_hatena('Score Map', $description);
+    $mu_->post_blog_fc2('Score Map', $description);
 
     $description = '<![CDATA[' . $description . ']]>';
 
@@ -283,6 +283,8 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
     $res = $mu_->get_contents($url, $options);
     // error_log($log_prefix . print_r(json_decode($res)->total, true));
 
+    unlink($cookie);
+
     foreach (json_decode($res)->total as $item) {
         error_log($log_prefix . date('m/d', $item[0] / 1000) . ' ' . round($item[1] / 1024 / 1024) . 'MB');
         // $labels[] = date('m/d', $item[0] / 1000);
@@ -335,7 +337,7 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
     imagedestroy($im2);
     $res = file_get_contents($file);
     unlink($file);
-    
+
     $url = 'https://api.tinify.com/shrink';
     $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                 CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
@@ -348,7 +350,7 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
     $tmp = preg_split('/^\r\n/m', $res, 2);
     $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
     error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
-    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
+    $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
     $json = json_decode($tmp[1]);
     error_log($log_prefix . print_r($json, true));
     $url = $json->output->url;
@@ -357,13 +359,10 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
                ];
     $res = $mu_->get_contents($url, $options);
 
-    // header('Content-Type: image/png');
-    // echo $res;
-  
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
-    // $mu_->post_blog_hatena('Score Map', $description);
-    // $mu_->post_blog_fc2('Score Map', $description);
+    $mu_->post_blog_hatena('Score Map', $description);
+    $mu_->post_blog_fc2('Score Map', $description);
 
     $description = '<![CDATA[' . $description . ']]>';
 
