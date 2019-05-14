@@ -64,7 +64,7 @@ function func_20190511a($mu_)
     // error_log(print_r(json_decode($res)->total, true));
     
     foreach(json_decode($res)->total as $item) {
-        error_log(date('m/d', $item[0] / 1000) . ' ' . round($item[1] / 1024 / 1024) . 'MB');
+        error_log($log_prefix . date('m/d', $item[0] / 1000) . ' ' . round($item[1] / 1024 / 1024) . 'MB');
         $labels[] = date('m/d', $item[0] / 1000);
         $data[] = round($item[1] / 1024 / 1024);
     }
@@ -102,7 +102,7 @@ function func_20190511a($mu_)
                           ],
             ];
     
-    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
+    $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($data);
     $res = $mu_->get_contents($url);
 
     header('Content-Type: image/png');
