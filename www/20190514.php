@@ -62,7 +62,8 @@ function func_20190514($mu_)
 
     foreach (json_decode($res)->total as $item) {
         error_log($log_prefix . date('m/d', $item[0] / 1000) . ' ' . round($item[1] / 1024 / 1024) . 'MB');
-        $labels[] = date('m/d', $item[0] / 1000);
+        // $labels[] = date('m/d', $item[0] / 1000);
+        $labels[] = date('d', $item[0] / 1000);
         $data[] = round($item[1] / 1024 / 1024);
     }
     array_pop($labels);
