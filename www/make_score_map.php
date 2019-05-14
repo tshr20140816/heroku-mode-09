@@ -13,6 +13,7 @@ $file_name_rss_items = tempnam('/tmp', md5(microtime(true)));
 @unlink($file_name_rss_items);
 
 make_score_map($mu, $file_name_rss_items);
+make_loggly_usage($mu, $file_name_rss_items);
 
 $xml_text = <<< __HEREDOC__
 <?xml version="1.0" encoding="utf-8"?>
@@ -215,6 +216,150 @@ function make_score_map($mu_, $file_name_rss_items_)
                 CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
                ];
     $res = $mu_->get_contents($url, $options);
+    $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
+
+    // $mu_->post_blog_hatena('Score Map', $description);
+    // $mu_->post_blog_fc2('Score Map', $description);
+
+    $description = '<![CDATA[' . $description . ']]>';
+
+    $rss_item_text = <<< __HEREDOC__
+<item>
+<guid isPermaLink="false">__HASH__</guid>
+<pubDate />
+<title>Score Map</title>
+<link>http://dummy.local/</link>
+<description>__DESCRIPTION__</description>
+</item>
+__HEREDOC__;
+
+    $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
+    $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
+    file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
+}
+
+function make_loggly_usage($mu_, $file_name_rss_items_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $cookie = tempnam('/tmp', md5(microtime(true)));
+
+    $options = [
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_FOLLOWLOCATION => false,
+        CURLOPT_HEADER => true,
+    ];
+
+    $url = $mu_->get_env('URL_LOGGLY_USAGE');
+    $res = $mu_->get_contents($url, $options);
+
+    $rc = preg_match('/location: (.+)/i', $res, $match);
+
+    $url = 'https://my.solarwinds.cloud/v1/login';
+
+    $json = ['email' => $mu_->get_env('LOGGLY_ID', true),
+             'loginQueryParams' => parse_url(trim($match[1]), PHP_URL_QUERY),
+             'password' => $mu_->get_env('LOGGLY_PASSWORD', true),
+            ];
+
+    $options = [
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_POST => true,
+        CURLOPT_HTTPHEADER => ['content-type: application/json'],
+        CURLOPT_POSTFIELDS => json_encode($json),
+    ];
+
+    $res = $mu_->get_contents($url, $options);
+
+    $url = json_decode($res)->redirectUrl;
+
+    $options = [
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+    ];
+
+    $res = $mu_->get_contents($url, $options);
+    // error_log($log_prefix . print_r(json_decode($res)->total, true));
+
+    foreach (json_decode($res)->total as $item) {
+        error_log($log_prefix . date('m/d', $item[0] / 1000) . ' ' . round($item[1] / 1024 / 1024) . 'MB');
+        // $labels[] = date('m/d', $item[0] / 1000);
+        $labels[] = date('d', $item[0] / 1000);
+        $data[] = round($item[1] / 1024 / 1024);
+    }
+    // array_pop($labels);
+    // array_pop($data);
+
+    $data = ['type' => 'line',
+             'data' => ['labels' => $labels,
+                        'datasets' => [['data' => $data,
+                                        'fill' => false,
+                                        'borderColor' => 'black',
+                                        'borderWidth' => 1,
+                                        'pointBackgroundColor' => 'black',
+                                        'pointRadius' => 2,
+                                       ],
+                                      ],
+                       ],
+             'options' => ['legend' => ['display' => false,],
+                           'animation' => ['duration' => 0,],
+                           'hover' => ['animationDuration' => 0,],
+                           'responsiveAnimationDuration' => 0,
+                           'scales' => $scales,
+                           'annotation' => ['annotations' => [['type' => 'line',
+                                                               'mode' => 'horizontal',
+                                                               'scaleID' => 'y-axis-0',
+                                                               'value' => 200,
+                                                               'borderColor' => 'red',
+                                                               'borderWidth' => 1,
+                                                              ],
+                                                             ],
+                                           ],
+                          ],
+            ];
+
+    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
+    $res = $mu_->get_contents($url);
+
+    $im1 = imagecreatefromstring($res);
+    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
+    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
+    imagealphablending($im2, false);
+    imagesavealpha($im2, true);
+    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
+    imagedestroy($im1);
+    $file = tempnam('/tmp', md5(microtime(true)));
+    imagepng($im2, $file, 9);
+    imagedestroy($im2);
+    $res = file_get_contents($file);
+    unlink($file);
+    
+    $url = 'https://api.tinify.com/shrink';
+    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+                CURLOPT_POST => true,
+                CURLOPT_BINARYTRANSFER => true,
+                CURLOPT_POSTFIELDS => $res,
+                CURLOPT_HEADER => true,
+               ];
+    $res = $mu_->get_contents($url, $options);
+    $tmp = preg_split('/^\r\n/m', $res, 2);
+    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
+    error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
+    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
+    $json = json_decode($tmp[1]);
+    error_log($log_prefix . print_r($json, true));
+    $url = $json->output->url;
+    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+               ];
+    $res = $mu_->get_contents($url, $options);
+
+    // header('Content-Type: image/png');
+    // echo $res;
+  
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
     // $mu_->post_blog_hatena('Score Map', $description);
