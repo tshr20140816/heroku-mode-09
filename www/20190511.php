@@ -68,6 +68,8 @@ function func_20190511a($mu_)
         $labels[] = date('m/d', $item[0] / 1000);
         $data[] = round($item[1] / 1024 / 1024);
     }
+    array_pop($labels);
+    array_pop($data);
     
     $data = ['type' => 'line',
              'data' => ['labels' => $labels,
