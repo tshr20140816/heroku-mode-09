@@ -217,8 +217,8 @@ function make_score_map($mu_, $file_name_rss_items_)
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
-    $mu_->post_blog_hatena('Score Map', $description);
-    $mu_->post_blog_fc2('Score Map', $description);
+    // $mu_->post_blog_hatena('Score Map', $description);
+    // $mu_->post_blog_fc2('Score Map', $description);
 
     $description = '<![CDATA[' . $description . ']]>';
 
