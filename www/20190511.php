@@ -19,7 +19,7 @@ function func_20190511a($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $cookie = tempnam("/tmp", md5(microtime(true)));
+    $cookie = tempnam('/tmp', md5(microtime(true)));
     
     $options = [
         CURLOPT_COOKIEJAR => $cookie,
@@ -33,8 +33,7 @@ function func_20190511a($mu_)
 
     $rc = preg_match('/location: (.+)/i', $res, $match);
 
-    $url = trim($match[1]);
-    $query = parse_url($url, PHP_URL_QUERY);
+    $query = parse_url(trim($match[1]), PHP_URL_QUERY);
     
     $url = 'https://my.solarwinds.cloud/v1/login';
     
