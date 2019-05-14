@@ -106,6 +106,7 @@ function func_20190514($mu_)
     imagealphablending($im2, false);
     imagesavealpha($im2, true);
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
+    imagedestroy($im1);
     $file = tempnam('/tmp', md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
