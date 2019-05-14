@@ -361,8 +361,8 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
 
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
-    $mu_->post_blog_hatena('Score Map', $description);
-    $mu_->post_blog_fc2('Score Map', $description);
+    $mu_->post_blog_hatena('Loggly usage', $description);
+    $mu_->post_blog_fc2('Loggly usage', $description);
 
     $description = '<![CDATA[' . $description . ']]>';
 
@@ -370,7 +370,7 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
 <item>
 <guid isPermaLink="false">__HASH__</guid>
 <pubDate />
-<title>Score Map</title>
+<title>Loggly usage</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
