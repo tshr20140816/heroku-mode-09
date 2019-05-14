@@ -62,6 +62,10 @@ function func_20190511a($mu_)
     $res = $mu_->get_contents($url, $options);
     // error_log($log_prefix . $res);
     error_log(print_r(json_decode($res)->total, true));
+    
+    foreach(json_decode($res)->total as $item) {
+        error_log(date('m/d', $item[0] / 1000) . ' ' . $item[1] / 1024 / 1024 . 'MB';
+    }
 }
 
 function func_20190511b($mu_)
