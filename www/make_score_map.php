@@ -9,14 +9,37 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-make_score_map($mu);
+$file_name_rss_items = tempnam('/tmp', md5(microtime(true)));
+@unlink($file_name_rss_items);
+
+make_score_map($mu, $file_name_rss_items);
+
+$xml_text = <<< __HEREDOC__
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+<title>Graph</title>
+<link>http://dummy.local/</link>
+<description>Graph</description>
+__ITEMS__
+</channel>
+</rss>
+__HEREDOC__;
+
+$file = '/tmp/' . getenv('FC2_RSS_03') . '.xml';
+file_put_contents($file, str_replace('__ITEMS__', file_get_contents($file_name_rss_items), $xml_text));
+$filesize = filesize($file);
+$mu->upload_fc2($file);
+unlink($file);
+unlink($file_name_rss_items);
 
 $time_finish = microtime(true);
-$mu->post_blog_wordpress("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]');
+$mu->post_blog_wordpress("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]',
+                         'file size : ' . number_format($filesize) . 'byte');
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function make_score_map($mu_)
+function make_score_map($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -199,13 +222,7 @@ function make_score_map($mu_)
 
     $description = '<![CDATA[' . $description . ']]>';
 
-    $xml_text = <<< __HEREDOC__
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0">
-<channel>
-<title>Score Map</title>
-<link>http://dummy.local/</link>
-<description>Score Map</description>
+    $rss_item_text = <<< __HEREDOC__
 <item>
 <guid isPermaLink="false">__HASH__</guid>
 <pubDate />
@@ -213,14 +230,9 @@ function make_score_map($mu_)
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
-</channel>
-</rss>
 __HEREDOC__;
 
-    $xml_text = str_replace('__DESCRIPTION__', $description, $xml_text);
-    $xml_text = str_replace('__HASH__', hash('sha256', $description), $xml_text);
-    $file_name = '/tmp/' . getenv('FC2_RSS_03') . '.xml';
-    file_put_contents($file_name, $xml_text);
-    $mu_->upload_fc2($file_name);
-    unlink($file_name);
+    $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
+    $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
+    file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 }
