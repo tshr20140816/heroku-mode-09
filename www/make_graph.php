@@ -13,9 +13,9 @@ $file_name_rss_items = tempnam('/tmp', md5(microtime(true)));
 @unlink($file_name_rss_items);
 
 make_score_map($mu, $file_name_rss_items);
-make_loggly_usage($mu, $file_name_rss_items);
 make_usage_graph($mu, $file_name_rss_items, 'TOODLEDO');
 make_usage_graph($mu, $file_name_rss_items, 'TTRSS');
+make_loggly_usage($mu, $file_name_rss_items);
 
 $xml_text = <<< __HEREDOC__
 <?xml version="1.0" encoding="utf-8"?>
@@ -488,7 +488,7 @@ function make_usage_graph($mu_, $file_name_rss_items_, $target_)
 
     $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
     error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
-    $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
+    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
     $json = json_decode($tmp[1]);
     error_log($log_prefix . print_r($json, true));
 
