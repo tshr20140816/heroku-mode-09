@@ -9,7 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-get_results_batting($mu);
+get_results_batting2($mu);
 
 $time_finish = microtime(true);
 $mu->post_blog_wordpress("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]');
@@ -24,7 +24,7 @@ $mu->get_contents($url, $options);
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function get_results_batting($mu_)
+function get_results_batting2($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
