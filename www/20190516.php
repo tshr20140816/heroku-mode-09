@@ -55,7 +55,7 @@ function func_20190516($mu_, $file_name_rss_items_, $target_)
         $data4[] = $tmp1;
     }
     $tmp1 = new stdClass();
-    $tmp1->data = $data4[];
+    $tmp1->data = $data4;
     $datasets = [];
     $datasets[] = $tmp1;
     
