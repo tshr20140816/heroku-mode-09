@@ -188,6 +188,7 @@ function make_score_map($mu_, $file_name_rss_items_)
     imagealphablending($im2, false);
     imagesavealpha($im2, true);
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2 - 25, imagesx($im1), imagesy($im1) - 50);
+    imagedestroy($im1);
 
     $file = tempnam("/tmp", md5(microtime(true)));
     imagepng($im2, $file, 9);
@@ -467,6 +468,7 @@ function make_usage_graph($mu_, $file_name_rss_items_, $target_)
     imagealphablending($im2, false);
     imagesavealpha($im2, true);
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
+    imagedestroy($im1);
 
     $file = tempnam("/tmp", md5(microtime(true)));
     imagepng($im2, $file, 9);
