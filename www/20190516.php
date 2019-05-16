@@ -121,13 +121,12 @@ function func_20190516($mu_, $file_name_rss_items_)
 <item>
 <guid isPermaLink="false">__HASH__</guid>
 <pubDate />
-<title>__TITLE__</title>
+<title>Batting Average</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
 __HEREDOC__;
 
-    $rss_item_text = str_replace('__TITLE__', strtolower($target_) . ' quota', $rss_item_text);
     $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
