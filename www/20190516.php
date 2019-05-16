@@ -43,11 +43,22 @@ function func_20190516($mu_, $file_name_rss_items_, $target_)
     array_shift($data2);
     $data2[0] = 550;
     $dy = ($data2[0] - end($data2)) / count($data2) + 1;
+    $data4 = [];
     for ($i = 0; $i < (int)date('t'); $i++) {
         $labels[] = $i + 1;
         $data1[] = ((int)date('t') - $i) * 24;
         $data3[] = (int)($data2[0] - $dy * $i);
+        $tmp1 = new stdClass();
+        $tmp1->x = $i + 1;
+        $tmp1->y = ((int)date('t') - $i) * 24;
+        $tmp1->r = 0;
+        $data4[] = $tmp1;
     }
+    $tmp1 = new stdClass();
+    $tmp1->data = $data4[];
+    $datasets = [];
+    $datasets[] = $tmp1;
+    
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
                               'datasets' => [['data' => $data1,
@@ -90,6 +101,10 @@ function func_20190516($mu_, $file_name_rss_items_, $target_)
                                  */
                                 ],
                   ];
+    $chart_data = ['type' => 'scatter',
+                   'data' => ['datasets' => $datasets],
+                  ];
+                   
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
     $res = $mu_->get_contents($url);
 
