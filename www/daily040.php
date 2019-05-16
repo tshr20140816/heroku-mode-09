@@ -12,8 +12,8 @@ $mu = new MyUtils();
 $file_name_rss_items = '/tmp/rss_items.txt';
 @unlink($file_name_rss_items);
 
-make_usage_graph($mu, $file_name_rss_items, 'TOODLEDO');
-// make_usage_graph($mu, $file_name_rss_items, 'TTRSS');
+make_usage_graph2($mu, $file_name_rss_items, 'TOODLEDO');
+// make_usage_graph2($mu, $file_name_rss_items, 'TTRSS');
 
 $xml_text = <<< __HEREDOC__
 <?xml version="1.0" encoding="utf-8"?>
@@ -46,7 +46,7 @@ $mu->get_contents($url, $options);
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function make_usage_graph($mu_, $file_name_rss_items_, $target_)
+function make_usage_graph2($mu_, $file_name_rss_items_, $target_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
