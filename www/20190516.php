@@ -101,9 +101,17 @@ function func_20190516($mu_, $file_name_rss_items_, $target_)
                                  */
                                 ],
                   ];
+    
+    $scales = new stdClass();
+    $scales->xAxes[] = ['display' => true,
+                        'left' => 1,
+                       ];
+    
     $chart_data = ['type' => 'scatter',
                    'data' => ['datasets' => $datasets],
                    'showLine' => true,
+                   'options' => ['scales' => $scales,
+                                ],
                   ];
                    
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
