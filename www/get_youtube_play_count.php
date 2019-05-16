@@ -10,7 +10,7 @@ $mu = new MyUtils();
 
 get_youtube_play_count($mu);
 
-$url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/daily040.php';
+$url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/get_results_batting.php';
 $options = [
     CURLOPT_TIMEOUT => 3,
     CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
