@@ -56,6 +56,7 @@ function func_20190516($mu_, $file_name_rss_items_, $target_)
     }
     $tmp1 = new stdClass();
     $tmp1->data = $data4;
+    $tmp1->showline = true;
     $datasets = [];
     $datasets[] = $tmp1;
     
@@ -109,9 +110,7 @@ function func_20190516($mu_, $file_name_rss_items_, $target_)
     
     $chart_data = ['type' => 'scatter',
                    'data' => ['datasets' => $datasets],
-                   'showLine' => true,
                    'options' => ['scales' => $scales,
-                                 'showLine' => true,
                                 ],
                   ];
                    
