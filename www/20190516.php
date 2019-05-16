@@ -9,105 +9,138 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190516($mu, '/tmp/dummy20190516', 'TOODLEDO');
+func_20190516($mu);
 
 $time_finish = microtime(true);
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_20190516($mu_, $file_name_rss_items_, $target_)
+function func_20190516($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $keyword = strtolower($target_);
-    for ($i = 0; $i < strlen($keyword); $i++) {
-        $keyword[$i] = chr(ord($keyword[$i]) + 1);
-    }
-
-    $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
-    $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword . 'rvpub';
+    $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
+    $title = $mu_->get_env('TARGET_NAME_TITLE');
+    $url = "http://blog.livedoor.jp/${livedoor_id}/search?q=" . str_replace(' ', '+', $title) . '+' . date('Y');
     $res = $mu_->get_contents($url);
 
-    $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
+    $rc = preg_match('/<div class="article-body-inner">(.+?)<\/div>/s', $res, $match);
+    $base_record = trim(strip_tags($match[1]));
+    error_log($log_prefix . $base_record);
 
-    $res = $mu_->get_contents($match[1]);
-    $rc = preg_match('/<div class="' . $keyword . 'rvpub">(.+?)</', $res, $match);
+    $timestamp = strtotime('-13 hours');
 
-    $data2 = [];
-    foreach (explode(' ', $match[1]) as $item) {
-        $data2[] = (int)($item / 60);
+    $rc = preg_match_all('/(.+?) .+? (.+?) .+/', $base_record, $matches);
+    $record_count = count($matches[0]);
+    $labels = [];
+    $data = [];
+    $min_value = 1000;
+    for ($i = 0; $i < $record_count; $i++) {
+        error_log($log_prefix . $matches[1][$record_count - $i - 1] . ' ' . $matches[2][$record_count - $i - 1]);
+        $labels[] = substr($matches[1][$record_count - $i - 1], 5);
+        $data[] = $matches[2][$record_count - $i - 1] * 1000;
+        if ($min_value > $data[$i]) {
+            $min_value = $data[$i];
+        }
     }
-    if (count($data2) < 3) {
-        return;
-    }
-    array_shift($data2);
-    $data2[0] = 550;
-    $dy = ($data2[0] - end($data2)) / count($data2) + 1;
-    for ($i = 0; $i < (int)date('t'); $i++) {
-        $labels[] = $i + 1;
-        $data1[] = ((int)date('t') - $i) * 24;
-        $data3[] = (int)($data2[0] - $dy * $i);
-    }
-    
-    $chart_data = ['type' => 'line',
-                   'data' => ['labels' => $labels,
-                              'datasets' => [['data' => $data1,
-                                              'fill' => false,
-                                              'pointStyle' => 'line',
-                                              'borderColor' => 'black',
-                                             ],
-                                             ['data' => $data2,
-                                              'fill' => false,
-                                              'pointStyle' => 'cross',
-                                              'borderColor' => 'green',
-                                              'borderWidth' => 5,
-                                             ],
-                                             ['data' => $data3,
-                                              'fill' => false,
-                                              'pointStyle' => 'line',
-                                              'borderColor' => 'red',
-                                             ],
-                                            ],
-                             ],
-                   'options' => ['legend' => ['display' => false,
-                                             ],
-                                 'animation' => ['duration' => 0,
-                                                ],
-                                 'hover' => ['animationDuration' => 0,
-                                            ],
-                                 'responsiveAnimationDuration' => 0,
-                                 'annotation' => ['annotations' => [['type' => 'line',
-                                                                     'mode' => 'vertical',
-                                                                     'scaleID' => 'x-axis-0',
-                                                                     'value' => count($data2),
-                                                                    ],
-                                                                   ],
-                                                 ],
-                                 /*
-                                 'plugins' => ['datalabels' => ['display' => true,
-                                                                'align' => 'bottom',
-                                                               ],
-                                              ],
-                                 */
-                                ],
-                  ];
-                   
-    $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
+
+    $scales->yAxes[] = ['display' => true,
+                        'bottom' => $min_value,
+                       ];
+
+    $data = ['type' => 'line',
+             'data' => ['labels' => $labels,
+                        'datasets' => [['data' => $data,
+                                        'fill' => false,
+                                       ],
+                                      ],
+                       ],
+             'options' => ['legend' => ['display' => false,
+                                       ],
+                           'animation' => ['duration' => 0,
+                                          ],
+                           'hover' => ['animationDuration' => 0,
+                                      ],
+                           'responsiveAnimationDuration' => 0,
+                           'scales' => $scales,
+                          ],
+            ];
+    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
     $res = $mu_->get_contents($url);
 
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
-    $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
-    imagealphablending($im2, false);
-    imagesavealpha($im2, true);
-    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
-
-    $file = tempnam("/tmp", md5(microtime(true)));
-    imagepng($im2, $file, 9);
-    imagedestroy($im2);
-    $res = file_get_contents($file);
-    unlink($file);
-
+    if (imagesx($im1) !== 600) {
+        $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
+        imagealphablending($im2, false);
+        imagesavealpha($im2, true);
+        imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
+        @unlink('/tmp/average.png');
+        imagepng($im2, '/tmp/average.png', 9);
+        imagedestroy($im2);
+        $res = file_get_contents('/tmp/average.png');
+    }
+    imagedestroy($im1);
+    
     header('Content-Type: image/png');
     echo $res;
+
+    return;
+    
+    $url = 'https://api.tinify.com/shrink';
+    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+                CURLOPT_POST => true,
+                CURLOPT_BINARYTRANSFER => true,
+                CURLOPT_POSTFIELDS => $res,
+                CURLOPT_HEADER => true,
+               ];
+    $res = $mu_->get_contents($url, $options);
+
+    $tmp = preg_split('/^\r\n/m', $res, 2);
+
+    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
+    error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
+    $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
+    $json = json_decode($tmp[1]);
+    error_log($log_prefix . print_r($json, true));
+
+    $url = $json->output->url;
+    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+               ];
+
+    $res = $mu_->get_contents($url, $options);
+    $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
+
+    // error_log($log_prefix . $description);
+    $mu_->post_blog_hatena('Batting Average', $description);
+    $mu_->post_blog_fc2('Batting Average', $description);
+
+    $description = '<![CDATA[' . $description . ']]>';
+
+    $xml_text = <<< __HEREDOC__
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+<title>Batting Average</title>
+<link>http://dummy.local/</link>
+<description>Batting Average</description>
+<item>
+<guid isPermaLink="false">__HASH__</guid>
+<pubDate />
+<title>Batting Average</title>
+<link>http://dummy.local/</link>
+<description>__DESCRIPTION__</description>
+</item>
+</channel>
+</rss>
+__HEREDOC__;
+
+    $xml_text = str_replace('__DESCRIPTION__', $description, $xml_text);
+    $xml_text = str_replace('__HASH__', hash('sha256', $description), $xml_text);
+    $file_name = '/tmp/' . getenv('FC2_RSS_01') . '.xml';
+    file_put_contents($file_name, $xml_text);
+    $mu_->upload_fc2($file_name);
+    unlink($file_name);
 }
