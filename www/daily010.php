@@ -7,7 +7,7 @@ daily010
   → get_youtube_play_count
     → daily040
       → get_results_batting
-       → make_score_map
+       → make_graph
 */
 include(dirname(__FILE__) . '/../classes/MyUtils.php');
 
