@@ -75,10 +75,12 @@ function func_20190516($mu_, $file_name_rss_items_)
         imagealphablending($im2, false);
         imagesavealpha($im2, true);
         imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
-        @unlink('/tmp/average.png');
-        imagepng($im2, '/tmp/average.png', 9);
+        $file = tempnam("/tmp", md5(microtime(true)));
+        @unlink($file);
+        imagepng($im2, $file, 9);
         imagedestroy($im2);
-        $res = file_get_contents('/tmp/average.png');
+        $res = file_get_contents($file);
+        unlink($file);
     }
     imagedestroy($im1);
     
