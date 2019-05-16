@@ -103,6 +103,7 @@ function func_20190516($mu_, $file_name_rss_items_, $target_)
                   ];
     $chart_data = ['type' => 'scatter',
                    'data' => ['datasets' => $datasets],
+                   'showLine' => true,
                   ];
                    
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
