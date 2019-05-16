@@ -56,7 +56,7 @@ function func_20190516($mu_, $file_name_rss_items_, $target_)
     }
     $tmp1 = new stdClass();
     $tmp1->data = $data4;
-    $tmp1->showline = true;
+    $tmp1->showLine = true;
     $datasets = [];
     $datasets[] = $tmp1;
     
