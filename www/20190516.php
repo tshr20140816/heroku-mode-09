@@ -111,6 +111,7 @@ function func_20190516($mu_, $file_name_rss_items_, $target_)
                    'data' => ['datasets' => $datasets],
                    'showLine' => true,
                    'options' => ['scales' => $scales,
+                                 'showLine' => true,
                                 ],
                   ];
                    
