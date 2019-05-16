@@ -9,11 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$file_name_rss_items = '/tmp/rss_items.txt';
-@unlink($file_name_rss_items);
-
-func_20190516($mu, $file_name_rss_items, 'TOODLEDO');
-// make_usage_graph($mu, $file_name_rss_items, 'TTRSS');
+func_20190516($mu, '/tmp/dummy20190516', 'TOODLEDO');
 
 $time_finish = microtime(true);
 
