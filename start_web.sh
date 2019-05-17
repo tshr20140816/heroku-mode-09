@@ -20,7 +20,7 @@ cat /proc/cpuinfo | head -n $(($(cat /proc/cpuinfo | wc -l) / $(grep -c -e proce
 httpd -V
 # httpd -M | sort
 php --version
-php -i
+# php -i
 # whereis php
 # php -m
 cat /proc/version
