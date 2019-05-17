@@ -54,6 +54,11 @@ for file in $( ls . | grep .php$ ); do
   php -l ${file}
 done
 popd
+pushd scripts
+for file in $( ls . | grep .php$ ); do
+  php -l ${file}
+done
+popd
 pushd www
 for file in $( ls . | grep .php$ ); do
   php -l ${file}
