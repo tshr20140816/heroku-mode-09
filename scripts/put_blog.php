@@ -10,10 +10,10 @@ $mu = new MyUtils();
 
 switch (count($argv) {
     case 2:
-       $mu->post_blog_wordpress(base64_decode($argv[1]));
-       break;
+        $mu->post_blog_wordpress(base64_decode($argv[1]));
+        break;
     case 3:
-       $mu->post_blog_wordpress(base64_decode($argv[1]), base64_decode($argv[2]));
+        $mu->post_blog_wordpress(base64_decode($argv[1]), base64_decode($argv[2]));
         break;
 }
 
