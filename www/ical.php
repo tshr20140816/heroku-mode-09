@@ -55,7 +55,7 @@ foreach ($matches[1] as $cidr) {
 $result = $is_google === true ? '⭕' : '❌';
 
 $time_finish = microtime(true);
-$mu->post_blog_wordpress('/ical.php ' . substr(($time_finish - $time_start), 0, 6) . 's', "${target_ipaddress} ${result}");
+$mu->post_blog_wordpress_async('/ical.php ' . substr(($time_finish - $time_start), 0, 6) . 's', "${target_ipaddress} ${result}");
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
 exit();
