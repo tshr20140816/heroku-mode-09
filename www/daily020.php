@@ -112,6 +112,11 @@ $res = $mu->get_contents($url, $options);
 
 //
 
+$url = 'https://baseball.yahoo.co.jp/npb/standings/?' . $suffix;
+$urls_is_cache[$url] = null;
+
+//
+
 $url = 'https://otn.fujitv.co.jp/json/basic_data/918200222.json';
 $urls_is_cache[$url] = null;
 
