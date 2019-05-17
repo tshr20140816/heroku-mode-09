@@ -301,7 +301,7 @@ for ($yyyy = (int)date('Y'); $yyyy < (int)date('Y') + 2; $yyyy++) {
 file_put_contents('/tmp/' . basename(__FILE__) . '.txt', time());
 
 $time_finish = microtime(true);
-$mu->post_blog_wordpress("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]',
+$mu->post_blog_wordpress_async("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]',
                         file_get_contents($file_name_blog));
 @unlink($file_name_blog);
 
