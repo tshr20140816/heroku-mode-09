@@ -8,7 +8,7 @@ error_log("${pid} START scripts/put_blog.php " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-switch (count($argv) {
+switch (count($argv)) {
     case 2:
         $mu->post_blog_wordpress(base64_decode($argv[1]));
         break;
