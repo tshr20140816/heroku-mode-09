@@ -22,6 +22,8 @@ if (file_exists('/tmp/' . basename(__FILE__) . '.txt')) {
 $file_name_blog = '/tmp/blog.txt';
 @unlink($file_name_blog);
 
+exec('composer update > /dev/null 2>&1 &');
+
 // quota
 get_quota($mu, $file_name_blog);
 
