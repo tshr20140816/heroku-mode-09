@@ -26,6 +26,8 @@ php --version
 cat /proc/version
 curl --version
 
+getconf ARG_MAX
+
 echo "$(httpd -v)" > /tmp/apache_current_version
 echo "$(php -v | head -n 1)" > /tmp/php_current_version
 echo "$(curl -V | head -n 1)" > /tmp/curl_current_version
