@@ -88,6 +88,7 @@ function func_20190516($mu_, $file_name_rss_items_)
     
     header('Content-Type: image/png');
     echo $res;
+    return;
     
     $url = 'https://api.tinify.com/shrink';
     $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
