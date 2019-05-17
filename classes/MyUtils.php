@@ -370,7 +370,7 @@ __HEREDOC__;
         }
 
         error_log($log_prefix . ' start exec');
-        exec('php ../scripts/put_blog.php ' base64_encode($title_) . ' ' . base64_encode($res) . ' >/dev/null &');
+        exec('php ../scripts/put_blog.php ' . base64_encode($title_) . ' ' . base64_encode($res) . ' >/dev/null &');
         error_log($log_prefix . ' finish exec');
     }
 
