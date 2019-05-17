@@ -84,9 +84,6 @@ function func_20190516($mu_, $file_name_rss_items_)
     }
     imagedestroy($im1);
     
-    error_log($log_prefix . strlen(base64_encode($res)));
-    exec('php ../scripts/put_blog.php dummy ' . base64_encode($res) . ' >/dev/null &');
-    
     header('Content-Type: image/png');
     echo $res;
     return;
