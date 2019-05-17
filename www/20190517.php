@@ -12,6 +12,7 @@ $mu = new MyUtils();
 sleep(3);
 
 error_log($pid . print_r($argv, true));
+error_log($pid . ' ' . strlen($argv[2]));
 
 sleep(3);
 
