@@ -361,6 +361,19 @@ __HEREDOC__;
         return $target_;
     }
 
+    public function post_blog_wordpress_async($title_, $description_ = null)
+    {
+        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+        if (is_null($description_)) {
+            $description_ = '.';
+        }
+
+        error_log($log_prefix . ' start exec');
+        exec('php ../scripts/put_blog.php ' base64_encode($title_) . ' ' . base64_encode($res) . ' >/dev/null &');
+        error_log($log_prefix . ' finish exec');
+    }
+
     public function post_blog_wordpress($title_, $description_ = null, $is_only_ = false)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
