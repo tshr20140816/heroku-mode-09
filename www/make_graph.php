@@ -500,6 +500,7 @@ function make_usage_graph($mu_, $file_name_rss_items_, $target_)
                ];
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
+    $mu_->post_blog_hatena(strtolower($target_) . ' usage', $description);
     $mu_->post_blog_fc2(strtolower($target_) . ' usage', $description);
     $description = '<![CDATA[' . $description . ']]>';
 
