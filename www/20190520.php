@@ -77,7 +77,7 @@ function func_20190520($mu_)
                        'borderWidth' => 3,
                        'pointRadius' => 4,
                        'pointBorderWidth' => 0,
-                       'label' => $one_data[$target],
+                       'label' => $one_data['target'],
                       ];
         
         $data3 = [];
@@ -88,10 +88,10 @@ function func_20190520($mu_)
         $datasets[] = ['data' => $data3,
                        'fill' => false,
                        'backgroundColor' => $one_data['planColor'],
-                       'borderWidth' => 1,
+                       'borderWidth' => 3,
                        'borderColor' => $one_data['planColor'],
                        'pointRadius' => 0,
-                       'label' => $one_data[$target] . ' plan',
+                       'label' => $one_data['target'] . ' plan',
                       ];
 
     }
