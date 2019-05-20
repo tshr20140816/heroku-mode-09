@@ -49,8 +49,8 @@ function func_20190520($mu_)
                   ];
 
     $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
-    // foreach (['toodledo', 'ttrss'] as $target) {
-    foreach (['toodledo',] as $target) {
+    foreach (['toodledo', 'ttrss'] as $target) {
+    // foreach (['toodledo',] as $target) {
         $keyword = strtolower($target);
         for ($i = 0; $i < strlen($keyword); $i++) {
             $keyword[$i] = chr(ord($keyword[$i]) + 1);
