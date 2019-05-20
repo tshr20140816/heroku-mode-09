@@ -67,6 +67,18 @@ function func_20190520($mu_)
                        'pointRadius' => 2,
                        'label' => $target,
                       ];
+        
+        $dy = ($data2[0] - end($data2)) / count($data2) + 1;
+        for ($i = 0; $i < (int)date('t'); $i++) {
+            $data3[] = (int)($data2[0] - $dy * $i);
+        }
+
+        $datasets[] = ['data' => $data3,
+                       'fill' => false,
+                       'borderWidth' => 1,
+                       'pointRadius' => 0,
+                       'label' => $target . ' plan',
+                      ];
 
     }
     
