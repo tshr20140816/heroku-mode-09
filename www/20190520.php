@@ -110,7 +110,7 @@ function func_20190520($mu_)
                                  'annotation' => ['annotations' => [['type' => 'line',
                                                                      'mode' => 'vertical',
                                                                      'scaleID' => 'x-axis-0',
-                                                                     'value' => 19,
+                                                                     'value' => count($datasets[1]['data']),
                                                                     ],
                                                                    ],
                                                  ],
