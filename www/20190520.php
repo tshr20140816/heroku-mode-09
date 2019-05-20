@@ -105,6 +105,7 @@ function func_20190520($mu_)
                   ];
     // $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
     // $res = $mu_->get_contents($url);
+    $url = 'https://quickchart.io/chart';
     $post_data = ['width' => 900,
                   'height' => 480,
                   'c' => json_encode($chart_data)];
