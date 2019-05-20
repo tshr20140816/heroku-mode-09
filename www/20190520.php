@@ -45,7 +45,7 @@ function func_20190520($mu_)
             ];
     foreach ($list as $one_data) {
         error_log(print_r($one_data, true));
-        $keyword = strtolower($one_data[$target]);
+        $keyword = strtolower($one_data['target']);
         for ($i = 0; $i < strlen($keyword); $i++) {
             $keyword[$i] = chr(ord($keyword[$i]) + 1);
         }
