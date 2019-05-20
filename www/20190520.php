@@ -64,7 +64,7 @@ function func_20190520($mu_)
     $res = file_get_contents($file);
     unlink($file);
 
-    header('Content-Type: image/php');
+    header('Content-Type: image/png');
     echo $res;
 }
 
