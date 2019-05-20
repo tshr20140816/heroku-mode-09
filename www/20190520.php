@@ -120,7 +120,7 @@ function func_20190520($mu_)
                   ];
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
     // $res = $mu_->get_contents($url, [CURLOPT_HTTPHEADER => ['Expect: 100-continue']]);
-    $url = 'https://bit.ly/2HAUNum';
+    // $url = 'https://bit.ly/2HAUNum';
     $res = $mu_->get_contents($url);
 
     $im1 = imagecreatefromstring($res);
