@@ -30,6 +30,8 @@ function func_20190520($mu_)
                                               'borderColor' => 'black',
                                               'borderWidth' => 1,
                                               'pointRadius' => 0,
+                                              'pointBorderColor' => 'black',
+                                              'pointBackgroundColor' => 'black',
                                              ],
                                             ],
                              ],
