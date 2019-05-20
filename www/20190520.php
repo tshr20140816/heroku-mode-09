@@ -33,7 +33,7 @@ function func_20190520($mu_)
                                              ],
                                             ],
                              ],
-                   'options' => ['legend' => ['display' => false,
+                   'options' => ['legend' => ['display' => true,
                                              ],
                                  'animation' => ['duration' => 0,
                                                 ],
