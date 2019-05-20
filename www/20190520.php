@@ -22,7 +22,7 @@ function func_20190520b($mu_)
                                        'Content-Type: application/json',
                                       ],
                 CURLOPT_POST => true,
-                CURLOPT_POSTFIELDS = json_encode($json),
+                CURLOPT_POSTFIELDS => json_encode($json),
                ];
     $res = $mu_->get_contents($url, $options);
     error_log($res);
