@@ -718,6 +718,7 @@ __HEREDOC__;
         } else if (is_null($options_) === false && array_key_exists(CURLOPT_POST, $options_)) {
             $url = $url_;
         } else {
+            error_log($log_prefix . 'URL length : ' . strlen($url_));
             $json = ['long_url' => $url_];
             $url = 'https://api-ssl.bitly.com/v4/bitlinks';
             $acess_token = getenv('BITLY_ACCESS_TOKEN');
