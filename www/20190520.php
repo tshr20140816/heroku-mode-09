@@ -103,8 +103,16 @@ function func_20190520($mu_)
                                                  ],
                                 ],
                   ];
-    $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
-    $res = $mu_->get_contents($url);
+    // $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
+    // $res = $mu_->get_contents($url);
+    $post_data = ['width' => 900,
+                  'height' => 480,
+                  'c' => json_encode($chart_data)];
+    $options = [
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
+    ];
+    $res = $mu_->get_contents($url, $options);
 
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
