@@ -66,7 +66,7 @@ function func_20190520($mu_)
                        // 'borderColor' => 'green',
                        'borderWidth' => 1,
                        'pointRadius' => 2,
-                       // 'label' => $target,
+                       'label' => $target,
                       ];
         
         $data3 = [];
@@ -78,7 +78,7 @@ function func_20190520($mu_)
                        'fill' => false,
                        'borderWidth' => 1,
                        'pointRadius' => 0,
-                       // 'label' => $target . ' plan',
+                       'label' => $target . ' plan',
                       ];
 
     }
@@ -104,7 +104,7 @@ function func_20190520($mu_)
                                 ],
                   ];
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
-    $res = $mu_->get_contents($url);
+    $res = $mu_->get_contents($url, [CURLOPT_HTTPHEADER => ['Expect:']]);
 
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
