@@ -33,6 +33,41 @@ function func_20190520($mu_)
                    'label' => 'max',
                   ];
 
+    $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
+    foreach (['toodledo'] as $target) {
+        $keyword = strtolower($target);
+        for ($i = 0; $i < strlen($keyword); $i++) {
+            $keyword[$i] = chr(ord($keyword[$i]) + 1);
+        }
+
+        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword . 'rvpub';
+        $res = $mu_->get_contents($url);
+
+        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
+
+        $res = $mu_->get_contents($match[1]);
+        $rc = preg_match('/<div class="' . $keyword . 'rvpub">(.+?)</', $res, $match);
+
+        $data2 = [];
+        foreach (explode(' ', $match[1]) as $item) {
+            $data2[] = (int)($item / 60);
+        }
+        
+        if (count($data2) < 3) {
+            return;
+        }
+        array_shift($data2);
+        $data2[0] = 550;
+
+    }
+
+    $datasets[] = ['data' => $data2,
+                   'fill' => false,
+                   'pointStyle' => 'cross',
+                   'borderColor' => 'green',
+                   'borderWidth' => 1,
+                  ];
+    
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
                               'datasets' => $datasets,
