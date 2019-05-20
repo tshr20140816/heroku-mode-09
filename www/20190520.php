@@ -34,9 +34,17 @@ function func_20190520($mu_)
                   ];
 
     $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
-    foreach (['toodledo', 'ttrss'] as $target) {
-    // foreach (['toodledo',] as $target) {
-        $keyword = strtolower($target);
+    $list = [['target' => 'toodledo',
+              'color' => 'green',
+              'planColor' => 'red',
+             ],
+             ['target' => 'ttrss',
+              'color' => 'cyan',
+              'planColor' => 'pink',
+             ],
+            ];
+    foreach ($list as $one_data) {
+        $keyword = strtolower($one_data[$target]);
         for ($i = 0; $i < strlen($keyword); $i++) {
             $keyword[$i] = chr(ord($keyword[$i]) + 1);
         }
@@ -63,11 +71,12 @@ function func_20190520($mu_)
         $datasets[] = ['data' => $data2,
                        'fill' => false,
                        'pointStyle' => 'circle',
-                       // 'borderColor' => 'green',
+                       'backgroundColor' => $one_data['color'],
+                       'borderColor' => $one_data['color'],
                        'borderWidth' => 3,
                        'pointRadius' => 4,
                        'pointBorderWidth' => 0,
-                       'label' => $target,
+                       'label' => $one_data[$target],
                       ];
         
         $data3 = [];
@@ -77,11 +86,11 @@ function func_20190520($mu_)
         }
         $datasets[] = ['data' => $data3,
                        'fill' => false,
-                       'backgroundColor' => 'red',
+                       'backgroundColor' => $one_data['planColor'],
                        'borderWidth' => 1,
-                       'borderColor' => 'red',
+                       'borderColor' => $one_data['planColor'],
                        'pointRadius' => 0,
-                       'label' => $target . ' plan',
+                       'label' => $one_data[$target] . ' plan',
                       ];
 
     }
