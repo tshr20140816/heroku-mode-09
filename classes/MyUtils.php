@@ -728,7 +728,7 @@ __HEREDOC__;
                         CURLOPT_POSTFIELDS => json_encode($json),
                        ];
             $res = $this->get_contents($url, $options);
-            $url = json_decode($res)['link'];
+            $url = json_decode($res)->link;
         }
         $options = [
             CURLOPT_URL => $url,
