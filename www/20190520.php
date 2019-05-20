@@ -110,7 +110,7 @@ function func_20190520($mu_)
                   'c' => json_encode($chart_data)];
     $options = [
         CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => http_build_query($post_data),
+        CURLOPT_POSTFIELDS => 'c=' . json_encode($chart_data),
     ];
     $res = $mu_->get_contents($url, $options);
 
