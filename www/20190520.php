@@ -21,7 +21,7 @@ function func_20190520($mu_)
         $labels[] = $i + 1;
         // $data1[] = ((int)date('t') - $i) * 24;
         $tmp = new stdClass();
-        $tmp->x = 0;
+        $tmp->x = $i;
         $tmp->y = ((int)date('t') - $i) * 24;
         $data1[] = $tmp;
     }
