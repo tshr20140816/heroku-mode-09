@@ -19,7 +19,11 @@ function func_20190520($mu_)
 
     for ($i = 0; $i < (int)date('t'); $i++) {
         $labels[] = $i + 1;
-        $data1[] = ((int)date('t') - $i) * 24;
+        // $data1[] = ((int)date('t') - $i) * 24;
+        $tmp = new stdClass();
+        $tmp->x = 0;
+        $tmp->y = ((int)date('t') - $i) * 24;
+        $data1[] = $tmp;
     }
 
     $datasets = [];
