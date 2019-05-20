@@ -34,8 +34,8 @@ function func_20190520($mu_)
                   ];
 
     $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
-    foreach (['toodledo', 'ttrss'] as $target) {
-    // foreach (['toodledo',] as $target) {
+    // foreach (['toodledo', 'ttrss'] as $target) {
+    foreach (['toodledo',] as $target) {
         $keyword = strtolower($target);
         for ($i = 0; $i < strlen($keyword); $i++) {
             $keyword[$i] = chr(ord($keyword[$i]) + 1);
@@ -66,7 +66,7 @@ function func_20190520($mu_)
                        // 'borderColor' => 'green',
                        'borderWidth' => 1,
                        'pointRadius' => 2,
-                       'label' => $target,
+                       // 'label' => $target,
                       ];
         
         $data3 = [];
@@ -74,15 +74,12 @@ function func_20190520($mu_)
         for ($i = 0; $i < (int)date('t'); $i++) {
             $data3[] = (int)($data2[0] - $dy * $i);
         }
-
-        /*
         $datasets[] = ['data' => $data3,
                        'fill' => false,
                        'borderWidth' => 1,
                        'pointRadius' => 0,
-                       'label' => $target . ' plan',
+                       // 'label' => $target . ' plan',
                       ];
-                      */
 
     }
     
