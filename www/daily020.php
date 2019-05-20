@@ -30,6 +30,9 @@ get_quota($mu, $file_name_blog);
 // quota
 get_quota($mu, $file_name_blog, 'TTRSS');
 
+// quota
+get_quota($mu, $file_name_blog, 'REDMINE');
+
 // WAON balance check
 check_waon_balance($mu, $file_name_blog);
 
