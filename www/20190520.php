@@ -62,9 +62,10 @@ function func_20190520($mu_)
         $datasets[] = ['data' => $data2,
                        'fill' => false,
                        'pointStyle' => 'circle',
-                       'borderColor' => 'green',
+                       // 'borderColor' => 'green',
                        'borderWidth' => 1,
                        'pointRadius' => 2,
+                       'label' => $target,
                       ];
 
     }
