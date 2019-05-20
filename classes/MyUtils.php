@@ -713,8 +713,25 @@ __HEREDOC__;
         error_log($log_prefix . 'URL : ' . $url_);
         error_log($log_prefix . 'options : ' . print_r($options_, true));
 
+        if (strlen($url_) < 900) {
+            $url = $url_;
+        } else if (is_null($options_) === false && array_key_exists(CURLOPT_POST, $options_)) {
+            $url = $url_;
+        } else {
+            $json = ['long_url' => $url_];
+            $url = 'https://api-ssl.bitly.com/v4/bitlinks';
+            $acess_token = getenv('BITLY_ACCESS_TOKEN');
+            $options = [CURLOPT_HTTPHEADER => ["Authorization: Bearer ${acess_token}",
+                                               'Content-Type: application/json',
+                                              ],
+                        CURLOPT_POST => true,
+                        CURLOPT_POSTFIELDS => json_encode($json),
+                       ];
+            $res = $this->get_contents($url, $options);
+            $url = json_decode($res)['link'];
+        }
         $options = [
-            CURLOPT_URL => $url_,
+            CURLOPT_URL => $url,
             CURLOPT_USERAGENT => getenv('USER_AGENT'),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
