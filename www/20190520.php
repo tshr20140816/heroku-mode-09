@@ -13,22 +13,6 @@ func_20190520($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_20190520b($mu_)
-{
-    $json = ['long_url' => 'https://github.com/'];
-    $url = 'https://api-ssl.bitly.com/v4/bitlinks';
-    $acess_token = getenv('BITLY_ACCESS_TOKEN');
-    $options = [CURLOPT_HTTPHEADER => ["Authorization: Bearer ${acess_token}",
-                                       'Content-Type: application/json',
-                                      ],
-                CURLOPT_POST => true,
-                CURLOPT_POSTFIELDS => json_encode($json),
-                CURLOPT_HEADER => true,
-               ];
-    $res = $mu_->get_contents($url, $options);
-    error_log($res);
-}
-
 function func_20190520($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
