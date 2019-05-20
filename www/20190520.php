@@ -59,14 +59,14 @@ function func_20190520($mu_)
         array_shift($data2);
         $data2[0] = 550;
 
-    }
+        $datasets[] = ['data' => $data2,
+                       'fill' => false,
+                       'pointStyle' => 'circle',
+                       'borderColor' => 'green',
+                       'borderWidth' => 1,
+                      ];
 
-    $datasets[] = ['data' => $data2,
-                   'fill' => false,
-                   'pointStyle' => 'cross',
-                   'borderColor' => 'green',
-                   'borderWidth' => 1,
-                  ];
+    }
     
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
