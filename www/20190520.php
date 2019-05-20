@@ -28,6 +28,7 @@ function func_20190520($mu_)
                                               'fill' => false,
                                               'pointStyle' => 'line',
                                               'borderColor' => 'black',
+                                              'borderWidth' => 1,
                                              ],
                                             ],
                              ],
