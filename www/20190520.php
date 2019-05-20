@@ -9,7 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190520($mu);
+func_20190520b($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
@@ -23,6 +23,7 @@ function func_20190520b($mu_)
                                       ],
                 CURLOPT_POST => true,
                 CURLOPT_POSTFIELDS => json_encode($json),
+                CURLOPT_HEADER => true,
                ];
     $res = $mu_->get_contents($url, $options);
     error_log($res);
