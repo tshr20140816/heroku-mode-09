@@ -34,7 +34,8 @@ function func_20190520($mu_)
                   ];
 
     $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
-    foreach (['toodledo', 'ttrss'] as $target) {
+    // foreach (['toodledo', 'ttrss'] as $target) {
+    foreach (['toodledo',] as $target) {
         $keyword = strtolower($target);
         for ($i = 0; $i < strlen($keyword); $i++) {
             $keyword[$i] = chr(ord($keyword[$i]) + 1);
@@ -103,17 +104,8 @@ function func_20190520($mu_)
                                                  ],
                                 ],
                   ];
-    // $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
-    // $res = $mu_->get_contents($url);
-    $url = 'https://quickchart.io/chart';
-    $post_data = ['width' => 900,
-                  'height' => 480,
-                  'c' => json_encode($chart_data)];
-    $options = [
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => 'c=' . json_encode($chart_data),
-    ];
-    $res = $mu_->get_contents($url, $options);
+    $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
+    $res = $mu_->get_contents($url);
 
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
