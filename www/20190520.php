@@ -29,6 +29,7 @@ function func_20190520($mu_)
                                               'pointStyle' => 'line',
                                               'borderColor' => 'black',
                                               'borderWidth' => 1,
+                                              'pointRadius' => 0,
                                              ],
                                             ],
                              ],
