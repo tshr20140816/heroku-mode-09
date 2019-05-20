@@ -13,7 +13,7 @@ func_20190520($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_20190520($mu_);
+function func_20190520($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
