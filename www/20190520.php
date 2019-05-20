@@ -27,6 +27,7 @@ function func_20190520($mu_)
                               'datasets' => [['data' => $data1,
                                               'fill' => false,
                                               'pointStyle' => 'line',
+                                              'backgroundColor' => 'black',
                                               'borderColor' => 'black',
                                               'borderWidth' => 1,
                                               'pointRadius' => 0,
