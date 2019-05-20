@@ -82,6 +82,7 @@ function func_20190520($mu_)
                        // 'borderColor' => 'green',
                        'borderWidth' => 3,
                        'pointRadius' => 4,
+                       'pointBorderWidth' => 0,
                        'label' => $target,
                       ];
         
