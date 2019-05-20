@@ -68,6 +68,7 @@ function func_20190520($mu_)
                        'label' => $target,
                       ];
         
+        $data3 = [];
         $dy = ($data2[0] - end($data2)) / count($data2) + 1;
         for ($i = 0; $i < (int)date('t'); $i++) {
             $data3[] = (int)($data2[0] - $dy * $i);
