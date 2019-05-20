@@ -22,18 +22,20 @@ function func_20190520($mu_)
         $data1[] = ((int)date('t') - $i) * 24;
     }
 
+    $datasets = [];
+    $datasets[] = ['data' => $data1,
+                   'fill' => false,
+                   'pointStyle' => 'line',
+                   'backgroundColor' => 'black',
+                   'borderColor' => 'black',
+                   'borderWidth' => 1,
+                   'pointRadius' => 0,
+                   'label' => 'max',
+                  ];
+
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
-                              'datasets' => [['data' => $data1,
-                                              'fill' => false,
-                                              'pointStyle' => 'line',
-                                              'backgroundColor' => 'black',
-                                              'borderColor' => 'black',
-                                              'borderWidth' => 1,
-                                              'pointRadius' => 0,
-                                              'label' => 'max',
-                                             ],
-                                            ],
+                              'datasets' => $datasets,
                              ],
                    'options' => ['legend' => ['display' => true,
                                              ],
