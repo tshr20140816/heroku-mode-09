@@ -80,8 +80,8 @@ function func_20190520($mu_)
                        'fill' => false,
                        'pointStyle' => 'circle',
                        // 'borderColor' => 'green',
-                       'borderWidth' => 1,
-                       'pointRadius' => 2,
+                       'borderWidth' => 3,
+                       'pointRadius' => 4,
                        'label' => $target,
                       ];
         
