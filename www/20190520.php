@@ -64,6 +64,7 @@ function func_20190520($mu_)
                        'pointStyle' => 'circle',
                        'borderColor' => 'green',
                        'borderWidth' => 1,
+                       'pointRadius' => 2,
                       ];
 
     }
