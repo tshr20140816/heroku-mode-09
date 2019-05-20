@@ -32,6 +32,7 @@ function func_20190520($mu_)
                                               'pointRadius' => 0,
                                               'pointBorderColor' => 'black',
                                               'pointBackgroundColor' => 'black',
+                                              'label' => 'max',
                                              ],
                                             ],
                              ],
