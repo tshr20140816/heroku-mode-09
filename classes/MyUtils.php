@@ -733,6 +733,7 @@ __HEREDOC__;
             $url = json_decode($res)->link;
             error_log($log_prefix . 'URL (BITLY) : ' . $url);
             */
+            /*
             $url = 'https://api.rebrandly.com/v1/links';
             
             $domain_data['fullName'] = 'rebrand.ly';
@@ -754,7 +755,10 @@ __HEREDOC__;
                 $url = 'https://' . $url;
             }
             error_log($log_prefix . 'URL (REBRANDLY) : ' . $url);
+            */
         }
+        $url = $url_;
+        
         $options = [
             CURLOPT_URL => $url,
             CURLOPT_USERAGENT => getenv('USER_AGENT'),
