@@ -180,7 +180,7 @@ function make_score_map($mu_, $file_name_rss_items_)
                            'responsiveAnimationDuration' => 0,
                           ],
             ];
-    $url = 'https://quickchart.io/chart?width=600&height=345&c=' . json_encode($data);
+    $url = 'https://quickchart.io/chart?width=600&height=345&c=' . urlencode(json_encode($data));
     $res = $mu_->get_contents($url);
 
     $im1 = imagecreatefromstring($res);
@@ -326,7 +326,7 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
                           ],
             ];
 
-    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
+    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . urlencode(json_encode($data));
     $res = $mu_->get_contents($url);
 
     $im1 = imagecreatefromstring($res);
@@ -460,7 +460,7 @@ function make_usage_graph($mu_, $file_name_rss_items_, $target_)
                                  */
                                 ],
                   ];
-    $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
+    $url = 'https://quickchart.io/chart?width=900&height=480&c=' . urlencode(json_encode($chart_data));
     $res = $mu_->get_contents($url);
 
     $im1 = imagecreatefromstring($res);
