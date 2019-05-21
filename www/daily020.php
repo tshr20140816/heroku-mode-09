@@ -95,7 +95,7 @@ check_version_ruby($mu, $file_name_blog);
 check_cpu_info($mu, $file_name_blog);
 
 //
-record_count($mu);
+count_record($mu);
 
 // fc2 page update
 update_page_fc2($mu);
