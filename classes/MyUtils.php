@@ -719,6 +719,7 @@ __HEREDOC__;
             $url = $url_;
         } else {
             error_log($log_prefix . 'URL length : ' . strlen($url_));
+            /*
             $json = ['long_url' => $url_];
             $url = 'https://api-ssl.bitly.com/v4/bitlinks';
             $acess_token = getenv('BITLY_ACCESS_TOKEN');
@@ -731,9 +732,28 @@ __HEREDOC__;
             $res = $this->get_contents($url, $options);
             $url = json_decode($res)->link;
             error_log($log_prefix . 'URL (BITLY) : ' . $url);
+            */
+            $url = 'https://api.rebrandly.com/v1/links';
+            
+            $domain_data['fullName'] = 'rebrand.ly';
+            $post_data['destination'] = $url_;
+            $post_data['domain'] = $domain_data;
+            
+            $options = [CURLOPT_POST => true,
+                        CURLOPT_POSTFIELDS => json_encode($post_data),
+                        CURLOPT_HTTPHEADER => ['apikey: ' . getenv('REBRANDLY_API_KEY'),
+                                               'Content-Type: application/json',
+                                               'workspace: ' . getenv('REBRANDLY_WORKSPACE_ID'),
+                                              ],
+                       ];
+            $res = $this->get_contents($url, $options);
+            $url = json_decode($res)->shortUrl;
             if (strlen($url) == 0) {
                 $url = $url_;
+            } else {
+                $url = 'https://' . $url;
             }
+            error_log($log_prefix . 'URL (REBRANDLY) : ' . $url);
         }
         $options = [
             CURLOPT_URL => $url,
