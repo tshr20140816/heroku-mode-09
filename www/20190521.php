@@ -84,7 +84,7 @@ function func_20190521($mu_)
                                  'annotation' => ['annotations' => [['type' => 'line',
                                                                      'mode' => 'vertical',
                                                                      'scaleID' => 'x-axis-0',
-                                                                     'value' => count($datasets[1]['data']),
+                                                                     'value' => date('m', strtotime('-13 hours')),
                                                                     ],
                                                                    ],
                                                  ],
