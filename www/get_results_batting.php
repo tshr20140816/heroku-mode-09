@@ -126,7 +126,7 @@ function get_results_batting2($mu_)
                            'scales' => $scales,
                           ],
             ];
-    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . json_encode($data);
+    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . urlencode(json_encode($data));
     $res = $mu_->get_contents($url);
 
     $im1 = imagecreatefromstring($res);
