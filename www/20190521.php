@@ -23,8 +23,10 @@ function func_20190521b($mu_)
     $tmp = parse_url($url);
     $url = $tmp['scheme'] . '://' . $tmp['host'] . '/record_count.php';
     
+    $user = base64_decode($mu_->get_env('TTRSS_1_BASIC_USER'));
+    $password = base64_decode($mu_->get_env('TTRSS_1_BASIC_PASSWORD'));
     $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => getenv('TEST_USER') . ':' . getenv('TEST_PASSWORD'),
+                CURLOPT_USERPWD => "${user}:${password}",
                ];
     $res = $mu_->get_contents($url, $options);
     error_log($res);
