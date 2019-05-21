@@ -32,6 +32,7 @@ function func_20190520b($mu_)
     
     // error_log($res);
     error_log(print_r(json_decode($res), true));
+    error_log(json_decode($res)->shortUrl);
 }
 
 function func_20190520($mu_)
