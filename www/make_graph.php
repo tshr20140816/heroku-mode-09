@@ -60,7 +60,7 @@ function make_score_map($mu_, $file_name_rss_items_)
     $color_index['楽天'] = 'darkred,orange';
 
     // $url = 'https://baseball.yahoo.co.jp/npb/standings/';
-    $url = 'https://baseball.yahoo.co.jp/npb/standings/?' . $suffix;
+    $url = 'https://baseball.yahoo.co.jp/npb/standings/?4nocache' . date('Ymd', strtotime('+9 hours'));;
     $res = $mu_->get_contents($url, null, true);
 
     $tmp = explode('<table class="NpbPlSt yjM">', $res);
