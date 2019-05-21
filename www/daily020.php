@@ -1267,3 +1267,24 @@ __HEREDOC__;
     file_put_contents($file_name, $html);
     $mu_->upload_fc2($file_name);
 }
+
+function count_record($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $keyword = 'uusttsfdpsedpvou';
+    $description = '';
+    $j = (int)date('j', strtotime('+9hours'));
+    if ($j != 1) {
+        $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
+        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword;
+        $res = $mu_->get_contents($url);
+
+        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
+        $res = $mu_->get_contents($match[1]);
+        $rc = preg_match('/<div class="' . $keyword . '">(.+?)</', $res, $match);
+        $description = $match[1];
+    }
+    $description = '<div class="' . $keyword . '">' . trim("${description} ${j},${record_count}") . '</div>';
+    $mu_->post_blog_hatena($keyword, $description);
+}
