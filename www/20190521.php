@@ -9,9 +9,22 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190521($mu);
+func_20190521b($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+
+function func_20190521b($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $url = getenv('TEST_URL_01');
+    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => getenv('TEST_USER') . ':' . getenv('TEST_PASSWORD'),
+               ];
+    $res = $mu_->get_contents($url, $options);
+    error_log($res);
+}
 
 function func_20190521($mu_)
 {
