@@ -13,7 +13,7 @@ $file_name_rss_items = tempnam('/tmp', md5(microtime(true)));
 @unlink($file_name_rss_items);
 
 make_score_map($mu, $file_name_rss_items);
-make_usage_graph($mu, $file_name_rss_items);
+make_heroku_dyno_usage_graph($mu, $file_name_rss_items);
 make_loggly_usage($mu, $file_name_rss_items);
 
 $xml_text = <<< __HEREDOC__
@@ -384,7 +384,7 @@ __HEREDOC__;
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 }
 
-function make_usage_graph($mu_, $file_name_rss_items_)
+function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
