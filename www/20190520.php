@@ -31,7 +31,8 @@ function func_20190520b($mu_)
                ];
     $res = $mu_->get_contents($url, $options);
     
-    error_log(print_r(json_decode($res), true));
+    error_log($res);
+    // error_log(print_r(json_decode($res), true));
 }
 
 function func_20190520($mu_)
