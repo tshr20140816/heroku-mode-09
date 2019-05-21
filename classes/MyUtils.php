@@ -731,6 +731,9 @@ __HEREDOC__;
             $res = $this->get_contents($url, $options);
             $url = json_decode($res)->link;
             error_log($log_prefix . 'URL (BITLY) : ' . $url);
+            if (strlen($url) == 0) {
+                $url = $url_;
+            }
         }
         $options = [
             CURLOPT_URL => $url,
