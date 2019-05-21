@@ -532,21 +532,20 @@ function make_usage_graph($mu_, $file_name_rss_items_)
                ];
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
-    $mu_->post_blog_hatena(strtolower($target_) . ' usage', $description);
-    $mu_->post_blog_fc2(strtolower($target_) . ' usage', $description);
+    $mu_->post_blog_hatena('heroku dyno usage', $description);
+    $mu_->post_blog_fc2('heroku dyno usage', $description);
     $description = '<![CDATA[' . $description . ']]>';
 
     $rss_item_text = <<< __HEREDOC__
 <item>
 <guid isPermaLink="false">__HASH__</guid>
 <pubDate />
-<title>__TITLE__</title>
+<title>heroku dyno usage</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
 __HEREDOC__;
 
-    $rss_item_text = str_replace('__TITLE__', strtolower($target_) . ' quota', $rss_item_text);
     $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
