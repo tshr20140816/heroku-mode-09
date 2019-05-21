@@ -19,32 +19,14 @@ function func_20190521($mu_)
 
     for ($i = 0; $i < (int)date('t'); $i++) {
         $labels[] = $i + 1;
-        // $data1[] = ((int)date('t') - $i) * 24;
-        $tmp = new stdClass();
-        $tmp->x = $i + 1;
-        $tmp->y = ((int)date('t') - $i) * 24;
-        $data1[] = $tmp;
     }
 
     $datasets = [];
-    $datasets[] = ['data' => $data1,
-                   'fill' => false,
-                   'pointStyle' => 'line',
-                   'backgroundColor' => 'black',
-                   'borderColor' => 'black',
-                   'borderWidth' => 1,
-                   'pointRadius' => 0,
-                   'label' => 'max',
-                  ];
 
     $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
     $list = [['target' => 'toodledo',
               'color' => 'green',
               'planColor' => 'red',
-             ],
-             ['target' => 'ttrss',
-              'color' => 'cyan',
-              'planColor' => 'orange',
              ],
             ];
     foreach ($list as $one_data) {
@@ -54,24 +36,27 @@ function func_20190521($mu_)
             $keyword[$i] = chr(ord($keyword[$i]) + 1);
         }
 
-        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword . 'rvpub';
+        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword . 'sfdpsedpvou';
         $res = $mu_->get_contents($url);
 
         $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
 
         $res = $mu_->get_contents($match[1]);
-        $rc = preg_match('/<div class="' . $keyword . 'rvpub">(.+?)</', $res, $match);
+        $rc = preg_match('/<div class="' . $keyword . 'sfdpsedpvou">(.+?)</', $res, $match);
 
         $data2 = [];
         foreach (explode(' ', $match[1]) as $item) {
-            $data2[] = (int)($item / 60);
+            // $data2[] = (int)($item / 60);
+            $tmp1 = explode(',', $item);
+            $tmp2 = new stdClass();
+            $tmp2->x = $tmp1[0];
+            $tmp2->y = $tmp1[1];
+            $data2[] = $tmp2;
         }
         
         if (count($data2) < 3) {
             return;
         }
-        array_shift($data2);
-        $data2[0] = 550;
 
         $datasets[] = ['data' => $data2,
                        'fill' => false,
@@ -83,21 +68,6 @@ function func_20190521($mu_)
                        'pointBorderWidth' => 0,
                        'label' => $one_data['target'],
                       ];
-        
-        $data3 = [];
-        $dy = ($data2[0] - end($data2)) / count($data2) + 1;
-        for ($i = 0; $i < (int)date('t'); $i++) {
-            $data3[] = (int)($data2[0] - $dy * $i);
-        }
-        $datasets[] = ['data' => $data3,
-                       'fill' => false,
-                       'backgroundColor' => $one_data['planColor'],
-                       'borderWidth' => 3,
-                       'borderColor' => $one_data['planColor'],
-                       'pointRadius' => 0,
-                       'label' => $one_data['target'] . ' plan',
-                      ];
-
     }
     
     $chart_data = ['type' => 'line',
@@ -121,7 +91,6 @@ function func_20190521($mu_)
                                 ],
                   ];
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . urlencode(json_encode($chart_data));
-    // $url = 'https://quickchart.io/chart?width=900&height=480&c=' . json_encode($chart_data);
     $res = $mu_->get_contents($url);
 
     $im1 = imagecreatefromstring($res);
