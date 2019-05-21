@@ -23,6 +23,7 @@ $file_name_blog = '/tmp/blog.txt';
 @unlink($file_name_blog);
 
 exec('composer update > /dev/null 2>&1 &');
+exec('curl --head ' . $mu->get_env('URL_TTRSS_1') . ' > /dev/null 2>&1 &');
 
 // quota
 get_quota($mu, $file_name_blog);
