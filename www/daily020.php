@@ -112,12 +112,15 @@ error_log($pid . ' TRUNCATE t_webcache $rc : ' . $rc);
 $pdo = null;
 
 $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/daily030.php';
+/*
 $options = [
     CURLOPT_TIMEOUT => 3,
     CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
     CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
 ];
 $res = $mu->get_contents($url, $options);
+*/
+exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
 
 //
 
