@@ -26,7 +26,6 @@ function func_20190521($mu_)
     $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
     $list = [['target' => 'toodledo',
               'color' => 'green',
-              'planColor' => 'red',
              ],
             ];
     foreach ($list as $one_data) {
@@ -81,13 +80,6 @@ function func_20190521($mu_)
                                  'hover' => ['animationDuration' => 0,
                                             ],
                                  'responsiveAnimationDuration' => 0,
-                                 'annotation' => ['annotations' => [['type' => 'line',
-                                                                     'mode' => 'vertical',
-                                                                     'scaleID' => 'x-axis-0',
-                                                                     'value' => (int)date('d', strtotime('+9 hours')),
-                                                                    ],
-                                                                   ],
-                                                 ],
                                 ],
                   ];
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . urlencode(json_encode($chart_data));
