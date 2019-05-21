@@ -1278,7 +1278,7 @@ function count_record($mu_)
     $url = $mu_->get_env('URL_TTRSS_1');
     $tmp = parse_url($url);
 
-    $url = $tmp['scheme'] . '://' . $tmp['host'] . '/record_count.php';
+    $url = 'https://' . parse_url($url,  PHP_URL_HOST) . '/record_count.php';
     $user = base64_decode($mu_->get_env('TTRSS_1_BASIC_USER'));
     $password = base64_decode($mu_->get_env('TTRSS_1_BASIC_PASSWORD'));
     $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
