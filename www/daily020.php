@@ -275,11 +275,13 @@ for ($i = 11; $i > -1; $i--) {
 
 //
 
+/*
 $urls[$mu->get_env('URL_TTRSS_1')] = [
     CURLOPT_TIMEOUT => 3,
     CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
     CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
 ];
+*/
 
 // multi
 $multi_options = [
