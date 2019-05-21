@@ -21,13 +21,8 @@ function func_20190521b($mu_)
     $url = $mu_->get_env('URL_TTRSS_1');
     
     $tmp = parse_url($url);
-    
-    error_log(print_r($tmp, true));
-    
     $url = $tmp['scheme'] . '://' . $tmp['host'] . '/record_count.php';
     
-    error_log($url);
-    return;
     $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                 CURLOPT_USERPWD => getenv('TEST_USER') . ':' . getenv('TEST_PASSWORD'),
                ];
