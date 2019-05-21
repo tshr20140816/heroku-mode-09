@@ -24,6 +24,9 @@ function func_20190521b($mu_)
     
     error_log(print_r($tmp, true));
     
+    $url = $tmp['scheme'] . '://' . $tmp['host'] . '/record_count.php';
+    
+    error_log($url);
     return;
     $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                 CURLOPT_USERPWD => getenv('TEST_USER') . ':' . getenv('TEST_PASSWORD'),
