@@ -49,8 +49,8 @@ function func_20190521($mu_)
             // $data2[] = (int)($item / 60);
             $tmp1 = explode(',', $item);
             $tmp2 = new stdClass();
-            $tmp2->x = $tmp1[0];
-            $tmp2->y = $tmp1[1];
+            $tmp2->x = (int)$tmp1[0];
+            $tmp2->y = (int)$tmp1[1];
             $data2[] = $tmp2;
         }
         
@@ -84,7 +84,7 @@ function func_20190521($mu_)
                                  'annotation' => ['annotations' => [['type' => 'line',
                                                                      'mode' => 'vertical',
                                                                      'scaleID' => 'x-axis-0',
-                                                                     'value' => date('d', strtotime('-13 hours')),
+                                                                     'value' => (int)date('d', strtotime('+9 hours')),
                                                                     ],
                                                                    ],
                                                  ],
