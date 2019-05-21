@@ -18,7 +18,13 @@ function func_20190521b($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $url = getenv('TEST_URL_01');
+    $url = $mu_->get_env('URL_TTRSS_1');
+    
+    $tmp = parse_url($url);
+    
+    error_log(print_r($tmp, true));
+    
+    return;
     $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                 CURLOPT_USERPWD => getenv('TEST_USER') . ':' . getenv('TEST_PASSWORD'),
                ];
