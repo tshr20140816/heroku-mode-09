@@ -93,6 +93,9 @@ check_version_ruby($mu, $file_name_blog);
 // CPU info
 check_cpu_info($mu, $file_name_blog);
 
+//
+record_count($mu);
+
 // fc2 page update
 update_page_fc2($mu);
 
@@ -1268,9 +1271,22 @@ __HEREDOC__;
     $mu_->upload_fc2($file_name);
 }
 
-function count_record($mu_, $file_name_blog_)
+function count_record($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $url = $mu_->get_env('URL_TTRSS_1');
+    $tmp = parse_url($url);
+
+    $url = $tmp['scheme'] . '://' . $tmp['host'] . '/record_count.php';
+    $user = base64_decode($mu_->get_env('TTRSS_1_BASIC_USER'));
+    $password = base64_decode($mu_->get_env('TTRSS_1_BASIC_PASSWORD'));
+    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => "${user}:${password}",
+               ];
+    $res = $mu_->get_contents($url, $options);
+
+    $record_count = trim($res);
 
     $keyword = 'uusttsfdpsedpvou';
     $description = '';
