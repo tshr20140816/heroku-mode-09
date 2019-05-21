@@ -9,9 +9,30 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190520($mu);
+func_20190520b($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190520b($mu_)
+{
+    $url = 'https://api.rebrandly.com/v1/links';
+    
+    $domain_data["fullName"] = "rebrand.ly";
+    $post_data["destination"] = "https://github.com/";
+    $post_data["domain"] = $domain_data;
+    
+    $options = [CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => json_encode($post_data),
+                CURLOPT_HTTPHEADER => ['apikey: ' . getenv('REBRANDLY_API_KEY'),
+                                       'Content-Type: application/json',
+                                       'workspace: ' . getenv('REBRANDLY_WORKSPACE_ID'),
+                                      ],
+                CURLOPT_HEADER => true,
+               ];
+    $res = $mu_->get_contents($url, $options);
+    
+    error_log(print_r(json_decode($res), true));
+}
 
 function func_20190520($mu_)
 {
