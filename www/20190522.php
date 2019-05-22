@@ -22,6 +22,7 @@ SELECT T1.check_time
       ,T1.balance
   FROM t_waon_history T1
  ORDER BY T1.check_time DESC
+ LIMIT 40
 ;
 __HEREDOC__;
     
