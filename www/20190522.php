@@ -76,6 +76,20 @@ __HEREDOC__;
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . urlencode(json_encode($chart_data));
     $res = $mu_->get_contents($url);
     
+    $im1 = imagecreatefromstring($res);
+    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
+    $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
+    imagealphablending($im2, false);
+    imagesavealpha($im2, true);
+    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
+    imagedestroy($im1);
+    
+    $file = tempnam("/tmp", md5(microtime(true)));
+    imagepng($im2, $file, 9);
+    imagedestroy($im2);
+    $res = file_get_contents($file);
+    unlink($file);
+    
     header('Content-Type: image/png');
     echo $res;
 }
