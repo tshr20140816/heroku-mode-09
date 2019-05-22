@@ -29,9 +29,21 @@ __HEREDOC__;
     
     $pdo = $mu_->get_pdo();
     
+    $labels = [];
+    $data1 = [];
     foreach ($pdo->query($sql) as $row) {
         error_log(print_r($row, true));
-        error_log(date('Ymd', strtotime($row['check_date'])));
+        error_log(date('m/d', strtotime($row['check_date'])));
+        $lables[$row['check_date']] = date('m/d', strtotime($row['check_date']));
+        $tmp = new stdClass();
+        $tmp->x = date('m/d', strtotime($row['check_date']));
+        $tmp->y = $row['balance'];
+        $data1[] = $tmp;
     }
     $pdo = null;
+    
+    ksort($labels);
+    $labels = array_values($labels);
+    
+    error_log(print_r($labels, true));
 }
