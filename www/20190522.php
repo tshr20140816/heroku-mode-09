@@ -23,7 +23,7 @@ SELECT to_char(T1.check_time, 'YYYY/MM/DD') check_date
   FROM t_waon_history T1
  GROUP BY to_char(T1.check_time, 'YYYY/MM/DD')
  ORDER BY to_char(T1.check_time, 'YYYY/MM/DD') DESC
- LIMIT 50
+ LIMIT 20
 ;
 __HEREDOC__;
     
