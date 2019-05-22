@@ -57,14 +57,13 @@ __HEREDOC__;
                    'borderWidth' => 3,
                    'pointRadius' => 4,
                    'pointBorderWidth' => 0,
-                   'label' => 'waon',
                   ];
     
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
                               'datasets' => $datasets,
                              ],
-                   'options' => ['legend' => ['display' => true,
+                   'options' => ['legend' => ['display' => false,
                                              ],
                                  'animation' => ['duration' => 0,
                                                 ],
