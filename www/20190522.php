@@ -68,7 +68,7 @@ function func_20190522($mu_)
             $tmp1 = explode(',', $item);
             $tmp2 = new stdClass();
             $tmp2->x = (int)$tmp1[0] - 1;
-            $tmp2->y = (int)$tmp1[1] / 60;
+            $tmp2->y = (int)((int)$tmp1[1] / 60);
             $data2[] = $tmp2;
         }
 
@@ -108,7 +108,7 @@ function func_20190522($mu_)
         $data3[] = $tmp;
         $tmp = new stdClass();
         $tmp->x = (int)date('t');
-        $tmp->y = 550 - (end($data2)->y / end($data2)->x) * (int)date('t');
+        $tmp->y = 550 - (int)(end($data2)->y / end($data2)->x) * (int)date('t');
         $data3[] = $tmp;
         
         error_log(print_r($data3, true));
