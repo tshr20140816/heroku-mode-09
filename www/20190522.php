@@ -120,6 +120,7 @@ function func_20190522b($mu_)
                                                                'borderWidth' => 1,
                                                                'label' => ['enabled' => true,
                                                                            'content' => end($data),
+                                                                           'position' => 'left',
                                                                           ],
                                                               ],
                                                              ],
