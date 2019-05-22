@@ -59,6 +59,9 @@ __HEREDOC__;
                    'pointBorderWidth' => 0,
                   ];
     
+    $scales = new stdClass();
+    $scales->yAxes[] = ['display' => true,];
+                        
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
                               'datasets' => $datasets,
@@ -70,6 +73,7 @@ __HEREDOC__;
                                  'hover' => ['animationDuration' => 0,
                                             ],
                                  'responsiveAnimationDuration' => 0,
+                                 'scales' => $scales,
                                 ],
                   ];
     error_log(json_encode($chart_data));
