@@ -87,7 +87,7 @@ __HEREDOC__;
                                             ],
                                  'responsiveAnimationDuration' => 0,
                                  'plugins' => ['datalabels' => ['display' => true,
-                                                                'datasetIndex' => 1,
+                                                                'datasetIndex' => 2,
                                                                ],
                                               ],
                                 ],
