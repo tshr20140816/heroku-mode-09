@@ -29,7 +29,7 @@ __HEREDOC__;
     $pdo = $mu_->get_pdo();
     
     foreach ($pdo->query($sql) as $row) {
-        print_r($row, true);
+        error_log(print_r($row, true));
     }
     $pdo = null;
 }
