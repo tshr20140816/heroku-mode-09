@@ -86,7 +86,10 @@ __HEREDOC__;
                                  'hover' => ['animationDuration' => 0,
                                             ],
                                  'responsiveAnimationDuration' => 0,
-                                 'plugins' => ['datalabels' => ['display' => true,],],
+                                 'plugins' => ['datalabels' => ['display' => true,
+                                                                'datasetIndex' => 1,
+                                                               ],
+                                              ],
                                 ],
                   ];
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . urlencode(json_encode($chart_data));
