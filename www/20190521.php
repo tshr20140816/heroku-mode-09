@@ -9,28 +9,9 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190521b($mu);
+func_20190521($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
-
-
-function func_20190521b($mu_)
-{
-    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
-    $url = $mu_->get_env('URL_TTRSS_1');
-    
-    $tmp = parse_url($url);
-    $url = $tmp['scheme'] . '://' . $tmp['host'] . '/record_count.php';
-    
-    $user = base64_decode($mu_->get_env('TTRSS_1_BASIC_USER'));
-    $password = base64_decode($mu_->get_env('TTRSS_1_BASIC_PASSWORD'));
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => "${user}:${password}",
-               ];
-    $res = $mu_->get_contents($url, $options);
-    error_log($res);
-}
 
 function func_20190521($mu_)
 {
