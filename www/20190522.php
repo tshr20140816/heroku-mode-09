@@ -52,12 +52,27 @@ __HEREDOC__;
     $datasets[] = ['data' => $data1,
                    'fill' => false,
                    'pointStyle' => 'circle',
-                   'backgroundColor' => '#ff0000',
-                   'borderColor' => '#ff0000',
+                   'backgroundColor' => 'deepskyblue',
+                   'borderColor' => 'deepskyblue',
                    'borderWidth' => 3,
                    'pointRadius' => 4,
                    'pointBorderWidth' => 0,
                    'label' => 'waon',
+                  ];
+    
+    $data2 = [];
+    $tmp = end($data1);
+    $data2[] = $tmp;
+    
+    $datasets[] = ['data' => $data2,
+                   'fill' => false,
+                   'pointStyle' => 'circle',
+                   'backgroundColor' => 'deepskyblue',
+                   'borderColor' => 'deepskyblue',
+                   'borderWidth' => 3,
+                   'pointRadius' => 4,
+                   'pointBorderWidth' => 0,
+                   'label' => ' ',
                   ];
     
     $chart_data = ['type' => 'line',
@@ -71,6 +86,7 @@ __HEREDOC__;
                                  'hover' => ['animationDuration' => 0,
                                             ],
                                  'responsiveAnimationDuration' => 0,
+                                 'plugins' => ['datalabels' => ['display' => true,],],
                                 ],
                   ];
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . urlencode(json_encode($chart_data));
