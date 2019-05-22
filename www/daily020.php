@@ -384,7 +384,8 @@ function get_quota($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
     $keyword .= 'rvpub';
 
     $description = '';
-    if ((int)date('j', strtotime('+9hours')) != 1) {
+    $j = (int)date('j', strtotime('+9hours'));
+    if ($j != 1) {
         $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
         $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword;
         $res = $mu_->get_contents($url);
@@ -395,7 +396,7 @@ function get_quota($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
         $rc = preg_match('/<div class="' . $keyword . '">(.+?)</', $res, $match);
         $description = $match[1];
     }
-    $description = '<div class="' . $keyword . '">' . trim($description . ' ' . (int)($quota / 60)) . '</div>';
+    $description = '<div class="' . $keyword . '">' . trim($description . " ${j}," . (int)($quota / 60)) . '</div>';
     // $mu_->post_blog_hatena($keyword, $description);
     $mu_->post_blog_wordpress($keyword, $description);
 
