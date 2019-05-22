@@ -30,6 +30,7 @@ __HEREDOC__;
     
     foreach ($pdo->query($sql) as $row) {
         error_log(print_r($row, true));
+        error_log('Ymd', strtotime($row['check_time']));
     }
     $pdo = null;
 }
