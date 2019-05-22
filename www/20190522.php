@@ -116,7 +116,7 @@ function func_20190522b($mu_)
                                                                'mode' => 'horizontal',
                                                                'scaleID' => 'y-axis-0',
                                                                'value' => end($data),
-                                                               'borderColor' => 'black',
+                                                               'borderColor' => 'gray',
                                                                'borderWidth' => 1,
                                                                'label' => ['enabled' => true,
                                                                            'content' => end($data),
