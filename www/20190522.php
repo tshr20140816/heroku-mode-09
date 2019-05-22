@@ -60,7 +60,7 @@ __HEREDOC__;
                   ];
     
     $ticks = new stdClass();
-    $ticks->callback = "function(value){return '$' + value;}",
+    $ticks->callback = "function(value){return '$' + value;}";
     $scales = new stdClass();
     $scales->yAxes[] = ['display' => true,
                         'ticks' => $ticks,
