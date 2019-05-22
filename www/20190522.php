@@ -79,7 +79,13 @@ __HEREDOC__;
                                 ],
                   ];
     error_log(json_encode($chart_data));
-    $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode(json_encode($chart_data));
+    
+    $tmp = json_encode($chart_data);
+    $tmp = str_replace('"__TICKS__"', "{callback: function(value){return '$' + value;}}", $tmp);
+    error_log($tmp);
+    
+    // $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode(json_encode($chart_data));
+    $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
     $res = $mu_->get_contents($url);
     
     $im1 = imagecreatefromstring($res);
