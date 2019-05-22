@@ -46,4 +46,36 @@ __HEREDOC__;
     $labels = array_values($labels);
     
     error_log(print_r($labels, true));
+    
+    $datasets = [];
+    
+    $datasets[] = ['data' => $data1,
+                   'fill' => false,
+                   'pointStyle' => 'circle',
+                   'backgroundColor' => 'blue',
+                   'borderColor' => 'blue',
+                   'borderWidth' => 3,
+                   'pointRadius' => 4,
+                   'pointBorderWidth' => 0,
+                   'label' => 'waon',
+                  ];
+    
+    $chart_data = ['type' => 'line',
+                   'data' => ['labels' => $labels,
+                              'datasets' => $datasets,
+                             ],
+                   'options' => ['legend' => ['display' => true,
+                                             ],
+                                 'animation' => ['duration' => 0,
+                                                ],
+                                 'hover' => ['animationDuration' => 0,
+                                            ],
+                                 'responsiveAnimationDuration' => 0,
+                                ],
+                  ];
+    $url = 'https://quickchart.io/chart?width=900&height=480&c=' . urlencode(json_encode($chart_data));
+    $res = $mu_->get_contents($url);
+    
+    header('Content-Type: image/png');
+    echo $res;
 }
