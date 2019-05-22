@@ -61,7 +61,6 @@ __HEREDOC__;
     
     $scales = new stdClass();
     $scales->yAxes[] = ['display' => true,
-                        'bottom' => 0,
                         'ticks' => '__TICKS__',
                        ];
                         
