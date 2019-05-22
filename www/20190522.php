@@ -61,7 +61,7 @@ __HEREDOC__;
     
     $scales = new stdClass();
     $scales->yAxes[] = ['display' => true,
-                        'ticks' => 'callback: function(value){return '$' + value;}',
+                        'ticks' => "callback: function(value){return '$' + value;}",
                        ];
                         
     $chart_data = ['type' => 'line',
