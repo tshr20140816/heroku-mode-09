@@ -68,7 +68,7 @@ function func_20190522($mu_)
             $tmp1 = explode(',', $item);
             $tmp2 = new stdClass();
             $tmp2->x = (int)$tmp1[0] - 1;
-            $tmp2->y = (int)$tmp1[1];
+            $tmp2->y = (int)$tmp1[1] / 60;
             $data2[] = $tmp2;
         }
 
@@ -77,7 +77,7 @@ function func_20190522($mu_)
         }
         if ($data2[0]->x == 0) {
             array_shift($data2);
-            $data2[0] = 550;
+            // $data2[0] = 550;
             $tmp = new stdClass();
             $tmp->x = 1;
             $tmp->y = 550;
