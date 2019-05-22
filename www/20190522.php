@@ -18,10 +18,11 @@ function func_20190522($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
     $sql = <<< __HEREDOC__
-SELECT T1.check_time
-      ,T1.balance
+SELECT to_char(T1.check_time, 'YYYY/MM/DD') check_date
+      ,MIN(T1.balance) balance
   FROM t_waon_history T1
- ORDER BY T1.check_time DESC
+ GROUP BY to_char(T1.check_time, 'YYYY/MM/DD')
+ ORDER BY to_char(T1.check_time, 'YYYY/MM/DD') DESC
  LIMIT 40
 ;
 __HEREDOC__;
@@ -30,7 +31,7 @@ __HEREDOC__;
     
     foreach ($pdo->query($sql) as $row) {
         error_log(print_r($row, true));
-        error_log(date('Ymd', strtotime($row['check_time'])));
+        error_log(date('Ymd', strtotime($row['check_date'])));
     }
     $pdo = null;
 }
