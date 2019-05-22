@@ -26,14 +26,12 @@ SELECT to_char(T1.check_time, 'YYYY/MM/DD') check_date
  LIMIT 20
 ;
 __HEREDOC__;
-    
+
     $pdo = $mu_->get_pdo();
-    
+
     $labels = [];
     $data1 = [];
     foreach ($pdo->query($sql) as $row) {
-        error_log(print_r($row, true));
-        error_log(date('m/d', strtotime($row['check_date'])));
         $labels[$row['check_date']] = date('m/d', strtotime($row['check_date']));
         $tmp = new stdClass();
         $tmp->x = date('m/d', strtotime($row['check_date']));
@@ -41,14 +39,12 @@ __HEREDOC__;
         $data1[] = $tmp;
     }
     $pdo = null;
-    
+
     ksort($labels);
     $labels = array_values($labels);
-    
-    error_log(print_r($labels, true));
-    
+
     $datasets = [];
-    
+
     $datasets[] = ['data' => $data1,
                    'fill' => false,
                    'pointStyle' => 'circle',
@@ -58,12 +54,12 @@ __HEREDOC__;
                    'pointRadius' => 4,
                    'pointBorderWidth' => 0,
                   ];
-    
+
     $scales = new stdClass();
     $scales->yAxes[] = ['display' => true,
                         'ticks' => '__TICKS__',
                        ];
-                        
+
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
                               'datasets' => $datasets,
@@ -78,16 +74,12 @@ __HEREDOC__;
                                  'scales' => $scales,
                                 ],
                   ];
-    error_log(json_encode($chart_data));
-    
-    $tmp = json_encode($chart_data);
-    $tmp = str_replace('"__TICKS__"', "{callback: function(value){return value.toLocaleString();}}", $tmp);
-    error_log($tmp);
-    
-    // $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode(json_encode($chart_data));
+
+    $tmp = str_replace('"__TICKS__"', "{callback: function(value){return value.toLocaleString();}}", json_encode($chart_data));
+
     $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
     $res = $mu_->get_contents($url);
-    
+
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
     $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
@@ -95,13 +87,13 @@ __HEREDOC__;
     imagesavealpha($im2, true);
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
     imagedestroy($im1);
-    
+
     $file = tempnam("/tmp", md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
     $res = file_get_contents($file);
     unlink($file);
-    
+
     header('Content-Type: image/png');
     echo $res;
 }
