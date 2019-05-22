@@ -72,6 +72,7 @@ __HEREDOC__;
                                  'responsiveAnimationDuration' => 0,
                                 ],
                   ];
+    error_log(json_encode($chart_data));
     $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode(json_encode($chart_data));
     $res = $mu_->get_contents($url);
     
