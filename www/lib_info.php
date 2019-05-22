@@ -185,11 +185,14 @@ __HEREDOC__;
     
     if ($order_ === 0 && $ok > 0) {
         $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/library_rental_ok.php';
+        /*
         $options3 = [
             CURLOPT_TIMEOUT => 2,
             CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
         ];
         $res = $mu_->get_contents($url, $options3);
+        */
+        exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
     }
     
     if (count($list_lib_id) <= $order_ + 1) {
@@ -197,12 +200,14 @@ __HEREDOC__;
     }
     
     $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/lib_info.php?n=' . ($order_ + 1);
+    /*
     $options3 = [
         CURLOPT_TIMEOUT => 2,
         CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
     ];
-    
     $res = $mu_->get_contents($url, $options3);
+    */
+    exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
 
     return 'continue';
 }
