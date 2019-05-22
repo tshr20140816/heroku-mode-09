@@ -9,7 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$file_name_rss_items = tempnam('/tmp', md5(microtime(true)));
+$file_name_rss_items = tempnam('/tmp', 'rss_' . md5(microtime(true)));
 @unlink($file_name_rss_items);
 
 make_waon_balance($mu, $file_name_rss_items);
