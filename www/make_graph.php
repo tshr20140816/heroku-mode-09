@@ -435,14 +435,25 @@ function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
 
         $data2 = [];
         foreach (explode(' ', $match[1]) as $item) {
-            $data2[] = (int)($item / 60);
+            // $data2[] = (int)($item / 60);
+            $tmp1 = explode(',', $item);
+            $tmp2 = new stdClass();
+            $tmp2->x = (int)$tmp1[0] - 1;
+            $tmp2->y = (int)$tmp1[1];
+            $data2[] = $tmp2;
         }
 
         if (count($data2) < 3) {
             return;
         }
-        array_shift($data2);
-        $data2[0] = 550;
+        if ($data2[0]->x == 0) {
+            array_shift($data2);
+            $data2[0] = 550;
+            $tmp = new stdClass();
+            $tmp->x = 1;
+            $tmp->y = 550;
+            $data2[0] = $tmp;
+        }
 
         $datasets[] = ['data' => $data2,
                        'fill' => false,
