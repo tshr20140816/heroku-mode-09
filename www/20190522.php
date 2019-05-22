@@ -111,6 +111,7 @@ function func_20190522($mu_)
         $tmp->y = 550 - (end($data2)->y / end($data2)->x) * (int)date('t');
         $data3[] = $tmp;
         
+        error_log(print_r($data3, true));
         $datasets[] = ['data' => $data3,
                        'fill' => false,
                        'backgroundColor' => $one_data['planColor'],
