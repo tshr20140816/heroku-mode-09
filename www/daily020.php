@@ -19,7 +19,7 @@ if (file_exists('/tmp/' . basename(__FILE__) . '.txt')) {
     }
 }
 
-$file_name_blog = '/tmp/blog.txt';
+$file_name_blog = tempnam("/tmp", 'blog_' .  md5(microtime(true)));
 @unlink($file_name_blog);
 
 exec('composer update > /dev/null 2>&1 &');
