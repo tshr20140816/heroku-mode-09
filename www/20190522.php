@@ -59,9 +59,11 @@ __HEREDOC__;
                    'pointBorderWidth' => 0,
                   ];
     
+    $ticks = new stdClass();
+    $ticks->callback = "function(value){return '$' + value;}",
     $scales = new stdClass();
     $scales->yAxes[] = ['display' => true,
-                        'ticks' => "callback: function(value){return '$' + value;}",
+                        'ticks' => $ticks,
                        ];
                         
     $chart_data = ['type' => 'line',
