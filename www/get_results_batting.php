@@ -15,12 +15,15 @@ $time_finish = microtime(true);
 $mu->post_blog_wordpress("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]');
 
 $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/make_graph.php';
+/*
 $options = [
     CURLOPT_TIMEOUT => 3,
     CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
     CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
 ];
 $mu->get_contents($url, $options);
+*/
+exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
