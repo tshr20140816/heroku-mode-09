@@ -366,12 +366,15 @@ if ($rainfall_continue_flag === true) {
 }
 
 $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/lib_info.php?n=0';
+/*
 $options = [
     CURLOPT_TIMEOUT => 2,
     CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
     CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
 ];
 $res = $mu->get_contents($url, $options);
+*/
+exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
 
 error_log($pid . ' apcu_sma_info : ' . print_r(apcu_sma_info(), true));
 error_log($pid . ' apcu_cache_info : ' . print_r(apcu_cache_info(), true));
