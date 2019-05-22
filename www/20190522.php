@@ -148,45 +148,6 @@ function func_20190522($mu_, $file_name_rss_items_)
     $res = file_get_contents($file);
     unlink($file);
 
-    $url = 'https://api.tinify.com/shrink';
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-                CURLOPT_POST => true,
-                CURLOPT_BINARYTRANSFER => true,
-                CURLOPT_POSTFIELDS => $res,
-                CURLOPT_HEADER => true,
-               ];
-    $res = $mu_->get_contents($url, $options);
-
-    $tmp = preg_split('/^\r\n/m', $res, 2);
-
-    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
-    error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
-    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
-    $json = json_decode($tmp[1]);
-    error_log($log_prefix . print_r($json, true));
-
-    $url = $json->output->url;
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-               ];
-    $res = $mu_->get_contents($url, $options);
-    $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
-    $mu_->post_blog_hatena('heroku dyno usage', $description);
-    $mu_->post_blog_fc2('heroku dyno usage', $description);
-    $description = '<![CDATA[' . $description . ']]>';
-
-    $rss_item_text = <<< __HEREDOC__
-<item>
-<guid isPermaLink="false">__HASH__</guid>
-<pubDate />
-<title>heroku dyno usage</title>
-<link>http://dummy.local/</link>
-<description>__DESCRIPTION__</description>
-</item>
-__HEREDOC__;
-
-    $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
-    $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
-    file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
+    header('Content-Type: image/png');
+    echo $res;
 }
