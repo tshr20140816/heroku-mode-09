@@ -467,10 +467,21 @@ function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
                       ];
 
         $data3 = [];
+        /*
         $dy = ($data2[0] - end($data2)) / count($data2) + 1;
         for ($i = 0; $i < (int)date('t'); $i++) {
             $data3[] = (int)($data2[0] - $dy * $i);
         }
+        */
+        $tmp = new stdClass();
+        $tmp->x = 1;
+        $tmp->y = 550;
+        $data3[] = $tmp;
+        $tmp = new stdClass();
+        $tmp->x = (int)date('t');
+        $tmp->y = 550 - (int)((550 - end($data2)->y) / end($data2)->x + 1) * (int)date('t');
+        $data3[] = $tmp;
+
         $datasets[] = ['data' => $data3,
                        'fill' => false,
                        'backgroundColor' => $one_data['planColor'],
