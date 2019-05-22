@@ -108,7 +108,7 @@ function func_20190522($mu_)
         $data3[] = $tmp;
         $tmp = new stdClass();
         $tmp->x = (int)date('t');
-        $tmp->y = 550 - (int)(end($data2)->y / end($data2)->x) * (int)date('t');
+        $tmp->y = 550 - (550 - (int)(end($data2)->y) / end($data2)->x) * (int)date('t');
         $data3[] = $tmp;
         
         error_log(print_r($data3, true));
