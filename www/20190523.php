@@ -34,7 +34,6 @@ function func_20190523($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
     exec($cmd);
 
     $file_size = $mu_->backup_data(file_get_contents($file_name), $file_name);
-    // $file_size = filesize($file_name);
     $file_size = number_format($file_size);
 
     $sql = <<< __HEREDOC__
