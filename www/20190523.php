@@ -17,7 +17,7 @@ error_log(file_get_contents('/tmp/dummy'));
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_20190523b($mu_)
+function func_20190523b($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
