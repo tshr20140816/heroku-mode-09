@@ -191,7 +191,7 @@ function make_score_map($mu_, $file_name_rss_items_)
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2 - 25, imagesx($im1), imagesy($im1) - 50);
     imagedestroy($im1);
 
-    $file = tempnam("/tmp", md5(microtime(true)));
+    $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
     $res = file_get_contents($file);
@@ -336,7 +336,7 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
     imagesavealpha($im2, true);
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
     imagedestroy($im1);
-    $file = tempnam('/tmp', md5(microtime(true)));
+    $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
     $res = file_get_contents($file);
@@ -527,7 +527,7 @@ function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
     imagedestroy($im1);
 
-    $file = tempnam("/tmp", md5(microtime(true)));
+    $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
     $res = file_get_contents($file);
@@ -664,7 +664,7 @@ __HEREDOC__;
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
     imagedestroy($im1);
 
-    $file = tempnam("/tmp", md5(microtime(true)));
+    $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
     $res = file_get_contents($file);
