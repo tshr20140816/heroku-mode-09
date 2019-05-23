@@ -17,8 +17,22 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 
 function func_20190523b($mu_)
 {
-    error_log($mu_->get_encrypt_string(getenv('DATABASE_URL_TTRSS')));
-    error_log($mu_->get_encrypt_string(getenv('DATABASE_URL_REDMINE')));
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $database_url = getenv('DATABASE_URL');
+    
+    $connection_info = parse_url($database_url);
+    $database_name = substr($connection_info['path'], 1);
+    $pdo = new PDO(
+        "pgsql:host=${connection_info['host']};dbname=" . $database_name,
+        $connection_info['user'],
+        $connection_info['pass']
+        );
+    
+    foreach ($pdo->query("SELECT pg_database_size('${database_name}') size") as $row) {
+        error_log($log_prefix . print_r($row, true));
+    }
+    $pdo = null;
 }
 
 function func_20190523($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
