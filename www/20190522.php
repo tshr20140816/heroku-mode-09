@@ -11,7 +11,7 @@ $mu = new MyUtils();
 
 func_20190522c($mu);
 
-error_log(date('D, j M Y G:i:s +09:00', strtotime('+9 hours')));
+error_log(date('D, j M Y G:i:s +0900', strtotime('+9 hours')));
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
