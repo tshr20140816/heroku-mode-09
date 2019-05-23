@@ -27,6 +27,12 @@ function func_20190521($mu_)
     $list = [['target' => 'toodledo',
               'color' => 'green',
              ],
+             ['target' => 'ttrss',
+              'color' => 'cyan',
+             ],
+             ['target' => 'redmine',
+              'color' => 'blue',
+             ],
             ];
     foreach ($list as $one_data) {
         error_log(print_r($one_data, true));
@@ -45,7 +51,6 @@ function func_20190521($mu_)
 
         $data2 = [];
         foreach (explode(' ', $match[1]) as $item) {
-            // $data2[] = (int)($item / 60);
             $tmp1 = explode(',', $item);
             $tmp2 = new stdClass();
             $tmp2->x = (int)$tmp1[0];
@@ -53,7 +58,7 @@ function func_20190521($mu_)
             $data2[] = $tmp2;
         }
         
-        if (count($data2) < 3) {
+        if (count($data2) < 2) {
             return;
         }
 
