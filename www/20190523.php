@@ -59,7 +59,7 @@ __HEREDOC__;
     foreach ($pdo->query($sql) as $row) {
         error_log($log_prefix . print_r($row, true));
         $record_count = $row['cnt'];
-        $record_count = number_format($record_count);
+        // $record_count = number_format($record_count);
     }
     $pdo = null;
 
@@ -87,6 +87,7 @@ __HEREDOC__;
         $mu_->post_blog_wordpress($keyword, $description);
     }
 
+    $record_count = number_format($record_count);
     file_put_contents($file_name_blog_,
                       "\nDatabase ${target_} backup size : ${file_size}Byte\nRecord count : ${record_count}\n", FILE_APPEND);
 }
