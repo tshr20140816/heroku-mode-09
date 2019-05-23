@@ -31,7 +31,8 @@ function func_20190523($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
     $cmd = "pg_dump --format=plain --dbname=${database_url} >${file_name}";
     exec($cmd);
 
-    $file_size = $mu_->backup_data(file_get_contents($file_name), $file_name);
+    // $file_size = $mu_->backup_data(file_get_contents($file_name), $file_name);
+    $file_size = 0;
     $file_size = number_format($file_size);
 
     $sql = <<< __HEREDOC__
@@ -77,6 +78,7 @@ __HEREDOC__;
         $mu_->post_blog_wordpress($keyword, $description);
     }
 
-    file_put_contents($file_name_blog_, "\nDatabase backup size : ${file_size}Byte\nRecord count : ${record_count}\n", FILE_APPEND);
+    file_put_contents($file_name_blog_,
+                      "\nDatabase ${target_} backup size : ${file_size}Byte\nRecord count : ${record_count}\n", FILE_APPEND);
 }
 
