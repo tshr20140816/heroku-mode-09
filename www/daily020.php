@@ -25,20 +25,26 @@ $file_name_blog = tempnam("/tmp", 'blog_' .  md5(microtime(true)));
 exec('composer update > /dev/null 2>&1 &');
 exec('curl --head ' . $mu->get_env('URL_TTRSS_1') . ' > /dev/null 2>&1 &');
 
-// quota
+// quota TOODLEDO
 get_quota($mu, $file_name_blog);
 
-// quota
+// Database Backup TOODLEDO
+backup_db($mu, $file_name_blog);
+
+// quota TTRSS
 get_quota($mu, $file_name_blog, 'TTRSS');
 
-// quota
+// Database Backup TTRSS
+backup_db($mu, $file_name_blog, 'TTRSS');
+
+// quota REDMINE
 get_quota($mu, $file_name_blog, 'REDMINE');
+
+// Database Backup REDMINE
+backup_db($mu, $file_name_blog, 'REDMINE');
 
 // WAON balance check
 check_waon_balance($mu, $file_name_blog);
-
-// Database Backup
-backup_db($mu, $file_name_blog);
 
 // Task Backup
 backup_task($mu, $file_name_blog);
@@ -553,13 +559,20 @@ __HEREDOC__;
     file_put_contents($file_name_blog_, "\nWAON balance : ${balance}yen\nLast used : ${last_used}\n", FILE_APPEND);
 }
 
-function backup_db($mu_, $file_name_blog_)
+function backup_db($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $file_name = '/tmp/' . getenv('HEROKU_APP_NAME')  . '_' .  date('d', strtotime('+9 hours')) . '_pg_dump.txt';
+    if ($target_ == 'TOODLEDO') {
+        $heroku_app_name = getenv('HEROKU_APP_NAME');
+        $database_url = getenv('DATABASE_URL');
+    } else {
+        $heroku_app_name = $mu_->get_env('HEROKU_APP_NAME_' . $target_);
+        $database_url = getenv('DATABASE_URL_' . $target_);
+    }
+    $file_name = "/tmp/${heroku_app_name}_" .  date('d', strtotime('+9 hours')) . '_pg_dump.txt';
     error_log($log_prefix . $file_name);
-    $cmd = 'pg_dump --format=plain --dbname=' . getenv('DATABASE_URL') . ' >' . $file_name;
+    $cmd = "pg_dump --format=plain --dbname=${database_url} >${file_name}";
     exec($cmd);
 
     $file_size = $mu_->backup_data(file_get_contents($file_name), $file_name);
@@ -575,16 +588,27 @@ SELECT SUM(T1.reltuples) cnt
               )
 __HEREDOC__;
 
-    $pdo = $mu_->get_pdo();
+    // $pdo = $mu_->get_pdo();
+    $connection_info = parse_url($database_url);
+    $pdo = new PDO(
+        "pgsql:host=${connection_info['host']};dbname=" . substr($connection_info['path'], 1),
+        $connection_info['user'],
+        $connection_info['pass']
+        );
+
     $record_count = 0;
     foreach ($pdo->query($sql) as $row) {
         error_log($log_prefix . print_r($row, true));
         $record_count = $row['cnt'];
-        $record_count = number_format($record_count);
     }
     $pdo = null;
 
-    $keyword = 'uppemfepsfdpsedpvou';
+    $keyword = strtolower($target_);
+    for ($i = 0; $i < strlen($keyword); $i++) {
+        $keyword[$i] = chr(ord($keyword[$i]) + 1);
+    }
+    $keyword .= 'sfdpsedpvou';
+
     $description = '';
     $j = (int)date('j', strtotime('+9hours'));
     if ($j != 1) {
@@ -603,7 +627,9 @@ __HEREDOC__;
         $mu_->post_blog_wordpress($keyword, $description);
     }
 
-    file_put_contents($file_name_blog_, "\nDatabase backup size : ${file_size}Byte\nRecord count : ${record_count}\n", FILE_APPEND);
+    $record_count = number_format($record_count);
+    file_put_contents($file_name_blog_,
+                      "\nDatabase ${target_} backup size : ${file_size}Byte\nRecord count : ${record_count}\n", FILE_APPEND);
 }
 
 function backup_task($mu_, $file_name_blog_)
