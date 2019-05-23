@@ -8,11 +8,11 @@ error_log("${pid} START scripts/update_ttrss.php " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-update_ttrss2($mu);
+update_ttrss($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function update_ttrss2($mu_)
+function update_ttrss($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
