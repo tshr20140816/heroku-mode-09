@@ -20,14 +20,6 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
 $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/daily020.php';
-/*
-$options = [
-    CURLOPT_TIMEOUT => 3,
-    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-    CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
-];
-$res = $mu->get_contents($url, $options);
-*/
 exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
