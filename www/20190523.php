@@ -10,6 +10,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
 func_20190523($mu, '/tmp/dummy');
+func_20190523($mu, '/tmp/dummy', 'TTRSS');
 
 error_log(file_get_contents('/tmp/dummy'));
 
