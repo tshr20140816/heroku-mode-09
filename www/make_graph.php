@@ -230,13 +230,14 @@ function make_score_map($mu_, $file_name_rss_items_)
     $rss_item_text = <<< __HEREDOC__
 <item>
 <guid isPermaLink="false">__HASH__</guid>
-<pubDate />
+<pubDate>__PUBDATE__</pubDate>
 <title>Score Map</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
 __HEREDOC__;
 
+    $rss_item_text = str_replace('__PUBDATE__', date('D, j M Y G:i:s +0900', strtotime('+9 hours')), $rss_item_text);
     $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
@@ -373,13 +374,14 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
     $rss_item_text = <<< __HEREDOC__
 <item>
 <guid isPermaLink="false">__HASH__</guid>
-<pubDate />
+<pubDate>__PUBDATE__</pubDate>
 <title>Loggly usage</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
 __HEREDOC__;
 
+    $rss_item_text = str_replace('__PUBDATE__', date('D, j M Y G:i:s +0900', strtotime('+9 hours')), $rss_item_text);
     $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
@@ -564,13 +566,14 @@ function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
     $rss_item_text = <<< __HEREDOC__
 <item>
 <guid isPermaLink="false">__HASH__</guid>
-<pubDate />
+<pubDate>__PUBDATE__</pubDate>
 <title>heroku dyno usage</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
 __HEREDOC__;
 
+    $rss_item_text = str_replace('__PUBDATE__', date('D, j M Y G:i:s +0900', strtotime('+9 hours')), $rss_item_text);
     $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
@@ -701,13 +704,14 @@ __HEREDOC__;
     $rss_item_text = <<< __HEREDOC__
 <item>
 <guid isPermaLink="false">__HASH__</guid>
-<pubDate />
+<pubDate>__PUBDATE__</pubDate>
 <title>waon balance</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
 __HEREDOC__;
 
+    $rss_item_text = str_replace('__PUBDATE__', date('D, j M Y G:i:s +0900', strtotime('+9 hours')), $rss_item_text);
     $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
