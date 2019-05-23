@@ -36,7 +36,7 @@ function update_ttrss($mu_)
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
     $urls[] = "http://blog.livedoor.jp/${livedoor_id}/atom.xml";
 
-    $fc2_fqdn = $this->get_env('FC2_FTP_SERVER', true);
+    $fc2_fqdn = $mu_->get_env('FC2_FTP_SERVER', true);
     $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_01') . '.xml';
     $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_02') . '.xml';
     $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_03') . '.xml';
