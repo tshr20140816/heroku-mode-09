@@ -39,7 +39,7 @@ $list_context_id = $mu->get_contexts();
 // Get Folders
 $folder_id_label = $mu->get_folder_id('LABEL');
 
-$file_name_blog = '/tmp/blog.txt';
+$file_name_blog = tempnam("/tmp", 'blog_' .  md5(microtime(true)));
 @unlink($file_name_blog);
 
 // holiday 3年後の12月まで
