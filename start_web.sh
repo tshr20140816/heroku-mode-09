@@ -66,6 +66,10 @@ done
 popd
 set -x
 
+printenv > /tmp/printenv.txt
+wc -c < /tmp/printenv.txt
+rm /tmp/printenv.txt
+
 wait
 
 curl -s -m 1 --basic -u ${BASIC_USER}:${BASIC_PASSWORD} https://${HEROKU_APP_NAME}.herokuapp.com/opcache_compile_file.php
