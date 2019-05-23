@@ -73,7 +73,12 @@ function func_20190521($mu_)
                        'label' => $one_data['target'],
                       ];
     }
-    
+
+    $scales = new stdClass();
+    $scales->yAxes[] = ['display' => true,
+                        'ticks' => '__TICKS__',
+                       ];
+
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
                               'datasets' => $datasets,
@@ -86,8 +91,11 @@ function func_20190521($mu_)
                                             ],
                                  'responsiveAnimationDuration' => 0,
                                 ],
+                   'scales' => $scales,
                   ];
-    $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode(json_encode($chart_data));
+    $tmp = str_replace('"__TICKS__"', "{callback: function(value){return value.toLocaleString();}}", json_encode($chart_data));
+    
+    $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
     $res = $mu_->get_contents($url);
 
     $im1 = imagecreatefromstring($res);
