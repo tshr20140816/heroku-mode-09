@@ -11,6 +11,7 @@ $mu = new MyUtils();
 
 func_20190523($mu, '/tmp/dummy');
 func_20190523($mu, '/tmp/dummy', 'TTRSS');
+func_20190523($mu, '/tmp/dummy', 'REDMINE');
 
 error_log(file_get_contents('/tmp/dummy'));
 
