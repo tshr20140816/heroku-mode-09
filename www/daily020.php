@@ -100,9 +100,6 @@ check_version_ruby($mu, $file_name_blog);
 // CPU info
 check_cpu_info($mu, $file_name_blog);
 
-//
-count_record($mu);
-
 // fc2 page update
 update_page_fc2($mu);
 
@@ -568,7 +565,7 @@ function backup_db($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
         $database_url = getenv('DATABASE_URL');
     } else {
         $heroku_app_name = $mu_->get_env('HEROKU_APP_NAME_' . $target_);
-        $database_url = getenv('DATABASE_URL_' . $target_);
+        $database_url = $mu_->get_env('DATABASE_URL_' . $target_, true);
     }
     $file_name = "/tmp/${heroku_app_name}_" .  date('d', strtotime('+9 hours')) . '_pg_dump.txt';
     error_log($log_prefix . $file_name);
