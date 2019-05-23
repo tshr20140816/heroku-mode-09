@@ -9,19 +9,26 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190523($mu);
+func_20190523($mu, '/tmp/dummy');
 
-error_log(date('D, j M Y G:i:s +0900', strtotime('+9 hours')));
+error_log(file_get_contents('/tmp/dummy'));
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_20190523($mu_, $file_name_blog_)
+function func_20190523($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $file_name = '/tmp/' . getenv('HEROKU_APP_NAME')  . '_' .  date('d', strtotime('+9 hours')) . '_pg_dump.txt';
+    if ($target_ == 'TOODLEDO') {
+        $heroku_app_name = getenv('HEROKU_APP_NAME');
+        $database_url = getenv('DATABASE_URL');
+    } else {
+        $heroku_app_name = $mu_->get_env('HEROKU_APP_NAME_' . $target_);
+        $database_url = getenv('DATABASE_URL_' . $target_);
+    }
+    $file_name = "/tmp/${heroku_app_name}_" .  date('d', strtotime('+9 hours')) . '_pg_dump.txt';
     error_log($log_prefix . $file_name);
-    $cmd = 'pg_dump --format=plain --dbname=' . getenv('DATABASE_URL') . ' >' . $file_name;
+    $cmd = "pg_dump --format=plain --dbname=${database_url} >${file_name}";
     exec($cmd);
 
     $file_size = $mu_->backup_data(file_get_contents($file_name), $file_name);
@@ -46,7 +53,12 @@ __HEREDOC__;
     }
     $pdo = null;
 
-    $keyword = 'uppemfepsfdpsedpvou';
+    $keyword = strtolower($target_);
+    for ($i = 0; $i < strlen($keyword); $i++) {
+        $keyword[$i] = chr(ord($keyword[$i]) + 1);
+    }
+    $keyword .= 'sfdpsedpvou';
+
     $description = '';
     $j = (int)date('j', strtotime('+9hours'));
     if ($j != 1) {
