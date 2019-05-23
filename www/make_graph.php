@@ -418,6 +418,10 @@ function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
               'color' => 'cyan',
               'planColor' => 'orange',
              ],
+             ['target' => 'redmine',
+              'color' => 'blue',
+              'planColor' => 'yellow',
+             ],
             ];
     foreach ($list as $one_data) {
         error_log(print_r($one_data, true));
