@@ -31,6 +31,7 @@ function func_20190523b($mu_)
     
     foreach ($pdo->query("SELECT pg_database_size('${database_name}') size") as $row) {
         error_log($log_prefix . print_r($row, true));
+        error_log(number_format((int)$row['size']));
     }
     $pdo = null;
 }
