@@ -33,7 +33,7 @@ function func_20190523($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
     exec($cmd);
 
     // $file_size = $mu_->backup_data(file_get_contents($file_name), $file_name);
-    $file_size = 0;
+    $file_size = filesize($file_name);
     $file_size = number_format($file_size);
 
     $sql = <<< __HEREDOC__
@@ -46,7 +46,14 @@ SELECT SUM(T1.reltuples) cnt
               )
 __HEREDOC__;
 
-    $pdo = $mu_->get_pdo();
+    // $pdo = $mu_->get_pdo();
+    $connection_info = parse_url($database_url);
+    $pdo = new PDO(
+        "pgsql:host=${connection_info['host']};dbname=" . substr($connection_info['path'], 1),
+        $connection_info['user'],
+        $connection_info['pass']
+        );
+
     $record_count = 0;
     foreach ($pdo->query($sql) as $row) {
         error_log($log_prefix . print_r($row, true));
