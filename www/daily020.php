@@ -577,8 +577,9 @@ __HEREDOC__;
 
     // $pdo = $mu_->get_pdo();
     $connection_info = parse_url($database_url);
+    $database_name = substr($connection_info['path'], 1);
     $pdo = new PDO(
-        "pgsql:host=${connection_info['host']};dbname=" . substr($connection_info['path'], 1),
+        "pgsql:host=${connection_info['host']};dbname=" . $database_name,
         $connection_info['user'],
         $connection_info['pass']
         );
@@ -588,7 +589,15 @@ __HEREDOC__;
         error_log($log_prefix . print_r($row, true));
         $record_count = $row['cnt'];
     }
+    
+    $database_size = 0;
+    foreach ($pdo->query("SELECT pg_database_size('${database_name}') size") as $row) {
+        error_log($log_prefix . print_r($row, true));
+        $database_size = $row['size'];
+    }
     $pdo = null;
+
+    $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
 
     $keyword = strtolower($target_);
     for ($i = 0; $i < strlen($keyword); $i++) {
@@ -599,7 +608,6 @@ __HEREDOC__;
     $description = '';
     $j = (int)date('j', strtotime('+9hours'));
     if ($j != 1) {
-        $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
         $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword;
         $res = $mu_->get_contents($url);
 
@@ -614,9 +622,37 @@ __HEREDOC__;
         $mu_->post_blog_wordpress($keyword, $description);
     }
 
+    $keyword = strtolower($target_) . 'databasesize';
+    for ($i = 0; $i < strlen($keyword); $i++) {
+        $keyword[$i] = chr(ord($keyword[$i]) + 1);
+        if ($keyword[$i] == '{') {
+            $keyword[$i] = 'a';
+        }
+    }
+
+    $description = '';
+    $j = (int)date('j', strtotime('+9hours'));
+    if ($j != 1) {
+        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword;
+        $res = $mu_->get_contents($url);
+
+        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
+        $res = $mu_->get_contents($match[1]);
+
+        $rc = preg_match('/<div class="' . $keyword . '">(.+?)</', $res, $match);
+        $description = $match[1];
+    }
+    if (strpos($description, " ${j},") == false) {
+        $description = '<div class="' . $keyword . '">' . trim("${description} ${j},${database_size}") . '</div>';
+        $mu_->post_blog_wordpress($keyword, $description);
+    }
+
     $record_count = number_format($record_count);
+    $database_size = number_format($database_size);
     file_put_contents($file_name_blog_,
-                      "\nDatabase ${target_} backup size : ${file_size}Byte\nRecord count : ${record_count}\n", FILE_APPEND);
+                      "\nDatabase ${target_} backup size : ${file_size}Byte\n" .
+                      "Record count : ${record_count}\nDatabase size : ${database_size}Byte\n",
+                      FILE_APPEND);
 }
 
 function backup_task($mu_, $file_name_blog_)
