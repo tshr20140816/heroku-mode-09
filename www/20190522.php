@@ -46,6 +46,10 @@ function func_20190522c($mu_)
               'color' => 'cyan',
               'planColor' => 'orange',
              ],
+             ['target' => 'redmine',
+              'color' => 'blue',
+              'planColor' => 'yellow',
+             ],
             ];
     foreach ($list as $one_data) {
         error_log(print_r($one_data, true));
