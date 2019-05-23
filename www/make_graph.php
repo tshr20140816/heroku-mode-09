@@ -642,6 +642,7 @@ __HEREDOC__;
                                                                      'borderWidth' => 1,
                                                                      'label' => ['enabled' => true,
                                                                                  'content' => number_format($data1[0]->y),
+                                                                                 'position' => 'left',
                                                                                 ],
                                                                     ],
                                                                    ],
