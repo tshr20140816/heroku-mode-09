@@ -17,8 +17,8 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 
 function func_20190523b($mu_)
 {
-    error_log($mu_->get_encrypt_string(getenv('DATABASE_URL_TTRSS'));
-    error_log($mu_->get_encrypt_string(getenv('DATABASE_URL_REDMINE'));
+    error_log($mu_->get_encrypt_string(getenv('DATABASE_URL_TTRSS')));
+    error_log($mu_->get_encrypt_string(getenv('DATABASE_URL_REDMINE')));
 }
 
 function func_20190523($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
