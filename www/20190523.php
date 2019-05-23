@@ -29,7 +29,7 @@ function func_20190523b($mu_)
     
     foreach ($pdo->query("SELECT pg_database_size('${database_name}') size") as $row) {
         error_log($log_prefix . print_r($row, true));
-        error_log((int)$row['size'] / 1024 / 1024);
+        error_log(round((int)$row['size'] / 1024 / 1024));
     }
     $pdo = null;
 }
