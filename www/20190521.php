@@ -90,8 +90,8 @@ function func_20190521($mu_)
                                  'hover' => ['animationDuration' => 0,
                                             ],
                                  'responsiveAnimationDuration' => 0,
+                                 'scales' => $scales,
                                 ],
-                   'scales' => $scales,
                   ];
     $tmp = str_replace('"__TICKS__"', "{callback: function(value){return value.toLocaleString();}}", json_encode($chart_data));
     
