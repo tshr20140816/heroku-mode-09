@@ -17,17 +17,35 @@ function func_20190521b($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    $datasets = [];
     $labels = [];
     $data1 = [];
+    $data2 = [];
     for ($i = 0; $i < 10; $i++) {
         $labels[] = $i;
         $tmp = new stdClass();
         $tmp->x = $i;
         $tmp->y = $i;
         $data1[] = $tmp;
+        
+        $tmp = new stdClass();
+        $tmp->x = $i;
+        $tmp->y = $i * 10;
+        $data2[] = $tmp;
     }
     
     $datasets[] = ['data' => $data1,
+                   'fill' => false,
+                   'pointStyle' => 'circle',
+                   'backgroundColor' => 'black',
+                   'borderColor' => 'black',
+                   'borderWidth' => 3,
+                   'pointRadius' => 4,
+                   'pointBorderWidth' => 0,
+                  ];
+    
+    
+    $datasets[] = ['data' => $data2,
                    'fill' => false,
                    'pointStyle' => 'circle',
                    'backgroundColor' => 'black',
