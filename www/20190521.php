@@ -28,7 +28,7 @@ function func_20190521($mu_)
               'color' => 'green',
              ],
              ['target' => 'ttrss',
-              'color' => 'cyan',
+              'color' => 'deepskyblue',
              ],
              ['target' => 'redmine',
               'color' => 'blue',
