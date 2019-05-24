@@ -417,7 +417,7 @@ function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
               'planColor' => 'red',
              ],
              ['target' => 'ttrss',
-              'color' => 'cyan',
+              'color' => 'deepskyblue',
               'planColor' => 'orange',
              ],
              ['target' => 'redmine',
