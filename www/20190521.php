@@ -22,7 +22,7 @@ function func_20190521b($mu_)
         $tmp = new stdClass();
         $tmp->x = $i;
         $tmp->y = $i;
-        $data1 = [];
+        $data1[] = $tmp;
     }
     
     $datasets[] = ['data' => $data1,
