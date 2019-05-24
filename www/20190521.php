@@ -17,8 +17,10 @@ function func_20190521b($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    $labels = [];
     $data1 = [];
     for ($i = 0; $i < 10; $i++) {
+        $labels[] = $i;
         $tmp = new stdClass();
         $tmp->x = $i;
         $tmp->y = $i;
@@ -36,7 +38,8 @@ function func_20190521b($mu_)
                   ];
     
     $chart_data = ['type' => 'line',
-                   'data' => ['datasets' => $datasets,
+                   'data' => ['labels' => $labels,
+                              'datasets' => $datasets,
                              ],
                   ];
 
