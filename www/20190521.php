@@ -9,9 +9,43 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190521($mu);
+func_20190521b($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190521b($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $data1 = [];
+    for ($i = 0; $i < 10; $i++) {
+        $tmp = new stdClass();
+        $tmp->x = $i;
+        $tmp->y = $i;
+        $data1 = [];
+    }
+    
+    $datasets[] = ['data' => $data1,
+                   'fill' => false,
+                   'pointStyle' => 'circle',
+                   'backgroundColor' => 'black',
+                   'borderColor' => 'black',
+                   'borderWidth' => 3,
+                   'pointRadius' => 4,
+                   'pointBorderWidth' => 0,
+                  ];
+    
+    $chart_data = ['type' => 'line',
+                   'data' => ['datasets' => $datasets,
+                             ],
+                  ];
+
+    $url = 'https://quickchart.io/chart?c=' . urlencode(json_encode($chart_data));
+    $res = $mu_->get_contents($url);
+
+    header('Content-Type: image/png');
+    echo $res;
+}
 
 function func_20190521($mu_)
 {
