@@ -94,13 +94,16 @@ function func_20190521($mu_)
     $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
     $list = [['target' => 'toodledo',
               'color' => 'green',
+              'size_color' => 'red',
              ],
+             /*
              ['target' => 'ttrss',
               'color' => 'deepskyblue',
              ],
              ['target' => 'redmine',
               'color' => 'blue',
              ],
+             */
             ];
     foreach ($list as $one_data) {
         error_log(print_r($one_data, true));
@@ -139,6 +142,35 @@ function func_20190521($mu_)
                        'pointRadius' => 4,
                        'pointBorderWidth' => 0,
                        'label' => $one_data['target'],
+                      ];
+        
+        
+        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword . 'ebubcbtftjaf';
+        $res = $mu_->get_contents($url);
+
+        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
+
+        $res = $mu_->get_contents($match[1]);
+        $rc = preg_match('/<div class="' . $keyword . 'ebubcbtftjaf">(.+?)</', $res, $match);
+
+        $data3 = [];
+        foreach (explode(' ', $match[1]) as $item) {
+            $tmp1 = explode(',', $item);
+            $tmp2 = new stdClass();
+            $tmp2->x = (int)$tmp1[0];
+            $tmp2->y = (int)$tmp1[1];
+            $data3[] = $tmp2;
+        }
+
+        $datasets[] = ['data' => $data3,
+                       'fill' => false,
+                       'pointStyle' => 'circle',
+                       'backgroundColor' => $one_data['size_color'],
+                       'borderColor' => $one_data['size_color'],
+                       'borderWidth' => 3,
+                       'pointRadius' => 4,
+                       'pointBorderWidth' => 0,
+                       'label' => $one_data['target'] . ' database size',
                       ];
     }
 
