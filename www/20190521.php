@@ -96,14 +96,14 @@ function func_20190521($mu_)
               'color' => 'green',
               'size_color' => 'red',
              ],
-             /*
              ['target' => 'ttrss',
               'color' => 'deepskyblue',
+              'size_color' => 'orange',
              ],
              ['target' => 'redmine',
               'color' => 'blue',
+              'size_color' => 'yellow',
              ],
-             */
             ];
     foreach ($list as $one_data) {
         error_log(print_r($one_data, true));
