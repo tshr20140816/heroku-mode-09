@@ -53,6 +53,7 @@ function func_20190521b($mu_)
                    'borderWidth' => 3,
                    'pointRadius' => 4,
                    'pointBorderWidth' => 0,
+                   'xAxisID' => 'y-axis-1'
                   ];
     
     $chart_data = ['type' => 'line',
