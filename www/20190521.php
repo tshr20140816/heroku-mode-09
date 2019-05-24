@@ -195,6 +195,7 @@ function func_20190521($mu_)
                               'datasets' => $datasets,
                              ],
                    'options' => ['legend' => ['display' => true,
+                                              'boxWidth' => 10,
                                              ],
                                  'animation' => ['duration' => 0,
                                                 ],
