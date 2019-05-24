@@ -37,7 +37,7 @@ function func_20190521($mu_)
               'size_color' => 'yellow',
              ],
             ];
-    
+
     foreach ($list as $one_data) {
         error_log(print_r($one_data, true));
         $keyword = strtolower($one_data['target']);
@@ -61,7 +61,7 @@ function func_20190521($mu_)
             $tmp2->y = (int)$tmp1[1];
             $data2[] = $tmp2;
         }
-        
+
         if (count($data2) < 2) {
             return;
         }
@@ -77,8 +77,7 @@ function func_20190521($mu_)
                        'label' => $one_data['target'] . ' record',
                        'yAxisID' => 'y-axis-0',
                       ];
-        
-        
+
         $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword . 'ebubcbtftjaf';
         $res = $mu_->get_contents($url);
 
@@ -122,7 +121,7 @@ function func_20190521($mu_)
                         'type' => 'linear',
                         'ticks' => ['callback' => '__TICKS2__',],
                        ];
-    
+
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
                               'datasets' => $datasets,
@@ -170,10 +169,9 @@ function func_20190521($mu_)
                                 ],
                   ];
     error_log(json_encode($chart_data));
-    // $tmp = str_replace('"__TICKS__"', "{callback: function(value){return value.toLocaleString();}}", json_encode($chart_data));
     $tmp = str_replace('"__TICKS1__"', "function(value){return value.toLocaleString();}", json_encode($chart_data));
     $tmp = str_replace('"__TICKS2__"', "function(value){return value.toLocaleString() + 'MB';}", $tmp);
-    
+
     $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
     $res = $mu_->get_contents($url);
 
