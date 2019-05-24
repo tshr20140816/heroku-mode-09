@@ -58,7 +58,7 @@ function func_20190521b($mu_)
                   ];
     
     $scales = new stdClass();
-    $scales->yAxes['y-axis-0'] = ['display' => true,];
+    $scales->yAxes['y-axis-0'] = ['display' => false,];
     $scales->yAxes['y-axis-1'] = ['display' => true,];
     
     $chart_data = ['type' => 'line',
