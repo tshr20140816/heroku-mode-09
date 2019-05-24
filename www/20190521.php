@@ -158,7 +158,7 @@ function func_20190521($mu_)
             $tmp1 = explode(',', $item);
             $tmp2 = new stdClass();
             $tmp2->x = (int)$tmp1[0];
-            $tmp2->y = (int)$tmp1[1];
+            $tmp2->y = ceil((int)$tmp1[1] / 1024 / 1024);
             $data3[] = $tmp2;
         }
 
