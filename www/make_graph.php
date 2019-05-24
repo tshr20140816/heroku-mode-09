@@ -15,7 +15,7 @@ $file_name_rss_items = tempnam('/tmp', 'rss_' . md5(microtime(true)));
 make_waon_balance($mu, $file_name_rss_items);
 make_score_map($mu, $file_name_rss_items);
 make_heroku_dyno_usage_graph($mu, $file_name_rss_items);
-make_record_count($mu, $file_name_rss_items);
+make_database($mu, $file_name_rss_items);
 make_loggly_usage($mu, $file_name_rss_items);
 
 $xml_text = <<< __HEREDOC__
@@ -504,6 +504,8 @@ function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
                               'datasets' => $datasets,
                              ],
                    'options' => ['legend' => ['display' => true,
+                                              'labels' => ['boxWidth' => 10,
+                                                          ],
                                              ],
                                  'animation' => ['duration' => 0,
                                                 ],
@@ -718,7 +720,7 @@ __HEREDOC__;
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 }
 
-function make_record_count($mu_, $file_name_rss_items_)
+function make_database($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -731,14 +733,18 @@ function make_record_count($mu_, $file_name_rss_items_)
     $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
     $list = [['target' => 'toodledo',
               'color' => 'green',
+              'size_color' => 'red',
              ],
              ['target' => 'ttrss',
               'color' => 'deepskyblue',
+              'size_color' => 'orange',
              ],
              ['target' => 'redmine',
               'color' => 'blue',
+              'size_color' => 'yellow',
              ],
             ];
+
     foreach ($list as $one_data) {
         error_log(print_r($one_data, true));
         $keyword = strtolower($one_data['target']);
@@ -775,13 +781,52 @@ function make_record_count($mu_, $file_name_rss_items_)
                        'borderWidth' => 3,
                        'pointRadius' => 4,
                        'pointBorderWidth' => 0,
-                       'label' => $one_data['target'],
+                       'label' => $one_data['target'] . ' record',
+                       'yAxisID' => 'y-axis-0',
+                      ];
+
+        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword . 'ebubcbtftjaf';
+        $res = $mu_->get_contents($url);
+
+        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
+
+        $res = $mu_->get_contents($match[1]);
+        $rc = preg_match('/<div class="' . $keyword . 'ebubcbtftjaf">(.+?)</', $res, $match);
+
+        $data3 = [];
+        foreach (explode(' ', $match[1]) as $item) {
+            $tmp1 = explode(',', $item);
+            $tmp2 = new stdClass();
+            $tmp2->x = (int)$tmp1[0];
+            $tmp2->y = ceil((int)$tmp1[1] / 1024 / 1024);
+            $data3[] = $tmp2;
+        }
+
+        $datasets[] = ['data' => $data3,
+                       'fill' => false,
+                       'pointStyle' => 'star',
+                       'backgroundColor' => $one_data['size_color'],
+                       'borderColor' => $one_data['size_color'],
+                       'borderWidth' => 2,
+                       'pointRadius' => 3,
+                       'pointBorderWidth' => 0,
+                       'label' => 'size',
+                       'yAxisID' => 'y-axis-1',
                       ];
     }
 
     $scales = new stdClass();
-    $scales->yAxes[] = ['display' => true,
-                        'ticks' => '__TICKS__',
+    $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'display' => true,
+                        'position' => 'left',
+                        'type' => 'linear',
+                        'ticks' => ['callback' => '__TICKS1__',],
+                       ];
+    $scales->yAxes[] = ['id' => 'y-axis-1',
+                        'display' => true,
+                        'position' => 'right',
+                        'type' => 'linear',
+                        'ticks' => ['callback' => '__TICKS2__',],
                        ];
 
     $chart_data = ['type' => 'line',
@@ -789,6 +834,8 @@ function make_record_count($mu_, $file_name_rss_items_)
                               'datasets' => $datasets,
                              ],
                    'options' => ['legend' => ['display' => true,
+                                              'labels' => ['usePointStyle' => true
+                                                          ],
                                              ],
                                  'animation' => ['duration' => 0,
                                                 ],
@@ -810,11 +857,27 @@ function make_record_count($mu_, $file_name_rss_items_)
                                                                      'borderColor' => 'red',
                                                                      'borderWidth' => 1,
                                                                     ],
+                                                                    ['type' => 'line',
+                                                                     'mode' => 'horizontal',
+                                                                     'scaleID' => 'y-axis-1',
+                                                                     'value' => 0,
+                                                                     'borderColor' => 'rgba(0,0,0,0)',
+                                                                     'borderWidth' => 1,
+                                                                    ],
+                                                                    ['type' => 'line',
+                                                                     'mode' => 'horizontal',
+                                                                     'scaleID' => 'y-axis-1',
+                                                                     'value' => 1000,
+                                                                     'borderColor' => 'rgba(0,0,0,0)',
+                                                                     'borderWidth' => 1,
+                                                                    ],
                                                                    ],
                                                  ],
                                 ],
                   ];
-    $tmp = str_replace('"__TICKS__"', "{callback: function(value){return value.toLocaleString();}}", json_encode($chart_data));
+
+    $tmp = str_replace('"__TICKS1__"', "function(value){return value.toLocaleString();}", json_encode($chart_data));
+    $tmp = str_replace('"__TICKS2__"', "function(value){return value.toLocaleString() + 'MB';}", $tmp);
 
     $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
     $res = $mu_->get_contents($url);
