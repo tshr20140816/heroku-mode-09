@@ -171,7 +171,7 @@ function func_20190521($mu_)
                        'borderWidth' => 2,
                        'pointRadius' => 3,
                        'pointBorderWidth' => 0,
-                       'label' => 'size',
+                       'label' => $one_data['target'] . ' size',
                        'yAxisID' => 'y-axis-1',
                       ];
     }
