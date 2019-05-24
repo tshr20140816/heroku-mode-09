@@ -187,7 +187,7 @@ function func_20190521($mu_)
                         'display' => true,
                         'position' => 'right',
                         'type' => 'linear',
-                        'ticks' => ['max' => 1024],
+                        'ticks' => '__TICKS__',
                        ];
     
     $chart_data = ['type' => 'line',
@@ -226,7 +226,7 @@ function func_20190521($mu_)
                                                                     ['type' => 'line',
                                                                      'mode' => 'horizontal',
                                                                      'scaleID' => 'y-axis-1',
-                                                                     'value' => 1024,
+                                                                     'value' => 1000,
                                                                      'borderColor' => 'rgba(0,0,0,0)',
                                                                      'borderWidth' => 1,
                                                                     ],
@@ -234,6 +234,7 @@ function func_20190521($mu_)
                                                  ],
                                 ],
                   ];
+    error_log(json_encode($chart_data));
     $tmp = str_replace('"__TICKS__"', "{callback: function(value){return value.toLocaleString();}}", json_encode($chart_data));
     
     $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
