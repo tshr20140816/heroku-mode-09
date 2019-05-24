@@ -920,15 +920,15 @@ function make_database($mu_, $file_name_rss_items_)
                ];
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
-    $mu_->post_blog_hatena('record count', $description);
-    $mu_->post_blog_fc2('record count', $description);
+    $mu_->post_blog_hatena('database', $description);
+    $mu_->post_blog_fc2('database', $description);
     $description = '<![CDATA[' . $description . ']]>';
 
     $rss_item_text = <<< __HEREDOC__
 <item>
 <guid isPermaLink="false">__HASH__</guid>
 <pubDate>__PUBDATE__</pubDate>
-<title>record count</title>
+<title>database</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
