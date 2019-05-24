@@ -181,13 +181,12 @@ function func_20190521($mu_)
                         'display' => true,
                         'position' => 'left',
                         'type' => 'linear',
-                        'ticks' => '__TICKS__',
+                        'ticks' => ['callback' => '__TICKS__',],
                        ];
     $scales->yAxes[] = ['id' => 'y-axis-1',
                         'display' => true,
                         'position' => 'right',
                         'type' => 'linear',
-                        'ticks' => '__TICKS__',
                        ];
     
     $chart_data = ['type' => 'line',
@@ -235,7 +234,8 @@ function func_20190521($mu_)
                                 ],
                   ];
     error_log(json_encode($chart_data));
-    $tmp = str_replace('"__TICKS__"', "{callback: function(value){return value.toLocaleString();}}", json_encode($chart_data));
+    // $tmp = str_replace('"__TICKS__"', "{callback: function(value){return value.toLocaleString();}}", json_encode($chart_data));
+    $tmp = str_replace('"__TICKS__"', "function(value){return value.toLocaleString();}", json_encode($chart_data));
     
     $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
     $res = $mu_->get_contents($url);
