@@ -142,6 +142,7 @@ function func_20190521($mu_)
                        'pointRadius' => 4,
                        'pointBorderWidth' => 0,
                        'label' => $one_data['target'],
+                       'yAxisID' => 'y-axis-0',
                       ];
         
         
@@ -170,15 +171,25 @@ function func_20190521($mu_)
                        'borderWidth' => 3,
                        'pointRadius' => 4,
                        'pointBorderWidth' => 0,
-                       'label' => $one_data['target'] . ' database size',
+                       'label' => 'database size',
+                       'yAxisID' => 'y-axis-1',
                       ];
     }
 
     $scales = new stdClass();
-    $scales->yAxes[] = ['display' => true,
+    $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'display' => true,
+                        'position' => 'left',
+                        'type' => 'linear',
                         'ticks' => '__TICKS__',
                        ];
-
+    $scales->yAxes[] = ['id' => 'y-axis-1',
+                        'display' => true,
+                        'position' => 'right',
+                        'type' => 'linear',
+                        'ticks' => '__TICKS__',
+                       ];
+    
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
                               'datasets' => $datasets,
