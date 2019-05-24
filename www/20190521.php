@@ -165,7 +165,7 @@ function func_20190521($mu_)
 
         $datasets[] = ['data' => $data3,
                        'fill' => false,
-                       'pointStyle' => 'circle',
+                       'pointStyle' => 'square',
                        'backgroundColor' => $one_data['size_color'],
                        'borderColor' => $one_data['size_color'],
                        'borderWidth' => 3,
