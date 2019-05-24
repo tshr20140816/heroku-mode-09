@@ -187,7 +187,7 @@ function func_20190521($mu_)
                         'display' => true,
                         'position' => 'right',
                         'type' => 'linear',
-                        'ticks' => '__TICKS__',
+                        'ticks' => ['max' => 1024],
                        ];
     
     $chart_data = ['type' => 'line',
