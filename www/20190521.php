@@ -91,6 +91,15 @@ function func_20190521($mu_)
                                             ],
                                  'responsiveAnimationDuration' => 0,
                                  'scales' => $scales,
+                                 'annotation' => ['annotations' => [['type' => 'line',
+                                                                     'mode' => 'horizontal',
+                                                                     'scaleID' => 'y-axis-0',
+                                                                     'value' => 0,
+                                                                     'borderColor' => 'rgba(0,0,0,0)',
+                                                                     'borderWidth' => 1,
+                                                                    ],
+                                                                   ],
+                                                 ],
                                 ],
                   ];
     $tmp = str_replace('"__TICKS__"', "{callback: function(value){return value.toLocaleString();}}", json_encode($chart_data));
