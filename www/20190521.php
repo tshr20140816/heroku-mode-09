@@ -61,7 +61,9 @@ function func_20190521b($mu_)
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => true,];
     $scales->yAxes[] = ['id' => 'y-axis-1',
-                        'display' => true,];
+                        'display' => true,
+                        'position' => 'right',
+                       ];
     
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
