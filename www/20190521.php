@@ -59,10 +59,12 @@ function func_20190521b($mu_)
     
     $scales = new stdClass();
     $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'type' => 'linear',
                         'display' => true,];
     $scales->yAxes[] = ['id' => 'y-axis-1',
                         'display' => true,
                         'position' => 'right',
+                        'type' => 'linear',
                        ];
     
     $chart_data = ['type' => 'line',
