@@ -19,6 +19,9 @@ $pdo = null;
 $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/daily040.php';
 exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
 
+$urls = [];
+$urls_is_cache = [];
+
 $url = 'https://baseball.yahoo.co.jp/npb/standings/?' . $suffix;
 $urls_is_cache[$url] = null;
 
