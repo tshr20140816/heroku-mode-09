@@ -42,6 +42,7 @@ function func_20190521b($mu_)
                    'borderWidth' => 3,
                    'pointRadius' => 4,
                    'pointBorderWidth' => 0,
+                   'yAxisID' => 'y-axis-0',
                   ];
     
     
@@ -53,13 +54,18 @@ function func_20190521b($mu_)
                    'borderWidth' => 3,
                    'pointRadius' => 4,
                    'pointBorderWidth' => 0,
-                   'yAxisID' => 'y-axis-0'
+                   'yAxisID' => 'y-axis-1',
                   ];
+    
+    $scales = new stdClass();
+    $scales->yAxes['y-axis-0'] = ['display' => true,];
+    $scales->yAxes['y-axis-1'] = ['display' => true,];
     
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
                               'datasets' => $datasets,
                              ],
+                   'options' => ['scales' => $scales,],
                   ];
 
     $url = 'https://quickchart.io/chart?c=' . urlencode(json_encode($chart_data));
