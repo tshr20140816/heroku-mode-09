@@ -15,6 +15,7 @@ $file_name_rss_items = tempnam('/tmp', 'rss_' . md5(microtime(true)));
 make_waon_balance($mu, $file_name_rss_items);
 make_score_map($mu, $file_name_rss_items);
 make_heroku_dyno_usage_graph($mu, $file_name_rss_items);
+make_record_count($mu, $file_name_rss_items);
 make_loggly_usage($mu, $file_name_rss_items);
 
 $xml_text = <<< __HEREDOC__
@@ -114,7 +115,7 @@ function make_score_map($mu_, $file_name_rss_items_)
         $tmp3->borderColor = explode(',', $color_index[$list_team[$i]])[1];
         $datasets[] = $tmp3;
     }
-    
+
     $data2 = [];
     $tmp1 = new stdClass();
     $tmp1->x = floor(($gain_min_value > $loss_min_value ? $gain_min_value : $loss_min_value) / 10) * 10;
@@ -497,7 +498,7 @@ function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
                       ];
 
     }
-    
+
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
                               'datasets' => $datasets,
@@ -582,7 +583,7 @@ __HEREDOC__;
 function make_waon_balance($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
+
     $sql = <<< __HEREDOC__
 SELECT to_char(T1.check_time, 'YYYY/MM/DD') check_date
       ,MIN(T1.balance) balance
@@ -706,6 +707,165 @@ __HEREDOC__;
 <guid isPermaLink="false">__HASH__</guid>
 <pubDate>__PUBDATE__</pubDate>
 <title>waon balance</title>
+<link>http://dummy.local/</link>
+<description>__DESCRIPTION__</description>
+</item>
+__HEREDOC__;
+
+    $rss_item_text = str_replace('__PUBDATE__', date('D, j M Y G:i:s +0900', strtotime('+9 hours')), $rss_item_text);
+    $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
+    $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
+    file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
+}
+
+function make_record_count($mu_, $file_name_rss_items_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    for ($i = 0; $i < (int)date('t'); $i++) {
+        $labels[] = $i + 1;
+    }
+
+    $datasets = [];
+
+    $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
+    $list = [['target' => 'toodledo',
+              'color' => 'green',
+             ],
+             ['target' => 'ttrss',
+              'color' => 'deepskyblue',
+             ],
+             ['target' => 'redmine',
+              'color' => 'blue',
+             ],
+            ];
+    foreach ($list as $one_data) {
+        error_log(print_r($one_data, true));
+        $keyword = strtolower($one_data['target']);
+        for ($i = 0; $i < strlen($keyword); $i++) {
+            $keyword[$i] = chr(ord($keyword[$i]) + 1);
+        }
+
+        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword . 'sfdpsedpvou';
+        $res = $mu_->get_contents($url);
+
+        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
+
+        $res = $mu_->get_contents($match[1]);
+        $rc = preg_match('/<div class="' . $keyword . 'sfdpsedpvou">(.+?)</', $res, $match);
+
+        $data2 = [];
+        foreach (explode(' ', $match[1]) as $item) {
+            $tmp1 = explode(',', $item);
+            $tmp2 = new stdClass();
+            $tmp2->x = (int)$tmp1[0];
+            $tmp2->y = (int)$tmp1[1];
+            $data2[] = $tmp2;
+        }
+
+        if (count($data2) < 2) {
+            return;
+        }
+
+        $datasets[] = ['data' => $data2,
+                       'fill' => false,
+                       'pointStyle' => 'circle',
+                       'backgroundColor' => $one_data['color'],
+                       'borderColor' => $one_data['color'],
+                       'borderWidth' => 3,
+                       'pointRadius' => 4,
+                       'pointBorderWidth' => 0,
+                       'label' => $one_data['target'],
+                      ];
+    }
+
+    $scales = new stdClass();
+    $scales->yAxes[] = ['display' => true,
+                        'ticks' => '__TICKS__',
+                       ];
+
+    $chart_data = ['type' => 'line',
+                   'data' => ['labels' => $labels,
+                              'datasets' => $datasets,
+                             ],
+                   'options' => ['legend' => ['display' => true,
+                                             ],
+                                 'animation' => ['duration' => 0,
+                                                ],
+                                 'hover' => ['animationDuration' => 0,
+                                            ],
+                                 'responsiveAnimationDuration' => 0,
+                                 'scales' => $scales,
+                                 'annotation' => ['annotations' => [['type' => 'line',
+                                                                     'mode' => 'horizontal',
+                                                                     'scaleID' => 'y-axis-0',
+                                                                     'value' => 0,
+                                                                     'borderColor' => 'rgba(0,0,0,0)',
+                                                                     'borderWidth' => 1,
+                                                                    ],
+                                                                    ['type' => 'line',
+                                                                     'mode' => 'horizontal',
+                                                                     'scaleID' => 'y-axis-0',
+                                                                     'value' => 10000,
+                                                                     'borderColor' => 'red',
+                                                                     'borderWidth' => 1,
+                                                                    ],
+                                                                   ],
+                                                 ],
+                                ],
+                  ];
+    $tmp = str_replace('"__TICKS__"', "{callback: function(value){return value.toLocaleString();}}", json_encode($chart_data));
+
+    $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
+    $res = $mu_->get_contents($url);
+
+    $im1 = imagecreatefromstring($res);
+    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
+    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
+    imagealphablending($im2, false);
+    imagesavealpha($im2, true);
+    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
+    imagedestroy($im1);
+
+    $file = tempnam("/tmp", md5(microtime(true)));
+    imagepng($im2, $file, 9);
+    imagedestroy($im2);
+    $res = file_get_contents($file);
+    unlink($file);
+
+    $url = 'https://api.tinify.com/shrink';
+    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+                CURLOPT_POST => true,
+                CURLOPT_BINARYTRANSFER => true,
+                CURLOPT_POSTFIELDS => $res,
+                CURLOPT_HEADER => true,
+               ];
+    $res = $mu_->get_contents($url, $options);
+
+    $tmp = preg_split('/^\r\n/m', $res, 2);
+
+    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
+    error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
+    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
+    $json = json_decode($tmp[1]);
+    error_log($log_prefix . print_r($json, true));
+
+    $url = $json->output->url;
+    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+               ];
+    $res = $mu_->get_contents($url, $options);
+    $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
+    $mu_->post_blog_hatena('record count', $description);
+    $mu_->post_blog_fc2('record count', $description);
+    $description = '<![CDATA[' . $description . ']]>';
+
+    $rss_item_text = <<< __HEREDOC__
+<item>
+<guid isPermaLink="false">__HASH__</guid>
+<pubDate>__PUBDATE__</pubDate>
+<title>record count</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
