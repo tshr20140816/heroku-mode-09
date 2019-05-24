@@ -128,7 +128,9 @@ function func_20190521($mu_)
                               'datasets' => $datasets,
                              ],
                    'options' => ['legend' => ['display' => true,
-                                              'labels' => ['boxWidth' => 10,],
+                                              'labels' => ['boxWidth' => 10,
+                                                           'usePointStyle' => true
+                                                          ],
                                              ],
                                  'animation' => ['duration' => 0,
                                                 ],
