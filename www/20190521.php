@@ -13,74 +13,6 @@ func_20190521($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_20190521b($mu_)
-{
-    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
-    $datasets = [];
-    $labels = [];
-    $data1 = [];
-    $data2 = [];
-    for ($i = 0; $i < 10; $i++) {
-        $labels[] = $i;
-        $tmp = new stdClass();
-        $tmp->x = $i;
-        $tmp->y = $i;
-        $data1[] = $tmp;
-        
-        $tmp = new stdClass();
-        $tmp->x = $i;
-        $tmp->y = $i * 10;
-        $data2[] = $tmp;
-    }
-    
-    $datasets[] = ['data' => $data1,
-                   'fill' => false,
-                   'pointStyle' => 'circle',
-                   'backgroundColor' => 'black',
-                   'borderColor' => 'black',
-                   'borderWidth' => 3,
-                   'pointRadius' => 4,
-                   'pointBorderWidth' => 0,
-                   'yAxisID' => 'y-axis-0',
-                  ];
-    
-    
-    $datasets[] = ['data' => $data2,
-                   'fill' => false,
-                   'pointStyle' => 'circle',
-                   'backgroundColor' => 'black',
-                   'borderColor' => 'black',
-                   'borderWidth' => 3,
-                   'pointRadius' => 4,
-                   'pointBorderWidth' => 0,
-                   'yAxisID' => 'y-axis-1',
-                  ];
-    
-    $scales = new stdClass();
-    $scales->yAxes[] = ['id' => 'y-axis-0',
-                        'type' => 'linear',
-                        'display' => true,];
-    $scales->yAxes[] = ['id' => 'y-axis-1',
-                        'display' => true,
-                        'position' => 'right',
-                        'type' => 'linear',
-                       ];
-    
-    $chart_data = ['type' => 'line',
-                   'data' => ['labels' => $labels,
-                              'datasets' => $datasets,
-                             ],
-                   'options' => ['scales' => $scales,],
-                  ];
-
-    $url = 'https://quickchart.io/chart?c=' . urlencode(json_encode($chart_data));
-    $res = $mu_->get_contents($url);
-
-    header('Content-Type: image/png');
-    echo $res;
-}
-
 function func_20190521($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
@@ -105,6 +37,7 @@ function func_20190521($mu_)
               'size_color' => 'yellow',
              ],
             ];
+    
     foreach ($list as $one_data) {
         error_log(print_r($one_data, true));
         $keyword = strtolower($one_data['target']);
@@ -195,7 +128,7 @@ function func_20190521($mu_)
                               'datasets' => $datasets,
                              ],
                    'options' => ['legend' => ['display' => true,
-                                              'boxWidth' => 10,
+                                              'labels' => ['boxWidth' => 10,],
                                              ],
                                  'animation' => ['duration' => 0,
                                                 ],
