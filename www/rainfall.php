@@ -34,8 +34,9 @@ if ($count !== 0) {
     error_log("${pid} SLEEP");
     sleep(25);
     $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $_SERVER['PHP_SELF'] . '?c=' . ($count - 1);
-    $options = [CURLOPT_TIMEOUT => 3, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
-    $res = $mu->get_contents($url, $options);
+    // $options = [CURLOPT_TIMEOUT => 3, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
+    // $res = $mu->get_contents($url, $options);
+    exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
 } else {
     $file_name_blog = '/tmp/rainfall.txt';
     unlink($file_name_blog);
@@ -74,8 +75,9 @@ if ($count !== 0) {
     
     if ($continue_flag === true) {
         $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $_SERVER['PHP_SELF'] . '?c=11';
-        $options = [CURLOPT_TIMEOUT => 2, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
-        $res = $mu->get_contents($url, $options);        
+        // $options = [CURLOPT_TIMEOUT => 2, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
+        // $res = $mu->get_contents($url, $options);        
+        exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
     }
 }
 
