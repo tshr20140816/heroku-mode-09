@@ -408,7 +408,8 @@ __HEREDOC__;
     }
     if (strpos($description, " ${j},") == false) {
         $description = '<div class="' . $keyword . '">' . trim("${description} ${j},${record_count}") . '</div>';
-        $mu_->post_blog_wordpress($keyword, $description);
+        // $mu_->post_blog_wordpress($keyword, $description);
+        $mu_->post_blog_wordpress_async($keyword, $description);
     }
 
     $keyword = strtolower($target_) . 'databasesize';
@@ -433,7 +434,8 @@ __HEREDOC__;
     }
     if (strpos($description, " ${j},") == false) {
         $description = '<div class="' . $keyword . '">' . trim("${description} ${j},${database_size}") . '</div>';
-        $mu_->post_blog_wordpress($keyword, $description);
+        // $mu_->post_blog_wordpress($keyword, $description);
+        $mu_->post_blog_wordpress_async($keyword, $description);
     }
 
     $record_count = number_format($record_count);
