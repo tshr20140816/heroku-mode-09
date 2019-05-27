@@ -126,6 +126,7 @@ function func_20190527($mu_, $file_name_rss_items_)
                                       'content' => number_format(end($data3)->y),
                                       'position' => 'right',
                                       'backgroundColor' => $one_data['size_color'],
+                                      'fontColor' => 'black',
                                      ],
                          ];
 
