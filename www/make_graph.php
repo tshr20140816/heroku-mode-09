@@ -617,7 +617,7 @@ __HEREDOC__;
 
     $scales = new stdClass();
     $scales->yAxes[] = ['display' => true,
-                        'ticks' => '__TICKS__',
+                        'ticks' => ['callback' => '__CALLBACK__',],
                        ];
 
     $chart_data = ['type' => 'line',
@@ -648,7 +648,8 @@ __HEREDOC__;
                                 ],
                   ];
 
-    $tmp = str_replace('"__TICKS__"', "{callback: function(value){return value.toLocaleString();}}", json_encode($chart_data));
+    // $tmp = str_replace('"__TICKS__"', "{callback: function(value){return value.toLocaleString();}}", json_encode($chart_data));
+    $tmp = str_replace('"__CALLBACK__"', "function(value){return value.toLocaleString();}", json_encode($chart_data));
 
     $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
     $res = $mu_->get_contents($url);
