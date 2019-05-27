@@ -32,7 +32,7 @@ $count = (int)$_GET['c'];
 $continue_flag = false;
 if ($count !== 0) {
     error_log("${pid} SLEEP");
-    sleep(25);
+    sleep(28);
     $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $_SERVER['PHP_SELF'] . '?c=' . ($count - 1);
     // $options = [CURLOPT_TIMEOUT => 3, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
     // $res = $mu->get_contents($url, $options);
