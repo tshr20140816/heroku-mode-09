@@ -116,6 +116,19 @@ function func_20190527($mu_, $file_name_rss_items_)
             $data3[] = $tmp2;
         }
 
+        $annotations[] = ['type' => 'line',
+                          'mode' => 'horizontal',
+                          'scaleID' => 'y-axis-0',
+                          'value' => $level,
+                          'borderColor' => 'rgba(0,0,0,0)',
+                          'borderWidth' => 1,
+                          'label' => ['enabled' => true,
+                                      'content' => number_format(end($data3)->y),
+                                      'position' => 'right',
+                                      'backgroundColor' => $one_data['size_color'],
+                                     ],
+                         ];
+
         $datasets[] = ['data' => $data3,
                        'fill' => false,
                        'pointStyle' => 'star',
