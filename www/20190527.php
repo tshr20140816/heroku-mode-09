@@ -83,6 +83,7 @@ function func_20190527($mu_, $file_name_rss_items_)
                           'label' => ['enabled' => true,
                                       'content' => number_format(end($data2)->y),
                                       'position' => 'left',
+                                      'backgroundColor' => $one_data['color'],
                                      ],
                          ];
         
