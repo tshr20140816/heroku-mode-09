@@ -12,11 +12,21 @@ $mu = new MyUtils();
 $file_name_rss_items = tempnam('/tmp', 'rss_' . md5(microtime(true)));
 @unlink($file_name_rss_items);
 
-func_20190527($mu, $file_name_rss_items);
+func_20190527b($mu, $file_name_rss_items);
 
 $time_finish = microtime(true);
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190527b($mu_, $file_name_rss_items_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    //$url = 'https://' . '' . '.wordpress.com/?s=daily020.php';
+    
+    error_log($mu_->get_env('WORDPRESS_USERNAME', true));
+    error_log($mu_->get_env('WORDPRESS_CLIENT_ID', true));
+}
 
 function func_20190527($mu_, $file_name_rss_items_)
 {
