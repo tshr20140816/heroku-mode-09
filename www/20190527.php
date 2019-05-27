@@ -22,10 +22,11 @@ function func_20190527b($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    //$url = 'https://' . '' . '.wordpress.com/?s=daily020.php';
+    $url = 'https://' . $mu_->get_env('WORDPRESS_USERNAME', true) . '.wordpress.com/?s=daily020.php';
     
-    error_log($mu_->get_env('WORDPRESS_USERNAME', true));
-    error_log($mu_->get_env('WORDPRESS_CLIENT_ID', true));
+    $res = $mu_->get_contents($url);
+    
+    error_log($res);
 }
 
 function func_20190527($mu_, $file_name_rss_items_)
