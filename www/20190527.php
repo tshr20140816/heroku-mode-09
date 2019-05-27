@@ -43,6 +43,7 @@ function func_20190527($mu_, $file_name_rss_items_)
              ],
             ];
 
+    $annotations = [];
     $level = 10000;
     foreach ($list as $one_data) {
         error_log(print_r($one_data, true));
@@ -73,17 +74,17 @@ function func_20190527($mu_, $file_name_rss_items_)
         }
 
         $level -= 1000;
-        $tmp = ['type' => 'line',
-                'mode' => 'horizontal',
-                'scaleID' => 'y-axis-0',
-                'value' => $level,
-                'borderColor' => 'rgba(0,0,0,0)',
-                'borderWidth' => 1,
-                'label' => ['enabled' => true,
-                            'content' => number_format(end($data2)->y),
-                            'position' => 'left',
-                           ],
-               ];
+        $annotations[] = ['type' => 'line',
+                          'mode' => 'horizontal',
+                          'scaleID' => 'y-axis-0',
+                          'value' => $level,
+                          'borderColor' => 'rgba(0,0,0,0)',
+                          'borderWidth' => 1,
+                          'label' => ['enabled' => true,
+                                      'content' => number_format(end($data2)->y),
+                                      'position' => 'left',
+                                     ],
+                         ];
         
         $datasets[] = ['data' => $data2,
                        'fill' => false,
@@ -141,6 +142,34 @@ function func_20190527($mu_, $file_name_rss_items_)
                         'ticks' => ['callback' => '__TICKS2__',],
                        ];
 
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-0',
+                      'value' => 0,
+                      'borderColor' => 'rgba(0,0,0,0)',
+                      'borderWidth' => 1,
+                     ];
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-0',
+                      'value' => 10000,
+                      'borderColor' => 'red',
+                      'borderWidth' => 1,
+                     ];
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-1',
+                      'value' => 0,
+                      'borderColor' => 'rgba(0,0,0,0)',
+                      'borderWidth' => 1,
+                     ];
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-1',
+                      'value' => 1000,
+                      'borderColor' => 'rgba(0,0,0,0)',
+                      'borderWidth' => 1,
+                     ];
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
                               'datasets' => $datasets,
@@ -155,35 +184,7 @@ function func_20190527($mu_, $file_name_rss_items_)
                                             ],
                                  'responsiveAnimationDuration' => 0,
                                  'scales' => $scales,
-                                 'annotation' => ['annotations' => [['type' => 'line',
-                                                                     'mode' => 'horizontal',
-                                                                     'scaleID' => 'y-axis-0',
-                                                                     'value' => 0,
-                                                                     'borderColor' => 'rgba(0,0,0,0)',
-                                                                     'borderWidth' => 1,
-                                                                    ],
-                                                                    ['type' => 'line',
-                                                                     'mode' => 'horizontal',
-                                                                     'scaleID' => 'y-axis-0',
-                                                                     'value' => 10000,
-                                                                     'borderColor' => 'red',
-                                                                     'borderWidth' => 1,
-                                                                    ],
-                                                                    ['type' => 'line',
-                                                                     'mode' => 'horizontal',
-                                                                     'scaleID' => 'y-axis-1',
-                                                                     'value' => 0,
-                                                                     'borderColor' => 'rgba(0,0,0,0)',
-                                                                     'borderWidth' => 1,
-                                                                    ],
-                                                                    ['type' => 'line',
-                                                                     'mode' => 'horizontal',
-                                                                     'scaleID' => 'y-axis-1',
-                                                                     'value' => 1000,
-                                                                     'borderColor' => 'rgba(0,0,0,0)',
-                                                                     'borderWidth' => 1,
-                                                                    ],
-                                                                   ],
+                                 'annotation' => ['annotations' => $annotations,
                                                  ],
                                 ],
                   ];
