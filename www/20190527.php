@@ -26,7 +26,10 @@ function func_20190527b($mu_, $file_name_rss_items_)
     
     $res = $mu_->get_contents($url);
     
-    error_log($res);
+    // error_log($res);
+    
+    $rc = preg_match_all('/rel="bookmark">(.+?) \/daily020\.php&nbsp;\[(.+?)s\]/', $res, $maches);
+    error_log(print_r($maches, true));
 }
 
 function func_20190527($mu_, $file_name_rss_items_)
