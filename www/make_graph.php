@@ -745,6 +745,8 @@ function make_database($mu_, $file_name_rss_items_)
              ],
             ];
 
+    $annotations = [];
+    $level = 10000;
     foreach ($list as $one_data) {
         error_log(print_r($one_data, true));
         $keyword = strtolower($one_data['target']);
@@ -772,6 +774,20 @@ function make_database($mu_, $file_name_rss_items_)
         if (count($data2) < 2) {
             return;
         }
+
+        $level -= 1000;
+        $annotations[] = ['type' => 'line',
+                          'mode' => 'horizontal',
+                          'scaleID' => 'y-axis-0',
+                          'value' => $level,
+                          'borderColor' => 'rgba(0,0,0,0)',
+                          'borderWidth' => 1,
+                          'label' => ['enabled' => true,
+                                      'content' => number_format(end($data2)->y),
+                                      'position' => 'left',
+                                      'backgroundColor' => $one_data['color'],
+                                     ],
+                         ];
 
         $datasets[] = ['data' => $data2,
                        'fill' => false,
@@ -802,6 +818,20 @@ function make_database($mu_, $file_name_rss_items_)
             $data3[] = $tmp2;
         }
 
+        $annotations[] = ['type' => 'line',
+                          'mode' => 'horizontal',
+                          'scaleID' => 'y-axis-0',
+                          'value' => $level,
+                          'borderColor' => 'rgba(0,0,0,0)',
+                          'borderWidth' => 1,
+                          'label' => ['enabled' => true,
+                                      'content' => number_format(end($data3)->y),
+                                      'position' => 'right',
+                                      'backgroundColor' => $one_data['size_color'],
+                                      'fontColor' => 'black',
+                                     ],
+                         ];
+
         $datasets[] = ['data' => $data3,
                        'fill' => false,
                        'pointStyle' => 'star',
@@ -829,6 +859,35 @@ function make_database($mu_, $file_name_rss_items_)
                         'ticks' => ['callback' => '__TICKS2__',],
                        ];
 
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-0',
+                      'value' => 0,
+                      'borderColor' => 'rgba(0,0,0,0)',
+                      'borderWidth' => 1,
+                     ];
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-0',
+                      'value' => 10000,
+                      'borderColor' => 'red',
+                      'borderWidth' => 1,
+                     ];
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-1',
+                      'value' => 0,
+                      'borderColor' => 'rgba(0,0,0,0)',
+                      'borderWidth' => 1,
+                     ];
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-1',
+                      'value' => 1000,
+                      'borderColor' => 'rgba(0,0,0,0)',
+                      'borderWidth' => 1,
+                     ];
+
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
                               'datasets' => $datasets,
@@ -843,35 +902,7 @@ function make_database($mu_, $file_name_rss_items_)
                                             ],
                                  'responsiveAnimationDuration' => 0,
                                  'scales' => $scales,
-                                 'annotation' => ['annotations' => [['type' => 'line',
-                                                                     'mode' => 'horizontal',
-                                                                     'scaleID' => 'y-axis-0',
-                                                                     'value' => 0,
-                                                                     'borderColor' => 'rgba(0,0,0,0)',
-                                                                     'borderWidth' => 1,
-                                                                    ],
-                                                                    ['type' => 'line',
-                                                                     'mode' => 'horizontal',
-                                                                     'scaleID' => 'y-axis-0',
-                                                                     'value' => 10000,
-                                                                     'borderColor' => 'red',
-                                                                     'borderWidth' => 1,
-                                                                    ],
-                                                                    ['type' => 'line',
-                                                                     'mode' => 'horizontal',
-                                                                     'scaleID' => 'y-axis-1',
-                                                                     'value' => 0,
-                                                                     'borderColor' => 'rgba(0,0,0,0)',
-                                                                     'borderWidth' => 1,
-                                                                    ],
-                                                                    ['type' => 'line',
-                                                                     'mode' => 'horizontal',
-                                                                     'scaleID' => 'y-axis-1',
-                                                                     'value' => 1000,
-                                                                     'borderColor' => 'rgba(0,0,0,0)',
-                                                                     'borderWidth' => 1,
-                                                                    ],
-                                                                   ],
+                                 'annotation' => ['annotations' => $annotations,
                                                  ],
                                 ],
                   ];
