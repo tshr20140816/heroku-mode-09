@@ -1091,76 +1091,182 @@ __HEREDOC__;
         error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
         $rc = null;
 
+        $urls = [];
         $file_size = filesize($file_name_);
-        $fh = fopen($file_name_, 'r');
+        if ($file_size > (1024 ** 2)) {
+            $fh = fopen($file_name_, 'rb');
 
-        $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-            CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
-            CURLOPT_PUT => true,
-            CURLOPT_INFILE => $fh,
-            CURLOPT_INFILESIZE => $file_size,
-            CURLOPT_HEADER => true,
-        ];
-        $res = $this->get_contents($url, $options);
+            $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
+            $options = [
+                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
+                CURLOPT_PUT => true,
+                CURLOPT_INFILE => $fh,
+                CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HEADER => true,
+            ];
+            $res = $this->get_contents($url, $options);
 
-        $url = 'https://webdav.pcloud.com/' . $base_name;
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-            CURLOPT_USERPWD => "${user_pcloud}:${password_pcloud}",
-            CURLOPT_PUT => true,
-            CURLOPT_INFILE => $fh,
-            CURLOPT_INFILESIZE => $file_size,
-            CURLOPT_HEADER => true,
-        ];
-        $res = $this->get_contents($url, $options);
+            $url = 'https://webdav.pcloud.com/' . $base_name;
+            $options = [
+                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => "${user_pcloud}:${password_pcloud}",
+                CURLOPT_PUT => true,
+                CURLOPT_INFILE => $fh,
+                CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HEADER => true,
+            ];
+            $res = $this->get_contents($url, $options);
 
-        $url = "https://${node_teracloud}.teracloud.jp/dav/${base_name}";
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-            CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
-            CURLOPT_PUT => true,
-            CURLOPT_INFILE => $fh,
-            CURLOPT_INFILESIZE => $file_size,
-            CURLOPT_HEADER => true,
-        ];
-        $res = $this->get_contents($url, $options);
+            $url = "https://${node_teracloud}.teracloud.jp/dav/${base_name}";
+            $options = [
+                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
+                CURLOPT_PUT => true,
+                CURLOPT_INFILE => $fh,
+                CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HEADER => true,
+            ];
+            $res = $this->get_contents($url, $options);
 
-        $url = 'https://webdav.opendrive.com/' . $base_name;
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-            CURLOPT_USERPWD => "${user_opendrive}:${password_opendrive}",
-            CURLOPT_PUT => true,
-            CURLOPT_INFILE => $fh,
-            CURLOPT_INFILESIZE => $file_size,
-            CURLOPT_HEADER => true,
-        ];
-        $res = $this->get_contents($url, $options);
+            $url = 'https://webdav.opendrive.com/' . $base_name;
+            $options = [
+                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => "${user_opendrive}:${password_opendrive}",
+                CURLOPT_PUT => true,
+                CURLOPT_INFILE => $fh,
+                CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HEADER => true,
+            ];
+            $res = $this->get_contents($url, $options);
 
-        $url = "https://webdav.cloudme.com/${user_cloudme}/xios/${base_name}";
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-            CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
-            CURLOPT_PUT => true,
-            CURLOPT_INFILE => $fh,
-            CURLOPT_INFILESIZE => $file_size,
-            CURLOPT_HEADER => true,
-        ];
-        $res = $this->get_contents($url, $options);
+            $url = "https://webdav.cloudme.com/${user_cloudme}/xios/${base_name}";
+            $options = [
+                CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+                CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
+                CURLOPT_PUT => true,
+                CURLOPT_INFILE => $fh,
+                CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HEADER => true,
+            ];
+            $res = $this->get_contents($url, $options);
 
-        $url = 'https://webdav.4shared.com/' . $base_name;
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-            CURLOPT_USERPWD => "${user_4shared}:${password_4shared}",
-            CURLOPT_PUT => true,
-            CURLOPT_INFILE => $fh,
-            CURLOPT_INFILESIZE => $file_size,
-            CURLOPT_HEADER => true,
-        ];
-        $res = $this->get_contents($url, $options);
+            $url = 'https://webdav.4shared.com/' . $base_name;
+            $options = [
+                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => "${user_4shared}:${password_4shared}",
+                CURLOPT_PUT => true,
+                CURLOPT_INFILE => $fh,
+                CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HEADER => true,
+            ];
+            $res = $this->get_contents($url, $options);
 
-        fclose($fh);
+            fclose($fh);
+        } else {
+            $list_fh = [];
+            $list_file_name = [];
+
+            $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
+            copy($file_name_, end($list_file_name));
+            $fh[] = fopen(end($list_file_name), 'rb');
+
+            $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
+            $options = [
+                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
+                CURLOPT_PUT => true,
+                CURLOPT_INFILE => end($list_fh),
+                CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HEADER => true,
+            ];
+            $urls[$url] = $options;
+
+            $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
+            copy($file_name_, end($list_file_name));
+            $fh[] = fopen(end($list_file_name), 'rb');
+
+            $url = 'https://webdav.pcloud.com/' . $base_name;
+            $options = [
+                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => "${user_pcloud}:${password_pcloud}",
+                CURLOPT_PUT => true,
+                CURLOPT_INFILE => end($list_fh),
+                CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HEADER => true,
+            ];
+            $urls[$url] = $options;
+
+            $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
+            copy($file_name_, end($list_file_name));
+            $fh[] = fopen(end($list_file_name), 'rb');
+
+            $url = "https://${node_teracloud}.teracloud.jp/dav/${base_name}";
+            $options = [
+                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
+                CURLOPT_PUT => true,
+                CURLOPT_INFILE => end($list_fh),
+                CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HEADER => true,
+            ];
+            $urls[$url] = $options;
+
+            $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
+            copy($file_name_, end($list_file_name));
+            $fh[] = fopen(end($list_file_name), 'rb');
+
+            $url = 'https://webdav.opendrive.com/' . $base_name;
+            $options = [
+                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => "${user_opendrive}:${password_opendrive}",
+                CURLOPT_PUT => true,
+                CURLOPT_INFILE => end($list_fh),
+                CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HEADER => true,
+            ];
+            $urls[$url] = $options;
+
+            $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
+            copy($file_name_, end($list_file_name));
+            $fh[] = fopen(end($list_file_name), 'rb');
+
+            $url = "https://webdav.cloudme.com/${user_cloudme}/xios/${base_name}";
+            $options = [
+                CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+                CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
+                CURLOPT_PUT => true,
+                CURLOPT_INFILE => end($list_fh),
+                CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HEADER => true,
+            ];
+            $urls[$url] = $options;
+
+            $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
+            copy($file_name_, end($list_file_name));
+            $fh[] = fopen(end($list_file_name), 'rb');
+
+            $url = 'https://webdav.4shared.com/' . $base_name;
+            $options = [
+                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => "${user_4shared}:${password_4shared}",
+                CURLOPT_PUT => true,
+                CURLOPT_INFILE => end($list_fh),
+                CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HEADER => true,
+            ];
+            $urls[$url] = $options;
+
+            $rc = $this->get_contents_multi($urls);
+            error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
+            $rc = null;
+            foreach ($list_fh as $fh) {
+                fclose($fh);
+            }
+            foreach ($list_file_name as $file_name) {
+                unlink($file_name);
+            }
+        }
 
         // CloudApp
 
