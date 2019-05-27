@@ -1184,7 +1184,7 @@ __HEREDOC__;
 
             $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
             copy($file_name_, end($list_file_name));
-            $fh[] = fopen(end($list_file_name), 'rb');
+            $list_fh[] = fopen(end($list_file_name), 'rb');
 
             $url = 'https://webdav.pcloud.com/' . $base_name;
             $options = [
@@ -1199,7 +1199,7 @@ __HEREDOC__;
 
             $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
             copy($file_name_, end($list_file_name));
-            $fh[] = fopen(end($list_file_name), 'rb');
+            $list_fh[] = fopen(end($list_file_name), 'rb');
 
             $url = "https://${node_teracloud}.teracloud.jp/dav/${base_name}";
             $options = [
@@ -1214,7 +1214,7 @@ __HEREDOC__;
 
             $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
             copy($file_name_, end($list_file_name));
-            $fh[] = fopen(end($list_file_name), 'rb');
+            $list_fh[] = fopen(end($list_file_name), 'rb');
 
             $url = 'https://webdav.opendrive.com/' . $base_name;
             $options = [
@@ -1229,7 +1229,7 @@ __HEREDOC__;
 
             $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
             copy($file_name_, end($list_file_name));
-            $fh[] = fopen(end($list_file_name), 'rb');
+            $list_fh[] = fopen(end($list_file_name), 'rb');
 
             $url = "https://webdav.cloudme.com/${user_cloudme}/xios/${base_name}";
             $options = [
@@ -1244,7 +1244,7 @@ __HEREDOC__;
 
             $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
             copy($file_name_, end($list_file_name));
-            $fh[] = fopen(end($list_file_name), 'rb');
+            $list_fh[] = fopen(end($list_file_name), 'rb');
 
             $url = 'https://webdav.4shared.com/' . $base_name;
             $options = [
