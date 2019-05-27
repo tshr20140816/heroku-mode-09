@@ -293,12 +293,9 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
 
     foreach (json_decode($res)->total as $item) {
         error_log($log_prefix . date('m/d', $item[0] / 1000) . ' ' . round($item[1] / 1024 / 1024) . 'MB');
-        // $labels[] = date('m/d', $item[0] / 1000);
         $labels[] = date('d', $item[0] / 1000);
         $data[] = round($item[1] / 1024 / 1024);
     }
-    // array_pop($labels);
-    // array_pop($data);
 
     $data = ['type' => 'line',
              'data' => ['labels' => $labels,
@@ -473,12 +470,6 @@ function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
                       ];
 
         $data3 = [];
-        /*
-        $dy = ($data2[0] - end($data2)) / count($data2) + 1;
-        for ($i = 0; $i < (int)date('t'); $i++) {
-            $data3[] = (int)($data2[0] - $dy * $i);
-        }
-        */
         $tmp = new stdClass();
         $tmp->x = 1;
         $tmp->y = 550;
@@ -850,13 +841,13 @@ function make_database($mu_, $file_name_rss_items_)
                         'display' => true,
                         'position' => 'left',
                         'type' => 'linear',
-                        'ticks' => ['callback' => '__TICKS1__',],
+                        'ticks' => ['callback' => '__CALLBACK_1__',],
                        ];
     $scales->yAxes[] = ['id' => 'y-axis-1',
                         'display' => true,
                         'position' => 'right',
                         'type' => 'linear',
-                        'ticks' => ['callback' => '__TICKS2__',],
+                        'ticks' => ['callback' => '__CALLBACK_2__',],
                        ];
 
     $annotations[] = ['type' => 'line',
@@ -907,8 +898,8 @@ function make_database($mu_, $file_name_rss_items_)
                                 ],
                   ];
 
-    $tmp = str_replace('"__TICKS1__"', "function(value){return value.toLocaleString();}", json_encode($chart_data));
-    $tmp = str_replace('"__TICKS2__"', "function(value){return value.toLocaleString() + 'MB';}", $tmp);
+    $tmp = str_replace('"__CALLBACK_1__"', "function(value){return value.toLocaleString();}", json_encode($chart_data));
+    $tmp = str_replace('"__CALLBACK_2__"', "function(value){return value.toLocaleString() + 'MB';}", $tmp);
 
     $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
     $res = $mu_->get_contents($url);
