@@ -43,6 +43,7 @@ function func_20190527($mu_, $file_name_rss_items_)
              ],
             ];
 
+    $level = 10000;
     foreach ($list as $one_data) {
         error_log(print_r($one_data, true));
         $keyword = strtolower($one_data['target']);
@@ -71,6 +72,19 @@ function func_20190527($mu_, $file_name_rss_items_)
             return;
         }
 
+        $level -= 1000;
+        $tmp = ['type' => 'line',
+                'mode' => 'horizontal',
+                'scaleID' => 'y-axis-0',
+                'value' => $level,
+                'borderColor' => 'rgba(0,0,0,0)',
+                'borderWidth' => 1,
+                'label' => ['enabled' => true,
+                            'content' => number_format(end($data2)->y),
+                            'position' => 'left',
+                           ],
+               ];
+        
         $datasets[] = ['data' => $data2,
                        'fill' => false,
                        'pointStyle' => 'circle',
