@@ -1169,7 +1169,7 @@ __HEREDOC__;
 
             $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
             copy($file_name_, end($list_file_name));
-            $fh[] = fopen(end($list_file_name), 'rb');
+            $list_fh[] = fopen(end($list_file_name), 'rb');
 
             $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
             $options = [
