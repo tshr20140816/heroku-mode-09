@@ -17,23 +17,6 @@ func_20190526b($mu, $file_name_rss_items);
 $time_finish = microtime(true);
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function search_blog2($mu_, $keyword_)
-{
-    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-
-    $wordpress_username = $mu_->get_env('WORDPRESS_USERNAME', true);
-
-    $url = 'https://' . $wordpress_username . '.wordpress.com/?s=' . $keyword_;
-    $res = $mu_->get_contents($url);
-    $rc = preg_match('/<h1 class="entry-title"><a href="(.+?)"/', $res, $match);
-    $res = $mu_->get_contents($match[1]);
-    $rc = preg_match('/<div class="' . $keyword_ . '">(.+?)</', $res, $match);
-
-    error_log($log_prefix . $match[1]);
-
-    return $match[1];
-}
-
 function func_20190526b($mu_, $file_name_blog_)
 {
     $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
