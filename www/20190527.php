@@ -25,11 +25,43 @@ function func_20190527b($mu_, $file_name_rss_items_)
     $url = 'https://' . $mu_->get_env('WORDPRESS_USERNAME', true) . '.wordpress.com/?s=daily020.php';
     
     $res = $mu_->get_contents($url);
+
+    $rc = preg_match_all('/rel="bookmark">.+?\/(.+?) .+? \/daily020\.php&nbsp;\[(.+?)s\]/', $res, $matches,  PREG_SET_ORDER);
+    error_log(print_r($matches, true));
     
-    // error_log($res);
+    $labels = [];
+    $data = [];
+    foreach ($matches as $match) {
+        $labels[] = $match[1];
+        $tmp = new stdClass();
+        $tmp->x = $match[1];
+        $tmp->y = $match[2];
+        $data[] = $tmp;
+    }
+    $labels = array_reverse($labels);
     
-    $rc = preg_match_all('/rel="bookmark">.+?\/(.+?) .+? \/daily020\.php&nbsp;\[(.+?)s\]/', $res, $maches);
-    error_log(print_r($maches, true));
+    $datasets[] = ['data' => $data,
+                   'fill' => false,
+                   'pointStyle' => 'circle',
+                   'backgroundColor' => 'black',
+                   'borderColor' => 'black',
+                   'borderWidth' => 3,
+                   'pointRadius' => 4,
+                   'pointBorderWidth' => 0,
+                   'label' => 'daily020',
+                  ];
+    
+    $chart_data = ['type' => 'line',
+                   'data' => ['labels' => $labels,
+                              'datasets' => $datasets,
+                             ],
+                  ];
+    
+    $url = 'https://quickchart.io/chart?c=' . urlencode($tmp);
+    $res = $mu_->get_contents($url);
+
+    header('Content-Type: image/png');
+    echo $res;
 }
 
 function func_20190527($mu_, $file_name_rss_items_)
