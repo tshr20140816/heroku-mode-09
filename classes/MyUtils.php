@@ -1165,6 +1165,16 @@ __HEREDOC__;
             $res = $this->get_contents($url, $options);
 
             fclose($fh);
+
+            $url = "https://apidocs.zoho.com/files/v1/upload?authtoken=${authtoken_zoho}&scope=docsapi";
+            $post_data = ['filename' => $base_name,
+                          'content' => new CURLFile($file_name_, 'text/plain'),
+                         ];
+            $options = [CURLOPT_POST => true,
+                        CURLOPT_POSTFIELDS => $post_data,
+                        CURLOPT_HEADER => true,
+                       ];
+            $res = $this->get_contents($url, $options);
         } else {
             $list_fh = [];
             $list_file_name = [];
@@ -1259,6 +1269,19 @@ __HEREDOC__;
             ];
             $urls[$url] = $options;
 
+            $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
+            copy($file_name_, end($list_file_name));
+
+            $url = "https://apidocs.zoho.com/files/v1/upload?authtoken=${authtoken_zoho}&scope=docsapi";
+            $post_data = ['filename' => $base_name,
+                          'content' => new CURLFile(end($list_file_name), 'text/plain'),
+                         ];
+            $options = [CURLOPT_POST => true,
+                        CURLOPT_POSTFIELDS => $post_data,
+                        CURLOPT_HEADER => true,
+                       ];
+            $urls[$url] = $options;
+
             $res = $this->get_contents_multi($urls);
             error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
             error_log($log_prefix . print_r($res, true));
@@ -1307,18 +1330,6 @@ __HEREDOC__;
             CURLOPT_HEADER => true,
         ];
         $res = $this->get_contents(trim($match[1]), $options);
-
-        // Zoho
-
-        $url = "https://apidocs.zoho.com/files/v1/upload?authtoken=${authtoken_zoho}&scope=docsapi";
-        $post_data = ['filename' => $base_name,
-                      'content' => new CURLFile($file_name_, 'text/plain'),
-                     ];
-        $options = [CURLOPT_POST => true,
-                    CURLOPT_POSTFIELDS => $post_data,
-                    CURLOPT_HEADER => true,
-                   ];
-        $res = $this->get_contents($url, $options);
 
         unlink($file_name_);
 
