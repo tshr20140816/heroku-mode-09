@@ -391,7 +391,6 @@ function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
 
     for ($i = 0; $i < (int)date('t'); $i++) {
         $labels[] = $i + 1;
-        // $data1[] = ((int)date('t') - $i) * 24;
         $tmp = new stdClass();
         $tmp->x = $i + 1;
         $tmp->y = ((int)date('t') - $i) * 24;
@@ -409,7 +408,6 @@ function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
                    'label' => 'max',
                   ];
 
-    $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
     $list = [['target' => 'toodledo',
               'color' => 'green',
               'planColor' => 'red',
@@ -430,16 +428,10 @@ function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
             $keyword[$i] = chr(ord($keyword[$i]) + 1);
         }
 
-        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword . 'rvpub';
-        $res = $mu_->get_contents($url);
-
-        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
-
-        $res = $mu_->get_contents($match[1]);
-        $rc = preg_match('/<div class="' . $keyword . 'rvpub">(.+?)</', $res, $match);
+        $res = $mu_->search_blog($keyword . 'rvpub');
 
         $data2 = [];
-        foreach (explode(' ', $match[1]) as $item) {
+        foreach (explode(' ', $res) as $item) {
             $tmp1 = explode(',', $item);
             $tmp2 = new stdClass();
             $tmp2->x = (int)$tmp1[0] - 1;
@@ -648,7 +640,6 @@ __HEREDOC__;
                                 ],
                   ];
 
-    // $tmp = str_replace('"__TICKS__"', "{callback: function(value){return value.toLocaleString();}}", json_encode($chart_data));
     $tmp = str_replace('"__CALLBACK__"', "function(value){return value.toLocaleString();}", json_encode($chart_data));
 
     $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
@@ -722,7 +713,6 @@ function make_database($mu_, $file_name_rss_items_)
 
     $datasets = [];
 
-    $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
     $list = [['target' => 'toodledo',
               'color' => 'green',
               'size_color' => 'red',
@@ -746,16 +736,10 @@ function make_database($mu_, $file_name_rss_items_)
             $keyword[$i] = chr(ord($keyword[$i]) + 1);
         }
 
-        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword . 'sfdpsedpvou';
-        $res = $mu_->get_contents($url);
-
-        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
-
-        $res = $mu_->get_contents($match[1]);
-        $rc = preg_match('/<div class="' . $keyword . 'sfdpsedpvou">(.+?)</', $res, $match);
+        $res = $mu_->search_blog($keyword . 'sfdpsedpvou');
 
         $data2 = [];
-        foreach (explode(' ', $match[1]) as $item) {
+        foreach (explode(' ', $res) as $item) {
             $tmp1 = explode(',', $item);
             $tmp2 = new stdClass();
             $tmp2->x = (int)$tmp1[0];
@@ -793,16 +777,10 @@ function make_database($mu_, $file_name_rss_items_)
                        'yAxisID' => 'y-axis-0',
                       ];
 
-        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword . 'ebubcbtftjaf';
-        $res = $mu_->get_contents($url);
-
-        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
-
-        $res = $mu_->get_contents($match[1]);
-        $rc = preg_match('/<div class="' . $keyword . 'ebubcbtftjaf">(.+?)</', $res, $match);
+        $res = $mu_->search_blog($keyword . 'ebubcbtftjaf');
 
         $data3 = [];
-        foreach (explode(' ', $match[1]) as $item) {
+        foreach (explode(' ', $res) as $item) {
             $tmp1 = explode(',', $item);
             $tmp2 = new stdClass();
             $tmp2->x = (int)$tmp1[0];
