@@ -101,6 +101,6 @@ function func_20190528($mu_)
     
     $res = $mu_->get_contents($url, $options);
     error_log($res);
-    $rc = preg_match_all('/<a id.+>(.+?)</', $res, $matches);
+    $rc = preg_match_all('/<a id.+?>(.+?)</', $res, $matches);
     error_log(print_r($matches, true));
 }
