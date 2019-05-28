@@ -19,6 +19,7 @@ function func_20190528($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    /*
     $parameters = ['format' => 'json',
                    'checkinDate' => '2019-10-19',
                    'checkoutDate' => '2019-10-19',
@@ -43,4 +44,14 @@ function func_20190528($mu_)
         error_log($one_record->hotel[0]->hotelBasicInfo->reviewCount);
         error_log($one_record->hotel[0]->hotelBasicInfo->reviewAverage);
     }
+    */
+    $parameters = ['key' => getenv('JALAN_APPLICATION_ID'),
+                   's_area' => '162202',
+                   'adult_num' => '2',
+                   'count' => '100',
+                   'xml_ptn' => '2',
+                  ];
+    $url = 'http://jws.jalan.net/APIAdvance/HotelSearch/V1/';
+    $res = $mu_->get_contents($url);
+    error_log($res);
 }
