@@ -887,7 +887,27 @@ function check_hidrive_usage($mu_, $file_name_blog_)
 
     $size = 0;
     foreach ($matches[1] as $item) {
-        $size += $item;
+        $size += (int)$item;
+    }
+
+    $keyword = 'ijesjwfvtbhf';
+
+    $description = '';
+    $j = (int)date('j', strtotime('+9hours'));
+    if ($j != 1) {
+        $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
+        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword;
+        $res = $mu_->get_contents($url);
+
+        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
+        $res = $mu_->get_contents($match[1]);
+
+        $rc = preg_match('/<div class="' . $keyword . '">(.+?)</', $res, $match);
+        $description = $match[1];
+    }
+    if (strpos($description, " ${j},") == false) {
+        $description = '<div class="' . $keyword . '">' . trim($description . " ${j}," . $size) . '</div>';
+        $mu_->post_blog_wordpress_async($keyword, $description);
     }
 
     $percentage = substr($size / (5 * 1024 * 1024 * 1024) * 100, 0, 5);
