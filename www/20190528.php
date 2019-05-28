@@ -51,7 +51,7 @@ function func_20190528($mu_)
                    'count' => '100',
                    'xml_ptn' => '2',
                   ];
-    $url = 'http://jws.jalan.net/APIAdvance/HotelSearch/V1/' . http_build_query($parameters);
+    $url = 'http://jws.jalan.net/APIAdvance/HotelSearch/V1/?' . http_build_query($parameters);
     $res = $mu_->get_contents($url);
     error_log($res);
 }
