@@ -16,7 +16,7 @@ make_waon_balance($mu, $file_name_rss_items);
 make_score_map($mu, $file_name_rss_items);
 make_heroku_dyno_usage_graph($mu, $file_name_rss_items);
 make_database($mu, $file_name_rss_items);
-make_daily020_time($mu, $file_name_rss_items);
+make_process_time($mu, $file_name_rss_items);
 make_loggly_usage($mu, $file_name_rss_items);
 
 $xml_text = <<< __HEREDOC__
@@ -942,12 +942,11 @@ __HEREDOC__;
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 }
 
-function make_daily020_time($mu_, $file_name_rss_items_)
+function make_process_time($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $url = 'https://' . $mu_->get_env('WORDPRESS_USERNAME', true) . '.wordpress.com/?s=daily020.php';
-
     $res = $mu_->get_contents($url);
 
     $rc = preg_match_all('/rel="bookmark">.+?\/(.+?) .+? \/daily020\.php&nbsp;\[(.+?)s\]/', $res, $matches, PREG_SET_ORDER);
@@ -972,15 +971,38 @@ function make_daily020_time($mu_, $file_name_rss_items_)
                    'borderWidth' => 3,
                    'pointRadius' => 4,
                    'pointBorderWidth' => 0,
+                   'label' => 'daily020',
+                  ];
+
+    $url = 'https://' . $mu_->get_env('WORDPRESS_USERNAME', true) . '.wordpress.com/?s=make_graph.php';
+    $res = $mu_->get_contents($url);
+    
+    $rc = preg_match_all('/rel="bookmark">.+?\/(.+?) .+? \/make_graph\.php&nbsp;\[(.+?)s\]/', $res, $matches, PREG_SET_ORDER);
+
+    $data = [];
+    foreach ($matches as $match) {
+        $tmp = new stdClass();
+        $tmp->x = $match[1];
+        $tmp->y = $match[2];
+        $data[] = $tmp;
+    }
+
+    $datasets[] = ['data' => $data,
+                   'fill' => false,
+                   'pointStyle' => 'circle',
+                   'backgroundColor' => 'red',
+                   'borderColor' => 'red',
+                   'borderWidth' => 3,
+                   'pointRadius' => 4,
+                   'pointBorderWidth' => 0,
+                   'label' => 'make_graph',
                   ];
 
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
                               'datasets' => $datasets,
                              ],
-                   'options' => ['legend' => ['display' => false,
-                                             ],
-                                 'animation' => ['duration' => 0,
+                   'options' => ['animation' => ['duration' => 0,
                                                 ],
                                  'hover' => ['animationDuration' => 0,
                                             ],
@@ -1029,15 +1051,15 @@ function make_daily020_time($mu_, $file_name_rss_items_)
                ];
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
-    // $mu_->post_blog_hatena('daily020', $description);
-    // $mu_->post_blog_fc2('daily020', $description);
+    // $mu_->post_blog_hatena('process time', $description);
+    // $mu_->post_blog_fc2('process time', $description);
     $description = '<![CDATA[' . $description . ']]>';
 
     $rss_item_text = <<< __HEREDOC__
 <item>
 <guid isPermaLink="false">__HASH__</guid>
 <pubDate>__PUBDATE__</pubDate>
-<title>daily020</title>
+<title>process time</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
