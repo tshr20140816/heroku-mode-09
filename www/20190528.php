@@ -56,10 +56,31 @@ function func_20190528($mu_)
     $res = $mu_->get_contents($url);
     error_log($res);
     */
-    /*
+
     $cookie = tempnam('/tmp', 'cookie_' . md5(microtime(true)));
     
-    $url = 'https://search.travel.rakuten.co.jp/ds/hotellist/Japan-Mie-Tsu-low?f_nen1=2019&f_tuki1=10&f_hi1=11&f_nen2=2019&f_tuki2=10&f_hi2=12&f_otona_su=2&f_s1=0&f_s2=0&f_y1=0&f_y2=0&f_y3=0&f_y4=0&f_heya_su=1&f_kin2=0&f_ido=0&f_kdo=0&f_km=7.0&f_hyoji=30&f_image=1&f_tab=hotel&f_datumType=WGS&f_point_min=0';
+    // $url = 'https://search.travel.rakuten.co.jp/ds/hotellist/Japan-Mie-Tsu-low?f_nen1=2019&f_tuki1=10&f_hi1=11&f_nen2=2019&f_tuki2=10&f_hi2=12&f_otona_su=2&f_s1=0&f_s2=0&f_y1=0&f_y2=0&f_y3=0&f_y4=0&f_heya_su=1&f_kin2=0&f_ido=0&f_kdo=0&f_km=7.0&f_hyoji=30&f_image=1&f_tab=hotel&f_datumType=WGS&f_point_min=0';
+    
+    
+    /*
+    for ($i = 0; $i < 10; $i++) {
+       $res = $mu_->get_contents($url, $options);
+        if ($res != '403') {
+            break;
+        }
+        sleep(3);
+    }
+    error_log($res);
+    */
+    //$rc = preg_match_all('/<a id.+>(.+?)</', $res, $matches);
+    // error_log(print_r($matches, true));
+
+    $url = 'https://www.hidemyass-freeproxy.com/process/ja-jp';
+    
+    $post_data = ['form[url]' => 'https://www.yahoo.co.jp/',
+                  'form[dataCenter]' => 'random',
+                  'terms-agreed' => '1',
+                 ];
     
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
@@ -74,21 +95,10 @@ function func_20190528($mu_)
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
         CURLOPT_HEADER => true,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
     ];
     
-    for ($i = 0; $i < 10; $i++) {
-       $res = $mu_->get_contents($url, $options);
-        if ($res != '403') {
-            break;
-        }
-        sleep(3);
-    }
+    $res = $mu_->get_contents($url, $options);
     error_log($res);
-    
-    $rc = preg_match_all('/<a id.+>(.+?)</', $res, $matches);
-    
-    error_log(print_r($matches, true));
-    */
-    $url = 'https://www.hidemyass-freeproxy.com/process/ja-jp';
-    
 }
