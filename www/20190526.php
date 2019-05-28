@@ -17,7 +17,7 @@ func_20190526b($mu, $file_name_rss_items);
 $time_finish = microtime(true);
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function search_blog($mu_, $keyword_)
+function search_blog2($mu_, $keyword_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -55,7 +55,7 @@ function func_20190526b($mu_, $file_name_blog_)
         $rc = preg_match('/<div class="' . $keyword . '">(.+?)</', $res, $match);
         $description = $match[1];
         */
-        $description = search_blog($mu_, $keyword);
+        $description = $mu_->search_blog($keyword);
     }
     error_log($description);
 }
