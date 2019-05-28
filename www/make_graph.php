@@ -43,6 +43,7 @@ $mu->post_blog_wordpress("${requesturi} [" . substr(($time_finish - $time_start)
                          'file size : ' . number_format($filesize) . "byte\r\n\r\nLimit 1MB");
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
+exit();
 
 function make_score_map($mu_, $file_name_rss_items_)
 {
