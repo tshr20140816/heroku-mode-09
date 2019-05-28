@@ -12,10 +12,31 @@ $mu = new MyUtils();
 $file_name_rss_items = tempnam('/tmp', 'rss_' . md5(microtime(true)));
 @unlink($file_name_rss_items);
 
-func_20190526($mu, $file_name_rss_items);
+func_20190526b($mu, $file_name_rss_items);
 
 $time_finish = microtime(true);
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190526b($mu_, $file_name_blog_)
+{
+    $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
+    $keyword = strtolower('toodledo');
+    for ($i = 0; $i < strlen($keyword); $i++) {
+        $keyword[$i] = chr(ord($keyword[$i]) + 1);
+    }
+    $keyword .= 'sfdpsedpvou';
+    $description = '';
+    $j = (int)date('j', strtotime('+9hours'));
+    if ($j != 1) {
+        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword;
+        $res = $mu_->get_contents($url);
+        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
+        $res = $mu_->get_contents($match[1]);
+        $rc = preg_match('/<div class="' . $keyword . '">(.+?)</', $res, $match);
+        $description = $match[1];
+    }
+    error_log($description);
+}
 
 function func_20190526($mu_, $file_name_blog_)
 {
