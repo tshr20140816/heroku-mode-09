@@ -100,10 +100,11 @@ function func_20190528($mu_)
     ];
     
     $res = $mu_->get_contents($url, $options);
-    error_log($res);
+    // error_log($res);
     
     $tmp = explode('<dl class="htlGnrlInfo">', $res);
     array_shift($tmp);
     
-    error_log(print_r($tmp, true));
+    // error_log(print_r($tmp, true));
+    error_log($tmp[0]);
 }
