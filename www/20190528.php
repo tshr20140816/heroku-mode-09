@@ -36,4 +36,11 @@ function func_20190528($mu_)
     $res = $mu_->get_contents($url);
     
     error_log(print_r(json_decode($res), true));
+    
+    foreach (json_decode($res)->hotels as $one_record) {
+        error_log($one_record->hotel[0]->hotelBasicInfo->hotelName);
+        error_log($one_record->hotel[0]->hotelBasicInfo->hotelMinCharge);
+        error_log($one_record->hotel[0]->hotelBasicInfo->reviewCount);
+        error_log($one_record->hotel[0]->hotelBasicInfo->reviewAverage);
+    }
 }
