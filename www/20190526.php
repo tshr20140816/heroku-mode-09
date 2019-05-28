@@ -20,8 +20,8 @@ error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' .
 function func_20190526($mu_, $file_name_blog_)
 {
     backup_db_x($mu_, $file_name_blog_);
-    backup_db_x($mu_, $file_name_blog_, 'TTRSS');
-    backup_db_x($mu_, $file_name_blog_, 'REDMINE');
+    // backup_db_x($mu_, $file_name_blog_, 'TTRSS');
+    // backup_db_x($mu_, $file_name_blog_, 'REDMINE');
 }
 
 function backup_db_x($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
@@ -39,6 +39,9 @@ function backup_db_x($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
     $cmd = "pg_dump --format=plain --dbname=${database_url} >${file_name}";
     exec($cmd);
     $file_size = $mu_->backup_data(file_get_contents($file_name), $file_name);
+    
+    return;
+    
     $file_size = number_format($file_size);
     $sql = <<< __HEREDOC__
 SELECT SUM(T1.reltuples) cnt
