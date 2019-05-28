@@ -99,8 +99,9 @@ function func_20190528($mu_)
         CURLOPT_POSTFIELDS => http_build_query($post_data),
     ];
     
-    $res = $mu_->get_contents($url, $options);
+    //$res = $mu_->get_contents($url, $options);
     // error_log($res);
+    $mu_->get_contents_proxy($url_org);
     
     $tmp = explode('<dl class="htlGnrlInfo">', $res);
     array_shift($tmp);
