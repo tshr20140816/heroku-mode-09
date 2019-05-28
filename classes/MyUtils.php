@@ -1352,4 +1352,36 @@ __HEREDOC__;
 
         return $file_size;
     }
+
+    public function get_contents_proxy($url_)
+    {
+        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+        $cookie = tempnam('/tmp', 'cookie_' . md5(microtime(true)));
+
+        $post_data = ['form[url]' => $url_,
+                      'form[dataCenter]' => 'random',
+                      'terms-agreed' => '1',
+                     ];
+
+        $options = [CURLOPT_ENCODING => 'gzip, deflate, br',
+                    CURLOPT_HTTPHEADER => [
+                        'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                        'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+                        'Cache-Control: no-cache',
+                        'Connection: keep-alive',
+                        'DNT: 1',
+                        'Upgrade-Insecure-Requests: 1',
+                        ],
+                    CURLOPT_COOKIEJAR => $cookie,
+                    CURLOPT_COOKIEFILE => $cookie,
+                    CURLOPT_HEADER => true,
+                    CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => http_build_query($post_data),
+                   ];
+
+        $res = $this->get_contents(getenv('WEB_PROXY'), $options);
+        unlink($cookie);
+        return $res;
+    }
 }
