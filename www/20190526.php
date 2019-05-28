@@ -21,8 +21,6 @@ function func_20190526b($mu_, $file_name_blog_)
 {
     $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
     $wordpress_username = $mu_->get_env('WORDPRESS_USERNAME', true);
-    //
-    //https://tshr20140816.wordpress.com/?s=uppemfepsfdpsedpvou
     $keyword = strtolower('toodledo');
     for ($i = 0; $i < strlen($keyword); $i++) {
         $keyword[$i] = chr(ord($keyword[$i]) + 1);
