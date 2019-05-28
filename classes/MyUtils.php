@@ -1257,9 +1257,10 @@ __HEREDOC__;
             ];
             $urls[$url] = $options;
 
-            $rc = $this->get_contents_multi($urls);
+            $res = $this->get_contents_multi($urls);
             error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
-            $rc = null;
+            error_log($log_prefix . print_r($res, true));
+            $res = null;
             foreach ($list_fh as $fh) {
                 fclose($fh);
             }
