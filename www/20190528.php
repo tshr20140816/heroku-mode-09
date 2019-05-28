@@ -109,8 +109,8 @@ function func_20190528($mu_)
     //error_log($tmp[0]);
     foreach ($tmp as $hotel_info) {
         $rc = preg_match('/<a id.+>(.+?)</', $hotel_info, $match);
-        error_log(print_r($match, true));
+        error_log($match[1]);
         $rc = preg_match('/<span class="vPrice".*?>(.+)/', $hotel_info, $match);
-        error_log(print_r($match, true));
+        error_log(strip_tags($match[1]));
     }
 }
