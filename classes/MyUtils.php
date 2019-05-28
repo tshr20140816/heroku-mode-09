@@ -862,8 +862,8 @@ __HEREDOC__;
             $ch = $list_ch[$url];
             $res = curl_getinfo($ch);
             $http_code = (string)$res['http_code'];
+            error_log($log_prefix . "CURL Result ${http_code} : ${url}");
             if ($http_code[0] == '2') {
-                error_log($log_prefix . "CURL Result ${http_code} : ${url}");
                 $result = curl_multi_getcontent($ch);
                 $results[$url] = $result;
             }
