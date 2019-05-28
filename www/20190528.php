@@ -105,6 +105,5 @@ function func_20190528($mu_)
     $tmp = explode('<dl class="htlGnrlInfo">', $res);
     array_shift($tmp);
     
-    // $rc = preg_match_all('/<a id.+?>(.+?)</', $res, $matches);
     error_log(print_r($tmp, true));
 }
