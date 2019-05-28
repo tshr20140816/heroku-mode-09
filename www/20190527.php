@@ -57,7 +57,7 @@ function func_20190527b($mu_, $file_name_rss_items_)
                              ],
                   ];
     
-    $url = 'https://quickchart.io/chart?c=' . urlencode($chart_data);
+    $url = 'https://quickchart.io/chart?c=' . urlencode(json_encode($chart_data));
     $res = $mu_->get_contents($url);
 
     header('Content-Type: image/png');
