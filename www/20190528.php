@@ -20,11 +20,12 @@ function func_20190528($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
     $parameters = ['format' => 'json',
-                   'checkinDate' => '2019-06-22',
-                   'checkoutDate' => '2019-06-23',
-                   'latitude' => '128440.51',
-                   'longitude' => '503172.21',
-                   'searchRadius' => '1',
+                   'checkinDate' => '2019-10-19',
+                   'checkoutDate' => '2019-10-19',
+                   'datumType' => '1',
+                   'latitude' => '36.230672',
+                   'longitude' => '137.963916',
+                   'searchRadius' => '3',
                    'applicationId' => getenv('RAKUTEN_APPLICATION_ID'),
                   ];
                    
