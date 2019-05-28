@@ -21,14 +21,14 @@ error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' .
 function func_20190527b($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
+
     $url = 'https://' . $mu_->get_env('WORDPRESS_USERNAME', true) . '.wordpress.com/?s=daily020.php';
-    
+
     $res = $mu_->get_contents($url);
 
-    $rc = preg_match_all('/rel="bookmark">.+?\/(.+?) .+? \/daily020\.php&nbsp;\[(.+?)s\]/', $res, $matches,  PREG_SET_ORDER);
-    error_log(print_r($matches, true));
-    
+    $rc = preg_match_all('/rel="bookmark">.+?\/(.+?) .+? \/daily020\.php&nbsp;\[(.+?)s\]/', $res, $matches, PREG_SET_ORDER);
+    // error_log(print_r($matches, true));
+
     $labels = [];
     $data = [];
     foreach ($matches as $match) {
@@ -48,9 +48,8 @@ function func_20190527b($mu_, $file_name_rss_items_)
                    'borderWidth' => 3,
                    'pointRadius' => 4,
                    'pointBorderWidth' => 0,
-                   'label' => 'daily020',
                   ];
-    
+
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
                               'datasets' => $datasets,
@@ -62,9 +61,12 @@ function func_20190527b($mu_, $file_name_rss_items_)
                                  'hover' => ['animationDuration' => 0,
                                             ],
                                  'responsiveAnimationDuration' => 0,
+                                 'plugins' => ['datalabels' => ['display' => true,
+                                                               ],
+                                              ],
                                 ],
                   ];
-    
+
     $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode(json_encode($chart_data));
     $res = $mu_->get_contents($url);
 
