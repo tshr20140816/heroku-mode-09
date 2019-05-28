@@ -26,6 +26,7 @@ function func_20190528($mu_)
                    'latitude' => '36.230672',
                    'longitude' => '137.963916',
                    'searchRadius' => '3',
+                   'allReturnFlag' => '1',
                    'applicationId' => getenv('RAKUTEN_APPLICATION_ID'),
                   ];
                    
