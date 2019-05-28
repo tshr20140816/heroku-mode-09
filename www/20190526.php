@@ -19,8 +19,8 @@ error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' .
 
 function func_20190526($mu_, $file_name_blog_)
 {
-    // backup_db_x($mu_, $file_name_blog_);
-    backup_db_x($mu_, $file_name_blog_, 'TTRSS');
+    backup_db_x($mu_, $file_name_blog_);
+    // backup_db_x($mu_, $file_name_blog_, 'TTRSS');
     // backup_db_x($mu_, $file_name_blog_, 'REDMINE');
 }
 
