@@ -1009,6 +1009,7 @@ __HEREDOC__;
                 CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
                 CURLOPT_HTTPHEADER => ['Accept: application/json',],
                 CURLOPT_CUSTOMREQUEST => 'DELETE',
+                CURLOPT_HEADER => true,
             ];
             $urls[$url_target] = $options;
         }
