@@ -20,6 +20,9 @@ error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' .
 function func_20190526b($mu_, $file_name_blog_)
 {
     $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
+    $wordpress_username = $mu_->get_env('WORDPRESS_USERNAME', true);
+    //
+    //https://tshr20140816.wordpress.com/?s=uppemfepsfdpsedpvou
     $keyword = strtolower('toodledo');
     for ($i = 0; $i < strlen($keyword); $i++) {
         $keyword[$i] = chr(ord($keyword[$i]) + 1);
@@ -28,9 +31,10 @@ function func_20190526b($mu_, $file_name_blog_)
     $description = '';
     $j = (int)date('j', strtotime('+9hours'));
     if ($j != 1) {
-        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword;
+        $url = 'https://' . $wordpress_username . '.wordpress.com/?s=' . $keyword;
         $res = $mu_->get_contents($url);
-        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
+        // $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
+        $rc = preg_match('/<h1 class="entry-title"><a href="(.+?)"/', $res, $match);
         $res = $mu_->get_contents($match[1]);
         $rc = preg_match('/<div class="' . $keyword . '">(.+?)</', $res, $match);
         $description = $match[1];
