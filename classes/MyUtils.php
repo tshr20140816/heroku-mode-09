@@ -1087,13 +1087,14 @@ __HEREDOC__;
         ];
         $urls[$url] = $options;
 
-        $rc = $this->get_contents_multi($urls);
+        $res = $this->get_contents_multi($urls);
         error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
-        $rc = null;
+        error_log($log_prefix . print_r($res, true));
+        $res = null;
 
         $urls = [];
         $file_size = filesize($file_name_);
-        if ($file_size > (1024 ** 2)) {
+        if ($file_size > (1024 ** 2 * 2)) {
             $fh = fopen($file_name_, 'rb');
 
             $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
