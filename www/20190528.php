@@ -70,8 +70,8 @@ function func_20190528($mu_)
             'DNT: 1',
             'Upgrade-Insecure-Requests: 1',
             ],
-        // CURLOPT_COOKIEJAR => $cookie,
-        // CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
     ];
     
     $res = $mu_->get_contents($url, $options);
