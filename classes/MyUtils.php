@@ -594,6 +594,23 @@ __HEREDOC__;
         error_log('ftp_close : ' . $rc);
     }
 
+    public function search_blog($keyword_)
+    {
+        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+        $wordpress_username = $this->get_env('WORDPRESS_USERNAME', true);
+
+        $url = "https://${wordpress_username}.wordpress.com/?s=${keyword_}";
+        $res = $this->get_contents($url);
+        $rc = preg_match('/<h1 class="entry-title"><a href="(.+?)"/', $res, $match);
+        $res = $this->get_contents($match[1]);
+        $rc = preg_match('/<div class="' . $keyword_ . '">(.+?)</', $res, $match);
+
+        error_log($log_prefix . $match[1]);
+
+        return $match[1];
+    }
+
     public function get_contents($url_, $options_ = null, $is_cache_search = false)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
