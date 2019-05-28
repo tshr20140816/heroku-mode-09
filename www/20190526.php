@@ -23,11 +23,11 @@ function search_blog($mu_, $keyword_)
 
     $wordpress_username = $mu_->get_env('WORDPRESS_USERNAME', true);
 
-    $url = 'https://' . $wordpress_username . '.wordpress.com/?s=' . $keyword;
+    $url = 'https://' . $wordpress_username . '.wordpress.com/?s=' . $keyword_;
     $res = $mu_->get_contents($url);
     $rc = preg_match('/<h1 class="entry-title"><a href="(.+?)"/', $res, $match);
     $res = $mu_->get_contents($match[1]);
-    $rc = preg_match('/<div class="' . $keyword . '">(.+?)</', $res, $match);
+    $rc = preg_match('/<div class="' . $keyword_ . '">(.+?)</', $res, $match);
 
     error_log($log_prefix . $match[1]);
 
