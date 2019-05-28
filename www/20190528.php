@@ -75,7 +75,13 @@ function func_20190528($mu_)
         CURLOPT_HEADER => true,
     ];
     
-    $res = $mu_->get_contents($url, $options);
+    for ($i = 0; $i < 10; $i++) {
+       $res = $mu_->get_contents($url, $options);
+        if ($res != '403') {
+            break;
+        }
+        sleep(3);
+    }
     error_log($res);
     
     $rc = preg_match_all('/<a id.+>(.+?)</', $res, $matches);
