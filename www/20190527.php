@@ -50,6 +50,30 @@ function func_20190527b($mu_, $file_name_rss_items_)
                    'pointBorderWidth' => 0,
                   ];
 
+    $url = 'https://' . $mu_->get_env('WORDPRESS_USERNAME', true) . '.wordpress.com/?s=make_graph.php';
+
+    $res = $mu_->get_contents($url);
+
+    $rc = preg_match_all('/rel="bookmark">.+?\/(.+?) .+? \/make_graph\.php&nbsp;\[(.+?)s\]/', $res, $matches, PREG_SET_ORDER);
+
+    $data = [];
+    foreach ($matches as $match) {
+        $tmp = new stdClass();
+        $tmp->x = $match[1];
+        $tmp->y = $match[2];
+        $data[] = $tmp;
+    }
+    
+    $datasets[] = ['data' => $data,
+                   'fill' => false,
+                   'pointStyle' => 'circle',
+                   'backgroundColor' => 'red',
+                   'borderColor' => 'red',
+                   'borderWidth' => 3,
+                   'pointRadius' => 4,
+                   'pointBorderWidth' => 0,
+                  ];
+    
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
                               'datasets' => $datasets,
@@ -61,9 +85,6 @@ function func_20190527b($mu_, $file_name_rss_items_)
                                  'hover' => ['animationDuration' => 0,
                                             ],
                                  'responsiveAnimationDuration' => 0,
-                                 'plugins' => ['datalabels' => ['display' => true,
-                                                               ],
-                                              ],
                                 ],
                   ];
 
