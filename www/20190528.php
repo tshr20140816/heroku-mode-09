@@ -106,5 +106,9 @@ function func_20190528($mu_)
     array_shift($tmp);
     
     // error_log(print_r($tmp, true));
-    error_log($tmp[0]);
+    //error_log($tmp[0]);
+    foreach ($tmp as $hotel_info) {
+        $rc = preg_match('/<a id.+>(.+?)</', $hotel_info, $match);
+        error_log(print_r($match, true));
+    }
 }
