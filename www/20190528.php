@@ -110,5 +110,7 @@ function func_20190528($mu_)
     foreach ($tmp as $hotel_info) {
         $rc = preg_match('/<a id.+>(.+?)</', $hotel_info, $match);
         error_log(print_r($match, true));
+        $rc = preg_match('/<span class="vPrice".*?>(.+)/', $hotel_info, $match);
+        error_log(print_r($match, true));
     }
 }
