@@ -45,7 +45,7 @@ function func_20190528($mu_)
         error_log($one_record->hotel[0]->hotelBasicInfo->reviewAverage);
     }
     */
-    $parameters = ['key' => getenv('JALAN_APPLICATION_ID'),
+    $parameters = ['key' => getenv('JALAN_API_KEY'),
                    's_area' => '162202',
                    'adult_num' => '2',
                    'count' => '100',
