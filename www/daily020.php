@@ -167,15 +167,7 @@ function get_quota($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
     $description = '';
     $j = (int)date('j', strtotime('+9hours'));
     if ($j != 1) {
-        $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
-        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword;
-        $res = $mu_->get_contents($url);
-
-        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
-        $res = $mu_->get_contents($match[1]);
-
-        $rc = preg_match('/<div class="' . $keyword . '">(.+?)</', $res, $match);
-        $description = $match[1];
+        $description = $mu_->search_blog($keyword);
     }
     if (strpos($description, " ${j},") == false) {
         $description = '<div class="' . $keyword . '">' . trim($description . " ${j}," . (int)($quota / 60)) . '</div>';
@@ -386,8 +378,6 @@ __HEREDOC__;
     }
     $pdo = null;
 
-    $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
-
     $keyword = strtolower($target_);
     for ($i = 0; $i < strlen($keyword); $i++) {
         $keyword[$i] = chr(ord($keyword[$i]) + 1);
@@ -397,18 +387,10 @@ __HEREDOC__;
     $description = '';
     $j = (int)date('j', strtotime('+9hours'));
     if ($j != 1) {
-        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword;
-        $res = $mu_->get_contents($url);
-
-        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
-        $res = $mu_->get_contents($match[1]);
-
-        $rc = preg_match('/<div class="' . $keyword . '">(.+?)</', $res, $match);
-        $description = $match[1];
+        $description = $mu_->search_blog($keyword);
     }
     if (strpos($description, " ${j},") == false) {
         $description = '<div class="' . $keyword . '">' . trim("${description} ${j},${record_count}") . '</div>';
-        // $mu_->post_blog_wordpress($keyword, $description);
         $mu_->post_blog_wordpress_async($keyword, $description);
     }
 
@@ -423,18 +405,10 @@ __HEREDOC__;
     $description = '';
     $j = (int)date('j', strtotime('+9hours'));
     if ($j != 1) {
-        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword;
-        $res = $mu_->get_contents($url);
-
-        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
-        $res = $mu_->get_contents($match[1]);
-
-        $rc = preg_match('/<div class="' . $keyword . '">(.+?)</', $res, $match);
-        $description = $match[1];
+        $description = $mu_->search_blog($keyword);
     }
     if (strpos($description, " ${j},") == false) {
         $description = '<div class="' . $keyword . '">' . trim("${description} ${j},${database_size}") . '</div>';
-        // $mu_->post_blog_wordpress($keyword, $description);
         $mu_->post_blog_wordpress_async($keyword, $description);
     }
 
@@ -895,15 +869,7 @@ function check_hidrive_usage($mu_, $file_name_blog_)
     $description = '';
     $j = (int)date('j', strtotime('+9hours'));
     if ($j != 1) {
-        $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
-        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword;
-        $res = $mu_->get_contents($url);
-
-        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
-        $res = $mu_->get_contents($match[1]);
-
-        $rc = preg_match('/<div class="' . $keyword . '">(.+?)</', $res, $match);
-        $description = $match[1];
+        $description = $mu_->search_blog($keyword);
     }
     if (strpos($description, " ${j},") == false) {
         $description = '<div class="' . $keyword . '">' . trim($description . " ${j}," . $size) . '</div>';
