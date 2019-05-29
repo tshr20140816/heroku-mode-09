@@ -1461,7 +1461,7 @@ __HEREDOC__;
         error_log($log_prefix . 'loop count : ' . $count);
 
         $results = [];
-        foreach (array_keys($urls_) as $url) {
+        foreach ($urls_ as $url) {
             $ch = $list_ch[$url];
             $res = curl_getinfo($ch);
             $http_code = (string)$res['http_code'];
