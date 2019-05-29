@@ -864,15 +864,17 @@ function make_database($mu_, $file_name_rss_items_)
                    'data' => ['labels' => $labels,
                               'datasets' => $datasets,
                              ],
-                   'options' => ['legend' => ['display' => true,
+                   'options' => ['legend' => [// 'display' => true,
                                               'labels' => ['usePointStyle' => true
                                                           ],
                                              ],
+                                 /*
                                  'animation' => ['duration' => 0,
                                                 ],
                                  'hover' => ['animationDuration' => 0,
                                             ],
                                  'responsiveAnimationDuration' => 0,
+                                 */
                                  'scales' => $scales,
                                  'annotation' => ['annotations' => $annotations,
                                                  ],
@@ -882,7 +884,7 @@ function make_database($mu_, $file_name_rss_items_)
     $tmp = str_replace('"__CALLBACK_1__"', "function(value){return value.toLocaleString();}", json_encode($chart_data));
     $tmp = str_replace('"__CALLBACK_2__"', "function(value){return value.toLocaleString() + 'MB';}", $tmp);
 
-    $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
+    $url = 'https://quickchart.io/chart?w=600&h=360&c=' . urlencode($tmp);
     $res = $mu_->get_contents($url);
 
     $im1 = imagecreatefromstring($res);
@@ -1011,7 +1013,7 @@ function make_process_time($mu_, $file_name_rss_items_)
                                 ],
                   ];
 
-    $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode(json_encode($chart_data));
+    $url = 'https://quickchart.io/chart?w=600&h=360&c=' . urlencode(json_encode($chart_data));
     $res = $mu_->get_contents($url);
 
     $im1 = imagecreatefromstring($res);
