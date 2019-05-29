@@ -54,5 +54,6 @@ function func_20190528($mu_)
         error_log($info);
         $list_info[$y . $m . $d] = $info;
     }
+    ksort($list_info);
     error_log(print_r($list_info, true));
 }
