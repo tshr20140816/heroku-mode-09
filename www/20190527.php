@@ -410,7 +410,7 @@ function make_database2($mu_, $file_name_rss_items_)
                           'scaleID' => 'y-axis-0',
                           'value' => $level,
                           'borderColor' => 'rgba(0,0,0,0)',
-                          'borderWidth' => 1,
+                          // 'borderWidth' => 1,
                           'label' => ['enabled' => true,
                                       'content' => number_format(end($data3)->y),
                                       'position' => 'right',
@@ -436,13 +436,13 @@ function make_database2($mu_, $file_name_rss_items_)
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => true,
                         'position' => 'left',
-                        'type' => 'linear',
+                        // 'type' => 'linear',
                         'ticks' => ['callback' => '__CALLBACK_1__',],
                        ];
     $scales->yAxes[] = ['id' => 'y-axis-1',
                         'display' => true,
                         'position' => 'right',
-                        'type' => 'linear',
+                        // 'type' => 'linear',
                         'ticks' => ['callback' => '__CALLBACK_2__',],
                        ];
 
@@ -472,7 +472,7 @@ function make_database2($mu_, $file_name_rss_items_)
                       'scaleID' => 'y-axis-1',
                       'value' => 1000,
                       'borderColor' => 'rgba(0,0,0,0)',
-                      'borderWidth' => 1,
+                      // 'borderWidth' => 1,
                      ];
 
     $chart_data = ['type' => 'line',
