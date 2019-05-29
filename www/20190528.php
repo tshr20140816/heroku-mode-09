@@ -29,19 +29,19 @@ function func_20190528b($mu_)
     }
     $results = $mu_->get_contents_proxy_multi($urls);
     
-    $list_info = [];
+    // $list_info = [];
     
     foreach ($results as $url => $result) {
         parse_str(parse_url($url, PHP_URL_QUERY), $tmp);
         
-        $hash_url = hash('sha512', $url);
+        $hash_url = 'url' . hash('sha512', $url);
         error_log('url hash : ' . $hash_url);
         
         $y = $tmp['f_nen1'];
         $m = $tmp['f_tuki1'];
         $d = $tmp['f_hi1'];
         
-        $info = "${y}/${m}/${d}\r\n";
+        $info = "\n\n${y}/${m}/${d}\n";
         
         $tmp = explode('<dl class="htlGnrlInfo">', $result);
         array_shift($tmp);
@@ -52,15 +52,20 @@ function func_20190528b($mu_)
             $info .= $match[1];
             $rc = preg_match('/<span class="vPrice".*?>(.+)/', $hotel_info, $match);
             // error_log(strip_tags($match[1]));
-            $info .= ' ' . strip_tags($match[1]) . "\r\n";
+            $info .= ' ' . strip_tags($match[1]) . "\n";
         }
         // error_log($info);
-        $info_url = hash('sha512', $info);
-        error_log('info hash : ' . $info_url);
-        $list_info[$y . $m . $d] = $info;
+        $hash_info = hash('sha512', $info);
+        error_log('info hash : ' . $hash_info);
+        
+        $res = $mu_->search_blog($hash_url);
+        if ($res != $hash_info) {
+            $description = '<div class="' . $hash_url . '">' . $hash_info . '</div>' . $info;
+            $mu_->post_blog_wordpress_async($hash_url, $description);
+        }
     }
-    ksort($list_info);
-    error_log(print_r($list_info, true));
+    // ksort($list_info);
+    // error_log(print_r($list_info, true));
 }
 
 function func_20190528($mu_)
