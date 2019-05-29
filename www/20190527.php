@@ -10,7 +10,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 error_log($pid . ' SERVER_ADDR : ' . $_SERVER['SERVER_ADDR']);
 error_log($pid . ' SERVER_PORT : ' . $_SERVER['SERVER_PORT']);
 
-exec('curl http://' . $_SERVER['SERVER_ADDR'] . '/');
+exec('curl http://' . $_SERVER['SERVER_ADDR'] . '/20190516.php');
 
 $mu = new MyUtils();
 
