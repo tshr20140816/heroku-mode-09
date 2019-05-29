@@ -9,11 +9,26 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190528($mu);
+func_20190528b($mu);
 
 $time_finish = microtime(true);
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190528b($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $urls = [];
+    for ($i = 0; $i < 10; $i++) {
+        $url = $mu_->get_env('URL_RAKUTEN_TRAVEL_0' . $i);
+        if (strlen($url) < 10) {
+            continue;
+        }
+        $urls[] = $url;
+    }
+    $results = $mu_->get_contents_proxy_multi($urls);
+}
 
 function func_20190528($mu_)
 {
