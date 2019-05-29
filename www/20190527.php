@@ -9,6 +9,8 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 error_log($pid . ' port : ' . $_SERVER['SERVER_PORT']);
 
+exec('curl --head http://127.0.0.1/');
+
 $mu = new MyUtils();
 
 $file_name_rss_items = tempnam('/tmp', 'rss_' . md5(microtime(true)));
