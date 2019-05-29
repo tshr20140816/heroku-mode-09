@@ -501,7 +501,7 @@ function make_database2($mu_, $file_name_rss_items_)
 
     $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
     $res = $mu_->get_contents($url);
-    error_log('length : ' . strlen($url))
+    error_log('length : ' . strlen($url));
 
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
