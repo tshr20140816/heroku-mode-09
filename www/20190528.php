@@ -34,6 +34,9 @@ function func_20190528b($mu_)
     foreach ($results as $url => $result) {
         parse_str(parse_url($url, PHP_URL_QUERY), $tmp);
         
+        $hash_url = hash('sha512', $url);
+        error_log('url hash : ' . $hash_url);
+        
         $y = $tmp['f_nen1'];
         $m = $tmp['f_tuki1'];
         $d = $tmp['f_hi1'];
@@ -52,6 +55,8 @@ function func_20190528b($mu_)
             $info .= ' ' . strip_tags($match[1]) . "\r\n";
         }
         // error_log($info);
+        $info_url = hash('sha512', $info);
+        error_log('info hash : ' . $info_url);
         $list_info[$y . $m . $d] = $info;
     }
     ksort($list_info);
