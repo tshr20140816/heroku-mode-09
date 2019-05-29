@@ -443,7 +443,7 @@ function make_database2($mu_, $file_name_rss_items_)
                         'display' => true,
                         'position' => 'right',
                         'type' => 'linear',
-                        // 'ticks' => ['callback' => '__CALLBACK_2__',],
+                        'ticks' => ['callback' => '__CALLBACK_2__',],
                        ];
 
     $annotations[] = ['type' => 'line',
@@ -451,21 +451,21 @@ function make_database2($mu_, $file_name_rss_items_)
                       'scaleID' => 'y-axis-0',
                       'value' => 0,
                       'borderColor' => 'rgba(0,0,0,0)',
-                      'borderWidth' => 1,
+                      // 'borderWidth' => 1,
                      ];
     $annotations[] = ['type' => 'line',
                       'mode' => 'horizontal',
                       'scaleID' => 'y-axis-0',
                       'value' => 10000,
                       'borderColor' => 'red',
-                      'borderWidth' => 1,
+                      // 'borderWidth' => 1,
                      ];
     $annotations[] = ['type' => 'line',
                       'mode' => 'horizontal',
                       'scaleID' => 'y-axis-1',
                       'value' => 0,
                       'borderColor' => 'rgba(0,0,0,0)',
-                      'borderWidth' => 1,
+                      // 'borderWidth' => 1,
                      ];
     $annotations[] = ['type' => 'line',
                       'mode' => 'horizontal',
