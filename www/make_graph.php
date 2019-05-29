@@ -12,12 +12,14 @@ $mu = new MyUtils();
 $file_name_rss_items = tempnam('/tmp', 'rss_' . md5(microtime(true)));
 @unlink($file_name_rss_items);
 
-make_waon_balance($mu, $file_name_rss_items);
-make_score_map($mu, $file_name_rss_items);
-make_heroku_dyno_usage_graph($mu, $file_name_rss_items);
-make_database($mu, $file_name_rss_items);
-make_process_time($mu, $file_name_rss_items);
-make_loggly_usage($mu, $file_name_rss_items);
+$url_length = [];
+
+$url_length['make_waon_balance'] = make_waon_balance($mu, $file_name_rss_items);
+$url_length['make_score_map'] = make_score_map($mu, $file_name_rss_items);
+$url_length['make_heroku_dyno_usage_graph'] = make_heroku_dyno_usage_graph($mu, $file_name_rss_items);
+$url_length['make_database'] = make_database($mu, $file_name_rss_items);
+$url_length['make_process_time'] = make_process_time($mu, $file_name_rss_items);
+$url_length['make_loggly_usage'] = make_loggly_usage($mu, $file_name_rss_items);
 
 $xml_text = <<< __HEREDOC__
 <?xml version="1.0" encoding="utf-8"?>
@@ -38,9 +40,15 @@ $mu->upload_fc2($file);
 unlink($file);
 unlink($file_name_rss_items);
 
+$description = '';
+foreach ($url_length as $method_name => $length) {
+    $description .= "${method_name} : " . number_format($length) . "\n";
+}
+
 $time_finish = microtime(true);
-$mu->post_blog_wordpress("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]',
-                         'file size : ' . number_format($filesize) . "byte\r\n\r\nLimit 1MB");
+$mu->post_blog_wordpress(
+    "${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]',
+    'file size : ' . number_format($filesize) . "byte\n\nLimit 1MB\n\n" . $description);
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
@@ -186,6 +194,7 @@ function make_score_map($mu_, $file_name_rss_items_)
             ];
     $url = 'https://quickchart.io/chart?width=600&height=345&c=' . urlencode(json_encode($data));
     $res = $mu_->get_contents($url);
+    $url_length = strlen($url);
 
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
@@ -245,6 +254,8 @@ __HEREDOC__;
     $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
+
+    return $url_length;
 }
 
 function make_loggly_usage($mu_, $file_name_rss_items_)
@@ -330,6 +341,7 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
 
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . urlencode(json_encode($data));
     $res = $mu_->get_contents($url);
+    $url_length = strlen($url);
 
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
@@ -386,6 +398,8 @@ __HEREDOC__;
     $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
+
+    return $url_length;
 }
 
 function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
@@ -509,6 +523,7 @@ function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
                   ];
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . urlencode(json_encode($chart_data));
     $res = $mu_->get_contents($url);
+    $url_length = strlen($url);
 
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
@@ -566,6 +581,8 @@ __HEREDOC__;
     $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
+
+    return $url_length;
 }
 
 function make_waon_balance($mu_, $file_name_rss_items_)
@@ -647,6 +664,7 @@ __HEREDOC__;
 
     $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
     $res = $mu_->get_contents($url);
+    $url_length = strlen($url);
 
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
@@ -704,6 +722,8 @@ __HEREDOC__;
     $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
+
+    return $url_length;
 }
 
 function make_database($mu_, $file_name_rss_items_)
@@ -887,6 +907,7 @@ function make_database($mu_, $file_name_rss_items_)
 
     $url = 'https://quickchart.io/chart?w=600&h=360&c=' . urlencode($tmp);
     $res = $mu_->get_contents($url);
+    $url_length = strlen($url);
 
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
@@ -944,6 +965,8 @@ __HEREDOC__;
     $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
+
+    return $url_length;
 }
 
 function make_process_time($mu_, $file_name_rss_items_)
@@ -1016,6 +1039,7 @@ function make_process_time($mu_, $file_name_rss_items_)
 
     $url = 'https://quickchart.io/chart?w=600&h=360&c=' . urlencode(json_encode($chart_data));
     $res = $mu_->get_contents($url);
+    $url_length = strlen($url);
 
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
@@ -1073,4 +1097,6 @@ __HEREDOC__;
     $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
+
+    return $url_length;
 }
