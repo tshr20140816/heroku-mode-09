@@ -497,7 +497,7 @@ function make_database2($mu_, $file_name_rss_items_)
     $tmp = str_replace('"__CALLBACK_1__"', "function(value){return value.toLocaleString();}", json_encode($chart_data));
     $tmp = str_replace('"__CALLBACK_2__"', "function(value){return value.toLocaleString() + 'MB';}", $tmp);
 
-    $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
+    $url = 'https://quickchart.io/chart?w=600&h=360&c=' . urlencode($tmp);
     $res = $mu_->get_contents($url);
     error_log('length : ' . strlen($url));
 
