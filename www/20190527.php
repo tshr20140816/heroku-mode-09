@@ -132,7 +132,7 @@ function func_20190527b($mu_, $file_name_rss_items_)
              'options' => ['legend' => ['position' => 'bottom',
                                         'labels' => ['fontSize' => 10,
                                                      'fontColor' => 'black',
-                                                     'padding' => 15,
+                                                     'padding' => 18,
                                                     ],
                                        ],
                            'scales' => $scales,
