@@ -45,13 +45,13 @@ function func_20190528b($mu_)
         
         foreach ($tmp as $hotel_info) {
             $rc = preg_match('/<a id.+>(.+?)</', $hotel_info, $match);
-            error_log($match[1]);
+            // error_log($match[1]);
             $info .= $match[1];
             $rc = preg_match('/<span class="vPrice".*?>(.+)/', $hotel_info, $match);
-            error_log(strip_tags($match[1]));
+            // error_log(strip_tags($match[1]));
             $info .= ' ' . strip_tags($match[1]) . "\r\n";
         }
-        error_log($info);
+        // error_log($info);
         $list_info[$y . $m . $d] = $info;
     }
     ksort($list_info);
