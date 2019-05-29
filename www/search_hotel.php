@@ -9,13 +9,14 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190528b($mu);
+search_hotel($mu);
 
 $time_finish = microtime(true);
 
+$mu->post_blog_wordpress_async("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]', file_get_contents($file_name_blog));
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_20190528b($mu_)
+function search_hotel($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
@@ -28,9 +29,7 @@ function func_20190528b($mu_)
         $urls[] = $url;
     }
     $results = $mu_->get_contents_proxy_multi($urls);
-    
-    // $list_info = [];
-    
+        
     foreach ($results as $url => $result) {
         parse_str(parse_url($url, PHP_URL_QUERY), $tmp);
         
