@@ -28,6 +28,34 @@ function func_20190528b($mu_)
         $urls[] = $url;
     }
     $results = $mu_->get_contents_proxy_multi($urls);
+    
+    $list_info = [];
+    
+    foreach ($results as $url => $result) {
+        parse_str(parse_url($url, PHP_URL_QUERY), $tmp);
+        
+        $y = $tmp['f_nen1'];
+        $m = $tmp['f_tuki1'];
+        $d = $tmp['f_hi1'];
+        
+        $info = "${y}/${m}/${d}\r\n";
+        
+        $tmp = explode('<dl class="htlGnrlInfo">', $result);
+        array_shift($tmp);
+        
+        foreach ($tmp as $hotel_info) {
+            $rc = preg_match('/<a id.+>(.+?)</', $hotel_info, $match);
+            error_log($match[1]);
+            $info .= $match[1];
+            $rc = preg_match('/<span class="vPrice".*?>(.+)/', $hotel_info, $match);
+            error_log(strip_tags($match[1]));
+            $info .= ' ' . strip_tags($match[1]) . "\r\n";
+        }
+        error_log($info);
+        $list_info[$y . $m . $d] = $info;
+    }
+    ksort($list_info);
+    error_log(print_r($list_info, true));
 }
 
 function func_20190528($mu_)
