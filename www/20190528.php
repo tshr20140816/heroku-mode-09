@@ -19,32 +19,40 @@ function func_20190528($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $info = '';
+    $list_info = [];
     
-    $url = $mu_->get_env('URL_RAKUTEN_TRAVEL_01');
-    
-    // $tmp = explode('&', parse_url($url, PHP_URL_QUERY));
-    parse_str(parse_url($url, PHP_URL_QUERY), $tmp);
-    error_log(print_r($tmp, true));
+    for ($i = 0; $i < 10; $i++) {
+        $info = '';
+        $url = $mu_->get_env('URL_RAKUTEN_TRAVEL_0' . $i);
+        if ($url < 10) {
+            continue;
+        }
 
-    $y = $tmp['f_nen1'];
-    $m = $tmp['f_tuki1'];
-    $d = $tmp['f_hi1'];
+        // $tmp = explode('&', parse_url($url, PHP_URL_QUERY));
+        parse_str(parse_url($url, PHP_URL_QUERY), $tmp);
+        error_log(print_r($tmp, true));
 
-    $info = "${y}/${m}/${d}\r\n";
+        $y = $tmp['f_nen1'];
+        $m = $tmp['f_tuki1'];
+        $d = $tmp['f_hi1'];
 
-    $res = $mu_->get_contents_proxy($url);
-    
-    $tmp = explode('<dl class="htlGnrlInfo">', $res);
-    array_shift($tmp);
+        $info = "${y}/${m}/${d}\r\n";
 
-    foreach ($tmp as $hotel_info) {
-        $rc = preg_match('/<a id.+>(.+?)</', $hotel_info, $match);
-        error_log($match[1]);
-        $info .= $match[1];
-        $rc = preg_match('/<span class="vPrice".*?>(.+)/', $hotel_info, $match);
-        error_log(strip_tags($match[1]));
-        $info .= ' ' . strip_tags($match[1]) . "\r\n\r\n";
+        $res = $mu_->get_contents_proxy($url);
+
+        $tmp = explode('<dl class="htlGnrlInfo">', $res);
+        array_shift($tmp);
+
+        foreach ($tmp as $hotel_info) {
+            $rc = preg_match('/<a id.+>(.+?)</', $hotel_info, $match);
+            error_log($match[1]);
+            $info .= $match[1];
+            $rc = preg_match('/<span class="vPrice".*?>(.+)/', $hotel_info, $match);
+            error_log(strip_tags($match[1]));
+            $info .= ' ' . strip_tags($match[1]) . "\r\n";
+        }
+        error_log($info);
+        $list_info[$y . $m . $d] = $info;
     }
-    error_log($info);
+    error_log(print_r($list_info, true));
 }
