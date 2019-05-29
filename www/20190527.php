@@ -443,7 +443,7 @@ function make_database2($mu_, $file_name_rss_items_)
                         'display' => true,
                         'position' => 'right',
                         'type' => 'linear',
-                        'ticks' => ['callback' => '__CALLBACK_2__',],
+                        // 'ticks' => ['callback' => '__CALLBACK_2__',],
                        ];
 
     $annotations[] = ['type' => 'line',
