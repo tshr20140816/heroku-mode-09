@@ -24,8 +24,7 @@ function func_20190528($mu_)
     for ($i = 0; $i < 10; $i++) {
         $info = '';
         $url = $mu_->get_env('URL_RAKUTEN_TRAVEL_0' . $i);
-        error_log($url);
-        if ($url < 10) {
+        if (strlen($url) < 10) {
             continue;
         }
 
