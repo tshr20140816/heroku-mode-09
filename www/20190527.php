@@ -7,9 +7,10 @@ $requesturi = $_SERVER['REQUEST_URI'];
 $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
-error_log($pid . ' port : ' . $_SERVER['SERVER_PORT']);
+error_log($pid . ' SERVER_ADDR : ' . $_SERVER['SERVER_ADDR']);
+error_log($pid . ' SERVER_PORT : ' . $_SERVER['SERVER_PORT']);
 
-exec('curl --head http://127.0.0.1/');
+// exec('curl --head http://127.0.0.1/');
 
 $mu = new MyUtils();
 
@@ -17,7 +18,7 @@ $file_name_rss_items = tempnam('/tmp', 'rss_' . md5(microtime(true)));
 @unlink($file_name_rss_items);
 
 // func_20190527b($mu, $file_name_rss_items);
-make_database2($mu, $file_name_rss_items);
+// make_database2($mu, $file_name_rss_items);
 
 $time_finish = microtime(true);
 
