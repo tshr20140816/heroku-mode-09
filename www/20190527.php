@@ -338,12 +338,10 @@ function make_database2($mu_, $file_name_rss_items_)
               'color' => 'deepskyblue',
               'size_color' => 'orange',
              ],
-             /*
              ['target' => 'redmine',
               'color' => 'blue',
               'size_color' => 'yellow',
              ],
-             */
             ];
 
     $annotations = [];
