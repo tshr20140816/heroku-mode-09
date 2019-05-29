@@ -19,7 +19,7 @@ error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' .
 function search_hotel($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
+
     $urls = [];
     for ($i = 0; $i < 10; $i++) {
         $url = $mu_->get_env('URL_RAKUTEN_TRAVEL_0' . $i);
@@ -29,22 +29,22 @@ function search_hotel($mu_)
         $urls[] = $url;
     }
     $results = $mu_->get_contents_proxy_multi($urls);
-        
+
     foreach ($results as $url => $result) {
-        parse_str(parse_url($url, PHP_URL_QUERY), $tmp);
-        
         $hash_url = 'url' . hash('sha512', $url);
-        error_log('url hash : ' . $hash_url);
-        
+        error_log($log_prefix . "url hash : ${hash_url}");
+
+        parse_str(parse_url($url, PHP_URL_QUERY), $tmp);
+
         $y = $tmp['f_nen1'];
         $m = $tmp['f_tuki1'];
         $d = $tmp['f_hi1'];
-        
+
         $info = "\n\n${y}/${m}/${d}\n";
-        
+
         $tmp = explode('<dl class="htlGnrlInfo">', $result);
         array_shift($tmp);
-        
+
         foreach ($tmp as $hotel_info) {
             $rc = preg_match('/<a id.+>(.+?)</', $hotel_info, $match);
             // error_log($match[1]);
@@ -53,59 +53,15 @@ function search_hotel($mu_)
             // error_log(strip_tags($match[1]));
             $info .= ' ' . strip_tags($match[1]) . "\n";
         }
-        // error_log($info);
+
         $hash_info = hash('sha512', $info);
-        error_log('info hash : ' . $hash_info);
-        
+        error_log($log_prefix . "info hash : ${hash_info}");
+
         $res = $mu_->search_blog($hash_url);
         if ($res != $hash_info) {
-            $description = '<div class="' . $hash_url . '">' . $hash_info . '</div>' . $info;
+            $description = '<div class="' . $hash_url . '">' . "${hash_info}</div>${info}";
             $mu_->post_blog_wordpress_async($hash_url, $description);
         }
     }
-    // ksort($list_info);
-    // error_log(print_r($list_info, true));
-}
-
-function func_20190528($mu_)
-{
-    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
-    $list_info = [];
-    
-    for ($i = 0; $i < 10; $i++) {
-        $info = '';
-        $url = $mu_->get_env('URL_RAKUTEN_TRAVEL_0' . $i);
-        if (strlen($url) < 10) {
-            continue;
-        }
-
-        // $tmp = explode('&', parse_url($url, PHP_URL_QUERY));
-        parse_str(parse_url($url, PHP_URL_QUERY), $tmp);
-        error_log(print_r($tmp, true));
-
-        $y = $tmp['f_nen1'];
-        $m = $tmp['f_tuki1'];
-        $d = $tmp['f_hi1'];
-
-        $info = "${y}/${m}/${d}\r\n";
-
-        $res = $mu_->get_contents_proxy($url);
-
-        $tmp = explode('<dl class="htlGnrlInfo">', $res);
-        array_shift($tmp);
-
-        foreach ($tmp as $hotel_info) {
-            $rc = preg_match('/<a id.+>(.+?)</', $hotel_info, $match);
-            error_log($match[1]);
-            $info .= $match[1];
-            $rc = preg_match('/<span class="vPrice".*?>(.+)/', $hotel_info, $match);
-            error_log(strip_tags($match[1]));
-            $info .= ' ' . strip_tags($match[1]) . "\r\n";
-        }
-        error_log($info);
-        $list_info[$y . $m . $d] = $info;
-    }
-    ksort($list_info);
-    error_log(print_r($list_info, true));
+    $results = null;
 }
