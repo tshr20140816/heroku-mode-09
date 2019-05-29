@@ -7,8 +7,9 @@ $requesturi = $_SERVER['REQUEST_URI'];
 $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
-error_log($pid . ' SERVER_ADDR : ' . $_SERVER['SERVER_ADDR']);
-error_log($pid . ' SERVER_PORT : ' . $_SERVER['SERVER_PORT']);
+// error_log($pid . ' SERVER_ADDR : ' . $_SERVER['SERVER_ADDR']);
+// error_log($pid . ' SERVER_PORT : ' . $_SERVER['SERVER_PORT']);
+error_log($pid . ' ' . print_r($_SERVER, true));
 
 exec('curl http://' . $_SERVER['SERVER_ADDR'] . '/20190516.php');
 
