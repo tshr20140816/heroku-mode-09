@@ -569,7 +569,7 @@ __HEREDOC__;
         // $this->update_ttrss();
 
         error_log($log_prefix . 'start exec');
-        exec('php ../scripts/update_ttrss.php ' . base64_encode($title_) . ' ' . base64_encode($description_) . ' >/dev/null &');
+        exec('php -d apc.enable_cli=1 ../scripts/update_ttrss.php ' . base64_encode($title_) . ' ' . base64_encode($description_) . ' >/dev/null &');
         error_log($log_prefix . 'finish exec');
     }
 
