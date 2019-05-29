@@ -159,6 +159,7 @@ function make_score_map($mu_, $file_name_rss_items_)
              'options' => ['legend' => ['position' => 'bottom',
                                         'labels' => ['fontSize' => 10,
                                                      'fontColor' => 'black',
+                                                     'padding' => 18,
                                                     ],
                                        ],
                            'scales' => $scales,
