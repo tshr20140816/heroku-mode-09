@@ -7,19 +7,12 @@ $requesturi = $_SERVER['REQUEST_URI'];
 $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
-// error_log($pid . ' SERVER_ADDR : ' . $_SERVER['SERVER_ADDR']);
-// error_log($pid . ' SERVER_PORT : ' . $_SERVER['SERVER_PORT']);
-error_log($pid . ' ' . print_r($_SERVER, true));
-
-exec('curl http://' . $_SERVER['SERVER_ADDR'] . '/20190516.php');
-
 $mu = new MyUtils();
 
 $file_name_rss_items = tempnam('/tmp', 'rss_' . md5(microtime(true)));
 @unlink($file_name_rss_items);
 
-// func_20190527b($mu, $file_name_rss_items);
-// make_database2($mu, $file_name_rss_items);
+func_20190527b($mu, $file_name_rss_items);
 
 $time_finish = microtime(true);
 
@@ -29,495 +22,152 @@ function func_20190527b($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $url = 'https://' . $mu_->get_env('WORDPRESS_USERNAME', true) . '.wordpress.com/?s=daily020.php';
+    $color_index['広島'] = 'red,red';
+    $color_index['ヤクルト'] = 'cyan,yellowgreen';
+    $color_index['巨人'] = 'black,orange';
+    $color_index['ＤｅＮＡ'] = 'blue,blue';
+    $color_index['中日'] = 'dodgerblue,dodgerblue';
+    $color_index['阪神'] = 'yellow,yellow';
+    $color_index['西武'] = 'navy,navy';
+    $color_index['ソフトバンク'] = 'gold,black';
+    $color_index['日本ハム'] = 'darkgray,steelblue';
+    $color_index['オリックス'] = 'sandybrown,darkslategray';
+    $color_index['ロッテ'] = 'black,silver';
+    $color_index['楽天'] = 'darkred,orange';
 
-    $res = $mu_->get_contents($url);
+    // $url = 'https://baseball.yahoo.co.jp/npb/standings/';
+    $url = 'https://baseball.yahoo.co.jp/npb/standings/?4nocache' . date('Ymd', strtotime('+9 hours'));;
+    $res = $mu_->get_contents($url, null, true);
 
-    $rc = preg_match_all('/rel="bookmark">.+?\/(.+?) .+? \/daily020\.php&nbsp;\[(.+?)s\]/', $res, $matches, PREG_SET_ORDER);
-    // error_log(print_r($matches, true));
+    $tmp = explode('<table class="NpbPlSt yjM">', $res);
 
-    $labels = [];
-    $data = [];
-    foreach ($matches as $match) {
-        $labels[] = $match[1];
-        $tmp = new stdClass();
-        $tmp->x = $match[1];
-        $tmp->y = $match[2];
-        $data[] = $tmp;
+    $rc = preg_match_all('/title="(.+?)"/', $tmp[1] . $tmp[2], $matches);
+
+    $list_team = $matches[1];
+
+    $rc = preg_match_all('/<td>(.+?)</', $tmp[1] . $tmp[2], $matches);
+
+    $gain_sum = 0;
+    $gain_min_value = 9999;
+    $gain_max_value = 0;
+    $loss_sum = 0;
+    $loss_min_value = 9999;
+    $loss_max_value = 0;
+    for ($i = 0; $i < 12; $i++) {
+        $gain = (int)$matches[1][$i * 13 + 7];
+        $loss = (int)$matches[1][$i * 13 + 8];
+
+        $gain_sum += $gain;
+        if ($gain_max_value < $gain) {
+            $gain_max_value = $gain;
+        }
+        if ($gain_min_value > $gain) {
+            $gain_min_value = $gain;
+        }
+
+        $loss_sum += $loss;
+        if ($loss_max_value < $loss) {
+            $loss_max_value = $loss;
+        }
+        if ($loss_min_value > $loss) {
+            $loss_min_value = $loss;
+        }
     }
-    $labels = array_reverse($labels);
-    
-    $datasets[] = ['data' => $data,
-                   'fill' => false,
-                   'pointStyle' => 'circle',
-                   'backgroundColor' => 'black',
+    $loss_avg = round($loss_sum / 12);
+    $gain_avg = round($gain_sum / 12);
+    for ($i = 0; $i < 12; $i++) {
+        $tmp1 = new stdClass();
+        $tmp1->x = $matches[1][$i * 13 + 7];
+        $tmp1->y = $matches[1][$i * 13 + 8];
+        $tmp1->r = 7;
+        $tmp2 = [];
+        $tmp2[] = $tmp1;
+        $tmp3 = new stdClass();
+        $tmp3->label = $list_team[$i];
+        $tmp3->data = $tmp2;
+        $tmp3->backgroundColor = explode(',', $color_index[$list_team[$i]])[0];
+        $tmp3->borderWidth = 3;
+        $tmp3->borderColor = explode(',', $color_index[$list_team[$i]])[1];
+        $datasets[] = $tmp3;
+    }
+
+    $data2 = [];
+    $tmp1 = new stdClass();
+    $tmp1->x = floor(($gain_min_value > $loss_min_value ? $gain_min_value : $loss_min_value) / 10) * 10;
+    $tmp1->y = $tmp1->x;
+    $data2[] = $tmp1;
+    $tmp1 = new stdClass();
+    $tmp1->x = ceil(($gain_max_value > $loss_max_value ? $loss_max_value : $gain_max_value) / 10) * 10;
+    $tmp1->y = $tmp1->x;
+    $data2[] = $tmp1;
+
+    $datasets[] = ['type' => 'scatter',
+                   'data' => $data2,
+                   'showLine' => true,
                    'borderColor' => 'black',
-                   'borderWidth' => 3,
-                   'pointRadius' => 4,
-                   'pointBorderWidth' => 0,
-                  ];
-
-    $url = 'https://' . $mu_->get_env('WORDPRESS_USERNAME', true) . '.wordpress.com/?s=make_graph.php';
-
-    $res = $mu_->get_contents($url);
-
-    $rc = preg_match_all('/rel="bookmark">.+?\/(.+?) .+? \/make_graph\.php&nbsp;\[(.+?)s\]/', $res, $matches, PREG_SET_ORDER);
-
-    $data = [];
-    foreach ($matches as $match) {
-        $tmp = new stdClass();
-        $tmp->x = $match[1];
-        $tmp->y = $match[2];
-        $data[] = $tmp;
-    }
-    
-    $datasets[] = ['data' => $data,
+                   'borderWidth' => 1,
                    'fill' => false,
-                   'pointStyle' => 'circle',
-                   'backgroundColor' => 'red',
-                   'borderColor' => 'red',
-                   'borderWidth' => 3,
-                   'pointRadius' => 4,
-                   'pointBorderWidth' => 0,
-                  ];
-    
-    $chart_data = ['type' => 'line',
-                   'data' => ['labels' => $labels,
-                              'datasets' => $datasets,
-                             ],
-                   'options' => ['legend' => ['display' => false,
-                                             ],
-                                 'animation' => ['duration' => 0,
-                                                ],
-                                 'hover' => ['animationDuration' => 0,
-                                            ],
-                                 'responsiveAnimationDuration' => 0,
-                                ],
+                   'pointRadius' => 0,
+                   'label' => '',
                   ];
 
-    $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode(json_encode($chart_data));
-    $res = $mu_->get_contents($url);
-
-    $im1 = imagecreatefromstring($res);
-    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
-    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
-    imagealphablending($im2, false);
-    imagesavealpha($im2, true);
-    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
-    imagedestroy($im1);
-
-    $file = tempnam("/tmp", md5(microtime(true)));
-    imagepng($im2, $file, 9);
-    imagedestroy($im2);
-    $res = file_get_contents($file);
-    unlink($file);
-
-    header('Content-Type: image/png');
-    echo $res;
-}
-
-function func_20190527($mu_, $file_name_rss_items_)
-{
-    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-
-    for ($i = 0; $i < (int)date('t'); $i++) {
-        $labels[] = $i + 1;
-    }
-
-    $datasets = [];
-
-    $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
-    $list = [['target' => 'toodledo',
-              'color' => 'green',
-              'size_color' => 'red',
-             ],
-             ['target' => 'ttrss',
-              'color' => 'deepskyblue',
-              'size_color' => 'orange',
-             ],
-             ['target' => 'redmine',
-              'color' => 'blue',
-              'size_color' => 'yellow',
-             ],
-            ];
-
-    $annotations = [];
-    $level = 10000;
-    foreach ($list as $one_data) {
-        error_log(print_r($one_data, true));
-        $keyword = strtolower($one_data['target']);
-        for ($i = 0; $i < strlen($keyword); $i++) {
-            $keyword[$i] = chr(ord($keyword[$i]) + 1);
-        }
-
-        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword . 'sfdpsedpvou';
-        $res = $mu_->get_contents($url);
-
-        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
-
-        $res = $mu_->get_contents($match[1]);
-        $rc = preg_match('/<div class="' . $keyword . 'sfdpsedpvou">(.+?)</', $res, $match);
-
-        $data2 = [];
-        foreach (explode(' ', $match[1]) as $item) {
-            $tmp1 = explode(',', $item);
-            $tmp2 = new stdClass();
-            $tmp2->x = (int)$tmp1[0];
-            $tmp2->y = (int)$tmp1[1];
-            $data2[] = $tmp2;
-        }
-
-        if (count($data2) < 2) {
-            return;
-        }
-
-        $level -= 1000;
-        $annotations[] = ['type' => 'line',
-                          'mode' => 'horizontal',
-                          'scaleID' => 'y-axis-0',
-                          'value' => $level,
-                          'borderColor' => 'rgba(0,0,0,0)',
-                          'borderWidth' => 1,
-                          'label' => ['enabled' => true,
-                                      'content' => number_format(end($data2)->y),
-                                      'position' => 'left',
-                                      'backgroundColor' => $one_data['color'],
-                                     ],
-                         ];
-        
-        $datasets[] = ['data' => $data2,
-                       'fill' => false,
-                       'pointStyle' => 'circle',
-                       'backgroundColor' => $one_data['color'],
-                       'borderColor' => $one_data['color'],
-                       'borderWidth' => 3,
-                       'pointRadius' => 4,
-                       'pointBorderWidth' => 0,
-                       'label' => $one_data['target'] . ' record',
-                       'yAxisID' => 'y-axis-0',
-                      ];
-
-        $url = 'https://' . $hatena_blog_id . '/search?q=' . $keyword . 'ebubcbtftjaf';
-        $res = $mu_->get_contents($url);
-
-        $rc = preg_match('/<a class="entry-title-link" href="(.+?)"/', $res, $match);
-
-        $res = $mu_->get_contents($match[1]);
-        $rc = preg_match('/<div class="' . $keyword . 'ebubcbtftjaf">(.+?)</', $res, $match);
-
-        $data3 = [];
-        foreach (explode(' ', $match[1]) as $item) {
-            $tmp1 = explode(',', $item);
-            $tmp2 = new stdClass();
-            $tmp2->x = (int)$tmp1[0];
-            $tmp2->y = ceil((int)$tmp1[1] / 1024 / 1024);
-            $data3[] = $tmp2;
-        }
-
-        $annotations[] = ['type' => 'line',
-                          'mode' => 'horizontal',
-                          'scaleID' => 'y-axis-0',
-                          'value' => $level,
-                          'borderColor' => 'rgba(0,0,0,0)',
-                          'borderWidth' => 1,
-                          'label' => ['enabled' => true,
-                                      'content' => number_format(end($data3)->y),
-                                      'position' => 'right',
-                                      'backgroundColor' => $one_data['size_color'],
-                                      'fontColor' => 'black',
-                                     ],
-                         ];
-
-        $datasets[] = ['data' => $data3,
-                       'fill' => false,
-                       'pointStyle' => 'star',
-                       'backgroundColor' => $one_data['size_color'],
-                       'borderColor' => $one_data['size_color'],
-                       'borderWidth' => 2,
-                       'pointRadius' => 3,
-                       'pointBorderWidth' => 0,
-                       'label' => 'size',
-                       'yAxisID' => 'y-axis-1',
-                      ];
-    }
+    // error_log($log_prefix . print_r($datasets, true));
 
     $scales = new stdClass();
-    $scales->yAxes[] = ['id' => 'y-axis-0',
-                        'display' => true,
-                        'position' => 'left',
-                        'type' => 'linear',
-                        'ticks' => ['callback' => '__TICKS1__',],
+    $scales->xAxes[] = ['display' => true,
+                        'scaleLabel' => ['display' => true,
+                                         'labelString' => '得点',
+                                         'fontColor' => 'black',
+                                        ],
                        ];
-    $scales->yAxes[] = ['id' => 'y-axis-1',
-                        'display' => true,
-                        'position' => 'right',
-                        'type' => 'linear',
-                        'ticks' => ['callback' => '__TICKS2__',],
+    $scales->yAxes[] = ['display' => true,
+                        'bottom' => $loss_min_value,
+                        'scaleLabel' => ['display' => true,
+                                         'labelString' => '失点',
+                                         'fontColor' => 'black',
+                                        ],
                        ];
-
-    $annotations[] = ['type' => 'line',
-                      'mode' => 'horizontal',
-                      'scaleID' => 'y-axis-0',
-                      'value' => 0,
-                      'borderColor' => 'rgba(0,0,0,0)',
-                      'borderWidth' => 1,
-                     ];
-    $annotations[] = ['type' => 'line',
-                      'mode' => 'horizontal',
-                      'scaleID' => 'y-axis-0',
-                      'value' => 10000,
-                      'borderColor' => 'red',
-                      'borderWidth' => 1,
-                     ];
-    $annotations[] = ['type' => 'line',
-                      'mode' => 'horizontal',
-                      'scaleID' => 'y-axis-1',
-                      'value' => 0,
-                      'borderColor' => 'rgba(0,0,0,0)',
-                      'borderWidth' => 1,
-                     ];
-    $annotations[] = ['type' => 'line',
-                      'mode' => 'horizontal',
-                      'scaleID' => 'y-axis-1',
-                      'value' => 1000,
-                      'borderColor' => 'rgba(0,0,0,0)',
-                      'borderWidth' => 1,
-                     ];
-    $chart_data = ['type' => 'line',
-                   'data' => ['labels' => $labels,
-                              'datasets' => $datasets,
-                             ],
-                   'options' => ['legend' => ['display' => true,
-                                              'labels' => ['usePointStyle' => true
-                                                          ],
-                                             ],
-                                 'animation' => ['duration' => 0,
-                                                ],
-                                 'hover' => ['animationDuration' => 0,
-                                            ],
-                                 'responsiveAnimationDuration' => 0,
-                                 'scales' => $scales,
-                                 'annotation' => ['annotations' => $annotations,
-                                                 ],
-                                ],
-                  ];
-
-    $tmp = str_replace('"__TICKS1__"', "function(value){return value.toLocaleString();}", json_encode($chart_data));
-    $tmp = str_replace('"__TICKS2__"', "function(value){return value.toLocaleString() + 'MB';}", $tmp);
-
-    $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
-    $res = $mu_->get_contents($url);
-
-    $im1 = imagecreatefromstring($res);
-    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
-    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
-    imagealphablending($im2, false);
-    imagesavealpha($im2, true);
-    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
-    imagedestroy($im1);
-
-    $file = tempnam("/tmp", md5(microtime(true)));
-    imagepng($im2, $file, 9);
-    imagedestroy($im2);
-    $res = file_get_contents($file);
-    unlink($file);
-
-    header('Content-Type: image/png');
-    echo $res;
-}
-
-function make_database2($mu_, $file_name_rss_items_)
-{
-    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-
-    for ($i = 0; $i < (int)date('t'); $i++) {
-        $labels[] = $i + 1;
-    }
-
-    $datasets = [];
-
-    $list = [['target' => 'toodledo',
-              'color' => 'green',
-              'size_color' => 'red',
-             ],
-             ['target' => 'ttrss',
-              'color' => 'deepskyblue',
-              'size_color' => 'orange',
-             ],
-             ['target' => 'redmine',
-              'color' => 'blue',
-              'size_color' => 'yellow',
-             ],
+    $data = ['type' => 'bubble',
+             'data' => ['datasets' => $datasets],
+             'options' => ['legend' => ['position' => 'bottom',
+                                        'labels' => ['fontSize' => 10,
+                                                     'fontColor' => 'black',
+                                                    ],
+                                       ],
+                           'scales' => $scales,
+                           'annotation' => ['annotations' => [['type' => 'line',
+                                                               'mode' => 'vertical',
+                                                               'scaleID' => 'x-axis-0',
+                                                               'value' => $gain_avg,
+                                                               'borderColor' => 'black',
+                                                               'borderWidth' => 1,
+                                                              ],
+                                                              ['type' => 'line',
+                                                               'mode' => 'horizontal',
+                                                               'scaleID' => 'y-axis-0',
+                                                               'value' => $loss_avg,
+                                                               'borderColor' => 'black',
+                                                               'borderWidth' => 1,
+                                                              ],
+                                                             ],
+                                           ],
+                           'animation' => ['duration' => 0,],
+                           'hover' => ['animationDuration' => 0,],
+                           'responsiveAnimationDuration' => 0,
+                          ],
             ];
-
-    $annotations = [];
-    $level = 10000;
-    foreach ($list as $one_data) {
-        error_log(print_r($one_data, true));
-        $keyword = strtolower($one_data['target']);
-        for ($i = 0; $i < strlen($keyword); $i++) {
-            $keyword[$i] = chr(ord($keyword[$i]) + 1);
-        }
-
-        $res = $mu_->search_blog($keyword . 'sfdpsedpvou');
-
-        $data2 = [];
-        foreach (explode(' ', $res) as $item) {
-            $tmp1 = explode(',', $item);
-            $tmp2 = new stdClass();
-            $tmp2->x = (int)$tmp1[0];
-            $tmp2->y = (int)$tmp1[1];
-            $data2[] = $tmp2;
-        }
-
-        if (count($data2) < 2) {
-            return;
-        }
-
-        $level -= 1000;
-        $annotations[] = ['type' => 'line',
-                          'mode' => 'horizontal',
-                          'scaleID' => 'y-axis-0',
-                          'value' => $level,
-                          'borderColor' => 'rgba(0,0,0,0)',
-                          'borderWidth' => 1,
-                          'label' => ['enabled' => true,
-                                      'content' => number_format(end($data2)->y),
-                                      'position' => 'left',
-                                      'backgroundColor' => $one_data['color'],
-                                     ],
-                         ];
-
-        $datasets[] = ['data' => $data2,
-                       'fill' => false,
-                       'pointStyle' => 'circle',
-                       'backgroundColor' => $one_data['color'],
-                       'borderColor' => $one_data['color'],
-                       'borderWidth' => 3,
-                       'pointRadius' => 4,
-                       'pointBorderWidth' => 0,
-                       'label' => $one_data['target'] . ' record',
-                       'yAxisID' => 'y-axis-0',
-                      ];
-
-        $res = $mu_->search_blog($keyword . 'ebubcbtftjaf');
-
-        $data3 = [];
-        foreach (explode(' ', $res) as $item) {
-            $tmp1 = explode(',', $item);
-            $tmp2 = new stdClass();
-            $tmp2->x = (int)$tmp1[0];
-            $tmp2->y = ceil((int)$tmp1[1] / 1024 / 1024);
-            $data3[] = $tmp2;
-        }
-
-        $annotations[] = ['type' => 'line',
-                          'mode' => 'horizontal',
-                          'scaleID' => 'y-axis-0',
-                          'value' => $level,
-                          'borderColor' => 'rgba(0,0,0,0)',
-                          // 'borderWidth' => 1,
-                          'label' => ['enabled' => true,
-                                      'content' => number_format(end($data3)->y),
-                                      'position' => 'right',
-                                      'backgroundColor' => $one_data['size_color'],
-                                      'fontColor' => 'black',
-                                     ],
-                         ];
-
-        $datasets[] = ['data' => $data3,
-                       'fill' => false,
-                       'pointStyle' => 'star',
-                       'backgroundColor' => $one_data['size_color'],
-                       'borderColor' => $one_data['size_color'],
-                       'borderWidth' => 2,
-                       'pointRadius' => 3,
-                       'pointBorderWidth' => 0,
-                       'label' => 'size',
-                       'yAxisID' => 'y-axis-1',
-                      ];
-    }
-
-    $scales = new stdClass();
-    $scales->yAxes[] = ['id' => 'y-axis-0',
-                        'display' => true,
-                        'position' => 'left',
-                        // 'type' => 'linear',
-                        'ticks' => ['callback' => '__CALLBACK_1__',],
-                       ];
-    $scales->yAxes[] = ['id' => 'y-axis-1',
-                        'display' => true,
-                        'position' => 'right',
-                        // 'type' => 'linear',
-                        'ticks' => ['callback' => '__CALLBACK_2__',],
-                       ];
-
-    $annotations[] = ['type' => 'line',
-                      'mode' => 'horizontal',
-                      'scaleID' => 'y-axis-0',
-                      'value' => 0,
-                      'borderColor' => 'rgba(0,0,0,0)',
-                      // 'borderWidth' => 1,
-                     ];
-    $annotations[] = ['type' => 'line',
-                      'mode' => 'horizontal',
-                      'scaleID' => 'y-axis-0',
-                      'value' => 10000,
-                      'borderColor' => 'red',
-                      // 'borderWidth' => 1,
-                     ];
-    $annotations[] = ['type' => 'line',
-                      'mode' => 'horizontal',
-                      'scaleID' => 'y-axis-1',
-                      'value' => 0,
-                      'borderColor' => 'rgba(0,0,0,0)',
-                      // 'borderWidth' => 1,
-                     ];
-    $annotations[] = ['type' => 'line',
-                      'mode' => 'horizontal',
-                      'scaleID' => 'y-axis-1',
-                      'value' => 1000,
-                      'borderColor' => 'rgba(0,0,0,0)',
-                      // 'borderWidth' => 1,
-                     ];
-
-    $chart_data = ['type' => 'line',
-                   'data' => ['labels' => $labels,
-                              'datasets' => $datasets,
-                             ],
-                   'options' => ['legend' => [// 'display' => true,
-                                              'labels' => ['usePointStyle' => true
-                                                          ],
-                                             ],
-                                 /*
-                                 'animation' => ['duration' => 0,
-                                                ],
-                                 'hover' => ['animationDuration' => 0,
-                                            ],
-                                 'responsiveAnimationDuration' => 0,
-                                 */
-                                 'scales' => $scales,
-                                 'annotation' => ['annotations' => $annotations,
-                                                 ],
-                                ],
-                  ];
-
-    $tmp = str_replace('"__CALLBACK_1__"', "function(value){return value.toLocaleString();}", json_encode($chart_data));
-    $tmp = str_replace('"__CALLBACK_2__"', "function(value){return value.toLocaleString() + 'MB';}", $tmp);
-
-    $url = 'https://quickchart.io/chart?w=600&h=360&c=' . urlencode($tmp);
+    $url = 'https://quickchart.io/chart?width=600&height=345&c=' . urlencode(json_encode($data));
     $res = $mu_->get_contents($url);
-    error_log('length : ' . strlen($url));
 
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
-    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
+    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2 - 25);
     imagealphablending($im2, false);
     imagesavealpha($im2, true);
-    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
+    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2 - 25, imagesx($im1), imagesy($im1) - 50);
     imagedestroy($im1);
 
-    $file = tempnam("/tmp", md5(microtime(true)));
+    $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
     $res = file_get_contents($file);
