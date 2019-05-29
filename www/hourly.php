@@ -25,23 +25,9 @@ $api_key_yahoo = $mu->get_env('YAHOO_API_KEY', true);
 // cache search off url list
 
 // outlet parking information ここでは呼び捨て 後で回収
-/*
-$urls['https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/outlet_parking_information.php'] = [
-    CURLOPT_TIMEOUT => 3,
-    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-    CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
-];
-*/
 $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/outlet_parking_information.php';
 exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
 
-/*
-$urls[$mu->get_env('URL_TTRSS_1')] = [
-    CURLOPT_TIMEOUT => 3,
-    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-    CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
-];
-*/
 exec('curl --head ' . $mu->get_env('URL_TTRSS_1') . ' > /dev/null 2>&1 &');
 
 $urls[$mu->get_env('URL_AMEDAS')] = null;
