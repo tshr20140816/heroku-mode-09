@@ -28,7 +28,7 @@ function func_20190528($mu_)
     $m = $tmp['f_tuki1'];
     $d = $tmp['f_hi1'];
 
-    $info = "${y}/${m}/${d}";
+    $info = "${y}/${m}/${d}\r\n";
     
     $res = $mu_->get_contents_proxy($url);
     
