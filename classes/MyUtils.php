@@ -1488,6 +1488,9 @@ __HEREDOC__;
 
         curl_multi_close($mh);
 
+        foreach ($cookie as $file) {
+            unlink($file);
+        }
         $total_time = substr((microtime(true) - $time_start), 0, 5) . 'sec';
 
         error_log($log_prefix . 'urls : ' . print_r(array_keys($results), true));
