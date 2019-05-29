@@ -479,15 +479,17 @@ function make_database2($mu_, $file_name_rss_items_)
                    'data' => ['labels' => $labels,
                               'datasets' => $datasets,
                              ],
-                   'options' => ['legend' => ['display' => true,
+                   'options' => ['legend' => [// 'display' => true,
                                               'labels' => ['usePointStyle' => true
                                                           ],
                                              ],
+                                 /*
                                  'animation' => ['duration' => 0,
                                                 ],
                                  'hover' => ['animationDuration' => 0,
                                             ],
                                  'responsiveAnimationDuration' => 0,
+                                 */
                                  'scales' => $scales,
                                  'annotation' => ['annotations' => $annotations,
                                                  ],
