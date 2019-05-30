@@ -141,4 +141,15 @@ __HEREDOC__;
 $count = $pdo->exec($sql);
 error_log('create table result : ' . $count);
 
+$sql = <<< __HEREDOC__
+CREATE TABLE t_blog_post (
+    blog_site character varying(100) NOT NULL,
+    yyyymmdd character varying(8) NOT NULL,
+    post_count int NOT NULL,
+    PRIMARY KEY (blog_site, yyyymmdd)
+);
+__HEREDOC__;
+$count = $pdo->exec($sql);
+error_log('create table result : ' . $count);
+
 $pdo = null;
