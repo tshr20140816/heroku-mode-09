@@ -43,6 +43,12 @@ get_quota($mu, $file_name_blog, 'REDMINE');
 // Database Backup REDMINE
 backup_db($mu, $file_name_blog, 'REDMINE');
 
+// quota REDMINE
+get_quota($mu, $file_name_blog, 'FIRST');
+
+// quota REDMINE
+get_quota($mu, $file_name_blog, 'KYOTO');
+
 // WAON balance check
 check_waon_balance($mu, $file_name_blog);
 
