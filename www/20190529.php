@@ -23,43 +23,32 @@ function func_20190529($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $res = $mu_->get_contents('https://github.com/tshr20140816');
+    $sql = <<< __HEREDOC__
+SELECT T1.yyyymmdd
+      ,T1.post_count
+  FROM t_blog_post T1
+ WHERE T1.blog_site = 'hatena'
+ ORDER BY T1.yyyymmdd DESC
+ LIMIT 25
+;
+__HEREDOC__;
     
-    $rc = preg_match_all('/<rect class="day" .+?data-count="(.+?)".*?data-date="(.+?)"/', $res, $matches, PREG_SET_ORDER);
-    
-    error_log(print_r($matches, true));
+    $pdo = $mu_->get_pdo();
     
     $labels = [];
     $data1 = [];
-    $data2 = [];
-    $data3 = [];
-    $data4 = [];
-    foreach (array_slice($matches, -28) as $match) {
-        if (date('w', strtotime($match[2])) == '0') {
-            $tmp = new stdClass();
-            $tmp->x = substr($match[2], -2);
-            $tmp->y = 0;
-            $data2[] = $tmp;
-        } else if (date('w', strtotime($match[2])) == '6') {
-            $tmp = new stdClass();
-            $tmp->x = substr($match[2], -2);
-            $tmp->y = 0;
-            $data3[] = $tmp;
-        }
+    
+    foreach ($pdo->query($sql) as $row) {
+        $labels[$row['yyyymmdd']] = substr($row['yyyymmdd'], -2);
         $tmp = new stdClass();
-        $tmp->x = substr($match[2], -2);
-        $tmp->y = (int)$match[1];
+        $tmp->x = substr($row['yyyymmdd'], -2);
+        $tmp->y = (int)$row['post_count'];
         $data1[] = $tmp;
-        $labels[] = substr($match[2], -2);
-        
-        if (count($data4) == 0) {
-            $data4[] = $tmp;
-        } else {
-            if ($data4[0]->y < $tmp->y) {
-                $data4[0] = $tmp;
-            }
-        }
     }
+    $pdo = null;
+    
+    ksort($labels);
+    $labels = array_values($labels);
 
     $scales = new stdClass();
     $scales->yAxes[] = ['id' => 'y-axis-0',
@@ -67,39 +56,15 @@ function func_20190529($mu_, $file_name_rss_items_)
                         'position' => 'left',
                         'ticks' => ['beginAtZero' => true,],
                        ];
-    $scales->yAxes[] = ['id' => 'y-axis-1',
-                        'display' => true,
-                        'position' => 'right',
-                        'ticks' => ['beginAtZero' => true,],
-                       ];
     
     $data = ['type' => 'line',
              'data' => ['labels' => $labels,
-                        'datasets' => [['data' => $data2,
-                                        'fill' => false,
-                                        'showLine' => false,
-                                        'pointBackgroundColor' => 'red',
-                                        'pointRadius' => 4,
-                                       ],
-                                       ['data' => $data3,
-                                        'fill' => false,
-                                        'showLine' => false,
-                                        'pointBackgroundColor' => 'blue',
-                                        'pointRadius' => 4,
-                                       ],
-                                       ['data' => $data1,
+                        'datasets' => [['data' => $data1,
                                         'fill' => false,
                                         'borderColor' => 'black',
                                         'borderWidth' => 1,
                                         'pointBackgroundColor' => 'black',
                                         'pointRadius' => 2,
-                                        'yAxisID' => 'y-axis-0',
-                                       ],
-                                       ['data' => $data4,
-                                        'fill' => false,
-                                        'pointBackgroundColor' => 'black',
-                                        'pointRadius' => 2,
-                                        'yAxisID' => 'y-axis-1',
                                        ],
                                       ],
                        ],
@@ -107,7 +72,6 @@ function func_20190529($mu_, $file_name_rss_items_)
                            'animation' => ['duration' => 0,],
                            'hover' => ['animationDuration' => 0,],
                            'responsiveAnimationDuration' => 0,
-                           'scales' => $scales,
                           ],
             ];
 
