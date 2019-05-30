@@ -528,7 +528,11 @@ __HEREDOC__;
         $sql = <<< __HEREDOC__
 INSERT INTO t_blog_post VALUES('hatena', :b_yyyymmdd, 1)
     ON CONFLICT (blog_site, yyyymmdd)
-    DO UPDATE SET post_count = post_count + 1
+    DO UPDATE SET post_count = ( SELECT T1.post_count + 1
+                                   FROM t_blog_post T1
+                                  WHERE T1.blog_site = 'hatena'
+                                    AND T1.yyyymmdd = :b_yyyymmdd
+                               )
 __HEREDOC__;
 
         $pdo = $this->get_pdo();
