@@ -37,13 +37,20 @@ __HEREDOC__;
     
     $labels = [];
     $data1 = [];
-    
+    $data2 = [];
     foreach ($pdo->query($sql) as $row) {
         $labels[$row['yyyymmdd']] = substr($row['yyyymmdd'], -2);
         $tmp = new stdClass();
         $tmp->x = substr($row['yyyymmdd'], -2);
         $tmp->y = (int)$row['post_count'];
         $data1[] = $tmp;
+        if (count($data2) == 0) {
+            $data2[] = $tmp;
+        } else {
+            if ($data2[0]->y < $tmp->y) {
+                $data2[0] = $tmp;
+            }
+        }
     }
     $pdo = null;
     
@@ -54,7 +61,23 @@ __HEREDOC__;
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => true,
                         'position' => 'left',
+                        'ticks' => ['beginAtZero' => true,
+                                    'max' => 100,
+                                   ],
+                       ];
+    
+    $scales = new stdClass();
+    $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'display' => true,
+                        'position' => 'left',
                         'ticks' => ['beginAtZero' => true,],
+                       ];
+    $scales->yAxes[] = ['id' => 'y-axis-1',
+                        'display' => true,
+                        'position' => 'right',
+                        'ticks' => ['beginAtZero' => true,
+                                    'max' => 100,
+                                   ],
                        ];
     
     $data = ['type' => 'line',
@@ -65,6 +88,12 @@ __HEREDOC__;
                                         'borderWidth' => 1,
                                         'pointBackgroundColor' => 'black',
                                         'pointRadius' => 2,
+                                        'yAxisID' => 'y-axis-0',
+                                       ],
+                                       ['data' => $data2,
+                                        'fill' => false,
+                                        'pointRadius' => 1,
+                                        'yAxisID' => 'y-axis-1',
                                        ],
                                       ],
                        ],
@@ -72,6 +101,7 @@ __HEREDOC__;
                            'animation' => ['duration' => 0,],
                            'hover' => ['animationDuration' => 0,],
                            'responsiveAnimationDuration' => 0,
+                           'scales' => $scales,
                           ],
             ];
 
