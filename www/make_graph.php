@@ -1225,15 +1225,15 @@ __HEREDOC__;
                ];
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
-    // $mu_->post_blog_hatena('process time', $description);
-    // $mu_->post_blog_fc2('process time', $description);
+    // $mu_->post_blog_hatena('post count', $description);
+    // $mu_->post_blog_fc2('post count', $description);
     $description = '<![CDATA[' . $description . ']]>';
 
     $rss_item_text = <<< __HEREDOC__
 <item>
 <guid isPermaLink="false">__HASH__</guid>
 <pubDate>__PUBDATE__</pubDate>
-<title>process time</title>
+<title>post count</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
