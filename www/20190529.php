@@ -56,7 +56,7 @@ __HEREDOC__;
     
     ksort($labels);
     $labels = array_values($labels);
-
+    
     $scales = new stdClass();
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => true,
@@ -64,13 +64,6 @@ __HEREDOC__;
                         'ticks' => ['beginAtZero' => true,
                                     'max' => 100,
                                    ],
-                       ];
-    
-    $scales = new stdClass();
-    $scales->yAxes[] = ['id' => 'y-axis-0',
-                        'display' => true,
-                        'position' => 'left',
-                        'ticks' => ['beginAtZero' => true,],
                        ];
     $scales->yAxes[] = ['id' => 'y-axis-1',
                         'display' => true,
