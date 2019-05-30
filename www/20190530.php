@@ -25,15 +25,18 @@ function func_20190530($mu_, $file_name_rss_items_)
     
     $res = $mu_->get_contents('https://github.com/tshr20140816');
     
-    $rc = preg_match_all('/<rect class="day" .+?data-count="(.+?)".*?data-date="(.+?)"/', $res, $matches);
+    $rc = preg_match_all('/<rect class="day" .+?data-count="(.+?)".*?data-date="(.+?)"/', $res, $matches, PREG_SET_ORDER);
     
     error_log(print_r($matches, true));
     
-    $tmp1 = array_slice($matches[1], -30);
-    $tmp2 = array_slice($matches[2], -30);
+    /*
+    $days = array_slice($matches[2], -30);
+    $values = array_slice($matches[1], -30);
     
-    error_log(print_r($tmp1, true));
-    error_log(print_r($tmp2, true));
+    for ($i = 0; $i < count($days); $i++) {
+        
+    }
+    */
     
     return;
     
