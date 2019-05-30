@@ -29,9 +29,27 @@ function func_20190530($mu_, $file_name_rss_items_)
     
     error_log(print_r($matches, true));
     
+    $annotations = [];
     $labels = [];
     $data = [];
-    foreach (array_slice($matches, -30) as $match) {
+    foreach (array_slice($matches, -28) as $match) {
+        if (date('w', strtotime($match[2])) == '0') {
+            $annotations[] = ['type' => 'line',
+                              'mode' => 'vertical',
+                              'scaleID' => 'x-axis-0',
+                              'value' => substr($match[2], -2),
+                              'borderColor' => 'red',
+                              'borderWidth' => 1,
+                             ];
+        } else if (date('w', strtotime($match[2])) == '6') {
+            $annotations[] = ['type' => 'line',
+                              'mode' => 'vertical',
+                              'scaleID' => 'x-axis-0',
+                              'value' => substr($match[2], -2),
+                              'borderColor' => 'blue',
+                              'borderWidth' => 1,
+                             ];
+        }
         $tmp = new stdClass();
         $tmp->x = substr($match[2], -2);
         $tmp->y = (int)$match[1];
@@ -54,6 +72,7 @@ function func_20190530($mu_, $file_name_rss_items_)
                            'animation' => ['duration' => 0,],
                            'hover' => ['animationDuration' => 0,],
                            'responsiveAnimationDuration' => 0,
+                           'annotation' => ['annotations' => $annotations],
                           ],
             ];
 
