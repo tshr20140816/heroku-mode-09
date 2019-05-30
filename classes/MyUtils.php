@@ -525,6 +525,20 @@ __HEREDOC__;
 
         $res = $this->get_contents($url, $options);
 
+        $sql = <<< __HEREDOC__
+INSERT INTO t_blog_post VALUES('hatena', :b_yyyymmdd, 1)
+    ON CONFLICT (blog_site, yyyymmdd)
+    DO UPDATE SET post_count = post_count + 1
+__HEREDOC__;
+
+        $pdo = $this->get_pdo();
+
+        $statement = $pdo->prepare($sql);
+        $rc = $statement->execute([':b_yyyymmdd' => date('Ymd', strtotime('+9 hours'))]);
+        error_log($log_prefix . 'UPSERT $rc : ' . $rc);
+
+        $pdo = null;
+
         error_log($log_prefix . 'RESULT : ' . $res);
     }
 
