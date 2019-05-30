@@ -52,6 +52,16 @@ function func_20190530($mu_, $file_name_rss_items_)
         $labels[] = substr($match[2], -2);
     }
 
+    $scales = new stdClass();
+    $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'display' => true,
+                        'position' => 'left',
+                       ];
+    $scales->yAxes[] = ['id' => 'y-axis-1',
+                        'display' => true,
+                        'position' => 'right',
+                       ];
+    
     $data = ['type' => 'line',
              'data' => ['labels' => $labels,
                         'datasets' => [['data' => $data2,
@@ -72,6 +82,15 @@ function func_20190530($mu_, $file_name_rss_items_)
                                         'borderWidth' => 1,
                                         'pointBackgroundColor' => 'black',
                                         'pointRadius' => 2,
+                                        'yAxisID' => 'y-axis-0',
+                                       ],
+                                       ['data' => $data1,
+                                        'fill' => false,
+                                        'borderColor' => 'black',
+                                        'borderWidth' => 1,
+                                        'pointBackgroundColor' => 'black',
+                                        'pointRadius' => 2,
+                                        'yAxisID' => 'y-axis-1',
                                        ],
                                       ],
                        ],
