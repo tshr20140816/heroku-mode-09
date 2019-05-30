@@ -33,6 +33,7 @@ function func_20190530($mu_, $file_name_rss_items_)
     $data1 = [];
     $data2 = [];
     $data3 = [];
+    $data4 = [];
     foreach (array_slice($matches, -28) as $match) {
         if (date('w', strtotime($match[2])) == '0') {
             $tmp = new stdClass();
@@ -50,16 +51,26 @@ function func_20190530($mu_, $file_name_rss_items_)
         $tmp->y = (int)$match[1];
         $data1[] = $tmp;
         $labels[] = substr($match[2], -2);
+        
+        if (count($data4) == 0) {
+            $data4[] = $tmp;
+        } else {
+            if ($data4[0]->y < $tmp->y) {
+                $data4[0] = $tmp;
+            }
+        }
     }
 
     $scales = new stdClass();
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => true,
                         'position' => 'left',
+                        'ticks' => ['beginAtZero' => true,],
                        ];
     $scales->yAxes[] = ['id' => 'y-axis-1',
                         'display' => true,
                         'position' => 'right',
+                        'ticks' => ['beginAtZero' => true,],
                        ];
     
     $data = ['type' => 'line',
@@ -84,10 +95,8 @@ function func_20190530($mu_, $file_name_rss_items_)
                                         'pointRadius' => 2,
                                         'yAxisID' => 'y-axis-0',
                                        ],
-                                       ['data' => $data1,
+                                       ['data' => $data4,
                                         'fill' => false,
-                                        'borderColor' => 'black',
-                                        'borderWidth' => 1,
                                         'pointBackgroundColor' => 'black',
                                         'pointRadius' => 2,
                                         'yAxisID' => 'y-axis-1',
