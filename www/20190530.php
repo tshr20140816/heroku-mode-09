@@ -37,12 +37,12 @@ function func_20190530($mu_, $file_name_rss_items_)
         if (date('w', strtotime($match[2])) == '0') {
             $tmp = new stdClass();
             $tmp->x = substr($match[2], -2);
-            $tmp;->y = 0;
+            $tmp->y = 0;
             $data2[] = $tmp;
         } else if (date('w', strtotime($match[2])) == '6') {
             $tmp = new stdClass();
             $tmp->x = substr($match[2], -2);
-            $tmp;->y = 0;
+            $tmp->y = 0;
             $data3[] = $tmp;
         }
         $tmp = new stdClass();
