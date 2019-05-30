@@ -29,6 +29,12 @@ function func_20190530($mu_, $file_name_rss_items_)
     
     error_log(print_r($matches, true));
     
+    $tmp1 = array_slice($matches[1], -30);
+    $tmp2 = array_slice($matches[2], -30);
+    
+    error_log(print_r($tmp1, true));
+    error_log(print_r($tmp2, true));
+    
     return;
     
     foreach (json_decode($res)->total as $item) {
