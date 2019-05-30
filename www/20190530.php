@@ -23,66 +23,14 @@ function func_20190530($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $cookie = tempnam('/tmp', md5(microtime(true)));
-
-    for ($i = 0; $i < 5; $i++) {
-        $options = [
-            CURLOPT_COOKIEJAR => $cookie,
-            CURLOPT_COOKIEFILE => $cookie,
-            CURLOPT_FOLLOWLOCATION => false,
-            CURLOPT_HEADER => true,
-        ];
-
-        $url = $mu_->get_env('URL_LOGGLY_USAGE');
-        $res = $mu_->get_contents($url, $options);
-
-        $rc = preg_match('/location: (.+)/i', $res, $match);
-
-        if ($rc != 1) {
-            continue;
-        }
-
-        $url = 'https://my.solarwinds.cloud/v1/login';
-
-        $json = ['email' => $mu_->get_env('LOGGLY_ID', true),
-                 'loginQueryParams' => parse_url(trim($match[1]), PHP_URL_QUERY),
-                 'password' => $mu_->get_env('LOGGLY_PASSWORD', true),
-                ];
-
-        $options = [
-            CURLOPT_COOKIEJAR => $cookie,
-            CURLOPT_COOKIEFILE => $cookie,
-            CURLOPT_POST => true,
-            CURLOPT_HTTPHEADER => ['content-type: application/json'],
-            CURLOPT_POSTFIELDS => json_encode($json),
-        ];
-
-        $res = $mu_->get_contents($url, $options);
-
-        if ($res == '500') {
-            continue;
-        }
-
-        $url = json_decode($res)->redirectUrl;
-
-        $options = [
-            CURLOPT_COOKIEJAR => $cookie,
-            CURLOPT_COOKIEFILE => $cookie,
-        ];
-
-        $res = $mu_->get_contents($url, $options);
-        // error_log($log_prefix . print_r(json_decode($res)->total, true));
-
-        if (strlen($res) > 3) {
-            break;
-        }
-    }
-    unlink($cookie);
-
-    if (strlen($res) == 3) {
-        return 3;
-    }
-
+    $res = $mu_->get_contents('https://github.com/tshr20140816');
+    
+    $rc = preg_match_all('/<rect class="day" .+?data-count="(.+?)".*?data-date="(.+?)"/', $res, $matches);
+    
+    error_log(print_r($matches, true));
+    
+    return;
+    
     foreach (json_decode($res)->total as $item) {
         error_log($log_prefix . date('m/d', $item[0] / 1000) . ' ' . round($item[1] / 1024 / 1024) . 'MB');
         $labels[] = date('d', $item[0] / 1000);
