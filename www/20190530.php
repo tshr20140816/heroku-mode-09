@@ -62,7 +62,7 @@ function func_20190530($mu_, $file_name_rss_items_)
     ];
 
     $res = $mu_->get_contents($url, $options);
-    // error_log($log_prefix . print_r(json_decode($res)->total, true));
+    error_log($log_prefix . print_r(json_decode($res)->total, true));
 
     unlink($cookie);
 
