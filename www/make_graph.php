@@ -264,46 +264,63 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
 
     $cookie = tempnam('/tmp', md5(microtime(true)));
 
-    $options = [
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
-        CURLOPT_FOLLOWLOCATION => false,
-        CURLOPT_HEADER => true,
-    ];
+    for ($i = 0; $i < 5; $i++) {
+        $options = [
+            CURLOPT_COOKIEJAR => $cookie,
+            CURLOPT_COOKIEFILE => $cookie,
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_HEADER => true,
+        ];
 
-    $url = $mu_->get_env('URL_LOGGLY_USAGE');
-    $res = $mu_->get_contents($url, $options);
+        $url = $mu_->get_env('URL_LOGGLY_USAGE');
+        $res = $mu_->get_contents($url, $options);
 
-    $rc = preg_match('/location: (.+)/i', $res, $match);
+        $rc = preg_match('/location: (.+)/i', $res, $match);
 
-    $url = 'https://my.solarwinds.cloud/v1/login';
+        if ($rc != 1) {
+            continue;
+        }
 
-    $json = ['email' => $mu_->get_env('LOGGLY_ID', true),
-             'loginQueryParams' => parse_url(trim($match[1]), PHP_URL_QUERY),
-             'password' => $mu_->get_env('LOGGLY_PASSWORD', true),
-            ];
+        $url = 'https://my.solarwinds.cloud/v1/login';
 
-    $options = [
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
-        CURLOPT_POST => true,
-        CURLOPT_HTTPHEADER => ['content-type: application/json'],
-        CURLOPT_POSTFIELDS => json_encode($json),
-    ];
+        $json = ['email' => $mu_->get_env('LOGGLY_ID', true),
+                 'loginQueryParams' => parse_url(trim($match[1]), PHP_URL_QUERY),
+                 'password' => $mu_->get_env('LOGGLY_PASSWORD', true),
+                ];
 
-    $res = $mu_->get_contents($url, $options);
+        $options = [
+            CURLOPT_COOKIEJAR => $cookie,
+            CURLOPT_COOKIEFILE => $cookie,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => ['content-type: application/json'],
+            CURLOPT_POSTFIELDS => json_encode($json),
+        ];
 
-    $url = json_decode($res)->redirectUrl;
+        $res = $mu_->get_contents($url, $options);
 
-    $options = [
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
-    ];
+        if ($res == '500') {
+            continue;
+        }
 
-    $res = $mu_->get_contents($url, $options);
-    // error_log($log_prefix . print_r(json_decode($res)->total, true));
+        $url = json_decode($res)->redirectUrl;
 
+        $options = [
+            CURLOPT_COOKIEJAR => $cookie,
+            CURLOPT_COOKIEFILE => $cookie,
+        ];
+
+        $res = $mu_->get_contents($url, $options);
+        // error_log($log_prefix . print_r(json_decode($res)->total, true));
+
+        if (strlen($res) > 3) {
+            break;
+        }
+    }
     unlink($cookie);
+
+    if (strlen($res) == 3) {
+        return 3;
+    }
 
     foreach (json_decode($res)->total as $item) {
         error_log($log_prefix . date('m/d', $item[0] / 1000) . ' ' . round($item[1] / 1024 / 1024) . 'MB');
