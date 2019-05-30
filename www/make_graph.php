@@ -343,7 +343,6 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
                            'animation' => ['duration' => 0,],
                            'hover' => ['animationDuration' => 0,],
                            'responsiveAnimationDuration' => 0,
-                           'scales' => $scales,
                            'annotation' => ['annotations' => [['type' => 'line',
                                                                'mode' => 'horizontal',
                                                                'scaleID' => 'y-axis-0',
