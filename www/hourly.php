@@ -1,5 +1,12 @@
 <?php
 
+/*
+hourly
+→ (rainfall)
+→ search_hotel
+  → lib_info * 4
+    → (library_rental_ok)
+*/
 include(dirname(__FILE__) . '/../classes/MyUtils.php');
 
 $pid = getmypid();
