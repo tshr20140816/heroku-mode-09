@@ -83,11 +83,13 @@ __HEREDOC__;
                                         'pointRadius' => 2,
                                         'yAxisID' => 'y-axis-0',
                                        ],
+                                       /*
                                        ['data' => $data2,
                                         'fill' => false,
                                         'pointRadius' => 1,
                                         'yAxisID' => 'y-axis-1',
                                        ],
+                                       */
                                       ],
                        ],
              'options' => ['legend' => ['display' => false,],
