@@ -29,21 +29,14 @@ function func_20190530($mu_, $file_name_rss_items_)
     
     error_log(print_r($matches, true));
     
-    /*
-    $days = array_slice($matches[2], -30);
-    $values = array_slice($matches[1], -30);
-    
-    for ($i = 0; $i < count($days); $i++) {
-        
-    }
-    */
-    
-    return;
-    
-    foreach (json_decode($res)->total as $item) {
-        error_log($log_prefix . date('m/d', $item[0] / 1000) . ' ' . round($item[1] / 1024 / 1024) . 'MB');
-        $labels[] = date('d', $item[0] / 1000);
-        $data[] = round($item[1] / 1024 / 1024);
+    $labels = [];
+    $data = [];
+    foreach (array_slice($matches, -30) as $match) {
+        $tmp = new stdClass();
+        $tmp->x = substr($match[2], -2);
+        $tmp->y = (int)$match[1];
+        $data[] = $tmp;
+        $labels[] = substr($match[2], -2);
     }
 
     $data = ['type' => 'line',
@@ -61,16 +54,6 @@ function func_20190530($mu_, $file_name_rss_items_)
                            'animation' => ['duration' => 0,],
                            'hover' => ['animationDuration' => 0,],
                            'responsiveAnimationDuration' => 0,
-                           'scales' => $scales,
-                           'annotation' => ['annotations' => [['type' => 'line',
-                                                               'mode' => 'horizontal',
-                                                               'scaleID' => 'y-axis-0',
-                                                               'value' => 200,
-                                                               'borderColor' => 'red',
-                                                               'borderWidth' => 1,
-                                                              ],
-                                                             ],
-                                           ],
                           ],
             ];
 
