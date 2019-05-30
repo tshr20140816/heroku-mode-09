@@ -98,6 +98,7 @@ function func_20190530($mu_, $file_name_rss_items_)
                            'animation' => ['duration' => 0,],
                            'hover' => ['animationDuration' => 0,],
                            'responsiveAnimationDuration' => 0,
+                           'scales' => $scales,
                           ],
             ];
 
