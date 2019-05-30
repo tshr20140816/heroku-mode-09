@@ -750,7 +750,9 @@ __HEREDOC__;
             $time_finish = microtime(true);
             $http_code = (string)curl_getinfo($ch, CURLINFO_HTTP_CODE);
             error_log($log_prefix .
-                      "HTTP STATUS CODE : ${http_code} [" . substr(($time_finish - $time_start), 0, 5) . 'sec]');
+                      "HTTP STATUS CODE : ${http_code} [" .
+                      substr(($time_finish - $time_start), 0, 5) . 'sec] ' .
+                      parse_url($url_, PHP_URL_HOST));
             curl_close($ch);
             if (apcu_exists('HTTP_STATUS') === true) {
                 $dic_http_status = apcu_fetch('HTTP_STATUS');
