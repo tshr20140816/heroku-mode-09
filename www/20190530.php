@@ -29,41 +29,48 @@ function func_20190530($mu_, $file_name_rss_items_)
     
     error_log(print_r($matches, true));
     
-    $annotations = [];
     $labels = [];
-    $data = [];
+    $data1 = [];
+    $data2 = [];
+    $data3 = [];
     foreach (array_slice($matches, -28) as $match) {
         if (date('w', strtotime($match[2])) == '0') {
-            $annotations[] = ['type' => 'line',
-                              'mode' => 'vertical',
-                              'scaleID' => 'x-axis-0',
-                              'value' => substr($match[2], -2),
-                              'borderColor' => 'red',
-                              'borderWidth' => 1,
-                             ];
+            $tmp = new stdClass();
+            $tmp->x = substr($match[2], -2);
+            $tmp;->y = 0;
+            $data2[] = $tmp;
         } else if (date('w', strtotime($match[2])) == '6') {
-            $annotations[] = ['type' => 'line',
-                              'mode' => 'vertical',
-                              'scaleID' => 'x-axis-0',
-                              'value' => substr($match[2], -2),
-                              'borderColor' => 'blue',
-                              'borderWidth' => 1,
-                             ];
+            $tmp = new stdClass();
+            $tmp->x = substr($match[2], -2);
+            $tmp;->y = 0;
+            $data3[] = $tmp;
         }
         $tmp = new stdClass();
         $tmp->x = substr($match[2], -2);
         $tmp->y = (int)$match[1];
-        $data[] = $tmp;
+        $data1[] = $tmp;
         $labels[] = substr($match[2], -2);
     }
 
     $data = ['type' => 'line',
              'data' => ['labels' => $labels,
-                        'datasets' => [['data' => $data,
+                        'datasets' => [['data' => $data1,
                                         'fill' => false,
                                         'borderColor' => 'black',
                                         'borderWidth' => 1,
                                         'pointBackgroundColor' => 'black',
+                                        'pointRadius' => 2,
+                                       ],
+                                       ['data' => $data2,
+                                        'fill' => false,
+                                        'showLine' => false,
+                                        'pointBackgroundColor' => 'red',
+                                        'pointRadius' => 2,
+                                       ],
+                                       ['data' => $data3,
+                                        'fill' => false,
+                                        'showLine' => false,
+                                        'pointBackgroundColor' => 'blue',
                                         'pointRadius' => 2,
                                        ],
                                       ],
@@ -72,7 +79,6 @@ function func_20190530($mu_, $file_name_rss_items_)
                            'animation' => ['duration' => 0,],
                            'hover' => ['animationDuration' => 0,],
                            'responsiveAnimationDuration' => 0,
-                           'annotation' => ['annotations' => $annotations],
                           ],
             ];
 
