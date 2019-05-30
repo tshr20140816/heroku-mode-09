@@ -1121,7 +1121,7 @@ __HEREDOC__;
 function make_post_count($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
+
     $sql = <<< __HEREDOC__
 SELECT T1.yyyymmdd
       ,T1.post_count
@@ -1131,31 +1131,23 @@ SELECT T1.yyyymmdd
  LIMIT 25
 ;
 __HEREDOC__;
-    
+
     $pdo = $mu_->get_pdo();
-    
+
     $labels = [];
     $data1 = [];
-    $data2 = [];
     foreach ($pdo->query($sql) as $row) {
         $labels[$row['yyyymmdd']] = substr($row['yyyymmdd'], -2);
         $tmp = new stdClass();
         $tmp->x = substr($row['yyyymmdd'], -2);
         $tmp->y = (int)$row['post_count'];
         $data1[] = $tmp;
-        if (count($data2) == 0) {
-            $data2[] = $tmp;
-        } else {
-            if ($data2[0]->y < $tmp->y) {
-                $data2[0] = $tmp;
-            }
-        }
     }
     $pdo = null;
-    
+
     ksort($labels);
     $labels = array_values($labels);
-    
+
     $scales = new stdClass();
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => true,
@@ -1171,7 +1163,7 @@ __HEREDOC__;
                                     'max' => 100,
                                    ],
                        ];
-    
+
     $data = ['type' => 'line',
              'data' => ['labels' => $labels,
                         'datasets' => [['data' => $data1,
@@ -1181,11 +1173,6 @@ __HEREDOC__;
                                         'pointBackgroundColor' => 'black',
                                         'pointRadius' => 2,
                                         'yAxisID' => 'y-axis-0',
-                                       ],
-                                       ['data' => $data2,
-                                        'fill' => false,
-                                        'pointRadius' => 1,
-                                        'yAxisID' => 'y-axis-1',
                                        ],
                                       ],
                        ],
@@ -1213,7 +1200,7 @@ __HEREDOC__;
     imagedestroy($im2);
     $res = file_get_contents($file);
     unlink($file);
-    
+
     $url = 'https://api.tinify.com/shrink';
     $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                 CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
