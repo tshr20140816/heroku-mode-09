@@ -58,7 +58,7 @@ function func_20190531($mu_, $file_name_rss_items_)
                                 ],
                   ];
     
-    $url = 'https://quickchart.io/chart?w=600&h=360&c=' . urlencode($tmp);
+    $url = 'https://quickchart.io/chart?w=600&h=360&c=' . urlencode(json_encode($chart_data));
     $res = $mu_->get_contents($url);
     $url_length = strlen($url);
     
