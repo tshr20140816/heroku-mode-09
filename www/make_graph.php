@@ -320,7 +320,7 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
     unlink($cookie);
 
     if (strlen($res) == 3) {
-        return 3;
+        return 0;
     }
 
     foreach (json_decode($res)->total as $item) {
@@ -474,7 +474,7 @@ function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
         }
 
         if (count($data2) < 3) {
-            return;
+            return 0;
         }
         if ($data2[0]->x == 0) {
             array_shift($data2);
@@ -788,7 +788,7 @@ function make_database($mu_, $file_name_rss_items_)
         }
 
         if (count($data2) < 2) {
-            return;
+            return 0;
         }
 
         $level -= 1000;
