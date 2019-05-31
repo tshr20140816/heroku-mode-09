@@ -33,7 +33,7 @@ function func_20190531($mu_, $file_name_rss_items_)
         $tmp1 = explode(',', $item);
         $tmp2 = new stdClass();
         $tmp2->x = (int)$tmp1[0];
-        $tmp2->y = (int)$tmp1[1];
+        $tmp2->y = ceil((int)$tmp1[1] / 1024 / 1024);
         $data1[] = $tmp2;
         $labels[] = $tmp2->x;
     }
