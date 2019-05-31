@@ -421,6 +421,24 @@ __HEREDOC__;
         $res = $this->get_contents($url, $options);
         error_log($log_prefix . print_r(json_decode($res), true));
 
+        $sql = <<< __HEREDOC__
+INSERT INTO t_blog_post VALUES('wordpress', :b_yyyymmdd, 1)
+    ON CONFLICT (blog_site, yyyymmdd)
+    DO UPDATE SET post_count = ( SELECT T1.post_count + 1
+                                   FROM t_blog_post T1
+                                  WHERE T1.blog_site = 'wordpress'
+                                    AND T1.yyyymmdd = :b_yyyymmdd
+                               )
+__HEREDOC__;
+
+        $pdo = $this->get_pdo();
+
+        $statement = $pdo->prepare($sql);
+        $rc = $statement->execute([':b_yyyymmdd' => date('Ymd', strtotime('+9 hours'))]);
+        error_log($log_prefix . 'UPSERT $rc : ' . $rc);
+
+        $pdo = null;
+
         /*
         try {
             $url = 'https://' . $username . '.wordpress.com/xmlrpc.php';
