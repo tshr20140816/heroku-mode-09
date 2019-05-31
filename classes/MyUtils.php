@@ -361,6 +361,17 @@ __HEREDOC__;
         return $target_;
     }
 
+    public function to_next_word($target_)
+    {
+        for ($i = 0; $i < strlen($target_); $i++) {
+            $target_[$i] = chr(ord($target_[$i]) + 1);
+            if ($target_[$i] == '{') {
+                $target_[$i] = 'a';
+            }
+        }
+        return $target_;
+    }
+
     public function post_blog_wordpress_async($title_, $description_ = null)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
