@@ -22,4 +22,62 @@ exit();
 function func_20190531($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $keyword = 'ijesjwfvtbhf';
+    
+    $res = $mu_->search_blog($keyword);
+    
+    $data1 = [];
+    
+    foreach (explode(' ', $res) as $item) {
+        $tmp1 = explode(',', $item);
+        $tmp2 = new stdClass();
+        $tmp2->x = (int)$tmp1[0];
+        $tmp2->y = (int)$tmp1[1];
+        $data1[] = $tmp2;
+    }
+
+    $datasets[] = ['data' => $data1,
+                   'fill' => false,
+                   'pointStyle' => 'circle',
+                   'backgroundColor' => 'black',
+                   'borderColor' => 'black',
+                   'borderWidth' => 1,
+                   'pointRadius' => 2,
+                   'pointBorderWidth' => 0,
+                   'label' => 'hidrive',
+                  ];
+    
+    $chart_data = ['type' => 'line',
+                   'data' => ['labels' => $labels,
+                              'datasets' => $datasets,
+                             ],
+                   'options' => ['legend' => ['labels' => ['usePointStyle' => true
+                                                          ],
+                                             ],
+                                ],
+                  ];
+    
+    $url = 'https://quickchart.io/chart?w=600&h=360&c=' . urlencode($tmp);
+    $res = $mu_->get_contents($url);
+    $url_length = strlen($url);
+    
+    $im1 = imagecreatefromstring($res);
+    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
+    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
+    imagealphablending($im2, false);
+    imagesavealpha($im2, true);
+    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
+    imagedestroy($im1);
+    
+    $file = tempnam("/tmp", md5(microtime(true)));
+    imagepng($im2, $file, 9);
+    imagedestroy($im2);
+    $res = file_get_contents($file);
+    unlink($file);
+    
+    header('Content-Type: image/png');
+    echo $res;
+    
+    return $url_length;
 }
