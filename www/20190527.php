@@ -97,7 +97,8 @@ function func_20190527b($mu_, $file_name_rss_items_)
     $tmp1->y = $tmp1->x;
     $data2[] = $tmp1;
     $tmp1 = new stdClass();
-    $tmp1->x = ceil(($gain_max_value > $loss_max_value ? $loss_max_value : $gain_max_value) / 10) * 10;
+    // $tmp1->x = ceil(($gain_max_value > $loss_max_value ? $loss_max_value : $gain_max_value) / 10) * 10;
+    $tmp1->x = ceil(($gain_max_value > $loss_max_value ? $gain_max_value : $loss_max_value) / 10) * 10;
     $tmp1->y = $tmp1->x;
     $data2[] = $tmp1;
 
