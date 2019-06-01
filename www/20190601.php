@@ -31,8 +31,8 @@ function func_20190601($mu_, $file_name_rss_items_)
     $rc = ftp_pasv($ftp_link_id, true);
     error_log('ftp_pasv : ' . $rc);
     
-    $rc = ftp_nlist($ftp_link_id, '.');
-    error_log(print_r($rc, true));
+    // $rc = ftp_nlist($ftp_link_id, '.');
+    // error_log(print_r($rc, true));
     
     $file_name = '/app/phpcs.phar';
     
