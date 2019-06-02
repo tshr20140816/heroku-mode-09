@@ -72,8 +72,14 @@ function func_20190602($mu_, $file_name_blog_)
     $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
     
     foreach ($list_targets as $target) {
-        $data = json_decode($list_contents['https://api.heroku.com/account?' . hash('md5', $target)], true);
-        error_log($log_prefix . '$data : ' . print_r($data, true));
+        $hash = hash('md5', $target);
+        foreach ($list_contents as $url => $contents) {
+            if (substr($url, strlen($hash) * -1), $hash) {
+                $data = json_decode($contents, true);
+                error_log($log_prefix . '$data : ' . print_r($data, true));
+                break;
+            }
+        }
     }
     $list_contents = null;
     
