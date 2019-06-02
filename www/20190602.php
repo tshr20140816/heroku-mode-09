@@ -38,7 +38,7 @@ function func_20190602($mu_, $file_name_blog_)
                                            "Authorization: Bearer ${api_key}",
                                           ]];
         
-        $urls['https://api.heroku.com/account?' . hash('md5', $target)] = $options
+        $urls['https://api.heroku.com/account?' . hash('md5', $target)] = $options;
     }
     
     $multi_options = [
