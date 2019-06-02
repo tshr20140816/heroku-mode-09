@@ -100,8 +100,6 @@ function func_20190602($mu_, $file_name_blog_)
     
     return;
 
-    $quota = $dyno_quota - $dyno_used;
-
     $keyword = strtolower($target_);
     for ($i = 0; $i < strlen($keyword); $i++) {
         $keyword[$i] = chr(ord($keyword[$i]) + 1);
@@ -111,7 +109,7 @@ function func_20190602($mu_, $file_name_blog_)
     $description = '';
     $j = (int)date('j', strtotime('+9hours'));
     if ($j != 1) {
-        $description = $mu_->search_blog($keyword);
+        $description = $mu_->search_blog($mu_->to_next_word('allquota'));
     }
     if (strpos($description, " ${j},") == false) {
         $description = '<div class="' . $keyword . '">' . trim($description . " ${j}," . (int)($quota / 60)) . '</div>';
