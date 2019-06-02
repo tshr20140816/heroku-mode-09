@@ -30,7 +30,7 @@ function func_20190602($mu_, $file_name_blog_)
     } else {
         $api_key = base64_decode(getenv('HEROKU_API_KEY_' . $target_));
     }
-    $url = 'https://api.heroku.com/account?1';
+    $url = 'https://api.heroku.com/account?' . hash('md5', $target_);
 
     $res = $mu_->get_contents(
         $url,
