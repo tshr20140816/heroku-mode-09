@@ -47,24 +47,37 @@ function func_20190602($mu_, $file_name_blog_)
     ];
     $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
     
-    error_log($log_prefix . '$list_contents : ' . print_r($list_contents, true));
-    
+    $urls = [];
     foreach ($list_targets as $target) {
         $data = json_decode($list_contents['https://api.heroku.com/account?' . hash('md5', $target)], true);
         error_log($log_prefix . '$data : ' . print_r($data, true));
 
         $account = explode('@', $data['email'])[0];
-        // $url = "https://api.heroku.com/accounts/${data['id']}/actions/get-quota?" . parse_url($url, PHP_URL_QUERY);
+        if (getenv('HEROKU_API_KEY_' . $target) == '') {
+            $api_key = getenv('HEROKU_API_KEY');
+        } else {
+            $api_key = base64_decode(getenv('HEROKU_API_KEY_' . $target));
+        }
+        $options = [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version=3.account-quotas',
+                                           "Authorization: Bearer ${api_key}",
+                                          ]];
+        $urls["https://api.heroku.com/accounts/${data['id']}/actions/get-quota?" . hash('md5', $target)] = $options;
     }
+    $list_contents = null;
+    
+    $multi_options = [
+        CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 10,
+    ];
+    $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
+    
+    foreach ($list_targets as $target) {
+        $data = json_decode($list_contents['https://api.heroku.com/account?' . hash('md5', $target)], true);
+        error_log($log_prefix . '$data : ' . print_r($data, true));
+    }
+    $list_contents = null;
     
     return;
-    
-    $res = $mu_->get_contents(
-        $url,
-        [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version=3.account-quotas',
-                                "Authorization: Bearer ${api_key}",
-        ]]
-    );
 
     $data = json_decode($res, true);
     error_log($log_prefix . '$data : ' . print_r($data, true));
