@@ -74,7 +74,7 @@ function func_20190602($mu_, $file_name_blog_)
     foreach ($list_targets as $target) {
         $hash = hash('md5', $target);
         foreach ($list_contents as $url => $contents) {
-            if (substr($url, strlen($hash) * -1), $hash) {
+            if (substr($url, strlen($hash) * -1) === $hash) {
                 $data = json_decode($contents, true);
                 error_log($log_prefix . '$data : ' . print_r($data, true));
                 break;
