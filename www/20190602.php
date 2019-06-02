@@ -26,6 +26,9 @@ function func_20190602($mu_, $file_name_blog_)
     $list_targets = [];
     $list_targets[] = 'TOODLEDO';
     $list_targets[] = 'TTRSS';
+    $list_targets[] = 'REDMINE';
+    $list_targets[] = 'FIRST';
+    $list_targets[] = 'KYOTO';
     
     $urls = [];
     foreach ($list_targets as $target) {
