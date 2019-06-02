@@ -22,7 +22,7 @@ if (file_exists('/tmp/' . basename(__FILE__) . '.txt')) {
 $file_name_blog = tempnam("/tmp", 'blog_' .  md5(microtime(true)));
 @unlink($file_name_blog);
 
-exec('composer update > /dev/null 2>&1 &');
+exec('cd /app && composer update > /dev/null 2>&1 &');
 exec('curl --head ' . $mu->get_env('URL_TTRSS_1') . ' > /dev/null 2>&1 &');
 
 // quota TOODLEDO
