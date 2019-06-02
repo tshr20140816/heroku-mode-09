@@ -23,22 +23,34 @@ function func_20190602($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $target_ = 'TOODLEDO';
+    $list_targets = [];
+    $list_targets[] = 'TOODLEDO';
+    $list_targets[] = 'TTRSS';
     
-    if (getenv('HEROKU_API_KEY_' . $target_) == '') {
-        $api_key = getenv('HEROKU_API_KEY');
-    } else {
-        $api_key = base64_decode(getenv('HEROKU_API_KEY_' . $target_));
+    $urls = [];
+    foreach ($list_targets as $target) {
+        if (getenv('HEROKU_API_KEY_' . $target) == '') {
+            $api_key = getenv('HEROKU_API_KEY');
+        } else {
+            $api_key = base64_decode(getenv('HEROKU_API_KEY_' . $target));
+        }
+        $options = [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version=3',
+                                           "Authorization: Bearer ${api_key}",
+                                          ]];
+        
+        $urls['https://api.heroku.com/account?' . hash('md5', $target)] = $options
     }
-    $url = 'https://api.heroku.com/account?' . hash('md5', $target_);
-
-    $res = $mu_->get_contents(
-        $url,
-        [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version=3',
-                                "Authorization: Bearer ${api_key}",
-                               ]]
-    );
-
+    
+    $multi_options = [
+        CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 10,
+    ];
+    $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
+    
+    error_log($log_prefix . '$list_contents : ' . print_r($list_contents, true));
+    
+    return;
+    
     $data = json_decode($res, true);
     error_log($log_prefix . '$data : ' . print_r($data, true));
     
