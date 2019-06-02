@@ -49,16 +49,16 @@ function func_20190602($mu_, $file_name_blog_)
     
     error_log($log_prefix . '$list_contents : ' . print_r($list_contents, true));
     
-    return;
-    
-    $data = json_decode($res, true);
-    error_log($log_prefix . '$data : ' . print_r($data, true));
-    
-    return;
-    
-    $account = explode('@', $data['email'])[0];
-    $url = "https://api.heroku.com/accounts/${data['id']}/actions/get-quota";
+    foreach ($list_targets as $target) {
+        $data = json_decode($list_contents['https://api.heroku.com/account?' . hash('md5', $target)], true);
+        error_log($log_prefix . '$data : ' . print_r($data, true));
 
+        $account = explode('@', $data['email'])[0];
+        $url = "https://api.heroku.com/accounts/${data['id']}/actions/get-quota?" . parse_url($url, PHP_URL_QUERY);
+    }
+    
+    return;
+    
     $res = $mu_->get_contents(
         $url,
         [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version=3.account-quotas',
