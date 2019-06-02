@@ -54,7 +54,7 @@ function func_20190602($mu_, $file_name_blog_)
         error_log($log_prefix . '$data : ' . print_r($data, true));
 
         $account = explode('@', $data['email'])[0];
-        $url = "https://api.heroku.com/accounts/${data['id']}/actions/get-quota?" . parse_url($url, PHP_URL_QUERY);
+        // $url = "https://api.heroku.com/accounts/${data['id']}/actions/get-quota?" . parse_url($url, PHP_URL_QUERY);
     }
     
     return;
