@@ -28,14 +28,14 @@ function func_20190601($mu_, $file_name_rss_items_)
     $rc = ftp_login($ftp_link_id, getenv('TEST_FTP_ID'), getenv('TEST_FTP_PASSWORD'));
     error_log('ftp_login : ' . $rc);
     
-    // $rc = ftp_pasv($ftp_link_id, true);
-    // error_log('ftp_pasv : ' . $rc);
+    $rc = ftp_pasv($ftp_link_id, true);
+    error_log('ftp_pasv : ' . $rc);
     
     // $rc = ftp_chdir($ftp_link_id, '/root');
     // error_log('ftp_chdir : ' . $rc);
 
-    // $rc = ftp_nlist($ftp_link_id, '/root');
-    // error_log(print_r($rc, true));
+    $rc = ftp_nlist($ftp_link_id, './');
+    error_log(print_r($rc, true));
     
     $file_name = '/app/phpcs.phar';
     error_log('file size : ' . filesize($file_name));
