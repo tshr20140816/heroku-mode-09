@@ -23,7 +23,7 @@ function func_20190601($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $ftp_link_id = ftp_connect(getenv('TEST_FTP_SERVER'));
+    $ftp_link_id = ftp_connect(getenv('TEST_FTP_SERVER'), 21);
     
     $rc = ftp_login($ftp_link_id, getenv('TEST_FTP_ID'), getenv('TEST_FTP_PASSWORD'));
     error_log('ftp_login : ' . $rc);
