@@ -9,8 +9,6 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-// set_time_limit(60);
-
 $html = <<< __HEREDOC__
 <html><body>
 <form method="POST" action="./20190603.php" enctype="multipart/form-data">
