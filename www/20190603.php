@@ -11,7 +11,7 @@ $mu = new MyUtils();
 
 // set_time_limit(60);
 
-exec('../bin/unrar /?');
+exec('ls -lang');
 
 $html = <<< __HEREDOC__
 <html><body>
@@ -28,6 +28,10 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
         if (move_uploaded_file($upload_file['tmp_name'], '/tmp/' . $upload_file['name'])) {
             $filesize = filesize('/tmp/' . $upload_file['name']);
             error_log('filesize : ' . $filesize);
+            exec('ls -lang /tmp');
+            exec('pwd');
+            exec('cd /tmp && /app/bin/unrar x ./' . $upload_file['name']);
+            exec('ls -lang /tmp');
         }
     }
 } else {
