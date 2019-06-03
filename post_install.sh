@@ -8,9 +8,6 @@ grep -c -e processor /proc/cpuinfo
 cat /proc/cpuinfo | head -n $(($(cat /proc/cpuinfo | wc -l) / $(grep -c -e processor /proc/cpuinfo)))
 
 pear channel-update pear.php.net > /tmp/pear_php_net.log
-echo 'START'
-cat /tmp/pear_php_net.log
-echo 'FINISH'
 is_succeeded=$(grep -c -e succeeded /tmp/pear_php_net.log)
 if [ ${is_succeeded} != '0' ]; then
     pear install XML_RPC2 &
