@@ -11,7 +11,7 @@ $mu = new MyUtils();
 
 // set_time_limit(60);
 
-exec('/app/bin/unrar --version');
+exec('../bin/unrar /?');
 
 $html = <<< __HEREDOC__
 <html><body>
