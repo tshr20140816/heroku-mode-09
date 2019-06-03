@@ -25,13 +25,17 @@ __HEREDOC__;
 if ($_SERVER["REQUEST_METHOD"] == 'POST') {
     $upload_file = $_FILES['upload_file'];
     if (is_uploaded_file($upload_file['tmp_name'])) {
-        if (move_uploaded_file($upload_file['tmp_name'], '/tmp/' . $upload_file['name'])) {
-            $filesize = filesize('/tmp/' . $upload_file['name']);
+        $tmpdir = microtime(true);
+        exec('mkdir /tmp/' . $tmpdir);
+        $tmpdir = '/tmp/' . $tmpdir . '/';
+        if (move_uploaded_file($upload_file['tmp_name'], $tmpdir . $upload_file['name'])) {
+            $filesize = filesize($tmpdir . $upload_file['name']);
             error_log('filesize : ' . $filesize);
-            exec('ls -lang /tmp >/tmp/log.txt');
-            exec('pwd >>/tmp/log.txt');
-            exec('cd /tmp && /app/bin/unrar x ./' . $upload_file['name']);
-            exec('ls -lang /tmp >>/tmp/log.txt');
+            // exec('ls -lang /tmp >/tmp/log.txt');
+            // exec('pwd >>/tmp/log.txt');
+            exec('cd ' . $tmpdir . ' && /app/bin/unrar x ./' . $upload_file['name']);
+            unlink($tmpdir . $upload_file['name']);
+            exec('ls -lang ' . $tmpdir . ' >>/tmp/log.txt');
             error_log(file_get_contents('/tmp/log.txt'));
         }
     }
