@@ -11,8 +11,6 @@ $mu = new MyUtils();
 
 // set_time_limit(60);
 
-exec('ls -lang');
-
 $html = <<< __HEREDOC__
 <html><body>
 <form method="POST" action="./20190603.php" enctype="multipart/form-data">
@@ -24,7 +22,8 @@ __HEREDOC__;
 
 if ($_SERVER["REQUEST_METHOD"] == 'POST') {
     $upload_file = $_FILES['upload_file'];
-    if (is_uploaded_file($upload_file['tmp_name'])) {
+    if (pathinfo($upload_file['name'], PATHINFO_EXTENSION) === 'rar'
+        && is_uploaded_file($upload_file['tmp_name'])) {
         $tmpdir = microtime(true);
         exec('mkdir /tmp/' . $tmpdir);
         $tmpdir = '/tmp/' . $tmpdir . '/';
