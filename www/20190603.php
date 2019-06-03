@@ -28,10 +28,11 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
         if (move_uploaded_file($upload_file['tmp_name'], '/tmp/' . $upload_file['name'])) {
             $filesize = filesize('/tmp/' . $upload_file['name']);
             error_log('filesize : ' . $filesize);
-            exec('ls -lang /tmp');
-            exec('pwd');
+            exec('ls -lang /tmp >/tmp/log.txt');
+            exec('pwd >>/tmp/log.txt');
             exec('cd /tmp && /app/bin/unrar x ./' . $upload_file['name']);
-            exec('ls -lang /tmp');
+            exec('ls -lang /tmp >>/tmp/log.txt');
+            error_log(file_get_contents('/tmp/log.txt'));
         }
     }
 } else {
