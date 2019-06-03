@@ -11,6 +11,8 @@ $mu = new MyUtils();
 
 // set_time_limit(60);
 
+exec('/app/bin/unrar --version');
+
 $html = <<< __HEREDOC__
 <html><body>
 <form method="POST" action="./20190603.php" enctype="multipart/form-data">
