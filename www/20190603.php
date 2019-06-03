@@ -11,6 +11,10 @@ $mu = new MyUtils();
 
 // set_time_limit(60);
 
+$mu->post_blog_wordpress_async('TEST');
+
+return;
+
 $html = <<< __HEREDOC__
 <html><body>
 <form method="POST" action="./20190603.php" enctype="multipart/form-data">
