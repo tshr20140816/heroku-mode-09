@@ -20,6 +20,7 @@ $url_length['make_heroku_dyno_usage_graph'] = make_heroku_dyno_usage_graph($mu, 
 $url_length['make_database'] = make_database($mu, $file_name_rss_items);
 $url_length['make_process_time'] = make_process_time($mu, $file_name_rss_items);
 $url_length['make_post_count'] = make_post_count($mu, $file_name_rss_items);
+$url_length['make_github_contributions'] = make_github_contributions($mu, $file_name_rss_items);
 $url_length['make_loggly_usage'] = make_loggly_usage($mu, $file_name_rss_items);
 
 $xml_text = <<< __HEREDOC__
@@ -1006,7 +1007,7 @@ function make_process_time($mu_, $file_name_rss_items_)
         $data[] = $tmp;
     }
     $labels = array_reverse($labels);
-    
+
     $datasets[] = ['data' => $data,
                    'fill' => false,
                    'pointStyle' => 'circle',
@@ -1020,7 +1021,7 @@ function make_process_time($mu_, $file_name_rss_items_)
 
     $url = 'https://' . $mu_->get_env('WORDPRESS_USERNAME', true) . '.wordpress.com/?s=make_graph.php';
     $res = $mu_->get_contents($url);
-    
+
     $rc = preg_match_all('/rel="bookmark">.+?\/(.+?) .+? \/make_graph\.php&nbsp;\[(.+?)s\]/', $res, $matches, PREG_SET_ORDER);
 
     $data = [];
@@ -1234,6 +1235,161 @@ __HEREDOC__;
 <guid isPermaLink="false">__HASH__</guid>
 <pubDate>__PUBDATE__</pubDate>
 <title>post count</title>
+<link>http://dummy.local/</link>
+<description>__DESCRIPTION__</description>
+</item>
+__HEREDOC__;
+
+    $rss_item_text = str_replace('__PUBDATE__', date('D, j M Y G:i:s +0900', strtotime('+9 hours')), $rss_item_text);
+    $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
+    $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
+    file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
+
+    return $url_length;
+}
+
+function make_github_contributions($mu_, $file_name_rss_items_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $res = $mu_->get_contents('https://github.com/tshr20140816');
+
+    $rc = preg_match_all('/<rect class="day" .+?data-count="(.+?)".*?data-date="(.+?)"/', $res, $matches, PREG_SET_ORDER);
+
+    error_log(print_r($matches, true));
+
+    $labels = [];
+    $data1 = [];
+    $data2 = [];
+    $data3 = [];
+    $data4 = [];
+    foreach (array_slice($matches, -28) as $match) {
+        if (date('w', strtotime($match[2])) == '0') {
+            $tmp = new stdClass();
+            $tmp->x = substr($match[2], -2);
+            $tmp->y = 0;
+            $data2[] = $tmp;
+        } else if (date('w', strtotime($match[2])) == '6') {
+            $tmp = new stdClass();
+            $tmp->x = substr($match[2], -2);
+            $tmp->y = 0;
+            $data3[] = $tmp;
+        }
+        $tmp = new stdClass();
+        $tmp->x = substr($match[2], -2);
+        $tmp->y = (int)$match[1];
+        $data1[] = $tmp;
+        $labels[] = substr($match[2], -2);
+
+        if (count($data4) == 0) {
+            $data4[] = $tmp;
+        } else {
+            if ($data4[0]->y < $tmp->y) {
+                $data4[0] = $tmp;
+            }
+        }
+    }
+
+    $scales = new stdClass();
+    $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'display' => true,
+                        'position' => 'left',
+                        'ticks' => ['beginAtZero' => true,],
+                       ];
+    $scales->yAxes[] = ['id' => 'y-axis-1',
+                        'display' => true,
+                        'position' => 'right',
+                        'ticks' => ['beginAtZero' => true,],
+                       ];
+
+    $data = ['type' => 'line',
+             'data' => ['labels' => $labels,
+                        'datasets' => [['data' => $data2,
+                                        'fill' => false,
+                                        'showLine' => false,
+                                        'pointBackgroundColor' => 'red',
+                                        'pointRadius' => 4,
+                                       ],
+                                       ['data' => $data3,
+                                        'fill' => false,
+                                        'showLine' => false,
+                                        'pointBackgroundColor' => 'blue',
+                                        'pointRadius' => 4,
+                                       ],
+                                       ['data' => $data1,
+                                        'fill' => false,
+                                        'borderColor' => 'black',
+                                        'borderWidth' => 1,
+                                        'pointBackgroundColor' => 'black',
+                                        'pointRadius' => 2,
+                                        'yAxisID' => 'y-axis-0',
+                                       ],
+                                       ['data' => $data4,
+                                        'fill' => false,
+                                        'pointBackgroundColor' => 'black',
+                                        'pointRadius' => 2,
+                                        'yAxisID' => 'y-axis-1',
+                                       ],
+                                      ],
+                       ],
+             'options' => ['legend' => ['display' => false,],
+                           'animation' => ['duration' => 0,],
+                           'hover' => ['animationDuration' => 0,],
+                           'responsiveAnimationDuration' => 0,
+                           'scales' => $scales,
+                          ],
+            ];
+
+    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . urlencode(json_encode($data));
+    $res = $mu_->get_contents($url);
+    $url_length = strlen($url);
+
+    $im1 = imagecreatefromstring($res);
+    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
+    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
+    imagealphablending($im2, false);
+    imagesavealpha($im2, true);
+    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
+    imagedestroy($im1);
+    $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
+    imagepng($im2, $file, 9);
+    imagedestroy($im2);
+    $res = file_get_contents($file);
+    unlink($file);
+
+    $url = 'https://api.tinify.com/shrink';
+    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+                CURLOPT_POST => true,
+                CURLOPT_BINARYTRANSFER => true,
+                CURLOPT_POSTFIELDS => $res,
+                CURLOPT_HEADER => true,
+               ];
+    $res = $mu_->get_contents($url, $options);
+
+    $tmp = preg_split('/^\r\n/m', $res, 2);
+
+    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
+    error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
+    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
+    $json = json_decode($tmp[1]);
+    error_log($log_prefix . print_r($json, true));
+
+    $url = $json->output->url;
+    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+               ];
+    $res = $mu_->get_contents($url, $options);
+    $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
+    // $mu_->post_blog_hatena('github contributions', $description);
+    // $mu_->post_blog_fc2('github contributions', $description);
+    $description = '<![CDATA[' . $description . ']]>';
+
+    $rss_item_text = <<< __HEREDOC__
+<item>
+<guid isPermaLink="false">__HASH__</guid>
+<pubDate>__PUBDATE__</pubDate>
+<title>github contributions</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
