@@ -40,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
             header('Content-Transfer-Encoding: binary');
             header('Content-type: application/octet-stream');
             header('Content-Disposition: attachment; filename="' . $download_file_name . '"');
+            header('Content-Length: ' . filesize($tmpdir . $download_file_name));
             echo file_get_contents($tmpdir . $download_file_name);
             unlink($tmpdir . $download_file_name);
         }
