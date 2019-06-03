@@ -11,7 +11,7 @@ $mu = new MyUtils();
 
 $html = <<< __HEREDOC__
 <html><body>
-<form method="POST" action="./20190603.php" enctype="multipart/form-data">
+<form method="POST" action="./rar2zip.php" enctype="multipart/form-data">
 <input type="file" name="upload_file" />
 <input type="submit" /> 
 </form>
