@@ -40,6 +40,7 @@ function func_20190601($mu_, $file_name_rss_items_)
     $file_name = '/app/phpcs.phar';
     error_log('file size : ' . filesize($file_name));
     
+    error_log(pathinfo($file_name)['basename']);
     $rc = ftp_put($ftp_link_id, pathinfo($file_name)['basename'], $file_name, FTP_BINARY);
     error_log('ftp_put : ' . $rc);
     
