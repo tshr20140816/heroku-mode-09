@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
             unlink($tmpdir . $upload_file['name']);
             exec('ls -lang ' . $tmpdir . ' >>/tmp/log.txt');
             error_log(file_get_contents('/tmp/log.txt'));
-            exec('zip -r ' . pathinfo($upload_file['name'],  PATHINFO_FILENAME) . '.zip ./');
+            exec('cd ' . $tmpdir . ' && zip -r ' . pathinfo($upload_file['name'],  PATHINFO_FILENAME) . '.zip ./');
             header('Content-Transfer-Encoding: binary');
             header('Content-type: application/octet-stream');
             header('Content-Disposition: attachment; filename="' . pathinfo($upload_file['name'],  PATHINFO_FILENAME) . '.zip' . '"');
