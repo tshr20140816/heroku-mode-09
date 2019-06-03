@@ -41,7 +41,7 @@ function func_20190601($mu_, $file_name_rss_items_)
 
     // $rc = ftp_pwd($ftp_link_id);
     // error_log('ftp_pwd : ' . $rc);
-    $rc = ftp_raw($ftp_link_id, 'PWD');
+    $rc = ftp_raw($ftp_link_id, 'TYPE BIN');
     error_log(print_r($rc, true));
     
     $file_name = '/app/phpcs.phar';
