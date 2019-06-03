@@ -60,6 +60,7 @@ wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/php
 wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar
 
 chmod 755 ./start_web.sh
+chmod 755 ./bin/unrar
 
 wait
 
