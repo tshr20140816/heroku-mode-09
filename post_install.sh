@@ -8,6 +8,8 @@ grep -c -e processor /proc/cpuinfo
 cat /proc/cpuinfo | head -n $(($(cat /proc/cpuinfo | wc -l) / $(grep -c -e processor /proc/cpuinfo)))
 
 pear config-show
+pear config-set default_channel http://pear.php.net
+pear config-show
 pear channel-update pear.php.net > /tmp/pear_php_net.log
 is_succeeded=$(grep -c -e succeeded /tmp/pear_php_net.log)
 if [ ${is_succeeded} != '0' ]; then
