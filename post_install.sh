@@ -16,9 +16,8 @@ is_succeeded=$(grep -c -e succeeded /tmp/pear_php_net.log)
 if [ ${is_succeeded} != '0' ]; then
     pear install XML_RPC2 &
 fi
-pear install XML_RPC2
-wget https://github.com/pyrus/Pyrus/blob/master/pyrus.phar
-php pyrus.phar install pear/XML_RPC2
+# wget https://github.com/pyrus/Pyrus/blob/master/pyrus.phar
+# php pyrus.phar install pear/XML_RPC2
 
 # ***** phppgadmin *****
 
