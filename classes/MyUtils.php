@@ -495,6 +495,21 @@ __HEREDOC__;
         }
     }
 
+    public function post_blog_fc2_async($title_, $description_ = null)
+    {
+        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+        if (is_null($description_)) {
+            $description_ = '.';
+        }
+
+        error_log($log_prefix . 'start exec');
+        exec('php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ../scripts/put_blog_fc2.php ' .
+             base64_encode($title_) . ' ' .
+             base64_encode($description_) . ' >/dev/null &');
+        error_log($log_prefix . 'finish exec');
+    }
+
     public function post_blog_fc2($title_, $description_ = null)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
