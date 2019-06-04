@@ -240,7 +240,7 @@ function make_score_map($mu_, $file_name_rss_items_)
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
     $mu_->post_blog_hatena('Score Map', $description);
-    $mu_->post_blog_fc2('Score Map', $description);
+    $mu_->post_blog_fc2_async('Score Map', $description);
 
     $description = '<![CDATA[' . $description . ']]>';
 
@@ -400,7 +400,7 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
     $mu_->post_blog_hatena('Loggly usage', $description);
-    $mu_->post_blog_fc2('Loggly usage', $description);
+    $mu_->post_blog_fc2_async('Loggly usage', $description);
 
     $description = '<![CDATA[' . $description . ']]>';
 
@@ -584,7 +584,7 @@ function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     $mu_->post_blog_hatena('heroku dyno usage', $description);
-    $mu_->post_blog_fc2('heroku dyno usage', $description);
+    $mu_->post_blog_fc2_async('heroku dyno usage', $description);
     $description = '<![CDATA[' . $description . ']]>';
 
     $rss_item_text = <<< __HEREDOC__
@@ -763,7 +763,7 @@ function make_heroku_dyno_usage_graph2($mu_, $file_name_rss_items_)
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     // $mu_->post_blog_hatena('heroku dyno usage 2', $description);
-    // $mu_->post_blog_fc2('heroku dyno usage 2', $description);
+    // $mu_->post_blog_fc2_async('heroku dyno usage 2', $description);
     $description = '<![CDATA[' . $description . ']]>';
 
     $rss_item_text = <<< __HEREDOC__
@@ -904,7 +904,7 @@ __HEREDOC__;
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     $mu_->post_blog_hatena('waon balance', $description);
-    $mu_->post_blog_fc2('waon balance', $description);
+    $mu_->post_blog_fc2_async('waon balance', $description);
     $description = '<![CDATA[' . $description . ']]>';
 
     $rss_item_text = <<< __HEREDOC__
@@ -1147,7 +1147,7 @@ function make_database($mu_, $file_name_rss_items_)
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     $mu_->post_blog_hatena('database', $description);
-    $mu_->post_blog_fc2('database', $description);
+    $mu_->post_blog_fc2_async('database', $description);
     $description = '<![CDATA[' . $description . ']]>';
 
     $rss_item_text = <<< __HEREDOC__
@@ -1279,7 +1279,7 @@ function make_process_time($mu_, $file_name_rss_items_)
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     // $mu_->post_blog_hatena('process time', $description);
-    // $mu_->post_blog_fc2('process time', $description);
+    // $mu_->post_blog_fc2_async('process time', $description);
     $description = '<![CDATA[' . $description . ']]>';
 
     $rss_item_text = <<< __HEREDOC__
@@ -1408,7 +1408,7 @@ __HEREDOC__;
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     // $mu_->post_blog_hatena('post count', $description);
-    // $mu_->post_blog_fc2('post count', $description);
+    // $mu_->post_blog_fc2_async('post count', $description);
     $description = '<![CDATA[' . $description . ']]>';
 
     $rss_item_text = <<< __HEREDOC__
@@ -1563,7 +1563,7 @@ function make_github_contributions($mu_, $file_name_rss_items_)
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     // $mu_->post_blog_hatena('github contributions', $description);
-    // $mu_->post_blog_fc2('github contributions', $description);
+    // $mu_->post_blog_fc2_async('github contributions', $description);
     $description = '<![CDATA[' . $description . ']]>';
 
     $rss_item_text = <<< __HEREDOC__
@@ -1667,7 +1667,7 @@ function make_storage_usage($mu_, $file_name_rss_items_)
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     // $mu_->post_blog_hatena('storage usage', $description);
-    // $mu_->post_blog_fc2('storage usage', $description);
+    // $mu_->post_blog_fc2_async('storage usage', $description);
     $description = '<![CDATA[' . $description . ']]>';
 
     $rss_item_text = <<< __HEREDOC__
