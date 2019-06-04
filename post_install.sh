@@ -17,7 +17,8 @@ if [ ${is_succeeded} != '0' ]; then
     pear install XML_RPC2 &
 fi
 pear install XML_RPC2
-wget --no-check-certificate https://pear2.php.net/pyrus.phar
+# wget --no-check-certificate https://pear2.php.net/pyrus.phar
+curl -k https://pear2.php.net/pyrus.phar -o pyrus.phar
 php pyrus.phar install pear/XML_RPC2
 
 # ***** phppgadmin *****
