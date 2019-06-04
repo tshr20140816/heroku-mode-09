@@ -10,7 +10,8 @@ cat /proc/cpuinfo | head -n $(($(cat /proc/cpuinfo | wc -l) / $(grep -c -e proce
 pear config-show
 pear config-set default_channel pecl.php.net
 pear config-show
-pear channel-update pear.php.net > /tmp/pear_php_net.log
+# pear channel-update pear.php.net > /tmp/pear_php_net.log
+pear channel-update pecl.php.net > /tmp/pear_php_net.log
 is_succeeded=$(grep -c -e succeeded /tmp/pear_php_net.log)
 if [ ${is_succeeded} != '0' ]; then
     pear install XML_RPC2 &
