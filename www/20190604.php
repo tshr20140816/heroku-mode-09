@@ -10,7 +10,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
 // $mu->post_blog_fc2('TEST');
-$res = $mu->get_contents('https://blog.pear.php.net/feed/', [CURLOPT_SSL_VERIFYPEER => 0,]);
+$res = $mu->get_contents('http://pear.php.net/', [CURLOPT_SSL_VERIFYPEER => false,]);
 error_log($res);
 
 $time_finish = microtime(true);
