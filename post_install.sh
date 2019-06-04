@@ -10,7 +10,7 @@ cat /proc/cpuinfo | head -n $(($(cat /proc/cpuinfo | wc -l) / $(grep -c -e proce
 pear config-show
 pear list-channels
 
-pear channel-update pear.php.net > /tmp/pear_php_net.log
+time pear channel-update pear.php.net > /tmp/pear_php_net.log
 cat /tmp/pear_php_net.log
 is_succeeded=$(grep -c -e succeeded /tmp/pear_php_net.log)
 if [ ${is_succeeded} != '0' ]; then
@@ -23,7 +23,7 @@ fi
 
 pushd www
 # git clone --depth 1 https://github.com/phppgadmin/phppgadmin.git phppgadmin
-git clone --depth=1 -b REL_5-6-0  https://github.com/phppgadmin/phppgadmin.git phppgadmin
+time git clone --depth=1 -b REL_5-6-0  https://github.com/phppgadmin/phppgadmin.git phppgadmin
 cp ../config.inc.php phppgadmin/conf/
 ls -lang phppgadmin
 popd
