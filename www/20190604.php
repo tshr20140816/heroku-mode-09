@@ -9,7 +9,9 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$mu->post_blog_fc2('TEST');
+// $mu->post_blog_fc2('TEST');
+$res = $mu->get_contents('https://blog.pear.php.net/feed/');
+error_log($res);
 
 $time_finish = microtime(true);
 
