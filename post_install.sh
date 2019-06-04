@@ -17,6 +17,7 @@ if [ ${is_succeeded} != '0' ]; then
     pear install XML_RPC2 &
 fi
 pear install XML_RPC2
+php pyrus.phar install pear/XML_RPC2
 
 # ***** phppgadmin *****
 
