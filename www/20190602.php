@@ -108,7 +108,7 @@ __HEREDOC__;
                 $quotas = [];
                 if ($j != 1) {
                     $statement_select->execute([':b_key' => $target]);
-                    $result = $statement->fetchAll();
+                    $result = $statement_select->fetchAll();
                     if (count($result) != 0) {
                         $quotas = json_decode($result[0]['value'], true);
                     }
