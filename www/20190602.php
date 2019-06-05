@@ -74,6 +74,18 @@ function func_20190602($mu_, $file_name_blog_)
     ];
     $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
     
+    $sql_select = <<< __HEREDOC__
+SELECT T1.value
+  FROM t_data_log T1
+ WHERE T1.key = :b_key
+__HEREDOC__;    
+    
+    $sql_upsert = <<< __HEREDOC__
+INSERT INTO t_data_log VALUES(:b_key, :b_value)
+    ON CONFLICT (key)
+    DO UPDATE SET value = :b_value
+__HEREDOC__;
+
     $list_quota = [];
     foreach ($list_targets as $target) {
         $hash = hash('md5', $target);
@@ -90,6 +102,13 @@ function func_20190602($mu_, $file_name_blog_)
                 
                 $quota = $dyno_quota - $dyno_used;
                 $list_quota[$target] = $quota;
+                
+                if ($j == 1) {
+                    $data = "1,${quota}";
+                } else {
+                    
+                }
+                
                 break;
             }
         }
