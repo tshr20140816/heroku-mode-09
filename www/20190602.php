@@ -27,7 +27,7 @@ function func_20190602($mu_, $file_name_blog_)
     $array['20190102'] = '20';
     
     error_log(json_encode($array));
-    error_log(print_r(json_encode($array), true));
+    error_log(print_r(json_decode(json_encode($array), true), true));
     return;
     
     $list_targets = [];
