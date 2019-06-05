@@ -152,4 +152,15 @@ __HEREDOC__;
 $count = $pdo->exec($sql);
 error_log('create table result : ' . $count);
 
+//
+
+$sql = <<< __HEREDOC__
+CREATE TABLE t_data_log (
+    key character varying(128) PRIMARY KEY,
+    value character text
+);
+__HEREDOC__;
+$count = $pdo->exec($sql);
+error_log('create table result : ' . $count);
+
 $pdo = null;
