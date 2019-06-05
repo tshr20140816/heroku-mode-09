@@ -86,6 +86,7 @@ INSERT INTO t_data_log VALUES(:b_key, :b_value)
     DO UPDATE SET value = :b_value
 __HEREDOC__;
 
+    $j = (int)date('j', strtotime('+9hours'));
     $pdo = $mu_->get_pdo();
     $statement_select = $pdo->prepare($sql_select);
     $statement_upsert = $pdo->prepare($sql_upsert);
