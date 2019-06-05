@@ -23,12 +23,14 @@ function func_20190602($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    /*
     $array['20190101'] = '10';
     $array['20190102'] = '20';
     
     error_log(json_encode($array));
     error_log(print_r(json_decode(json_encode($array), true), true));
     return;
+    */
     
     $list_targets = [];
     $list_targets[] = 'TOODLEDO';
@@ -93,7 +95,7 @@ INSERT INTO t_data_log VALUES(:b_key, :b_value)
     DO UPDATE SET value = :b_value
 __HEREDOC__;
 
-    $list_quota = [];
+    $pdo = $mu_->get_pdo();
     foreach ($list_targets as $target) {
         $hash = hash('md5', $target);
         foreach ($list_contents as $url => $contents) {
@@ -108,10 +110,15 @@ __HEREDOC__;
                 error_log($log_prefix . '$dyno_quota : ' . $dyno_quota);
                 
                 $quota = $dyno_quota - $dyno_used;
-                $list_quota[$target] = $quota;
                 
+                $quotas = [];
                 if ($j == 1) {
-                    $data = "1,${quota}";
+                    $quotas[date('Ymd', strtotime('+9 hours'))] = $quota;
+                    $statement = $pdo->prepare($sql_upsert);
+                    $rc = $statement->execute([':b_key' => $target,
+                                               ':b_value' => json_encode($quotas),
+                                              ]);
+                    error_log($log_prefix . 'UPSERT $rc : ' . $rc);
                 } else {
                     
                 }
@@ -121,6 +128,7 @@ __HEREDOC__;
         }
     }
     $list_contents = null;
+    $pdo = null;
     
     error_log($log_prefix . '$list_quota : ' . print_r($list_quota, true));
     
