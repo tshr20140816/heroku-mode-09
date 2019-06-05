@@ -23,6 +23,13 @@ function func_20190602($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $array['20190101'] = '10';
+    $array['20190102'] = '20';
+    
+    error_log(json_encode($array));
+    error_log(print_r(json_encode($array), true));
+    return;
+    
     $list_targets = [];
     $list_targets[] = 'TOODLEDO';
     $list_targets[] = 'TTRSS';
