@@ -1209,8 +1209,10 @@ function make_process_time($mu_, $file_name_rss_items_)
     foreach ($matches as $match) {
         $tmp = new stdClass();
         $tmp->x = $match[1];
-        $tmp->y = $match[2];
-        $data[] = $tmp;
+        if (in_array($tmp->x, $labels)) {
+            $tmp->y = $match[2];
+            $data[] = $tmp;
+        }
     }
 
     $datasets[] = ['data' => $data,
