@@ -20,7 +20,7 @@ CREATE TABLE m_authorization (
 );
 __HEREDOC__;
 $count = $pdo->exec($sql);
-error_log('create table result : ' . $count);
+error_log('m_authorization create table result : ' . $count);
 
 //
 
@@ -32,7 +32,7 @@ CREATE TABLE t_webcache (
 );
 __HEREDOC__;
 $count = $pdo->exec($sql);
-error_log('create table result : ' . $count);
+error_log('t_webcache create table result : ' . $count);
 
 //
 
@@ -45,7 +45,7 @@ CREATE TABLE m_tenki (
 );
 __HEREDOC__;
 $count = $pdo->exec($sql);
-error_log('create table result : ' . $count);
+error_log('m_tenki create table result : ' . $count);
 
 $sql = <<< __HEREDOC__
 CREATE TABLE t_ical (
@@ -53,7 +53,7 @@ CREATE TABLE t_ical (
 );
 __HEREDOC__;
 $count = $pdo->exec($sql);
-error_log('create table result : ' . $count);
+error_log('t_ical create table result : ' . $count);
 
 //
 
@@ -67,7 +67,7 @@ CREATE TABLE t_imageparsehash (
 );
 __HEREDOC__;
 $count = $pdo->exec($sql);
-error_log('create table result : ' . $count);
+error_log('t_imageparsehash create table result : ' . $count);
 
 //
 
@@ -78,7 +78,7 @@ CREATE TABLE m_env (
 );
 __HEREDOC__;
 $count = $pdo->exec($sql);
-error_log('create table result : ' . $count);
+error_log('m_env create table result : ' . $count);
 
 //
 
@@ -91,7 +91,7 @@ CREATE TABLE m_lib_account (
 );
 __HEREDOC__;
 $count = $pdo->exec($sql);
-error_log('create table result : ' . $count);
+error_log('m_lib_account create table result : ' . $count);
 
 //
 
@@ -107,7 +107,7 @@ CREATE TABLE t_check_webpage (
 );
 __HEREDOC__;
 $count = $pdo->exec($sql);
-error_log('create table result : ' . $count);
+error_log('t_check_webpage create table result : ' . $count);
 
 $sql = <<< __HEREDOC__
 CREATE TABLE t_mail (
@@ -118,7 +118,7 @@ CREATE TABLE t_mail (
 )
 __HEREDOC__;
 $count = $pdo->exec($sql);
-error_log('create table result : ' . $count);
+error_log('t_mail create table result : ' . $count);
 
 //
 
@@ -130,7 +130,7 @@ CREATE TABLE t_waon_history (
 );
 __HEREDOC__;
 $count = $pdo->exec($sql);
-error_log('create table result : ' . $count);
+error_log('t_waon_history create table result : ' . $count);
 
 $sql = <<< __HEREDOC__
 CREATE TABLE t_rss (
@@ -150,17 +150,17 @@ CREATE TABLE t_blog_post (
 );
 __HEREDOC__;
 $count = $pdo->exec($sql);
-error_log('create table result : ' . $count);
+error_log('t_blog_post create table result : ' . $count);
 
 //
 
 $sql = <<< __HEREDOC__
 CREATE TABLE t_data_log (
     key character varying(128) PRIMARY KEY,
-    value character text
+    value text
 );
 __HEREDOC__;
 $count = $pdo->exec($sql);
-error_log('create table result : ' . $count);
+error_log('t_data_log create table result : ' . $count);
 
 $pdo = null;
