@@ -22,15 +22,6 @@ exit();
 function func_20190602($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-
-    /*
-    $array['20190101'] = '10';
-    $array['20190102'] = '20';
-    
-    error_log(json_encode($array));
-    error_log(print_r(json_decode(json_encode($array), true), true));
-    return;
-    */
     
     $list_targets = [];
     $list_targets[] = 'TOODLEDO';
@@ -96,6 +87,8 @@ INSERT INTO t_data_log VALUES(:b_key, :b_value)
 __HEREDOC__;
 
     $pdo = $mu_->get_pdo();
+    $statement_select = $pdo->prepare($sql_select);
+    $statement_upsert = $pdo->prepare($sql_upsert);
     foreach ($list_targets as $target) {
         $hash = hash('md5', $target);
         foreach ($list_contents as $url => $contents) {
@@ -112,16 +105,19 @@ __HEREDOC__;
                 $quota = $dyno_quota - $dyno_used;
                 
                 $quotas = [];
-                if ($j == 1) {
-                    $quotas[date('Ymd', strtotime('+9 hours'))] = $quota;
-                    $statement = $pdo->prepare($sql_upsert);
-                    $rc = $statement->execute([':b_key' => $target,
-                                               ':b_value' => json_encode($quotas),
-                                              ]);
-                    error_log($log_prefix . 'UPSERT $rc : ' . $rc);
-                } else {
-                    
+                if ($j != 1) {
+                    $statement_select->execute([':b_key' => $target]);
+                    $result = $statement->fetchAll();
+                    if (count($result) != 0) {
+                        $quotas = json_decode($result[0]['value'], true);
+                    }
+                    $result = null;
                 }
+                $quotas[date('Ymd', strtotime('+9 hours'))] = $quota;
+                $rc = $statement_upsert->execute([':b_key' => $target,
+                                                  ':b_value' => json_encode($quotas),
+                                                 ]);
+                error_log($log_prefix . 'UPSERT $rc : ' . $rc);
                 
                 break;
             }
@@ -130,29 +126,7 @@ __HEREDOC__;
     $list_contents = null;
     $pdo = null;
     
-    error_log($log_prefix . '$list_quota : ' . print_r($list_quota, true));
-    
-    return;
+    // $quota = floor($quota / 86400) . 'd ' . ($quota / 3600 % 24) . 'h ' . ($quota / 60 % 60) . 'm';
 
-    $keyword = strtolower($target_);
-    for ($i = 0; $i < strlen($keyword); $i++) {
-        $keyword[$i] = chr(ord($keyword[$i]) + 1);
-    }
-    $keyword .= 'rvpub';
-
-    $description = '';
-    $j = (int)date('j', strtotime('+9hours'));
-    if ($j != 1) {
-        $description = $mu_->search_blog($mu_->to_next_word('allquota'));
-    }
-    if (strpos($description, " ${j},") == false) {
-        $description = '<div class="' . $keyword . '">' . trim($description . " ${j}," . (int)($quota / 60)) . '</div>';
-        // $mu_->post_blog_hatena($keyword, $description);
-        // $mu_->post_blog_wordpress($keyword, $description);
-        $mu_->post_blog_wordpress_async($keyword, $description);
-    }
-
-    $quota = floor($quota / 86400) . 'd ' . ($quota / 3600 % 24) . 'h ' . ($quota / 60 % 60) . 'm';
-
-    file_put_contents($file_name_blog_, "\nQuota " . strtolower($target_) . " : ${quota}\n", FILE_APPEND);
+    // file_put_contents($file_name_blog_, "\nQuota " . strtolower($target_) . " : ${quota}\n", FILE_APPEND);
 }
