@@ -71,6 +71,7 @@ __HEREDOC__;
         $statement->execute([':b_key' => $one_data['target']]);
         $result = $statement->fetchAll();
         $quotas = json_decode($result[0]['value'], true);
+        error_log(print_r($quotas, true));
 
         $data2 = [];
         foreach ($quotas as $key => $value) {
