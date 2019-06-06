@@ -20,7 +20,6 @@ $time_finish = microtime(true);
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
 
-
 function func_20190606($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
@@ -57,22 +56,28 @@ function func_20190606($mu_, $file_name_rss_items_)
               'planColor' => 'yellow',
              ],
             ];
+    
+    $sql = <<< __HEREDOC__
+SELECT T1.value
+  FROM t_data_log T1
+ WHERE T1.key = :b_key
+__HEREDOC__;
+    
+    $pdo = $mu_->get_pdo();
+    $statement = $pdo->prepare($sql);
+    
     foreach ($list as $one_data) {
         error_log(print_r($one_data, true));
-        $keyword = strtolower($one_data['target']);
-        for ($i = 0; $i < strlen($keyword); $i++) {
-            $keyword[$i] = chr(ord($keyword[$i]) + 1);
-        }
-
-        $res = $mu_->search_blog($keyword . 'rvpub');
+        $statement->execute([':b_key' => $one_data['target']]);
+        $result = $statement->fetchAll();
+        $quotas = json_decode($result[0]['value'], true);
 
         $data2 = [];
-        foreach (explode(' ', $res) as $item) {
-            $tmp1 = explode(',', $item);
-            $tmp2 = new stdClass();
-            $tmp2->x = (int)$tmp1[0] - 1;
-            $tmp2->y = (int)($tmp1[1] / 60);
-            $data2[] = $tmp2;
+        foreach ($quotas as $key => $value) {
+            $tmp = new stdClass();
+            $tmp->x = (int)substr($key, -2) - 1;
+            $tmp->y = (int)($value / 60 / 60);
+            $data2[] = $tmp;
         }
 
         if (count($data2) < 3) {
@@ -117,6 +122,8 @@ function func_20190606($mu_, $file_name_rss_items_)
                       ];
 
     }
+    
+    $pdo = null;
 
     $chart_data = ['type' => 'line',
                    'data' => ['labels' => $labels,
@@ -157,7 +164,6 @@ function func_20190606($mu_, $file_name_rss_items_)
     imagedestroy($im2);
     $res = file_get_contents($file);
     unlink($file);
-
 
     header('Content-Type: image/png');
     echo $res;
