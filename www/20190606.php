@@ -68,7 +68,7 @@ __HEREDOC__;
     
     foreach ($list as $one_data) {
         error_log(print_r($one_data, true));
-        $statement->execute([':b_key' => strtoupper($one_data['target']]));
+        $statement->execute([':b_key' => strtoupper($one_data['target'])]);
         $result = $statement->fetchAll();
         $quotas = json_decode($result[0]['value'], true);
         error_log(print_r($quotas, true));
