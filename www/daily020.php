@@ -237,7 +237,7 @@ __HEREDOC__;
     $list_contents = null;
     $pdo = null;
 
-    file_put_contents($file_name_blog_, "Quota\n" . trim($description), FILE_APPEND);
+    file_put_contents($file_name_blog_, "Quota\n\n" . trim($description), FILE_APPEND);
 }
 
 function get_quota_old($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
