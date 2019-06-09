@@ -21,7 +21,7 @@ function func_20190610($mu_)
     $url = 'https://twitter.com/bs_ponta';
     $res = $mu_->get_contents($url);
     error_log($res);
-    // $rc = preg_match_all('/<p class=".+?>(.+?)<.+?<img .+? src="(.+?)"/s', $res, $matches);
+    // 
     
-    error_log(print_r($matches, true));
+    //error_log(print_r($matches, true));
 }
