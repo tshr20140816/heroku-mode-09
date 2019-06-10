@@ -50,8 +50,8 @@ __HEREDOC__;
         $description = '<img src="data:image/jpg;base64,' . base64_encode($res) . '" />';
         
         $im = imagecreatefromjpeg($match[1]);
-        $res = imagejpeg($im, null, 100);
-        error_log('imagejpeg size : ' . strlen($res));
+        $rc = imagejpeg($im, '/tmp/jpegtest.jpg', 100);
+        error_log('imagejpeg size : ' . filesize('/tmp/jpegtest.jpg'));
         
         $tmp1 = str_replace('__DESCRIPTION__', $description, $rss_item);
         $tmp1 = str_replace('__TITLE__', $match[0], $tmp1);
