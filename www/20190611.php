@@ -9,18 +9,18 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$rc = func_20190610($mu);
+$rc = func_20190611($mu);
 
 $time_finish = microtime(true);
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
 
-function func_20190610($mu_)
+function func_20190611($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $url = 'https://twitter.com/bs_ponta';
+    $url = 'https://twitter.com/JAXA_jp';
     $res = $mu_->get_contents($url);
     
     $tweets = explode('<div class="js-tweet-text-container">', $res);
@@ -64,9 +64,9 @@ __HEREDOC__;
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
 <channel>
-<title>bs_ponta</title>
+<title>jaxa</title>
 <link>http://dummy.local/</link>
-<description>bs_ponta</description>
+<description>jaxa</description>
 __ITEMS__
 </channel>
 </rss>
