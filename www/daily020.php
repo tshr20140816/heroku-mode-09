@@ -1158,13 +1158,13 @@ __HEREDOC__;
 function bs_ponta($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
+
     $url = 'https://twitter.com/bs_ponta';
     $res = $mu_->get_contents($url);
-    
+
     $tweets = explode('<div class="js-tweet-text-container">', $res);
     array_shift($tweets);
-    
+
     $rss_item = <<< __HEREDOC__
 <item>
 <guid isPermaLink="false">__HASH__</guid>
@@ -1174,7 +1174,7 @@ function bs_ponta($mu_)
 <description>__DESCRIPTION__</description>
 </item>
 __HEREDOC__;
-    
+
     $rss_items = [];
     foreach ($tweets as $one_tweet) {
         $rc = preg_match('/<p .+?>(.+?)<.+?<img data-aria-label-part src="(.+?)".+?data-time="(.+?)"/s', $one_tweet, $match);
@@ -1182,23 +1182,23 @@ __HEREDOC__;
         if (count($match) === 0) {
             continue;
         }
-        error_log(print_r($match, true));
-        
+        error_log($log_prefix . print_r($match, true));
+
         $res = $mu_->get_contents($match[1]);
         $description = '<img src="data:image/jpg;base64,' . base64_encode($res) . '" />';
-        
+
         $tmp = str_replace('__DESCRIPTION__', $description, $rss_item);
         $tmp = str_replace('__TITLE__', $match[0], $tmp);
         $tmp = str_replace('__PUBDATE__', date('D, j M Y G:i:s +0900', strtotime('+9hours', $match[2])), $tmp);
         $tmp = str_replace('__HASH__', hash('sha256', $description), $tmp);
-        
+
         if ((strlen(implode('', $rss_items)) + strlen($tmp)) > 900000) {
             break;
         }
-        
+
         $rss_items[] = $tmp;
     }
-    
+
     $xml_text = <<< __HEREDOC__
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
