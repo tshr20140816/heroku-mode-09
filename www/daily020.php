@@ -1189,7 +1189,7 @@ __HEREDOC__;
         
         $tmp = str_replace('__DESCRIPTION__', $description, $rss_item);
         $tmp = str_replace('__TITLE__', $match[0], $tmp);
-        $tmp = str_replace('__PUBDATE__', date('D, j M Y G:i:s +0900', $match[2]), $tmp);
+        $tmp = str_replace('__PUBDATE__', date('D, j M Y G:i:s +0900', strtotime('+9hours', $match[2])), $tmp);
         $tmp = str_replace('__HASH__', hash('sha256', $description), $tmp);
         
         if ((strlen(implode('', $rss_items)) + strlen($tmp)) > 900000) {
