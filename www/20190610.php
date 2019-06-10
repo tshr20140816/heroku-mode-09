@@ -24,6 +24,11 @@ function func_20190610($mu_)
     
     $tmp = explode('<div class="js-tweet-text-container">', $res);
     array_shift($tmp);
-    error_log(print_r($tmp, true));
+    // error_log(print_r($tmp, true));
+    
+    foreach ($tmp as $one_tweet) {
+        $rc = preg_match('/<p .+?>(.+?)<.+?<img data-aria-label-part src="(.+?)".+?data-time="(.+?)"/s', $one_tweet, $match);
+        error_log(print_r($match, true));
+    }
     
 }
