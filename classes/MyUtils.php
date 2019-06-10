@@ -642,7 +642,7 @@ __HEREDOC__;
     public function upload_fc2($file_name_) {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-        error_log($log_prefix . 'filesize : ' . filesize($file_name_));
+        error_log($log_prefix . 'filesize : ' . number_format(filesize($file_name_)));
         $ftp_link_id = ftp_connect($this->get_env('FC2_FTP_SERVER', true));
 
         $rc = ftp_login($ftp_link_id, $this->get_env('FC2_FTP_ID', true), $this->get_env('FC2_FTP_PASSWORD', true));
