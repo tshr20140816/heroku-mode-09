@@ -49,9 +49,34 @@ __HEREDOC__;
         error_log('original size : ' . strlen($res));
         $description = '<img src="data:image/jpg;base64,' . base64_encode($res) . '" />';
         
+        /*
         $im = imagecreatefromjpeg($match[1]);
         $rc = imagejpeg($im, '/tmp/jpegtest.jpg', 100);
         error_log('imagejpeg size : ' . filesize('/tmp/jpegtest.jpg'));
+        */
+        
+        $url = 'https://api.tinify.com/shrink';
+        $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                    CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+                    CURLOPT_POST => true,
+                    CURLOPT_BINARYTRANSFER => true,
+                    CURLOPT_POSTFIELDS => $res,
+                    CURLOPT_HEADER => true,
+                   ];
+        $res = $mu_->get_contents($url, $options);
+        
+        $tmp2 = preg_split('/^\r\n/m', $res, 2);
+        $rc = preg_match('/compression-count: (.+)/i', $tmp2[0], $match);
+        error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
+        
+        $json = json_decode($tmp2[1]);
+        error_log($log_prefix . print_r($json, true));
+        $url = $json->output->url;
+        $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                    CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+                   ];
+        $res = $mu_->get_contents($url, $options);
+        $description = '<img src="data:image/jpeg;base64,' . base64_encode($res) . '" />';
         
         $tmp1 = str_replace('__DESCRIPTION__', $description, $rss_item);
         $tmp1 = str_replace('__TITLE__', $match[0], $tmp1);
