@@ -28,29 +28,14 @@ exec('curl --head ' . $mu->get_env('URL_TTRSS_1') . ' > /dev/null 2>&1 &');
 // quota
 get_quota($mu, $file_name_blog);
 
-// quota TOODLEDO
-// get_quota($mu, $file_name_blog);
-
 // Database Backup TOODLEDO
 backup_db($mu, $file_name_blog);
-
-// quota TTRSS
-// get_quota($mu, $file_name_blog, 'TTRSS');
 
 // Database Backup TTRSS
 backup_db($mu, $file_name_blog, 'TTRSS');
 
-// quota REDMINE
-// get_quota($mu, $file_name_blog, 'REDMINE');
-
 // Database Backup REDMINE
 backup_db($mu, $file_name_blog, 'REDMINE');
-
-// quota FIRST
-// get_quota($mu, $file_name_blog, 'FIRST');
-
-// quota KYOTO
-// get_quota($mu, $file_name_blog, 'KYOTO');
 
 // WAON balance check
 check_waon_balance($mu, $file_name_blog);
@@ -108,6 +93,9 @@ check_version_ruby($mu, $file_name_blog);
 
 // CPU info
 check_cpu_info($mu, $file_name_blog);
+
+// bs_ponta
+bs_ponta($mu);
 
 // fc2 page update
 update_page_fc2($mu);
@@ -237,71 +225,7 @@ __HEREDOC__;
     $list_contents = null;
     $pdo = null;
 
-    file_put_contents($file_name_blog_, "Quota\n\n" . trim($description), FILE_APPEND);
-}
-
-function get_quota_old($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
-{
-    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-
-    if (getenv('HEROKU_API_KEY_' . $target_) == '') {
-        $api_key = getenv('HEROKU_API_KEY');
-    } else {
-        $api_key = base64_decode(getenv('HEROKU_API_KEY_' . $target_));
-    }
-    $url = 'https://api.heroku.com/account';
-
-    $res = $mu_->get_contents(
-        $url,
-        [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version=3',
-                                "Authorization: Bearer ${api_key}",
-                               ]]
-    );
-
-    $data = json_decode($res, true);
-    error_log($log_prefix . '$data : ' . print_r($data, true));
-    $account = explode('@', $data['email'])[0];
-    $url = "https://api.heroku.com/accounts/${data['id']}/actions/get-quota";
-
-    $res = $mu_->get_contents(
-        $url,
-        [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version=3.account-quotas',
-                                "Authorization: Bearer ${api_key}",
-        ]]
-    );
-
-    $data = json_decode($res, true);
-    error_log($log_prefix . '$data : ' . print_r($data, true));
-
-    $dyno_used = (int)$data['quota_used'];
-    $dyno_quota = (int)$data['account_quota'];
-
-    error_log($log_prefix . '$dyno_used : ' . $dyno_used);
-    error_log($log_prefix . '$dyno_quota : ' . $dyno_quota);
-
-    $quota = $dyno_quota - $dyno_used;
-
-    $keyword = strtolower($target_);
-    for ($i = 0; $i < strlen($keyword); $i++) {
-        $keyword[$i] = chr(ord($keyword[$i]) + 1);
-    }
-    $keyword .= 'rvpub';
-
-    $description = '';
-    $j = (int)date('j', strtotime('+9hours'));
-    if ($j != 1) {
-        $description = $mu_->search_blog($keyword);
-    }
-    if (strpos($description, " ${j},") == false) {
-        $description = '<div class="' . $keyword . '">' . trim($description . " ${j}," . (int)($quota / 60)) . '</div>';
-        // $mu_->post_blog_hatena($keyword, $description);
-        // $mu_->post_blog_wordpress($keyword, $description);
-        $mu_->post_blog_wordpress_async($keyword, $description);
-    }
-
-    $quota = floor($quota / 86400) . 'd ' . ($quota / 3600 % 24) . 'h ' . ($quota / 60 % 60) . 'm';
-
-    file_put_contents($file_name_blog_, "\nQuota " . strtolower($target_) . " : ${quota}\n", FILE_APPEND);
+    file_put_contents($file_name_blog_, "Quota\n\n" . trim($description) . "\n", FILE_APPEND);
 }
 
 function check_waon_balance($mu_, $file_name_blog_)
@@ -1229,4 +1153,67 @@ __HEREDOC__;
     $file_name = '/tmp/index.html';
     file_put_contents($file_name, $html);
     $mu_->upload_fc2($file_name);
+}
+
+function bs_ponta($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $url = 'https://twitter.com/bs_ponta';
+    $res = $mu_->get_contents($url);
+    
+    $tweets = explode('<div class="js-tweet-text-container">', $res);
+    array_shift($tweets);
+    
+    $rss_item = <<< __HEREDOC__
+<item>
+<guid isPermaLink="false">__HASH__</guid>
+<pubDate>__PUBDATE__</pubDate>
+<title>__TITLE__</title>
+<link>http://dummy.local/</link>
+<description>__DESCRIPTION__</description>
+</item>
+__HEREDOC__;
+    
+    $rss_items = [];
+    foreach ($tweets as $one_tweet) {
+        $rc = preg_match('/<p .+?>(.+?)<.+?<img data-aria-label-part src="(.+?)".+?data-time="(.+?)"/s', $one_tweet, $match);
+        array_shift($match);
+        if (count($match) === 0) {
+            continue;
+        }
+        error_log(print_r($match, true));
+        
+        $res = $mu_->get_contents($match[1]);
+        $description = '<img src="data:image/jpg;base64,' . base64_encode($res) . '" />';
+        
+        $tmp = str_replace('__DESCRIPTION__', $description, $rss_item);
+        $tmp = str_replace('__TITLE__', $match[0], $tmp);
+        $tmp = str_replace('__PUBDATE__', date('D, j M Y G:i:s +0900', $match[2]), $tmp);
+        $tmp = str_replace('__HASH__', hash('sha256', $description), $tmp);
+        
+        if ((strlen(implode('', $rss_items)) + strlen($tmp)) > 900000) {
+            break;
+        }
+        
+        $rss_items[] = $tmp;
+    }
+    
+    $xml_text = <<< __HEREDOC__
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+<title>bs_ponta</title>
+<link>http://dummy.local/</link>
+<description>bs_ponta</description>
+__ITEMS__
+</channel>
+</rss>
+__HEREDOC__;
+    
+    $file = '/tmp/' . getenv('FC2_RSS_02') . '.xml';
+    file_put_contents($file, str_replace('__ITEMS__', implode('', $rss_items), $xml_text));
+    $mu_->upload_fc2($file);
+    error_log('filesize : ' . filesize($file));
+    unlink($file);
 }
