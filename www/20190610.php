@@ -76,6 +76,7 @@ __HEREDOC__;
                     CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
                    ];
         $res = $mu_->get_contents($url, $options);
+        error_log('api.tinify.com size : ' . strlen($res));
         $description = '<img src="data:image/jpeg;base64,' . base64_encode($res) . '" />';
         
         $tmp1 = str_replace('__DESCRIPTION__', $description, $rss_item);
