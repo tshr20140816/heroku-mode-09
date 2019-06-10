@@ -70,6 +70,6 @@ __HEREDOC__;
     
     $file = '/tmp/' . getenv('FC2_RSS_02') . '.xml';
     file_put_contents($file, str_replace('__ITEMS__', implode('', $rss_items), $xml_text));
-    $mu->upload_fc2($file);
+    $mu_->upload_fc2($file);
     unlink($file);
 }
