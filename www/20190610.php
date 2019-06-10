@@ -46,12 +46,12 @@ __HEREDOC__;
         error_log(print_r($match, true));
         
         $res = $mu_->get_contents($match[1]);
-        error_log('original size : ' . filesize($res));
+        error_log('original size : ' . strlen($res));
         $description = '<img src="data:image/jpg;base64,' . base64_encode($res) . '" />';
         
         $im = imagecreatefromjpeg($match[1]);
         $res = imagejpeg($im, null, 100);
-        error_log('imagejpeg size : ' . filesize($res));
+        error_log('imagejpeg size : ' . strlen($res));
         
         $tmp1 = str_replace('__DESCRIPTION__', $description, $rss_item);
         $tmp1 = str_replace('__TITLE__', $match[0], $tmp1);
