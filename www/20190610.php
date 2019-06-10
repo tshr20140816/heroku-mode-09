@@ -29,6 +29,9 @@ function func_20190610($mu_)
     foreach ($tmp as $one_tweet) {
         $rc = preg_match('/<p .+?>(.+?)<.+?<img data-aria-label-part src="(.+?)".+?data-time="(.+?)"/s', $one_tweet, $match);
         array_shift($match);
+        if (count($match) === 0) {
+            continue;
+        }
         error_log(print_r($match, true));
     }
     
