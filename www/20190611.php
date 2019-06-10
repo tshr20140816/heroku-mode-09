@@ -49,7 +49,7 @@ __HEREDOC__;
         $description = '<img src="data:image/jpg;base64,' . base64_encode($res) . '" />';
         
         $tmp = str_replace('__DESCRIPTION__', $description, $rss_item);
-        $tmp = str_replace('__TITLE__', $match[0], $tmp);
+        $tmp = str_replace('__TITLE__', htmlspecialchars($match[0]), $tmp);
         $tmp = str_replace('__PUBDATE__', date('D, j M Y G:i:s +0900', $match[2]), $tmp);
         $tmp = str_replace('__HASH__', hash('sha256', $description), $tmp);
         
