@@ -18,13 +18,13 @@ exit();
 
 function func_20190610($mu_)
 {
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
     $url = 'https://twitter.com/bs_ponta';
     $res = $mu_->get_contents($url);
-    // error_log($res);
     
-    $tmp = explode('<div class="js-tweet-text-container">', $res);
-    array_shift($tmp);
-    // error_log(print_r($tmp, true));
+    $tweets = explode('<div class="js-tweet-text-container">', $res);
+    array_shift($tweets);
     
     $rss_item = <<< __HEREDOC__
 <item>
@@ -37,7 +37,7 @@ function func_20190610($mu_)
 __HEREDOC__;
     
     $rss_items = [];
-    foreach ($tmp as $one_tweet) {
+    foreach ($tweets as $one_tweet) {
         $rc = preg_match('/<p .+?>(.+?)<.+?<img data-aria-label-part src="(.+?)".+?data-time="(.+?)"/s', $one_tweet, $match);
         array_shift($match);
         if (count($match) === 0) {
@@ -46,45 +46,18 @@ __HEREDOC__;
         error_log(print_r($match, true));
         
         $res = $mu_->get_contents($match[1]);
-        error_log('original size : ' . strlen($res));
         $description = '<img src="data:image/jpg;base64,' . base64_encode($res) . '" />';
         
-        /*
-        $im = imagecreatefromjpeg($match[1]);
-        $rc = imagejpeg($im, '/tmp/jpegtest.jpg', 100);
-        error_log('imagejpeg size : ' . filesize('/tmp/jpegtest.jpg'));
-        */
+        $tmp = str_replace('__DESCRIPTION__', $description, $rss_item);
+        $tmp = str_replace('__TITLE__', $match[0], $tmp);
+        $tmp = str_replace('__PUBDATE__', date('D, j M Y G:i:s +0900', $match[2]), $tmp);
+        $tmp = str_replace('__HASH__', hash('sha256', $description), $tmp);
         
-        $url = 'https://api.tinify.com/shrink';
-        $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                    CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-                    CURLOPT_POST => true,
-                    CURLOPT_BINARYTRANSFER => true,
-                    CURLOPT_POSTFIELDS => $res,
-                    CURLOPT_HEADER => true,
-                   ];
-        $res = $mu_->get_contents($url, $options);
+        if ((strlen(implode('', $rss_items)) + strlen($tmp)) > 900000) {
+            break;
+        }
         
-        $tmp2 = preg_split('/^\r\n/m', $res, 2);
-        $rc = preg_match('/compression-count: (.+)/i', $tmp2[0], $match);
-        error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
-        
-        $json = json_decode($tmp2[1]);
-        error_log($log_prefix . print_r($json, true));
-        $url = $json->output->url;
-        $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                    CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-                   ];
-        $res = $mu_->get_contents($url, $options);
-        error_log('api.tinify.com size : ' . strlen($res));
-        $description = '<img src="data:image/jpeg;base64,' . base64_encode($res) . '" />';
-        
-        $tmp1 = str_replace('__DESCRIPTION__', $description, $rss_item);
-        $tmp1 = str_replace('__TITLE__', $match[0], $tmp1);
-        $tmp1 = str_replace('__PUBDATE__', date('D, j M Y G:i:s +0900', $match[2]), $tmp1);
-        $tmp1 = str_replace('__HASH__', hash('sha256', $description), $tmp1);
-        
-        $rss_items[] = $tmp1;
+        $rss_items[] = $tmp;
     }
     
     $xml_text = <<< __HEREDOC__
