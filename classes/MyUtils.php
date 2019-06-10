@@ -642,22 +642,23 @@ __HEREDOC__;
     public function upload_fc2($file_name_) {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+        error_log($log_prefix . 'filesize : ' . filesize($file_name_));
         $ftp_link_id = ftp_connect($this->get_env('FC2_FTP_SERVER', true));
 
         $rc = ftp_login($ftp_link_id, $this->get_env('FC2_FTP_ID', true), $this->get_env('FC2_FTP_PASSWORD', true));
-        error_log('ftp_login : ' . $rc);
+        error_log($log_prefix . 'ftp_login : ' . $rc);
 
         $rc = ftp_pasv($ftp_link_id, true);
-        error_log('ftp_pasv : ' . $rc);
+        error_log($log_prefix . 'ftp_pasv : ' . $rc);
 
         $rc = ftp_nlist($ftp_link_id, '.');
-        error_log(print_r($rc, true));
+        error_log($log_prefix . print_r($rc, true));
 
         $rc = ftp_put($ftp_link_id, pathinfo($file_name_)['basename'], $file_name_, FTP_ASCII);
-        error_log('ftp_put : ' . $rc);
+        error_log($log_prefix . 'ftp_put : ' . $rc);
 
         $rc = ftp_close($ftp_link_id);
-        error_log('ftp_close : ' . $rc);
+        error_log($log_prefix . 'ftp_close : ' . $rc);
     }
 
     public function search_blog($keyword_)
