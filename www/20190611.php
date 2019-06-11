@@ -33,7 +33,7 @@ function func_20190611($mu_)
 <pubDate>__PUBDATE__</pubDate>
 <title>__TITLE__</title>
 <link>__LINK__</link>
-<description>__DESCRIPTION__</description>
+<description><![CDATA[__DESCRIPTION__]]></description>
 </item>
 __HEREDOC__;
     
