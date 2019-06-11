@@ -57,7 +57,11 @@ __HEREDOC__;
             $extension = explode('/', $rc['mime'])[1];
         }
         if ($rc[0] > 600) {
-            $im_org = imagecreatefromjpeg($filename);
+            if ($extension == 'png') {
+                $im_org = imagecreatefrompng($filename);
+            } else {
+                $im_org = imagecreatefromjpeg($filename);
+            }
             $w = imagesx($im_org);
             $h = imagesy($im_org);
             $im_new = imagecreatetruecolor(600, 600 * $h / $w);
