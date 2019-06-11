@@ -29,7 +29,7 @@ function func_20190611($mu_)
     foreach ($res->channel->item as $item) {
         error_log(print_r($item, true));
         //htmlspecialchars_decode
-        error_log(mb_convert_encoding($item->description, 'UTF-8', 'UTF-16'));
+        error_log(mb_convert_encoding($item->description, 'UTF-8', 'UTF-16LE'));
     }
 }
 
