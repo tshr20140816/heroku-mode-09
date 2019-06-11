@@ -21,7 +21,8 @@ function func_20190611($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
     $url = 'http://twitrss.me/twitter_user_to_rss/?user=JAXA_JP';
-    // $res = $mu_->get_contents($url);
+    $res = $mu_->get_contents($url);
+    error_log(strlen($res));
     
     $res = simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOCDATA);
     // error_log(print_r($res, true));
