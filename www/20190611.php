@@ -47,6 +47,7 @@ __HEREDOC__;
         $url = $match[1];
         
         $res = $mu_->get_contents($url);
+        error_log($log_prefix . 'original size : ' . strlen($res));
         $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
         $filename = tempnam('/tmp', 'image_' . md5(microtime(true)));
         file_put_contents($filename, $res);
@@ -55,7 +56,15 @@ __HEREDOC__;
         if (array_key_exists('mime', $rc) && substr($rc['mime'], 0, 6) == 'image/') {
             $extension = explode('/', $rc['mime'])[1];
         }
-        if ($rc[0] > 600 || $rc[1] > 600) {
+        if ($rc[0] > 600) {
+            $im_org = imagecreatefromjpeg($filename);
+            $w = imagesx($im_org);
+            $h = imagesy($im_org);
+            $im_new = imagecreatetruecolor(600, 600 * $h / $w);
+            imagecopyresampled($im_new, $im_org, 0, 0, 0, 0, 600, 600 * $h / $w, $w, $h);
+            imagejpeg($image_p, $filename, 100);
+            $res = file_get_contents($filename);
+            error_log($log_prefix . 'new size : ' . strlen($res));
         }
         unlink($filename);
         $description = '<img src="data:image/' . $extension . ';base64,' . base64_encode($res) . '" />';
