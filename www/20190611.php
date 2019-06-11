@@ -44,10 +44,16 @@ __HEREDOC__;
             continue;
         }
         error_log(print_r($match, true));
+        $url = $match[1];
         
-        // $res = $mu_->get_contents($match[1]);
-        // $description = '<img src="data:image/jpg;base64,' . base64_encode($res) . '" />';
-        $description = '<img src="' . $match[1] . '" />';
+        $res = $mu_->get_contents($url);
+        $filename = tempnam('/tmp', 'image_' . md5(microtime(true)));
+        file_put_contents($filename, $res);
+        $rc = getimagesize($filename);
+        error_log(print_r($rc, true));
+        unlink($filename);
+        $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
+        $description = '<img src="data:image/' . $extension . ';base64,' . base64_encode($res) . '" />';
         
         $tmp = str_replace('__DESCRIPTION__', $description, $rss_item);
         $tmp = str_replace('__TITLE__', htmlspecialchars($match[0]), $tmp);
