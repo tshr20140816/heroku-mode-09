@@ -45,7 +45,7 @@ __HEREDOC__;
         if ($rc == 1) {
             // error_log($match[1]);
             $res1 = $mu_->get_contents($match[1]);
-            $description = str_replace($match[0], '<img src="data:image/jpeg;base64,' . base64_encode($res1) . '" />');
+            $description = str_replace($match[0], '<img src="data:image/jpeg;base64,' . base64_encode($res1) . '" />', $description);
         }
         $tmp = str_replace('__GUID__', $item->guid, $rss_item);
         $tmp = str_replace('__PUBDATE__', $item->pubDate, $tmp);
