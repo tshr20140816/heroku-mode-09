@@ -62,7 +62,7 @@ __HEREDOC__;
             $h = imagesy($im_org);
             $im_new = imagecreatetruecolor(600, 600 * $h / $w);
             imagecopyresampled($im_new, $im_org, 0, 0, 0, 0, 600, 600 * $h / $w, $w, $h);
-            imagejpeg($image_p, $filename, 100);
+            imagejpeg($im_new, $filename, 100);
             $res = file_get_contents($filename);
             error_log($log_prefix . 'new size : ' . strlen($res));
         }
