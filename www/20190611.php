@@ -45,8 +45,9 @@ __HEREDOC__;
         }
         error_log(print_r($match, true));
         
-        $res = $mu_->get_contents($match[1]);
-        $description = '<img src="data:image/jpg;base64,' . base64_encode($res) . '" />';
+        // $res = $mu_->get_contents($match[1]);
+        // $description = '<img src="data:image/jpg;base64,' . base64_encode($res) . '" />';
+        $description = '<img src="' . $match[1] . '" />';
         
         $tmp = str_replace('__DESCRIPTION__', $description, $rss_item);
         $tmp = str_replace('__TITLE__', htmlspecialchars($match[0]), $tmp);
