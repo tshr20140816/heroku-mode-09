@@ -22,7 +22,13 @@ function func_20190611($mu_)
     
     $url = 'http://twitrss.me/twitter_user_to_rss/?user=JAXA_JP';
     // $res = $mu_->get_contents($url);
-    $res = simplexml_load_file($url);
+    
+    // $res = simplexml_load_file($url);
+    // error_log(print_r($res, true));
+    
+    $doc = new DOMDocument();
+    $doc->load($url);
+    $res = $doc->saveXML();
     error_log(print_r($res, true));
 }
 
