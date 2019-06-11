@@ -75,7 +75,7 @@ __HEREDOC__;
     __ITEMS__
   </channel>
 </rss>      
-__HEREDOC__
+__HEREDOC__;
     
     $file = '/tmp/' . 'test.xml';
     file_put_contents($file, str_replace('__ITEMS__', implode('', $rss_items), $xml_text));
