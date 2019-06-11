@@ -24,7 +24,11 @@ function func_20190611($mu_)
     // $res = $mu_->get_contents($url);
     
     $res = simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOCDATA);
-    error_log(print_r($res, true));
+    // error_log(print_r($res, true));
+    
+    foreach ($res->channel->item as $item) {
+        error_log(print_r($item, true));
+    }
 }
 
 function func_20190611b($mu_)
