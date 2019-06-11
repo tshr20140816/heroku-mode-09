@@ -67,11 +67,14 @@ __HEREDOC__;
             $im_new = imagecreatetruecolor(600, 600 * $h / $w);
             imagecopyresampled($im_new, $im_org, 0, 0, 0, 0, 600, 600 * $h / $w, $w, $h);
             imagejpeg($im_new, $filename, 85);
-            $res = file_get_contents($filename);
-            error_log($log_prefix . 'new size : ' . strlen($res));
+            error_log($log_prefix . 'new size : ' . filesize($filename));
+            if (filesize($filename) < strlen($res)) {
+                $res = file_get_contents($filename);
+                $extension = 'jpeg';
+            }
         }
         unlink($filename);
-        $description = '<img src="data:image/jpeg;base64,' . base64_encode($res) . '" />';
+        $description = '<img src="data:image/' . $extension . ';base64,' . base64_encode($res) . '" />';
         
         $tmp = str_replace('__DESCRIPTION__', $description, $rss_item);
         $tmp = str_replace('__TITLE__', htmlspecialchars($match[0]), $tmp);
