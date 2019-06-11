@@ -22,9 +22,7 @@ function func_20190611($mu_)
     
     $url = 'http://twitrss.me/twitter_user_to_rss/?user=JAXA_JP';
     $res = $mu_->get_contents($url);
-    // error_log(strlen($res));
-    
-    $res = simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOCDATA);
+    $res = simplexml_load_string($res, 'SimpleXMLElement', LIBXML_NOCDATA);
     // error_log(print_r($res, true));
     
     $rss_item = <<< __HEREDOC__
@@ -77,10 +75,9 @@ __HEREDOC__;
 </rss>      
 __HEREDOC__;
     
-    $file = '/tmp/' . 'test.xml';
+    $file = '/tmp/' . getenv('FC2_RSS_04') . '.xml';
     file_put_contents($file, str_replace('__ITEMS__', implode('', $rss_items), $xml_text));
     $mu_->upload_fc2($file);
-    error_log('filesize : ' . filesize($file));
     unlink($file);
 }
 
