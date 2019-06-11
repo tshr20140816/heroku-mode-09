@@ -41,9 +41,37 @@ __HEREDOC__;
         $description = $item->description;
         $rc = preg_match('/<img src="(.+?)".*?>/', $item->description, $match);
         if ($rc == 1) {
-            // error_log($match[1]);
-            $res1 = $mu_->get_contents($match[1]);
-            $description = str_replace($match[0], '<img src="data:image/jpeg;base64,' . base64_encode($res1) . '" />', $description);
+            $url = $match[1];
+            $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
+            $res1 = $mu_->get_contents($url);
+            $filename = tempnam('/tmp', 'image_' . md5(microtime(true)));
+            file_put_contents($filename, $res);
+            $rc = getimagesize($filename);
+            error_log($log_prefix . print_r($rc, true));
+            if (array_key_exists('mime', $rc) && substr($rc['mime'], 0, 6) == 'image/') {
+                $extension = explode('/', $rc['mime'])[1];
+            }
+            if ($rc[0] > 600 && ($extension === 'png' || $extension === 'jpg' || $extension === 'jpeg')) {
+                if ($extension == 'png') {
+                    $im_org = imagecreatefrompng($filename);
+                } else {
+                    $im_org = imagecreatefromjpeg($filename);
+                }
+                $w = imagesx($im_org);
+                $h = imagesy($im_org);
+                $im_new = imagecreatetruecolor(600, 600 * $h / $w);
+                imagecopyresampled($im_new, $im_org, 0, 0, 0, 0, 600, 600 * $h / $w, $w, $h);
+                imagedestroy($im_org);
+                imagejpeg($im_new, $filename, 85);
+                imagedestroy($im_new);
+                error_log($log_prefix . 'new size : ' . filesize($filename));
+                if (filesize($filename) < strlen($res1)) {
+                    $res = file_get_contents($filename);
+                    $extension = 'jpeg';
+                }
+            }
+            unlink($filename);
+            $description = str_replace($match[0], '<img src="data:image/' . "${extension};base64," . base64_encode($res1) . '" />', $description);
         }
         $tmp = str_replace('__GUID__', $item->guid, $rss_item);
         $tmp = str_replace('__PUBDATE__', $item->pubDate, $tmp);
