@@ -66,7 +66,7 @@ __HEREDOC__;
                 imagedestroy($im_new);
                 error_log($log_prefix . 'new size : ' . filesize($filename));
                 if (filesize($filename) < strlen($res1)) {
-                    $res = file_get_contents($filename);
+                    $res1 = file_get_contents($filename);
                     $extension = 'jpeg';
                 }
             }
