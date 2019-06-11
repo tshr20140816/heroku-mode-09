@@ -45,7 +45,7 @@ __HEREDOC__;
             $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
             $res1 = $mu_->get_contents($url);
             $filename = tempnam('/tmp', 'image_' . md5(microtime(true)));
-            file_put_contents($filename, $res);
+            file_put_contents($filename, $res1);
             $rc = getimagesize($filename);
             error_log($log_prefix . print_r($rc, true));
             if (array_key_exists('mime', $rc) && substr($rc['mime'], 0, 6) == 'image/') {
