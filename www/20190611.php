@@ -47,12 +47,15 @@ __HEREDOC__;
         $url = $match[1];
         
         $res = $mu_->get_contents($url);
+        $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
         $filename = tempnam('/tmp', 'image_' . md5(microtime(true)));
         file_put_contents($filename, $res);
         $rc = getimagesize($filename);
         error_log(print_r($rc, true));
         unlink($filename);
-        $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
+        if (array_key_exists('mime', $rc)) {
+            $extension = explode('/', $rc['mime'])[1];
+        }
         $description = '<img src="data:image/' . $extension . ';base64,' . base64_encode($res) . '" />';
         
         $tmp = str_replace('__DESCRIPTION__', $description, $rss_item);
