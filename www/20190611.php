@@ -37,7 +37,7 @@ __HEREDOC__;
     
     $rss_items = [];
     foreach ($res->channel->item as $item) {
-        error_log(print_r($item, true));
+        error_log($log_prefix . print_r($item, true));
         $description = $item->description;
         $rc = preg_match('/<img src="(.+?)".*?>/', $item->description, $match);
         if ($rc == 1) {
