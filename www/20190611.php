@@ -43,7 +43,7 @@ __HEREDOC__;
         if (count($match) === 0) {
             continue;
         }
-        error_log(print_r($match, true));
+        error_log($log_prefix . print_r($match, true));
         $url = $match[1];
         
         $res = $mu_->get_contents($url);
@@ -51,11 +51,13 @@ __HEREDOC__;
         $filename = tempnam('/tmp', 'image_' . md5(microtime(true)));
         file_put_contents($filename, $res);
         $rc = getimagesize($filename);
-        error_log(print_r($rc, true));
-        unlink($filename);
-        if (array_key_exists('mime', $rc)) {
+        error_log($log_prefix . print_r($rc, true));
+        if (array_key_exists('mime', $rc) && substr($rc['mime'], 0, 6) == 'image/') {
             $extension = explode('/', $rc['mime'])[1];
         }
+        if ($rc[0] > 600 || $rc[1] > 600) {
+        }
+        unlink($filename);
         $description = '<img src="data:image/' . $extension . ';base64,' . base64_encode($res) . '" />';
         
         $tmp = str_replace('__DESCRIPTION__', $description, $rss_item);
