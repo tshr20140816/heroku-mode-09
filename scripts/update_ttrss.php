@@ -40,6 +40,7 @@ function update_ttrss($mu_)
     $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_01') . '.xml';
     $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_02') . '.xml';
     $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_03') . '.xml';
+    $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_04') . '.xml';
 
     $json = '{"sid":"' . $session_id . '","op":"getFeeds","cat_id":-3}';
     $res = $mu_->get_contents($url, $options + [CURLOPT_POSTFIELDS => $json,]);
