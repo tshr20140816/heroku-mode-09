@@ -19,25 +19,6 @@ exit();
 function func_20190612($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
-    $ftp_link_id = ftp_connect($mu_->get_env('FC2_FTP_SERVER', true));
-    $rc = ftp_login($ftp_link_id, $mu_->get_env('FC2_FTP_ID', true), $mu_->get_env('FC2_FTP_PASSWORD', true));
-    error_log($log_prefix . 'ftp_login : ' . $rc);
-    $rc = ftp_pasv($ftp_link_id, true);
-    error_log($log_prefix . 'ftp_pasv : ' . $rc);
-    $rc = ftp_nlist($ftp_link_id, '.');
-    error_log($log_prefix . print_r($rc, true));
-    $rc = ftp_delete($ftp_link_id, 'test.xml');
-    error_log($log_prefix . 'ftp_put : ' . $rc);
-    $rc = ftp_nlist($ftp_link_id, '.');
-    error_log($log_prefix . print_r($rc, true));
-    $rc = ftp_close($ftp_link_id);
-    error_log($log_prefix . 'ftp_close : ' . $rc);
-}
-
-function func_20190612b($mu_)
-{
-    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     for ($i = 0; $i < (int)date('t'); $i++) {
         $labels[] = $i + 1;
