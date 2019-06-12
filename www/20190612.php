@@ -30,12 +30,10 @@ function func_20190612($mu_)
               'color' => 'green',
               'size_color' => 'red',
              ],
-             /*
              ['target' => 'ttrss',
               'color' => 'deepskyblue',
               'size_color' => 'orange',
              ],
-             */
              ['target' => 'redmine',
               'color' => 'blue',
               'size_color' => 'yellow',
