@@ -18,7 +18,8 @@ $url_length['make_waon_balance'] = make_waon_balance($mu, $file_name_rss_items);
 $url_length['make_score_map'] = make_score_map($mu, $file_name_rss_items);
 $url_length['make_heroku_dyno_usage_graph'] = make_heroku_dyno_usage_graph($mu, $file_name_rss_items);
 $url_length['make_heroku_dyno_usage_graph2'] = make_heroku_dyno_usage_graph2($mu, $file_name_rss_items);
-$url_length['make_database'] = make_database($mu, $file_name_rss_items);
+$url_length['make_database1'] = make_database($mu, $file_name_rss_items, 1);
+$url_length['make_database2'] = make_database($mu, $file_name_rss_items, 2);
 $url_length['make_process_time'] = make_process_time($mu, $file_name_rss_items);
 $url_length['make_post_count'] = make_post_count($mu, $file_name_rss_items);
 $url_length['make_github_contributions'] = make_github_contributions($mu, $file_name_rss_items);
@@ -941,7 +942,7 @@ __HEREDOC__;
     return $url_length;
 }
 
-function make_database($mu_, $file_name_rss_items_)
+function make_database($mu_, $file_name_rss_items_, $pattern_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -951,19 +952,26 @@ function make_database($mu_, $file_name_rss_items_)
 
     $datasets = [];
 
-    $list = [['target' => 'toodledo',
-              'color' => 'green',
-              'size_color' => 'red',
-             ],
-             ['target' => 'ttrss',
-              'color' => 'deepskyblue',
-              'size_color' => 'orange',
-             ],
-             ['target' => 'redmine',
-              'color' => 'blue',
-              'size_color' => 'yellow',
-             ],
-            ];
+    switch ($pattern_) {
+        case 1:
+            $list = [['target' => 'toodledo',
+                      'color' => 'green',
+                      'size_color' => 'red',
+                     ],
+                     ['target' => 'redmine',
+                      'color' => 'blue',
+                      'size_color' => 'yellow',
+                     ],
+                    ];
+            break;
+        case 2:
+            $list = [['target' => 'ttrss',
+                      'color' => 'deepskyblue',
+                      'size_color' => 'orange',
+                     ],
+                    ];
+            break;
+    }
 
     $annotations = [];
     $level = 10000;
@@ -1162,8 +1170,10 @@ function make_database($mu_, $file_name_rss_items_)
                ];
     $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
-    $mu_->post_blog_hatena('database', $description);
-    $mu_->post_blog_fc2_async('database', $description);
+    if ($pattern_ == 2) {
+        $mu_->post_blog_hatena('database', $description);
+        $mu_->post_blog_fc2_async('database', $description);
+    }
     $description = '<![CDATA[' . $description . ']]>';
 
     $rss_item_text = <<< __HEREDOC__
