@@ -78,6 +78,7 @@ __HEREDOC__;
         $tmp = str_replace('__DESCRIPTION__', trim($description), $tmp);
 
         if ((strlen(implode('', $rss_items)) + strlen($tmp)) > 900000) {
+            error_log($log_prefix . 'OVERFLOW');
             break;
         }
         $rss_items[] = $tmp;
