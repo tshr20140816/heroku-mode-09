@@ -74,7 +74,7 @@ __HEREDOC__;
         $tmp = str_replace('__GUID__', $item->guid, $rss_item);
         $tmp = str_replace('__PUBDATE__', $item->pubDate, $tmp);
         $tmp = str_replace('__LINK__', $item->link, $tmp);
-        $tmp = str_replace('__TITLE__', $item->title, $tmp);
+        $tmp = str_replace('__TITLE__', htmlentities($item->title), $tmp);
         $tmp = str_replace('__DESCRIPTION__', $description, $tmp);
 
         if ((strlen(implode('', $rss_items)) + strlen($tmp)) > 900000) {
