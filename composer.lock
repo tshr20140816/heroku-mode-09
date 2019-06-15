@@ -65,7 +65,7 @@
         },
         {
             "name": "heroku/heroku-buildpack-php",
-            "version": "v156",
+            "version": "v157",
             "source": {
                 "type": "git",
                 "url": "https://github.com/heroku/heroku-buildpack-php.git",
