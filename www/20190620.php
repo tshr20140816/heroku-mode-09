@@ -32,5 +32,10 @@ function func_20190620($mu_)
     error_log(print_r($stations, true));
     
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
+
+    $res = $mu_->get_contents($url);
+    $json = json_decode($res, true);
+    
+    error_log(print_r($json, true));
 }
     
