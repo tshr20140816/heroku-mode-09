@@ -36,6 +36,14 @@ function func_20190620($mu_)
     $res = $mu_->get_contents($url);
     $json = json_decode($res, true);
     
-    error_log(print_r($json, true));
+    // error_log(print_r($json, true));
+    
+    $update_time = $json['update'];
+    $trains = [];
+    foreach ($json['trains'] as $train) {
+        if ($train['delayMinutes'] != '0') {
+            error_log(print_r($train, true));
+        }
+    }
 }
     
