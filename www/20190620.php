@@ -24,8 +24,10 @@ function func_20190620($mu_)
     
     $res = $mu_->get_contents($url, null, true);
     
-    $json = json_decode($res, true);
-    $stations = $json['stations'];
+    $stations = [];
+    foreach (json_decode($res, true)['stations'] as $station) {
+        $stations[$station['info']['code']] = $station['info']['name'];
+    }
     
     error_log(print_r($stations, true));
     
