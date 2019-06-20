@@ -43,6 +43,9 @@ function func_20190620($mu_)
     foreach ($json['trains'] as $train) {
         if ($train['delayMinutes'] != '0') {
             error_log(print_r($train, true));
+            $tmp = explode('_', $train['pos']);
+            $station_name = $stations[$tmp[0]];
+            error_log($station_name);
         }
     }
 }
