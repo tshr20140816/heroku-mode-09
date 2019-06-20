@@ -39,14 +39,22 @@ function func_20190620($mu_)
     // error_log(print_r($json, true));
     
     $update_time = $json['update'];
-    $trains = [];
+    $delays_up = [];
+    $delays_down = [];
     foreach ($json['trains'] as $train) {
         if ($train['delayMinutes'] != '0') {
-            error_log(print_r($train, true));
+            // error_log(print_r($train, true));
             $tmp = explode('_', $train['pos']);
             $station_name = $stations[$tmp[0]];
-            error_log($station_name);
+            // error_log($station_name);
+            if ($train['direction'] == '0') {
+                $delays_down[] = '下り ' . $station_name . ' ' . $train['dest'] . '行き' . $train['displayType'] . ' ' . $train['delayMinutes'] . '分遅れ';
+            } else {
+                $delays_up[] = '上り ' . $station_name . ' ' . $train['dest'] . '行き' . $train['displayType'] . ' ' . $train['delayMinutes'] . '分遅れ';
+            }
         }
     }
+    error_log(print_r($delays_up, true));
+    error_log(print_r($delays_down, true));
 }
     
