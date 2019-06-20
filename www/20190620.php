@@ -48,9 +48,9 @@ function func_20190620($mu_)
             $station_name = $stations[$tmp[0]];
             // error_log($station_name);
             if ($train['direction'] == '0') {
-                $delays_up[] = '上り ' . $station_name . ' ' . $train['dest'] . '行き' . $train['displayType'] . ' ' . $train['delayMinutes'] . '分遅れ';
+                $delays_up[] = '上り ' . $station_name . ' ' . $train['dest'] . '行き ' . $train['displayType'] . ' ' . $train['delayMinutes'] . '分遅れ';
             } else {
-                $delays_down[] = '下り ' . $station_name . ' ' . $train['dest'] . '行き' . $train['displayType'] . ' ' . $train['delayMinutes'] . '分遅れ';
+                $delays_down[] = '下り ' . $station_name . ' ' . $train['dest'] . '行き ' . $train['displayType'] . ' ' . $train['delayMinutes'] . '分遅れ';
             }
         }
     }
