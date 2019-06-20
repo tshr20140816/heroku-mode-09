@@ -63,10 +63,11 @@ function check_train($mu_)
         $description = implode("\n", $delays_up);
     }
     if (count($delays_down) > 0) {
+        $description .= "\n\n";
         $description .= implode("\n", $delays_down);
     }
-    if ($description != '') {
-        $mu_->post_blog_livedoor('TRAIN', $description);
+    if (trim($description) != '') {
+        $mu_->post_blog_livedoor('TRAIN', trim($description));
     }
 }
     
