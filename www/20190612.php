@@ -21,7 +21,16 @@ function func_20190612($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2_st.json';
+    
+    $res = file_get_contents($url);
+    error_log($res);
+    
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
+    
+    $res = file_get_contents($url);
+    error_log($res);
+    
+    return;
     
     for ($i = 0; $i < (int)date('t'); $i++) {
         $labels[] = $i + 1;
