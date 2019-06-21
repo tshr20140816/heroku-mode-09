@@ -31,7 +31,7 @@ class MyUtils
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-        $connection_info = parse_url(getenv('DATABASE_URL'));
+        $connection_info = parse_url(getenv('DATABASE_URL_TOODLEDO'));
         $pdo = new PDO(
             "pgsql:host=${connection_info['host']};dbname=" . substr($connection_info['path'], 1),
             $connection_info['user'],
