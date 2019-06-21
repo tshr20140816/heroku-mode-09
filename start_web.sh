@@ -19,6 +19,26 @@ if [ ! -v DATABASE_URL_TOODLEDO ]; then
   exit
 fi
 
+if [ ! -v ENCRYPT_KEY ]; then
+  echo "Error : ENCRYPT_KEY not defined."
+  exit
+fi
+
+if [ ! -v LOGGLY_TOKEN ]; then
+  echo "Error : LOGGLY_TOKEN not defined."
+  exit
+fi
+
+if [ ! -v TTRSS_USER ]; then
+  echo "Error : TTRSS_USER not defined."
+  exit
+fi
+
+if [ ! -v TTRSS_USER ]; then
+  echo "Error : TTRSS_PASSWORD not defined."
+  exit
+fi
+
 export USER_AGENT=$(curl https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/useragent.txt)
 export DATABASE_URL=${DATABASE_URL_TOODLEDO}
 htpasswd -c -b .htpasswd ${BASIC_USER} ${BASIC_PASSWORD}
