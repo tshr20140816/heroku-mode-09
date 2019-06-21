@@ -22,6 +22,10 @@ pushd classes
 wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/classes/MyUtils.php
 popd
 
+pushd scripts
+wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/update_ttrss.php
+popd
+
 pushd www
 wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/check_train.php
 wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/opcache_compile_file.php
