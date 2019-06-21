@@ -10,6 +10,4 @@ time pear install XML_RPC2
 mkdir classes
 chmod 755 ./start_web.sh
 
-wait
-
 date
