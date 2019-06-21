@@ -14,6 +14,11 @@ if [ ! -v BASIC_PASSWORD ]; then
   exit
 fi
 
+if [ ! -v DATABASE_URL_TOODLEDO ]; then
+  echo "Error : DATABASE_URL_TOODLEDO not defined."
+  exit
+fi
+
 export USER_AGENT=$(curl https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/useragent.txt)
 export DATABASE_URL=${DATABASE_URL_TOODLEDO}
 htpasswd -c -b .htpasswd ${BASIC_USER} ${BASIC_PASSWORD}
