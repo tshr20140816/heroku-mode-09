@@ -15,7 +15,7 @@ if [ ! -v BASIC_PASSWORD ]; then
 fi
 
 export USER_AGENT=$(curl https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/useragent.txt)
-export DATABASE_URL=$DATABASE_URL_TOODLEDO
+export DATABASE_URL=${DATABASE_URL_TOODLEDO}
 htpasswd -c -b .htpasswd ${BASIC_USER} ${BASIC_PASSWORD}
 
 pushd classes
