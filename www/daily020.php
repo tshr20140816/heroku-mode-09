@@ -696,10 +696,14 @@ function check_zoho_usage($mu_, $file_name_blog_)
         CURLMOPT_PIPELINING => 3,
         CURLMOPT_MAX_HOST_CONNECTIONS => 10,
     ];
-    $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
     $size = 0;
-    foreach ($list_contents as $res) {
-        $size += strlen($res);
+    
+    foreach (array_chunk($urls, 30, true) as $urls_chunk) {
+        $list_contents = $mu_->get_contents_multi($urls_chunk, null, $multi_options);
+        foreach ($list_contents as $res) {
+            $size += strlen($res);
+        }
+        $list_contents = null;
     }
 
     $percentage = substr($size / (5 * 1024 * 1024 * 1024) * 100, 0, 5);
