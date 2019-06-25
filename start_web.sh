@@ -56,9 +56,7 @@ wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/ch
 wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/opcache_compile_file.php
 popd
 
-printenv > /tmp/printenv.txt
-wc -c < /tmp/printenv.txt
-rm /tmp/printenv.txt
+printenv | wc -c
 
 ls -lang /tmp
 
