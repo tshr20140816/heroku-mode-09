@@ -34,7 +34,7 @@ if [ ! -v TTRSS_USER ]; then
   exit
 fi
 
-if [ ! -v TTRSS_USER ]; then
+if [ ! -v TTRSS_PASSWORD ]; then
   echo "Error : TTRSS_PASSWORD not defined."
   exit
 fi
