@@ -41,23 +41,25 @@ fi
 
 export USER_AGENT=$(curl https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/useragent.txt)
 export DATABASE_URL=${DATABASE_URL_TOODLEDO}
-htpasswd -c -b .htpasswd ${BASIC_USER} ${BASIC_PASSWORD}
+htpasswd -c -b .htpasswd ${BASIC_USER} ${BASIC_PASSWORD} &
 
-fc-cache -fv
+fc-cache -fv &
 
 pushd classes
-wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/classes/MyUtils.php
+wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/classes/MyUtils.php &
 popd
 
 pushd scripts
-wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/update_ttrss.php
-wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/chartjs_node.js
+wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/update_ttrss.php &
+wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/chartjs_node.js &
 popd
 
 pushd www
-wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/check_train.php
-wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/opcache_compile_file.php
+wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/check_train.php &
+wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/opcache_compile_file.php &
 popd
+
+wait
 
 printenv | wc -c
 
