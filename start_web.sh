@@ -51,7 +51,7 @@ popd
 
 pushd scripts
 wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/update_ttrss.php
-wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/chartjs_node.js.php
+wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/chartjs_node.js
 popd
 
 pushd www
