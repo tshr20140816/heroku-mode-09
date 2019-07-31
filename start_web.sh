@@ -43,6 +43,8 @@ export USER_AGENT=$(curl https://raw.githubusercontent.com/tshr20140816/heroku-m
 export DATABASE_URL=${DATABASE_URL_TOODLEDO}
 htpasswd -c -b .htpasswd ${BASIC_USER} ${BASIC_PASSWORD}
 
+fc-cache -fv
+
 pushd classes
 wget https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/classes/MyUtils.php
 popd
