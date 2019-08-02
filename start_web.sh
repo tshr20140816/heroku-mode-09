@@ -59,7 +59,7 @@ wget -q https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www
 wget -q https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/opcache_compile_file.php &
 popd
 
-export WEB_CONCURRENCY=2
+export WEB_CONCURRENCY=3
 
 wait
 
