@@ -48,21 +48,21 @@ fc-cache -fv &
 
 pushd classes
 # wget -q https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/classes/MyUtils.php &
-curl -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/classes/MyUtils.php &
+curl -sS -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/classes/MyUtils.php &
 popd
 
 pushd scripts
 # wget -q https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/update_ttrss.php &
 # wget -q https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/chartjs_node.js &
-curl -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/update_ttrss.php \
-     -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/chartjs_node.js &
+curl -sS -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/update_ttrss.php \
+         -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/chartjs_node.js &
 popd
 
 pushd www
 # wget -q https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/check_train.php &
 # wget -q https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/opcache_compile_file.php &
-curl -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/check_train.php \
-     -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/opcache_compile_file.php &
+curl -sS -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/check_train.php \
+         -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/opcache_compile_file.php &
 popd
 
 touch /tmp/php_error.txt
