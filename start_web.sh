@@ -60,6 +60,8 @@ wget -q https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www
 wget -q https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/opcache_compile_file.php &
 popd
 
+touch /tmp/php_error.txt
+
 wait
 
 printenv | wc -c
