@@ -3,6 +3,9 @@
 set -x
 
 export TZ=JST-9
+export WEB_CONCURRENCY=3
+export USER_AGENT=$(curl https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/useragent.txt)
+export DATABASE_URL=${DATABASE_URL_TOODLEDO}
 
 if [ ! -v BASIC_USER ]; then
   echo "Error : BASIC_USER not defined."
@@ -39,8 +42,6 @@ if [ ! -v TTRSS_PASSWORD ]; then
   exit
 fi
 
-export USER_AGENT=$(curl https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/useragent.txt)
-export DATABASE_URL=${DATABASE_URL_TOODLEDO}
 htpasswd -c -b .htpasswd ${BASIC_USER} ${BASIC_PASSWORD} &
 
 fc-cache -fv &
@@ -58,8 +59,6 @@ pushd www
 wget -q https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/check_train.php &
 wget -q https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/opcache_compile_file.php &
 popd
-
-export WEB_CONCURRENCY=3
 
 wait
 
