@@ -46,24 +46,25 @@ htpasswd -c -b .htpasswd ${BASIC_USER} ${BASIC_PASSWORD} &
 
 fc-cache -fv &
 
-pushd classes
-# wget -q https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/classes/MyUtils.php &
-curl -sS -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/classes/MyUtils.php &
-popd
+# pushd classes
+# curl -sS -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/classes/MyUtils.php &
+# popd
 
-pushd scripts
-# wget -q https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/update_ttrss.php &
-# wget -q https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/chartjs_node.js &
-curl -sS -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/update_ttrss.php \
-         -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/chartjs_node.js &
-popd
+# pushd scripts
+# curl -sS -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/update_ttrss.php \
+#          -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/chartjs_node.js &
+# popd
 
-pushd www
-# wget -q https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/check_train.php &
-# wget -q https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/opcache_compile_file.php &
-curl -sS -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/check_train.php \
-         -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/opcache_compile_file.php &
-popd
+# pushd www
+# curl -sS -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/check_train.php \
+#          -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/opcache_compile_file.php &
+# popd
+
+curl -sS -o classes/MyUtils.php https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/classes/MyUtils.php \
+         -o scripts/update_ttrss.php https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/update_ttrss.php \
+         -o scripts/chartjs_node.js https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/chartjs_node.js \
+         -o www/check_train.php https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/check_train.php \
+         -o www/opcache_compile_file.php https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/opcache_compile_file.php &
 
 touch /tmp/php_error.txt
 
