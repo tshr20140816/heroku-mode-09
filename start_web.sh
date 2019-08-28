@@ -46,20 +46,6 @@ htpasswd -c -b .htpasswd ${BASIC_USER} ${BASIC_PASSWORD} &
 
 fc-cache -fv &
 
-# pushd classes
-# curl -sS -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/classes/MyUtils.php &
-# popd
-
-# pushd scripts
-# curl -sS -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/update_ttrss.php \
-#          -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/chartjs_node.js &
-# popd
-
-# pushd www
-# curl -sS -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/check_train.php \
-#          -O https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/opcache_compile_file.php &
-# popd
-
 curl -sS -o classes/MyUtils.php https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/classes/MyUtils.php \
          -o scripts/update_ttrss.php https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/update_ttrss.php \
          -o scripts/chartjs_node.js https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/chartjs_node.js \
