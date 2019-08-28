@@ -50,6 +50,7 @@ curl -sS -o classes/MyUtils.php https://raw.githubusercontent.com/tshr20140816/h
          -o scripts/update_ttrss.php https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/update_ttrss.php \
          -o scripts/chartjs_node.js https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/scripts/chartjs_node.js \
          -o www/check_train.php https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/check_train.php \
+         -o www/rainfall.php https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/rainfall.php \
          -o www/opcache_compile_file.php https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/opcache_compile_file.php &
 
 touch /tmp/php_error.txt
