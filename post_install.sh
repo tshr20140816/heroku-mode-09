@@ -17,6 +17,9 @@ rm ipaexg00401.zip
 popd
 ls -lang .fonts/
 
+time ncu
+time npm update
+
 mkdir classes
 chmod 755 ./start_web.sh
 
