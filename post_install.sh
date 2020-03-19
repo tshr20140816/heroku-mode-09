@@ -4,8 +4,8 @@ set -x
 
 date
 
-time pear channel-update pear.php.net
-time pear install XML_RPC2
+# time pear channel-update pear.php.net
+# time pear install XML_RPC2
 
 curl -sS -O https://ipafont.ipa.go.jp/IPAexfont/ipaexg00401.zip
 
