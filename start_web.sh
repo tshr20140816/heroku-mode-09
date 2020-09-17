@@ -65,6 +65,6 @@ ls -lang classes
 ls -lang scripts
 ls -lang www
 
-curl -s -m 1 --basic -u ${BASIC_USER}:${BASIC_PASSWORD} https://${HEROKU_APP_NAME}.herokuapp.com/opcache_compile_file.php
+curl -s -m 1 --basic -u ${BASIC_USER}:${BASIC_PASSWORD} https://${HEROKU_APP_NAME}.herokuapp.com/opcache_compile_file.php &
 
 vendor/bin/heroku-php-apache2 -C apache.conf www
